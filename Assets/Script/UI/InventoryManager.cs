@@ -36,13 +36,11 @@ public class InventoryManager : MonoBehaviour
     {
         for (int i = 0; i < itemSlots.Length; i++)
         {
-            // když je slot prázdný nebo obsahuje stejný item
             if (itemSlots[i].itemData == null || itemSlots[i].itemData == itemData)
             {
                 int leftOver = itemSlots[i].AddItem(itemData, quantity);
                 if (leftOver > 0)
                 {
-                    // pokud zbylo, zkus další slot
                     quantity = leftOver;
                 }
                 else
@@ -75,6 +73,38 @@ public class InventoryManager : MonoBehaviour
         foreach (var slot in itemSlots)
         {
             slot.selectedShader.SetActive(false);
+        }
+    }
+
+    // ------------------------------------------------------------
+    //  NOVÉ METODY pro krystalové UI
+    // ------------------------------------------------------------
+
+    // Získá poèet daného ItemSO v inventáøi
+    public int GetTotalItemCount(ItemSO item)
+    {
+        int count = 0;
+        foreach (var slot in itemSlots)
+        {
+            if (slot.itemData == item)
+                count += slot.quantity;
+        }
+        return count;
+    }
+
+    // Odebere požadovaný poèet daného ItemSO z inventáøe
+    public void RemoveItem(ItemSO item, int amount)
+    {
+        foreach (var slot in itemSlots)
+        {
+            if (slot.itemData == item)
+            {
+                int remove = Mathf.Min(slot.quantity, amount);
+                slot.RemoveItem(remove);
+                amount -= remove;
+                if (amount <= 0)
+                    return;
+            }
         }
     }
 }
