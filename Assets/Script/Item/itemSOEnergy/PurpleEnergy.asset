@@ -10,10 +10,10 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 0f935b29232f2bc42ad7d54d3fbb96ca, type: 3}
-  m_Name: BlueEssence
+  m_Name: PurpleEnergy
   m_EditorClassIdentifier: 
-  itemID: 1
-  itemName: BlueEssence
-  icon: {fileID: -1768910792255581497, guid: dd0f9be6d0dcc914fb7c48b46c0c677c, type: 3}
-  description: "Essence pro vylep\u0161en\xED postavy"
+  itemID: 26
+  itemName: PurpleEnergy
+  icon: {fileID: -4091927611664930495, guid: dd0f9be6d0dcc914fb7c48b46c0c677c, type: 3}
+  description: 
   maxStack: 25

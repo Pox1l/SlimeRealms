@@ -6,7 +6,7 @@ using TMPro;
 [System.Serializable]
 public class RepairRequirement
 {
-    public ItemSO item;   // co je potřeba
+    public int itemID;   // ID položky, místo ItemSO
     public int amount;    // kolik kusů
 }
 
@@ -71,7 +71,6 @@ public class CrystalRepair : MonoBehaviour
         }
     }
 
-
     private void Update()
     {
         if (playerInRange && Input.GetKeyDown(KeyCode.F))
@@ -93,20 +92,20 @@ public class CrystalRepair : MonoBehaviour
 
         RepairPhase phase = phases[currentPhase];
 
-        // ✅ Ověřit, že hráč má všechny itemy
+        // ✅ Ověřit, že hráč má všechny itemy podle ID
         foreach (var req in phase.requirements)
         {
-            if (!HasEnoughItems(inv, req.item, req.amount))
+            if (!HasEnoughItemsByID(inv, req.itemID, req.amount))
             {
                 Debug.Log("Chybí materiál pro tuto fázi opravy!");
                 return;
             }
         }
 
-        // ✅ Odebrat itemy
+        // ✅ Odebrat itemy podle ID
         foreach (var req in phase.requirements)
         {
-            RemoveItems(inv, req.item, req.amount);
+            RemoveItemsByID(inv, req.itemID, req.amount);
         }
 
         // ✅ Opravit krystal
@@ -119,12 +118,12 @@ public class CrystalRepair : MonoBehaviour
         ShowRequirements(); // aktualizuj požadavky pro další fázi
     }
 
-    private bool HasEnoughItems(InventoryManager inv, ItemSO item, int needed)
+    private bool HasEnoughItemsByID(InventoryManager inv, int itemID, int needed)
     {
         int total = 0;
         foreach (var slot in inv.itemSlots)
         {
-            if (slot.itemData == item)
+            if (slot.itemData != null && slot.itemData.itemID == itemID)
             {
                 total += slot.quantity;
                 if (total >= needed) return true;
@@ -133,12 +132,12 @@ public class CrystalRepair : MonoBehaviour
         return false;
     }
 
-    private void RemoveItems(InventoryManager inv, ItemSO item, int amount)
+    private void RemoveItemsByID(InventoryManager inv, int itemID, int amount)
     {
         int remaining = amount;
         foreach (var slot in inv.itemSlots)
         {
-            if (slot.itemData == item)
+            if (slot.itemData != null && slot.itemData.itemID == itemID)
             {
                 int toRemove = Mathf.Min(slot.quantity, remaining);
                 slot.RemoveItem(toRemove);
@@ -177,12 +176,13 @@ public class CrystalRepair : MonoBehaviour
             var icon = go.GetComponentInChildren<Image>();
             var text = go.GetComponentInChildren<TMP_Text>();
 
-            if (icon != null) icon.sprite = req.item.icon;
-            if (text != null) text.text = $"x{req.amount}";
+            // Najdi položku podle ID z databáze
+            ItemSO item = ItemDatabase.Instance.GetItemByID(req.itemID);
+
+            if (icon != null && item != null) icon.sprite = item.icon;
+            if (text != null) text.text = $"{req.amount}x";
         }
     }
-
-    
 
     private void OnTriggerExit2D(Collider2D collision)
     {

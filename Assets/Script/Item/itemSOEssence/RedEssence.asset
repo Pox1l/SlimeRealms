@@ -10,10 +10,10 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 0f935b29232f2bc42ad7d54d3fbb96ca, type: 3}
-  m_Name: GreenEssence
+  m_Name: RedEssence
   m_EditorClassIdentifier: 
-  itemID: 2
-  itemName: GreenEssence
-  icon: {fileID: -4467026864102768442, guid: dd0f9be6d0dcc914fb7c48b46c0c677c, type: 3}
+  itemID: 14
+  itemName: RedEssence
+  icon: {fileID: 4365568868351336609, guid: dd0f9be6d0dcc914fb7c48b46c0c677c, type: 3}
   description: "Essence pro vylep\u0161en\xED postavy"
   maxStack: 25
