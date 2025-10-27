@@ -18,7 +18,7 @@ GameObject:
   - component: {fileID: 5730102638790860269}
   - component: {fileID: -8495472368525791338}
   - component: {fileID: 3474413858064533199}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: testEnemy_nawmesh
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -82,7 +82,7 @@ SpriteRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 10
   m_Sprite: {fileID: -2413806693520163455, guid: a86470a33a6bf42c4b3595704624658b, type: 3}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_Color: {r: 0.9811321, g: 0.5683161, b: 0.5683161, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0

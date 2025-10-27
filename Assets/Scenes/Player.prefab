@@ -13,7 +13,6 @@ GameObject:
   - component: {fileID: 719385634792196820}
   - component: {fileID: 371657353883880837}
   - component: {fileID: 1738376100676958485}
-  - component: {fileID: 7579376610865739611}
   - component: {fileID: 113634020460050641}
   - component: {fileID: 5114615947986399101}
   - component: {fileID: 2334183526678316633}
@@ -39,6 +38,8 @@ Transform:
   m_Children:
   - {fileID: 6433982708975146065}
   - {fileID: 1038830898055954622}
+  - {fileID: 6348339854446584173}
+  - {fileID: 647655781797942011}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!212 &6599899257431947463
@@ -175,28 +176,6 @@ MonoBehaviour:
   currentEnergy: 0
   energyRegenRate: 15
   animator: {fileID: 0}
---- !u!114 &7579376610865739611
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 476992415000853087}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b1ed80f08fdd84140b2253371eb28d51, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  damage: 10
-  attackRate: 5.01
-  boxSize: {x: 1, y: 1.5}
-  boxDistance: 1
-  slashPrefab: {fileID: 6469178570042879681, guid: 4c9ea20fddbb92247bf962e41dbce168, type: 3}
-  slashDuration: 0.2
-  enemyLayers:
-    serializedVersion: 2
-    m_Bits: 4294967295
-  cam: {fileID: 0}
 --- !u!114 &113634020460050641
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -211,6 +190,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   maxHealth: 100
   currentHealth: 0
+  defense: 25
+  ignoreDefense: 1
 --- !u!95 &5114615947986399101
 Animator:
   serializedVersion: 5
@@ -435,6 +416,37 @@ Transform:
   m_Children: []
   m_Father: {fileID: 1038830898055954622}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &5195365928812574345
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 6348339854446584173}
+  m_Layer: 0
+  m_Name: attacksys
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &6348339854446584173
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5195365928812574345}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 4953538714074341452}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &5798900551125687962
 GameObject:
   m_ObjectHideFlags: 0
@@ -468,3 +480,52 @@ Transform:
   - {fileID: 849391049754966661}
   m_Father: {fileID: 4953538714074341452}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &8362258163555642184
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 647655781797942011}
+  - component: {fileID: 2016945887776885701}
+  m_Layer: 0
+  m_Name: attackswitchsys
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &647655781797942011
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8362258163555642184}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 4953538714074341452}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &2016945887776885701
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8362258163555642184}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d72be284c2d8f4241a853b177b303afb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  attackSystem: {fileID: 2334183526678316633}
+  availableAttacks:
+  - {fileID: 11400000, guid: 4fc011b684136d04caddb9984bcf3f2a, type: 2}
+  - {fileID: 11400000, guid: 9fc575321a7a112469cbdf6ce241cc11, type: 2}
+  currentIndex: 0
