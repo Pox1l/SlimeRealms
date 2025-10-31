@@ -178,22 +178,22 @@ public class ItemSlot : MonoBehaviour,
     // -----------------------
     public void OnPointerClick(PointerEventData eventData)
     {
-        // pokud probíhá drag, ignoruj kliknutí
         if (isDragging) return;
 
+        // levé tlačítko = výběr
         if (eventData.button == PointerEventData.InputButton.Left && itemData != null)
         {
             InventoryManager.Instance.DeselectAllSlots();
             selectedShader.SetActive(true);
-
-            // ⚡ ukázat popis
             InventoryManager.Instance.ShowItemDescription(itemData);
         }
 
+        // pravé tlačítko = smazání itemu
         if (eventData.button == PointerEventData.InputButton.Right && itemData != null)
         {
-            // Tady dej logiku pro pravý klik (např. split stacku, použít item, atd.)
-            Debug.Log("Right click on " + itemData.name);
+            Debug.Log("🗑️ Item odstraněn: " + itemData.itemName);
+            ClearSlot(); // smaže item
         }
     }
+
 }

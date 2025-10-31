@@ -10,7 +10,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 0f935b29232f2bc42ad7d54d3fbb96ca, type: 3}
-  m_Name: GreeEnergy
+  m_Name: GreenEnergy
   m_EditorClassIdentifier: 
   itemID: 22
   itemName: GreenEnergy
