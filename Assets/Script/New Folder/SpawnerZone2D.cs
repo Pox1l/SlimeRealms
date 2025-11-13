@@ -46,9 +46,18 @@ public class SpawnerZone2D : MonoBehaviour
             spawnLoop = null;
         }
 
-        // volitelně – despawn všeho, když hráč odejde
-        StartCoroutine(DespawnAllEnemies());
+        // 👇 přidat tuhle podmínku
+        if (gameObject.activeInHierarchy)
+        {
+            StartCoroutine(DespawnAllEnemies());
+        }
+        else
+        {
+            // volitelně: můžeš to udělat sync bez coroutine
+            DespawnAllEnemiesImmediate();
+        }
     }
+
 
     IEnumerator SpawnLoop()
     {
@@ -69,17 +78,38 @@ public class SpawnerZone2D : MonoBehaviour
     void SpawnOneEnemy()
     {
         var enemy = pool.Get();
-        enemy.transform.position = (Vector2)transform.position + Random.insideUnitCircle * spawnRadius;
+
+        // vypočítáme spawn pozici
+        Vector2 spawnPos2D = (Vector2)transform.position + Random.insideUnitCircle * spawnRadius;
+        Vector3 spawnPos = new Vector3(spawnPos2D.x, spawnPos2D.y, 0f);
+
+        // 🔹 pro NavMeshAgenta je lepší použít Warp
+        var agent = enemy.GetComponent<UnityEngine.AI.NavMeshAgent>();
+        if (agent != null)
+        {
+            agent.Warp(spawnPos); // bezpečný "teleport" na NavMesh
+        }
+        else
+        {
+            enemy.transform.position = spawnPos;
+        }
+
+        // 🔹 nastavíme enemymu domovskou pozici
+        var ctrl = enemy.GetComponent<EnemyController>();
+        if (ctrl != null)
+        {
+            ctrl.SetHomePosition(spawnPos);
+        }
 
         var ret = enemy.GetComponent<ReturnToPoolOnDeath>();
         if (ret != null)
         {
-            // 💡 tady jen předáme callback, žádné subscribe
             ret.Init(pool, OnEnemyReturned);
         }
 
         activeCount++;
     }
+
 
     void OnEnemyReturned()
     {
@@ -88,7 +118,6 @@ public class SpawnerZone2D : MonoBehaviour
 
     IEnumerator DespawnAllEnemies()
     {
-        // POSLOUPNÝ despawn, ale pozor: nesaháme na activeCount ručně.
         foreach (Transform child in transform)
         {
             if (child.gameObject.activeSelf)
@@ -104,6 +133,22 @@ public class SpawnerZone2D : MonoBehaviour
             }
         }
     }
+
+    void DespawnAllEnemiesImmediate()
+    {
+        foreach (Transform child in transform)
+        {
+            if (child.gameObject.activeSelf)
+            {
+                var ret = child.GetComponent<ReturnToPoolOnDeath>();
+                if (ret != null)
+                {
+                    ret.ForceReturn();
+                }
+            }
+        }
+    }
+
 
 #if UNITY_EDITOR
     void OnDrawGizmosSelected()

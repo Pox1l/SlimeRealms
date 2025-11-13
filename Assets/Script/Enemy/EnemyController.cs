@@ -1,59 +1,102 @@
 ﻿using UnityEngine;
+using UnityEngine.AI;
 
-[RequireComponent(typeof(Rigidbody2D))]
+[RequireComponent(typeof(NavMeshAgent))]
 public class EnemyController : MonoBehaviour
 {
     private Transform player;
     private Animator animator;
-    private Rigidbody2D rb;
+    private NavMeshAgent agent;
 
     [Header("Movement")]
     [SerializeField] private float moveSpeed = 2f;
     [SerializeField] private float aggroRange = 5f;
-    [SerializeField] private float stopDistance = 0.1f; // 🟢 tolerance pro zastavení u cíle
+    [SerializeField] private float stopDistance = 0.1f; // tolerance pro zastavení u cíle
 
-    private Vector2 startPosition;
-    private Vector2 moveDirection;
+    // "domov" enemáka – kam se vrací, když nevidí hráče
+    private Vector3 homePosition;
 
-    void Start()
+    void Awake()
     {
-        rb = GetComponent<Rigidbody2D>();
+        agent = GetComponent<NavMeshAgent>();
         animator = GetComponent<Animator>();
-        startPosition = transform.position; // uloží pozici jako Vector2
+
+        // Důležité pro 2D (NavMeshPlus)
+        agent.updateRotation = false; // neotáčí objekt kolem Z
+        agent.updateUpAxis = false;   // ignoruje osu Y jako "nahoru"
+        agent.speed = moveSpeed;
+
         FindPlayer();
+    }
+
+    void OnEnable()
+    {
+        if (agent != null)
+            agent.ResetPath();
+
+        // pojistka: pokud by spawner náhodou nezavolal SetHomePosition,
+        // tak aspoň vezmeme aktuální pozici
+        if (homePosition == Vector3.zero)
+            homePosition = transform.position;
+    }
+
+    void OnDisable()
+    {
+        if (agent != null)
+            agent.ResetPath();
+    }
+
+    /// <summary>
+    /// Nastaví domovskou pozici enemáka (volá spawner po spawnutí).
+    /// </summary>
+    public void SetHomePosition(Vector3 position)
+    {
+        homePosition = position;
     }
 
     void Update()
     {
-        if (player == null) return;
+        if (player == null)
+        {
+            FindPlayer();
+            if (player == null) return;
+        }
 
         float distanceToPlayer = Vector2.Distance(transform.position, player.position);
-        float distanceToStart = Vector2.Distance(transform.position, startPosition);
+        float distanceToHome = Vector2.Distance(transform.position, homePosition);
+
+        Vector3 targetPosition;
 
         if (distanceToPlayer <= aggroRange)
         {
-            // směr k hráči
-            moveDirection = ((Vector2)player.position - (Vector2)transform.position).normalized;
+            // Jdeme za hráčem
+            targetPosition = player.position;
         }
         else
         {
-            // návrat na start, ale zastaví se když je dost blízko
-            if (distanceToStart > stopDistance)
+            // Vracíme se domů
+            if (distanceToHome <= stopDistance)
             {
-                moveDirection = (startPosition - (Vector2)transform.position).normalized;
+                agent.ResetPath();
+                SetAnimator(Vector2.zero);
+                return;
             }
-            else
-            {
-                moveDirection = Vector2.zero; // 🟢 zastaví pohyb
-            }
+
+            targetPosition = homePosition;
         }
 
-        SetAnimator(moveDirection);
-    }
+        if (Vector2.Distance(transform.position, targetPosition) > stopDistance)
+        {
+            agent.SetDestination(targetPosition);
+        }
+        else
+        {
+            agent.ResetPath();
+        }
 
-    void FixedUpdate()
-    {
-        rb.MovePosition(rb.position + moveDirection * moveSpeed * Time.fixedDeltaTime);
+        // Animace podle rychlosti agenta
+        Vector2 velocity2D = new Vector2(agent.velocity.x, agent.velocity.y);
+        SetAnimator(velocity2D);
     }
 
     void FindPlayer()
