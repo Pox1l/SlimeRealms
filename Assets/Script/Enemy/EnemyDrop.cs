@@ -1,28 +1,32 @@
 using UnityEngine;
 
-[RequireComponent(typeof(EnemyHealth))]
 public class EnemyDrop : MonoBehaviour
 {
-    [Header("Drop Settings")]
-    public GameObject dropPrefab;
-    public float dropChance = 1f; // 1 = 100%, 0.5 = 50%...
+    [Header("Drop prefaby")]
+    public GameObject essencePrefab;
+    public int essenceAmount = 1;
 
-    private EnemyHealth health;
+    public GameObject energyPrefab;
+    public int energyAmount = 0;
 
-    void Start()
+    public void DropLoot()
     {
-        health = GetComponent<EnemyHealth>();
-        if (health != null)
+        if (essencePrefab != null)
         {
-            health.OnDeath += HandleDrop;
+            for (int i = 0; i < essenceAmount; i++)
+            {
+                Vector2 offset = Random.insideUnitCircle * 0.3f;
+                Instantiate(essencePrefab, (Vector2)transform.position + offset, Quaternion.identity);
+            }
         }
-    }
 
-    void HandleDrop()
-    {
-        if (dropPrefab != null && Random.value <= dropChance)
+        if (energyPrefab != null)
         {
-            Instantiate(dropPrefab, transform.position, Quaternion.identity);
+            for (int i = 0; i < energyAmount; i++)
+            {
+                Vector2 offset = Random.insideUnitCircle * 0.3f;
+                Instantiate(energyPrefab, (Vector2)transform.position + offset, Quaternion.identity);
+            }
         }
     }
 }
