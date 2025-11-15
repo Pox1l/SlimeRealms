@@ -153,7 +153,7 @@ public class SpawnerZone2D : MonoBehaviour
 #if UNITY_EDITOR
     void OnDrawGizmosSelected()
     {
-        Gizmos.color = Color.red;
+        Gizmos.color = Color.blue;
         Gizmos.DrawWireSphere(transform.position, spawnRadius);
     }
 #endif
