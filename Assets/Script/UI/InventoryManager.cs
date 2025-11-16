@@ -95,16 +95,51 @@ public class InventoryManager : MonoBehaviour
     // Odebere požadovaný poèet daného ItemSO z inventáøe
     public void RemoveItem(ItemSO item, int amount)
     {
+        Debug.Log($"Inventory: RemoveItem {amount}x {item.name}");
+
         foreach (var slot in itemSlots)
         {
             if (slot.itemData == item)
             {
                 int remove = Mathf.Min(slot.quantity, amount);
+                Debug.Log($"Inventory: beru {remove} ze slotu s {slot.quantity}");
                 slot.RemoveItem(remove);
                 amount -= remove;
                 if (amount <= 0)
+                {
+                    Debug.Log("Inventory: hotovo, nic nezùstalo k odebrání");
                     return;
+                }
             }
         }
+
+        if (amount > 0)
+        {
+            Debug.LogWarning($"Inventory: nepodaøilo se odebrat všechno, zbylo: {amount}");
+        }
     }
+
+
+    public bool IsInventoryFull(ItemSO item, int amount)
+    {
+        // 1) Zkus najít existující stack stejného itemu
+        foreach (var slot in itemSlots)
+        {
+            if (slot.itemData == item && slot.quantity < item.maxStack)
+            {
+                return false; // je tu místo
+            }
+        }
+
+        // 2) Zkus najít volný slot
+        foreach (var slot in itemSlots)
+        {
+            if (slot.itemData == null)
+                return false; // prázdný slot existuje
+        }
+
+        // 3) nic – inventáø je plný
+        return true;
+    }
+
 }

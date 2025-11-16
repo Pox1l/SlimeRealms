@@ -1,4 +1,4 @@
-using UnityEngine;
+ï»¿using UnityEngine;
 
 public class Item : MonoBehaviour
 {
@@ -10,13 +10,21 @@ public class Item : MonoBehaviour
         if (!collision.gameObject.CompareTag("Player")) return;
         if (itemData == null) return;
 
-        // Pøidání do inventáøe
-        int leftOver = InventoryManager.Instance.AddItem(itemData, quantity);
+        // ðŸ” nejdÅ™Ã­v zjistit, jestli je mÃ­sto
+        if (InventoryManager.Instance.IsInventoryFull(itemData, quantity))
+        {
+            if (PickupNotificationManager.Instance != null)
+            {
+                // ÄistÃ¡ textovÃ¡ hlÃ¡Å¡ka
+                PickupNotificationManager.Instance.ShowMessage("InventÃ¡Å™ je plnÃ½!");
+            }
+            return; // nic nebereme, item zÅ¯stÃ¡vÃ¡ leÅ¾et
+        }
 
-        // Kolik se reálnì sebralo
+        // normÃ¡lnÃ­ pÅ™idÃ¡nÃ­ itemu
+        int leftOver = InventoryManager.Instance.AddItem(itemData, quantity);
         int pickedAmount = quantity - leftOver;
 
-        // Oznámení – jen když jsme nìco fakt sebrali
         if (pickedAmount > 0 && PickupNotificationManager.Instance != null)
         {
             PickupNotificationManager.Instance.ShowPickup(
@@ -26,15 +34,12 @@ public class Item : MonoBehaviour
             );
         }
 
-        // Logika pro zbytek na zemi
         if (leftOver <= 0)
         {
-            // všechno se vešlo -> item zmizí
             Destroy(gameObject);
         }
         else
         {
-            // nìco zùstalo na zemi – quantity se aktualizuje
             quantity = leftOver;
         }
     }

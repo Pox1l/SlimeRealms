@@ -1,4 +1,4 @@
-using UnityEngine;
+ï»¿using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
 using System.Collections;
@@ -9,9 +9,9 @@ public class PickupNotificationEntry : MonoBehaviour
     public Image iconImage;
     public TextMeshProUGUI text;
 
-    [Header("Nastavení")]
-    public float lifeTime = 1.5f;    // jak dlouho to zùstane viditelné
-    public float fadeTime = 0.5f;    // jak dlouho mizí
+    [Header("NastavenÃ­")]
+    public float lifeTime = 1.5f;    // jak dlouho to zÅ¯stane viditelnÃ©
+    public float fadeTime = 0.5f;    // jak dlouho mizÃ­
 
     private CanvasGroup canvasGroup;
 
@@ -22,18 +22,29 @@ public class PickupNotificationEntry : MonoBehaviour
             canvasGroup = gameObject.AddComponent<CanvasGroup>();
     }
 
-    public void Setup(Sprite icon, string message)
+    public void Setup(Sprite icon, string message, bool isError = false)
     {
-        if (iconImage != null) iconImage.sprite = icon;
-        if (text != null) text.text = message;
+        if (iconImage != null)
+        {
+            iconImage.sprite = icon;
+            iconImage.enabled = icon != null;
+        }
+
+        if (text != null)
+        {
+            text.text = message;
+            text.color = isError ? Color.red : Color.white;
+        }
 
         canvasGroup.alpha = 1f;
         StartCoroutine(LifeRoutine());
     }
 
+
+
     IEnumerator LifeRoutine()
     {
-        // chvíli držet
+        // chvÃ­li drÅ¾et
         yield return new WaitForSeconds(lifeTime);
 
         // fade out
