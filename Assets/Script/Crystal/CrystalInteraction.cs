@@ -1,26 +1,24 @@
-using UnityEngine;
+ï»¿using UnityEngine;
 
 public class CrystalInteraction : MonoBehaviour
 {
-    [Header("Settings")]
     public KeyCode interactKey = KeyCode.F;
 
-    [Header("References")]
-    public CrystalUIController crystalUI;  // reference na UI controller
-    public GameObject pressFHint;          // volitelné: ikonka "F"
+    [Header("Reference")]
+    public CrystalUIController crystalUI;
+    public GameObject pressFHint;   // volitelnÃ© "Press F"
 
     private bool playerInRange = false;
 
     void Start()
     {
-        if (crystalUI != null && crystalUI.mainPanel != null)
-        {
-            crystalUI.mainPanel.SetActive(false); // UI na zaèátku vypnuté
-        }
-
         if (pressFHint != null)
             pressFHint.SetActive(false);
+
+        if (crystalUI != null && crystalUI.mainPanel != null)
+            crystalUI.mainPanel.SetActive(false);
     }
+    
 
     void Update()
     {
@@ -34,28 +32,26 @@ public class CrystalInteraction : MonoBehaviour
             }
             else
             {
-                Debug.LogWarning("CrystalInteraction: chybí reference na CrystalUIController!");
+                Debug.LogWarning("CrystalInteraction: chybÃ­ reference na CrystalUIController!");
             }
         }
     }
 
-    private void OnTriggerEnter2D(Collider2D collision)
+    void OnTriggerEnter2D(Collider2D other)
     {
-        if (collision.CompareTag("Player"))
-        {
-            playerInRange = true;
-            if (pressFHint != null)
-                pressFHint.SetActive(true);
-        }
+        if (!other.CompareTag("Player")) return;
+
+        playerInRange = true;
+        if (pressFHint != null)
+            pressFHint.SetActive(true);
     }
 
-    private void OnTriggerExit2D(Collider2D collision)
+    void OnTriggerExit2D(Collider2D other)
     {
-        if (collision.CompareTag("Player"))
-        {
-            playerInRange = false;
-            if (pressFHint != null)
-                pressFHint.SetActive(false);
-        }
+        if (!other.CompareTag("Player")) return;
+
+        playerInRange = false;
+        if (pressFHint != null)
+            pressFHint.SetActive(false);
     }
 }

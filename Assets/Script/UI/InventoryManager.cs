@@ -1,4 +1,4 @@
-using UnityEngine;
+ï»¿using UnityEngine;
 using TMPro;
 using UnityEngine.UI;
 
@@ -22,14 +22,26 @@ public class InventoryManager : MonoBehaviour
         Instance = this;
     }
 
-    void Update()
+   
+    public void ToggleInventory()
     {
-        if (Input.GetButtonDown("Inventory"))
-        {
-            menuActivated = !menuActivated;
-            inventoryUI.SetActive(menuActivated);
-            Time.timeScale = menuActivated ? 0 : 1;
-        }
+        menuActivated = !menuActivated;
+        inventoryUI.SetActive(menuActivated);
+        Time.timeScale = menuActivated ? 0 : 1;
+    }
+
+    public void OpenInventory()
+    {
+        menuActivated = true;
+        inventoryUI.SetActive(true);
+        Time.timeScale = 0;
+    }
+
+    public void CloseInventory()
+    {
+        menuActivated = false;
+        inventoryUI.SetActive(false);
+        Time.timeScale = 1;
     }
 
     public int AddItem(ItemSO itemData, int quantity)
@@ -76,11 +88,6 @@ public class InventoryManager : MonoBehaviour
         }
     }
 
-    // ------------------------------------------------------------
-    //  NOVÉ METODY pro krystalové UI
-    // ------------------------------------------------------------
-
-    // Získá poèet daného ItemSO v inventáøi
     public int GetTotalItemCount(ItemSO item)
     {
         int count = 0;
@@ -92,7 +99,6 @@ public class InventoryManager : MonoBehaviour
         return count;
     }
 
-    // Odebere požadovaný poèet daného ItemSO z inventáøe
     public void RemoveItem(ItemSO item, int amount)
     {
         Debug.Log($"Inventory: RemoveItem {amount}x {item.name}");
@@ -107,7 +113,7 @@ public class InventoryManager : MonoBehaviour
                 amount -= remove;
                 if (amount <= 0)
                 {
-                    Debug.Log("Inventory: hotovo, nic nezùstalo k odebrání");
+                    Debug.Log("Inventory: hotovo, nic nezÅ¯stalo k odebrÃ¡nÃ­");
                     return;
                 }
             }
@@ -115,31 +121,26 @@ public class InventoryManager : MonoBehaviour
 
         if (amount > 0)
         {
-            Debug.LogWarning($"Inventory: nepodaøilo se odebrat všechno, zbylo: {amount}");
+            Debug.LogWarning($"Inventory: nepodaÅ™ilo se odebrat vÅ¡echno, zbylo: {amount}");
         }
     }
 
-
     public bool IsInventoryFull(ItemSO item, int amount)
     {
-        // 1) Zkus najít existující stack stejného itemu
         foreach (var slot in itemSlots)
         {
             if (slot.itemData == item && slot.quantity < item.maxStack)
             {
-                return false; // je tu místo
+                return false;
             }
         }
 
-        // 2) Zkus najít volný slot
         foreach (var slot in itemSlots)
         {
             if (slot.itemData == null)
-                return false; // prázdný slot existuje
+                return false;
         }
 
-        // 3) nic – inventáø je plný
         return true;
     }
-
 }
