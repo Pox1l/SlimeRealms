@@ -2,11 +2,14 @@
 
 public class CrystalInteraction : MonoBehaviour
 {
-    public KeyCode interactKey = KeyCode.F;
+    public KeyCode interactKey = KeyCode.E;
 
     [Header("Reference")]
     public CrystalUIController crystalUI;
-    public GameObject pressFHint;   // volitelné "Press F"
+    public GameObject pressFHint;
+
+    [Header("UI které se má vypnout při otevření krystalu")]
+    public GameObject hudUI;   // <-- přiřaď tady HUD canvas
 
     private bool playerInRange = false;
 
@@ -18,7 +21,6 @@ public class CrystalInteraction : MonoBehaviour
         if (crystalUI != null && crystalUI.mainPanel != null)
             crystalUI.mainPanel.SetActive(false);
     }
-    
 
     void Update()
     {
@@ -26,15 +28,41 @@ public class CrystalInteraction : MonoBehaviour
 
         if (Input.GetKeyDown(interactKey))
         {
-            if (crystalUI != null)
+            if (crystalUI == null)
             {
-                crystalUI.OpenUI();
+                Debug.LogWarning("CrystalInteraction: chybí reference na CrystalUIController!");
+                return;
+            }
+
+            // === Toggle UI ===
+            if (crystalUI.mainPanel.activeSelf)
+            {
+                CloseCrystalUI();
             }
             else
             {
-                Debug.LogWarning("CrystalInteraction: chybí reference na CrystalUIController!");
+                OpenCrystalUI();
             }
         }
+    }
+
+    private void OpenCrystalUI()
+    {
+        crystalUI.OpenUI();
+
+        // vypni HUD
+        if (hudUI != null)
+            hudUI.SetActive(false);
+    }
+
+    private void CloseCrystalUI()
+    {
+        crystalUI.CloseUI(); // musíš mít metodu na zavření
+                             // pokud nemáš, vytvořím ti ji
+
+        // zapni HUD
+        if (hudUI != null)
+            hudUI.SetActive(true);
     }
 
     void OnTriggerEnter2D(Collider2D other)
@@ -51,7 +79,14 @@ public class CrystalInteraction : MonoBehaviour
         if (!other.CompareTag("Player")) return;
 
         playerInRange = false;
+
         if (pressFHint != null)
             pressFHint.SetActive(false);
+
+        // když hráč odejde, zavři UI
+        if (crystalUI != null && crystalUI.mainPanel.activeSelf)
+        {
+            CloseCrystalUI();
+        }
     }
 }

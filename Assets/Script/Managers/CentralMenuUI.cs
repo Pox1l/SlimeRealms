@@ -10,6 +10,11 @@ public class CentralMenuUI : MonoBehaviour
     public GameObject inventoryPanel;
     public GameObject skillTreePanel;
 
+
+    [Header("HUD UI, které se má skrývat")]
+    public GameObject hudUI;
+
+
     private bool isMenuOpen = false;
 
     void Start()
@@ -44,9 +49,11 @@ public class CentralMenuUI : MonoBehaviour
         centralMenuRoot.SetActive(isMenuOpen);
         Time.timeScale = isMenuOpen ? 0 : 1;
 
+        if (hudUI != null)
+            hudUI.SetActive(!isMenuOpen);   
+
         if (isMenuOpen)
         {
-            // Default: otevøe se profil
             ShowPanel(inventoryPanel);
         }
         else
@@ -55,13 +62,19 @@ public class CentralMenuUI : MonoBehaviour
         }
     }
 
+
     public void CloseMenu()
     {
         isMenuOpen = false;
         centralMenuRoot.SetActive(false);
         Time.timeScale = 1;
+
+        if (hudUI != null)
+            hudUI.SetActive(true);     
+
         CloseAllPanels();
     }
+
 
     // ---- Tlaèítka ----
     public void OpenProfile()
@@ -100,7 +113,7 @@ public class CentralMenuUI : MonoBehaviour
         ShowPanel(skillTreePanel);
     }
 
-    
+
     void EnsureMenuOpen()
     {
         if (!isMenuOpen)
@@ -108,8 +121,12 @@ public class CentralMenuUI : MonoBehaviour
             isMenuOpen = true;
             centralMenuRoot.SetActive(true);
             Time.timeScale = 0;
+
+            if (hudUI != null)
+                hudUI.SetActive(false);   
         }
     }
+
 
     void ShowPanel(GameObject panel)
     {
