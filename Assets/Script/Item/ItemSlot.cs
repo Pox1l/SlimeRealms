@@ -30,7 +30,7 @@ public class ItemSlot : MonoBehaviour,
         UpdateUI();
     }
 
-    // ✅ Přidání itemu do slotu
+    
     public int AddItem(ItemSO newItem, int amount)
     {
         if (itemData == null)
@@ -54,7 +54,7 @@ public class ItemSlot : MonoBehaviour,
         return 0;
     }
 
-    // ✅ Odebrání itemů
+    
     public void RemoveItem(int amount)
     {
         if (itemData == null) return;
@@ -94,9 +94,7 @@ public class ItemSlot : MonoBehaviour,
         UpdateUI();
     }
 
-    // -----------------------
-    // 👇 Drag & Drop logika
-    // -----------------------
+   
     public void OnBeginDrag(PointerEventData eventData)
     {
         if (itemData == null || eventData.button != PointerEventData.InputButton.Left) return;
@@ -173,14 +171,12 @@ public class ItemSlot : MonoBehaviour,
         this.UpdateUI();
     }
 
-    // -----------------------
-    // ✅ Klikání
-    // -----------------------
+    
     public void OnPointerClick(PointerEventData eventData)
     {
         if (isDragging) return;
 
-        // levé tlačítko = výběr
+        
         if (eventData.button == PointerEventData.InputButton.Left && itemData != null)
         {
             InventoryManager.Instance.DeselectAllSlots();
@@ -188,11 +184,11 @@ public class ItemSlot : MonoBehaviour,
             InventoryManager.Instance.ShowItemDescription(itemData);
         }
 
-        // pravé tlačítko = smazání itemu
+        
         if (eventData.button == PointerEventData.InputButton.Right && itemData != null)
         {
-            Debug.Log("🗑️ Item odstraněn: " + itemData.itemName);
-            ClearSlot(); // smaže item
+            Debug.Log("Item odstraněn: " + itemData.itemName);
+            ClearSlot(); 
         }
     }
 

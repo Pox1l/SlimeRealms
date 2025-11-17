@@ -14,7 +14,7 @@ public class PauseMenu : MonoBehaviour
 
     private bool isPaused = false;
 
-    // Singleton + DontDestroyOnLoad, aby menu přežilo mezi scénami
+    
     private static PauseMenu instance;
 
     void Awake()
@@ -28,7 +28,7 @@ public class PauseMenu : MonoBehaviour
         instance = this;
         DontDestroyOnLoad(gameObject);
 
-        // reaguj na načtení nové scény
+        
         SceneManager.sceneLoaded += OnSceneLoaded;
     }
 

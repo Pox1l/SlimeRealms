@@ -7,7 +7,7 @@ public class WorldPortalButtons : MonoBehaviour
     [System.Serializable]
     public class WorldEntry
     {
-        [Header("UI tlaèítko svìta")]
+        [Header("UI tlaèítko svìta v krystalu")]
         public Button worldButton;
 
         [Header("Portál ve scénì, který se má zobrazit")]
@@ -19,7 +19,7 @@ public class WorldPortalButtons : MonoBehaviour
 
     void Start()
     {
-        // 1) schovat všechny portály na zaèátku
+        
         for (int i = 0; i < worlds.Count; i++)
         {
             var entry = worlds[i];
@@ -27,20 +27,19 @@ public class WorldPortalButtons : MonoBehaviour
             if (entry.portalObject != null)
                 entry.portalObject.SetActive(false);
 
-            // 2) nastavit listener na button
+           
             if (entry.worldButton != null)
             {
-                // smažeme všechny runtime listenery (aby se to nevolalo 3×,
-                // pokud bys tøeba omylem pøidal znovu)
+                
                 entry.worldButton.onClick.RemoveAllListeners();
 
-                int capturedIndex = i; // dùležité – jinak by všechny lambda mìly poslední index
+                int capturedIndex = i; 
                 entry.worldButton.onClick.AddListener(() => OnWorldButtonClicked(capturedIndex));
             }
         }
     }
 
-    // Tohle už se volá jen z AddListener v kódu – NE z OnClick v Inspectoru
+    
     void OnWorldButtonClicked(int index)
     {
         if (index < 0 || index >= worlds.Count)
