@@ -205,6 +205,7 @@ GameObject:
   - component: {fileID: 2012562834032607128}
   - component: {fileID: 1150096666356030226}
   - component: {fileID: 9007024645596403529}
+  - component: {fileID: 7758180334268229038}
   m_Layer: 0
   m_Name: Player
   m_TagString: Untagged
@@ -276,6 +277,7 @@ MonoBehaviour:
   maxEnergy: 100
   currentEnergy: 0
   energyRegenRate: 15
+  animator: {fileID: 0}
 --- !u!114 &1150096666356030226
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -312,6 +314,20 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   maxHealth: 100
   currentHealth: 0
+  defense: 25
+  ignoreDefense: 0
+--- !u!114 &7758180334268229038
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3631464094178983507}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7a43b9a9055bfaa4c8ed961c5e4c2161, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &4624182888557472814
 GameObject:
   m_ObjectHideFlags: 0
