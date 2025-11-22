@@ -260,6 +260,86 @@ ScriptedImporter:
     edges: []
     tessellationDetail: 0
     uvTransform: {x: 0, y: 0}
+  - name: New_UI_6
+    originalName: 
+    pivot: {x: 0.5, y: 0.5}
+    alignment: 0
+    border: {x: 2, y: 2, z: 2, w: 2}
+    rect:
+      serializedVersion: 2
+      x: 292
+      y: 135
+      width: 18
+      height: 9
+    spriteID: 16a210e1847a49b4eb26672716d839f8
+    spriteBone: []
+    spriteOutline: []
+    vertices: []
+    spritePhysicsOutline: []
+    indices: 
+    edges: []
+    tessellationDetail: 0
+    uvTransform: {x: 0, y: 0}
+  - name: New_UI_7
+    originalName: 
+    pivot: {x: 0.5, y: 0.5}
+    alignment: 0
+    border: {x: 1, y: 1, z: 1, w: 1}
+    rect:
+      serializedVersion: 2
+      x: 295
+      y: 89
+      width: 12
+      height: 5
+    spriteID: 28474be63cea43e428575cf18da1de16
+    spriteBone: []
+    spriteOutline: []
+    vertices: []
+    spritePhysicsOutline: []
+    indices: 
+    edges: []
+    tessellationDetail: 0
+    uvTransform: {x: 0, y: 0}
+  - name: New_UI_8
+    originalName: 
+    pivot: {x: 0.5, y: 0.5}
+    alignment: 0
+    border: {x: 1, y: 1, z: 1, w: 1}
+    rect:
+      serializedVersion: 2
+      x: 311
+      y: 89
+      width: 12
+      height: 5
+    spriteID: aba06f9aacc606b4d85d6df498c2fdf5
+    spriteBone: []
+    spriteOutline: []
+    vertices: []
+    spritePhysicsOutline: []
+    indices: 
+    edges: []
+    tessellationDetail: 0
+    uvTransform: {x: 0, y: 0}
+  - name: New_UI_9
+    originalName: 
+    pivot: {x: 0.5, y: 0.5}
+    alignment: 0
+    border: {x: 1, y: 1, z: 1, w: 1}
+    rect:
+      serializedVersion: 2
+      x: 314
+      y: 74
+      width: 5
+      height: 5
+    spriteID: 03eb1d11c03ff0d4a9d776b3eb84960c
+    spriteBone: []
+    spriteOutline: []
+    vertices: []
+    spritePhysicsOutline: []
+    indices: 
+    edges: []
+    tessellationDetail: 0
+    uvTransform: {x: 0, y: 0}
   asepriteLayers:
   - layerIndex: 0
     guid: 555642955
@@ -273,8 +353,8 @@ ScriptedImporter:
       cellRect:
         x: 15
         y: 36
-        width: 265
-        height: 130
+        width: 319
+        height: 140
       spriteId: 6b4af6905d32e51488e9f3833a37b2df
     linkedCells: []
     parentIndex: -1
@@ -317,4 +397,4 @@ ScriptedImporter:
     androidETC2FallbackOverride: 0
   secondarySpriteTextures: []
   spritePackingTag: 
-  canvasSize: {x: 320, y: 180}
+  canvasSize: {x: 448, y: 180}

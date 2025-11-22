@@ -3,6 +3,9 @@ using UnityEngine.SceneManagement;
 
 public class PauseMenu : MonoBehaviour
 {
+    // 💡 1. Singleton: Veřejný přístup, abychom věděli, že existuje
+    public static PauseMenu Instance;
+
     [Header("UI")]
     public GameObject pauseMenuUI;
 
@@ -14,27 +17,36 @@ public class PauseMenu : MonoBehaviour
 
     private bool isPaused = false;
 
-    
-    private static PauseMenu instance;
-
     void Awake()
     {
-        if (instance != null)
+        // 💡 2. Kontrola duplicit
+        if (Instance != null)
         {
             Destroy(gameObject);
             return;
         }
 
-        instance = this;
+        Instance = this;
+
+        // 🛠️ ZDE: Odpojíme objekt, aby byl v kořenu (root)
+        transform.SetParent(null);
+
+        // 💡 3. Hlavní příkaz
         DontDestroyOnLoad(gameObject);
 
-        
+        // Registrace eventu
         SceneManager.sceneLoaded += OnSceneLoaded;
+    }
+
+    // ⚠️ DŮLEŽITÉ: Když objekt nakonec zanikne (např. vypnutí hry), musíme event zrušit
+    void OnDestroy()
+    {
+        SceneManager.sceneLoaded -= OnSceneLoaded;
     }
 
     void Start()
     {
-        RefreshSceneLinks(); // najdi playera + respawn pro první scénu
+        RefreshSceneLinks(); // Prvotní nalezení hráče
     }
 
     void Update()
@@ -46,7 +58,7 @@ public class PauseMenu : MonoBehaviour
         }
     }
 
-    // ⬇ zavolá se po každém načtení nové scény
+    // Tato metoda se zavolá automaticky po každém načtení scény
     private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
     {
         RefreshSceneLinks();
@@ -57,29 +69,23 @@ public class PauseMenu : MonoBehaviour
     /// </summary>
     private void RefreshSceneLinks()
     {
-        // Player
+        // Hledání hráče
         GameObject playerObj = GameObject.FindGameObjectWithTag("Player");
         if (playerObj != null)
             player = playerObj.transform;
         else
+            // Debug.LogWarning("PauseMenu: Player nenalezen v nové scéně.");
             player = null;
 
-        
+        // Hledání respawnu
         currentRespawnPoint = null;
-
         GameObject respawnObj = GameObject.FindGameObjectWithTag("Respawn");
         if (respawnObj != null)
         {
             currentRespawnPoint = respawnObj.transform;
-            // Debug.Log($"Respawn point nalezen ve scéně {respawnObj.scene.name}");
-        }
-        else
-        {
-            // Debug.Log("V téhle scéně není žádný objekt s tagem 'Respawn'.");
         }
     }
 
-    // ▶️ Obnoví hru
     public void Resume()
     {
         if (pauseMenuUI != null)
@@ -89,7 +95,6 @@ public class PauseMenu : MonoBehaviour
         isPaused = false;
     }
 
-    // ⏸️ Pauza
     void Pause()
     {
         if (pauseMenuUI != null)
@@ -99,29 +104,27 @@ public class PauseMenu : MonoBehaviour
         isPaused = true;
     }
 
-    /// <summary>
-    /// Nouzový respawn – jen pokud v aktuální scéně existuje respawn point.
-    /// </summary>
     public void ResetPlayerPosition()
     {
         if (player == null)
         {
-            Debug.LogWarning("ResetPlayerPosition: Player nebyl nalezen (tag 'Player').");
+            Debug.LogWarning("ResetPlayerPosition: Player nebyl nalezen.");
             return;
         }
 
         if (currentRespawnPoint == null)
         {
-            Debug.LogWarning("ResetPlayerPosition: V téhle scéně není žádný respawn point (tag 'Respawn').");
+            Debug.LogWarning("ResetPlayerPosition: Chybí Respawn point.");
             return;
         }
 
-        // Teleport pouze v rámci téhle scény
+        // Teleport
         player.position = currentRespawnPoint.position;
-        // Pokud chceš, můžeš tu vypnout i rychlost, animaci apod.
+
+        // Zavřeme menu a obnovíme čas po respawnu (volitelné)
+        Resume();
     }
 
-    // 🚪 Ukončení hry
     public void QuitGame()
     {
         Application.Quit();
