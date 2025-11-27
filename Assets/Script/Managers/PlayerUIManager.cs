@@ -1,10 +1,11 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
+using UnityEngine.SceneManagement; // 1. Nutné pro detekci změny scény
 
 public class PlayerUIManager : MonoBehaviour
 {
-    // 💡 Singleton instance pro zajištění, že je jen jeden UIManager
+    // 💡 Singleton
     public static PlayerUIManager Instance;
 
     [Header("UI - Health")]
@@ -16,63 +17,96 @@ public class PlayerUIManager : MonoBehaviour
     public TextMeshProUGUI energyText;
 
     [Header("References (auto-assigned)")]
-    // Tyto reference už nemusí být veřejné/viditelné v Inspectoru, pokud je nastavujeme v kódu
     private PlayerStats stats;
     private PlayerMovement movement;
 
     void Awake()
     {
-        // 1. Singleton: Kontrola duplicit
         if (Instance == null)
         {
             Instance = this;
             transform.SetParent(null);
-            // 2. DontDestroyOnLoad: Uchování objektu mezi scénami
             DontDestroyOnLoad(this.gameObject);
+
+            // 2. Přihlásíme se k odběru události načtení scény
+            SceneManager.sceneLoaded += OnSceneLoaded;
         }
         else
         {
-            // Pokud už instance existuje, tuto novou znič
             Destroy(this.gameObject);
-            return; // Ukončíme metodu, aby se nespustil zbytek kódu
+            return;
         }
+    }
+
+    // 3. Odhlásíme se, když objekt zanikne (prevence chyb)
+    void OnDestroy()
+    {
+        SceneManager.sceneLoaded -= OnSceneLoaded;
+    }
+
+    // 4. Tato metoda se spustí AUTOMATICKY při každém načtení scény
+    void OnSceneLoaded(Scene scene, LoadSceneMode mode)
+    {
+        FindUIElements();    // Najde nové slidery a texty podle TAGŮ
+        FindAndSetupPlayer(); // Najde nového hráče
     }
 
     void Start()
     {
-        // ⚠️ Poznámka: Pokud se hráč nenačte hned na začátku scény, bude potřeba
-        // najít ho později (např. v metodě, která se zavolá, když se hráč objeví).
-
-        // Najdi objekt s tagem "Player"
-        GameObject player = GameObject.FindGameObjectWithTag("Player");
-        if (player == null)
-        {
-            Debug.LogWarning("⚠️ PlayerUIManager: Žádný objekt s tagem 'Player' nebyl nalezen při startu! Pokusí se najít později.");
-            // Nezastavíme se, protože UI manager má zůstat, ale nebudeme se pokoušet
-            // nastavit reference, které nejsou dostupné.
-            return;
-        }
-
-        // Získej reference na komponenty
-        SetupPlayerReferences(player);
+        // Pro jistotu voláme i na začátku (pro první scénu)
+        FindUIElements();
+        FindAndSetupPlayer();
     }
 
-    // 💡 Nová metoda pro nastavení referencí
+    // 🔍 Hledání UI prvků podle TAGU (Musíš vytvořit tyto tagy v Unity!)
+    void FindUIElements()
+    {
+        // Health Slider
+        GameObject hSliderObj = GameObject.FindGameObjectWithTag("HealthSlider");
+        if (hSliderObj != null)
+            healthSlider = hSliderObj.GetComponent<Slider>();
+        else
+            Debug.LogWarning("UI Manager: Nenašel jsem objekt s tagem 'HealthSlider'!");
+
+        // Health Text
+        GameObject hTextObj = GameObject.FindGameObjectWithTag("HealthText");
+        if (hTextObj != null)
+            healthText = hTextObj.GetComponent<TextMeshProUGUI>();
+
+        // Energy Slider
+        GameObject eSliderObj = GameObject.FindGameObjectWithTag("EnergySlider");
+        if (eSliderObj != null)
+            energySlider = eSliderObj.GetComponent<Slider>();
+
+        // Energy Text
+        GameObject eTextObj = GameObject.FindGameObjectWithTag("EnergyText");
+        if (eTextObj != null)
+            energyText = eTextObj.GetComponent<TextMeshProUGUI>();
+    }
+
+    // 🔍 Hledání Hráče
+    void FindAndSetupPlayer()
+    {
+        GameObject player = GameObject.FindGameObjectWithTag("Player");
+        if (player != null)
+        {
+            SetupPlayerReferences(player);
+        }
+        else
+        {
+            // Debug.Log("UI Manager: Hráč zatím není ve scéně.");
+        }
+    }
+
     public void SetupPlayerReferences(GameObject player)
     {
         stats = player.GetComponent<PlayerStats>();
         movement = player.GetComponent<PlayerMovement>();
 
-        if (stats == null)
-            Debug.LogError("❌ PlayerUIManager: PlayerStats nebyl nalezen na objektu s tagem Player!");
-
-        if (movement == null)
-            Debug.LogError("❌ PlayerUIManager: PlayerMovement nebyl nalezen na objektu s tagem Player!");
-
-        // Zaregistruj eventy a inicializuj UI
+        // Zaregistruj eventy a aktualizuj UI
         if (stats != null)
         {
-            // Odregistruj pro případ, že by se volalo opakovaně (např. při znovuvytvoření hráče)
+            // Bezpečné přeregistrování (odstranit staré -> přidat nové)
             stats.OnHealthChanged -= UpdateHealth;
             stats.OnHealthChanged += UpdateHealth;
             UpdateHealth(stats.currentHealth, stats.maxHealth);

@@ -70,7 +70,7 @@ public class ItemSlot : MonoBehaviour,
         }
     }
 
-    private void UpdateUI()
+    public void UpdateUI()
     {
         if (itemData != null)
         {

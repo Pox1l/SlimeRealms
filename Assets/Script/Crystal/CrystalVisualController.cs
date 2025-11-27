@@ -1,50 +1,78 @@
-using UnityEngine;
+﻿using UnityEngine;
 using System.Collections.Generic;
 
 public class CrystalVisualController : MonoBehaviour
 {
     [Header("Komponenty")]
-    public SpriteRenderer crystalRenderer; // Sem p�et�hni SpriteRenderer krystalu
+    public SpriteRenderer crystalRenderer; // Pokud necháš prázdné, zkusí se najít samo
 
-    [Header("Vzhledy pro ka�dou stage")]
-    // Sem naha� sprity: Index 0 = rozbit�, Index 1 = opraven� 1. stupe�, atd.
+    [Header("Vzhledy pro každou stage")]
+    // Sem nahaž sprity: Index 0 = rozbitý, Index 1 = opravený 1. stupeň, atd.
     public List<Sprite> crystalSprites = new List<Sprite>();
 
-    [Header("Efekty (Voliteln�)")]
-    public ParticleSystem repairEffect; // Efekt, kter� se p�ehraje p�i oprav�
+    [Header("Efekty (Volitelné)")]
+    public ParticleSystem repairEffect;
 
-    /// <summary>
-    /// Zm�n� sprite krystalu podle aktu�ln� stage.
-    /// </summary>
-    public void UpdateVisuals(int stageIndex)
+    void Awake()
     {
-        if (crystalRenderer == null) return;
-
-        if (crystalSprites.Count == 0)
+        // 🛠️ Automatická oprava: Pokud chybí reference, najdi ji na stejném objektu
+        if (crystalRenderer == null)
         {
-            Debug.LogWarning("CrystalVisualController: Nem� nastaven� ��dn� sprity v listu!");
-            return;
-        }
-
-        // Pokud je stageIndex v�t�� ne� po�et obr�zk�, pou�ijeme ten posledn� (pln� opraven�)
-        if (stageIndex >= crystalSprites.Count)
-        {
-            crystalRenderer.sprite = crystalSprites[crystalSprites.Count - 1];
-        }
-        else
-        {
-            crystalRenderer.sprite = crystalSprites[stageIndex];
+            crystalRenderer = GetComponent<SpriteRenderer>();
         }
     }
 
     /// <summary>
-    /// P�ehraje efekt opravy (jiskry, z�blesk).
+    /// Změní sprite krystalu podle aktuální stage.
     /// </summary>
+    public void UpdateVisuals(int stageIndex)
+    {
+        // 1. DEBUG VÝPIS - Pokud se toto neobjeví v konzoli, nemáš propojené skripty!
+        Debug.Log($"🔮 CrystalVisualController: Pokus o změnu vzhledu na Stage {stageIndex}");
+
+        if (crystalRenderer == null)
+        {
+            Debug.LogError("❌ CHYBA: CrystalVisualController nemá přiřazený SpriteRenderer!");
+            return;
+        }
+
+        // 2. KONTROLA ANIMATORU - Animator blokuje změnu spritů
+        Animator anim = GetComponent<Animator>();
+        if (anim != null && anim.enabled)
+        {
+            Debug.LogWarning("⚠️ VAROVÁNÍ: Na Krystalu běží Animator! Vypínám ho, aby šel změnit Sprite.");
+            anim.enabled = false; // Vypneme Animator, aby nám nepřepisoval obrázek
+        }
+
+        // 3. Kontrola seznamu spritů
+        if (crystalSprites.Count == 0)
+        {
+            Debug.LogWarning("⚠️ VAROVÁNÍ: Nemáš v Inspectoru nastavené žádné obrázky (Crystal Sprites)!");
+            return;
+        }
+
+        // 4. Změna obrázku
+        Sprite finalSprite;
+
+        if (stageIndex >= crystalSprites.Count)
+        {
+            // Pokud je stage vyšší než počet obrázků, dej tam ten poslední (úplně opravený)
+            finalSprite = crystalSprites[crystalSprites.Count - 1];
+        }
+        else
+        {
+            finalSprite = crystalSprites[stageIndex];
+        }
+
+        crystalRenderer.sprite = finalSprite;
+        Debug.Log($"✅ Krystal změněn na obrázek: {finalSprite.name}");
+    }
+
     public void PlayRepairEffect()
     {
         if (repairEffect != null)
         {
-            repairEffect.Stop(); // Reset, kdyby zrovna b�el
+            repairEffect.Stop();
             repairEffect.Play();
         }
     }

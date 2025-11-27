@@ -6,6 +6,24 @@ TagManager:
   tags:
   - Enemy
   - Monster
+  - HealthSlider
+  - HealthText
+  - EnergySlider
+  - EnergyText
+  - ProfileBTN
+  - InventoryBTN
+  - SkillTreeBTN
+  - CloseBTN
+  - ProfilePanel
+  - InventoryPanel
+  - SkillTreePanel
+  - CentralMenuCanvas
+  - CentralMenuRoot
+  - HUD
+  - InventorySlotsParent
+  - InvDescIcon
+  - InvDescName
+  - InvDescText
   layers:
   - Default
   - TransparentFX

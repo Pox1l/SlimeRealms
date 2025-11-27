@@ -8,7 +8,7 @@ public class BossEntrance : MonoBehaviour
     [Header("Ovládání")]
     public KeyCode interactKey = KeyCode.E;
 
-    [Header("Požadované itemy (stejné jako u krystalu)")]
+    [Header("Požadované itemy")]
     public List<CrystalUIController.Requirement> requirements = new List<CrystalUIController.Requirement>();
 
     [Header("Inventory")]
@@ -21,8 +21,8 @@ public class BossEntrance : MonoBehaviour
     [Header("UI / Hint")]
     public GameObject pressEHint;
     public GameObject requirementsPanel;
-    public Transform requirementsParent;
-    public GameObject requirementPrefab;
+    public Transform requirementsParent; // Sem se instanciují řádky
+    public GameObject requirementPrefab; // Prefab řádku (musí mít childy "Icon" a "Text")
 
     private bool playerInRange = false;
     private bool isOpened = false;
@@ -32,20 +32,15 @@ public class BossEntrance : MonoBehaviour
         if (inventoryManager == null && InventoryManager.Instance != null)
             inventoryManager = InventoryManager.Instance;
 
-        if (barrierObject == null)
-            barrierObject = gameObject;
-
+        if (barrierObject == null) barrierObject = gameObject;
         if (collidersToDisable == null || collidersToDisable.Length == 0)
             collidersToDisable = barrierObject.GetComponents<Collider2D>();
     }
 
     private void Start()
     {
-        if (pressEHint != null)
-            pressEHint.SetActive(false);
-
-        if (requirementsPanel != null)
-            requirementsPanel.SetActive(false);
+        if (pressEHint != null) pressEHint.SetActive(false);
+        if (requirementsPanel != null) requirementsPanel.SetActive(false);
     }
 
     private void Update()
@@ -60,72 +55,50 @@ public class BossEntrance : MonoBehaviour
 
     private void TryOpenGate()
     {
-        if (inventoryManager == null)
-        {
-            Debug.LogWarning("[BossEntrance] Chybí InventoryManager!");
-            return;
-        }
+        if (inventoryManager == null) return;
 
-        // 1) čistá kontrola itemů
-        bool hasAll = HasAllRequirements();
-
-        // 2) UI jen zobrazí aktuální stav
+        // 1. Aktualizujeme UI (ikony, počty), aby hráč viděl, co má/nemá
         UpdateRequirementsUI();
 
-        if (!hasAll)
+        // 2. Zkontrolujeme, zda má vše
+        if (!HasAllRequirements())
         {
-            // hráč nemá vše → jen vidí UI, brána se neotevře
-            return;
+            Debug.Log("Hráč nemá potřebné itemy.");
+            return; // Konec, neotevíráme
         }
 
-        // 3) má vše → odeber itemy
+        // 3. Má vše -> odebereme itemy a otevřeme
         foreach (var req in requirements)
         {
-            if (req.itemSO == null || req.requiredAmount <= 0) continue;
-            inventoryManager.RemoveItem(req.itemSO, req.requiredAmount);
+            if (req.itemSO != null && req.requiredAmount > 0)
+                inventoryManager.RemoveItem(req.itemSO, req.requiredAmount);
         }
 
         OpenGate();
     }
 
-    /// <summary>
-    /// Vrátí true, když má hráč všechny požadované itemy.
-    /// Nezávislé na UI.
-    /// </summary>
     private bool HasAllRequirements()
     {
-        if (requirements == null || requirements.Count == 0)
-        {
-            // pokud chceš, aby bez nastavených požadavků šlo OTEVŘÍT, dej tady "return true;"
-            return false;
-        }
+        if (requirements == null || requirements.Count == 0) return false;
 
         foreach (var req in requirements)
         {
             if (req.itemSO == null || req.requiredAmount <= 0) continue;
-
             int owned = inventoryManager.GetTotalItemCount(req.itemSO);
-            if (owned < req.requiredAmount)
-                return false;
+            if (owned < req.requiredAmount) return false;
         }
-
         return true;
     }
 
-    /// <summary>
-    /// Postaví UI seznam požadavků (stejně jako krystal).
-    /// </summary>
     private void UpdateRequirementsUI()
     {
-        if (requirementsPanel != null)
-            requirementsPanel.SetActive(true);
+        if (requirementsPanel != null) requirementsPanel.SetActive(true);
+        if (requirementsParent == null || requirementPrefab == null) return;
 
-        if (requirementsParent == null || requirementPrefab == null)
-            return;
+        // Smazat staré řádky
+        foreach (Transform child in requirementsParent) Destroy(child.gameObject);
 
-        foreach (Transform child in requirementsParent)
-            Destroy(child.gameObject);
-
+        // Vytvořit nové řádky
         foreach (var req in requirements)
         {
             if (req.itemSO == null || req.requiredAmount <= 0) continue;
@@ -133,10 +106,25 @@ public class BossEntrance : MonoBehaviour
             int owned = inventoryManager.GetTotalItemCount(req.itemSO);
 
             GameObject row = Instantiate(requirementPrefab, requirementsParent);
-            row.transform.Find("Icon").GetComponent<Image>().sprite = req.itemSO.icon;
 
-            var text = row.transform.Find("Text").GetComponent<TextMeshProUGUI>();
-            text.text = $"{owned}/{req.requiredAmount}x";
+            // Nastavení Ikony (hledá objekt jménem "Icon")
+            Transform iconTransform = row.transform.Find("Icon");
+            if (iconTransform != null)
+                iconTransform.GetComponent<Image>().sprite = req.itemSO.icon;
+
+            // Nastavení Textu (hledá objekt jménem "Text")
+            Transform textTransform = row.transform.Find("Text");
+            if (textTransform != null)
+            {
+                var tmpText = textTransform.GetComponent<TextMeshProUGUI>();
+                tmpText.text = $"{owned} / {req.requiredAmount}";
+
+                // Barva: Červená když chybí, Zelená když máš dost
+                if (owned < req.requiredAmount)
+                    tmpText.color = Color.red;
+                else
+                    tmpText.color = Color.green;
+            }
         }
     }
 
@@ -144,43 +132,37 @@ public class BossEntrance : MonoBehaviour
     {
         isOpened = true;
 
-        if (requirementsPanel != null)
-            requirementsPanel.SetActive(false);
-
-        if (pressEHint != null)
-            pressEHint.SetActive(false);
+        if (requirementsPanel != null) requirementsPanel.SetActive(false);
+        if (pressEHint != null) pressEHint.SetActive(false);
 
         foreach (var col in collidersToDisable)
         {
             if (col != null) col.enabled = false;
         }
 
-        if (barrierObject != null)
-            barrierObject.SetActive(false);
-
-        Debug.Log("[BossEntrance] Bariéra otevřena.");
+        if (barrierObject != null) barrierObject.SetActive(false);
     }
 
     private void OnTriggerEnter2D(Collider2D other)
     {
         if (!other.CompareTag("Player")) return;
-
         playerInRange = true;
 
-        if (!isOpened && pressEHint != null)
-            pressEHint.SetActive(true);
+        if (!isOpened)
+        {
+            if (pressEHint != null) pressEHint.SetActive(true);
+
+            // Tady voláme zobrazení UI hned při vstupu
+            UpdateRequirementsUI();
+        }
     }
 
     private void OnTriggerExit2D(Collider2D other)
     {
         if (!other.CompareTag("Player")) return;
-
         playerInRange = false;
 
-        if (pressEHint != null)
-            pressEHint.SetActive(false);
-
-        if (requirementsPanel != null)
-            requirementsPanel.SetActive(false);
+        if (pressEHint != null) pressEHint.SetActive(false);
+        if (requirementsPanel != null) requirementsPanel.SetActive(false);
     }
 }

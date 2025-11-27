@@ -12,8 +12,9 @@ GameObject:
   - component: {fileID: 3427798947778930484}
   - component: {fileID: 5986237447098651801}
   - component: {fileID: 9197086737104109295}
+  - component: {fileID: 3769477822120622659}
   m_Layer: 5
-  m_Name: SkillButton
+  m_Name: SkillButtonPref
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -26,7 +27,7 @@ RectTransform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2733420644148511196}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -122,6 +123,22 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls: []
+--- !u!114 &3769477822120622659
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2733420644148511196}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 650b05eec3d10e140a2e0e2d5f1c7525, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  skillData: {fileID: 11400000, guid: cbddbc49f7685124d9dbc38a70d1e9b2, type: 2}
+  iconImage: {fileID: 8403321985247645394}
+  btn: {fileID: 9197086737104109295}
+  levelText: {fileID: 8799430496644636622}
 --- !u!1 &5450058933093549643
 GameObject:
   m_ObjectHideFlags: 0
