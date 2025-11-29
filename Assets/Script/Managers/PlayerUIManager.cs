@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
-using UnityEngine.SceneManagement; // 1. Nutné pro detekci změny scény
+using UnityEngine.SceneManagement;
 
 public class PlayerUIManager : MonoBehaviour
 {
@@ -12,13 +12,13 @@ public class PlayerUIManager : MonoBehaviour
     public Slider healthSlider;
     public TextMeshProUGUI healthText;
 
-    [Header("UI - Energy")]
+    [Header("UI - Stamina")]
     public Slider energySlider;
     public TextMeshProUGUI energyText;
 
     [Header("References (auto-assigned)")]
     private PlayerStats stats;
-    private PlayerMovement movement;
+    // private PlayerMovement movement; // ❌ Už nepotřebujeme, stamina je ve stats
 
     void Awake()
     {
@@ -28,7 +28,6 @@ public class PlayerUIManager : MonoBehaviour
             transform.SetParent(null);
             DontDestroyOnLoad(this.gameObject);
 
-            // 2. Přihlásíme se k odběru události načtení scény
             SceneManager.sceneLoaded += OnSceneLoaded;
         }
         else
@@ -38,50 +37,41 @@ public class PlayerUIManager : MonoBehaviour
         }
     }
 
-    // 3. Odhlásíme se, když objekt zanikne (prevence chyb)
     void OnDestroy()
     {
         SceneManager.sceneLoaded -= OnSceneLoaded;
     }
 
-    // 4. Tato metoda se spustí AUTOMATICKY při každém načtení scény
     void OnSceneLoaded(Scene scene, LoadSceneMode mode)
     {
-        FindUIElements();    // Najde nové slidery a texty podle TAGŮ
-        FindAndSetupPlayer(); // Najde nového hráče
-    }
-
-    void Start()
-    {
-        // Pro jistotu voláme i na začátku (pro první scénu)
         FindUIElements();
         FindAndSetupPlayer();
     }
 
-    // 🔍 Hledání UI prvků podle TAGU (Musíš vytvořit tyto tagy v Unity!)
+    void Start()
+    {
+        FindUIElements();
+        FindAndSetupPlayer();
+    }
+
+    // 🔍 Hledání UI prvků podle TAGU
     void FindUIElements()
     {
         // Health Slider
         GameObject hSliderObj = GameObject.FindGameObjectWithTag("HealthSlider");
-        if (hSliderObj != null)
-            healthSlider = hSliderObj.GetComponent<Slider>();
-        else
-            Debug.LogWarning("UI Manager: Nenašel jsem objekt s tagem 'HealthSlider'!");
+        if (hSliderObj != null) healthSlider = hSliderObj.GetComponent<Slider>();
 
         // Health Text
         GameObject hTextObj = GameObject.FindGameObjectWithTag("HealthText");
-        if (hTextObj != null)
-            healthText = hTextObj.GetComponent<TextMeshProUGUI>();
+        if (hTextObj != null) healthText = hTextObj.GetComponent<TextMeshProUGUI>();
 
         // Energy Slider
         GameObject eSliderObj = GameObject.FindGameObjectWithTag("EnergySlider");
-        if (eSliderObj != null)
-            energySlider = eSliderObj.GetComponent<Slider>();
+        if (eSliderObj != null) energySlider = eSliderObj.GetComponent<Slider>();
 
         // Energy Text
         GameObject eTextObj = GameObject.FindGameObjectWithTag("EnergyText");
-        if (eTextObj != null)
-            energyText = eTextObj.GetComponent<TextMeshProUGUI>();
+        if (eTextObj != null) energyText = eTextObj.GetComponent<TextMeshProUGUI>();
     }
 
     // 🔍 Hledání Hráče
@@ -92,31 +82,25 @@ public class PlayerUIManager : MonoBehaviour
         {
             SetupPlayerReferences(player);
         }
-        else
-        {
-            // Debug.Log("UI Manager: Hráč zatím není ve scéně.");
-        }
     }
 
     public void SetupPlayerReferences(GameObject player)
     {
         stats = player.GetComponent<PlayerStats>();
-        movement = player.GetComponent<PlayerMovement>();
+        // movement = player.GetComponent<PlayerMovement>(); // Už nepotřebujeme pro UI
 
         // Zaregistruj eventy a aktualizuj UI
         if (stats != null)
         {
-            // Bezpečné přeregistrování (odstranit staré -> přidat nové)
-            stats.OnHealthChanged -= UpdateHealth;
-            stats.OnHealthChanged += UpdateHealth;
+            // --- HEALTH ---
+            stats.OnHealthChanged -= UpdateHealth; // Odhlásit staré (prevence bugů)
+            stats.OnHealthChanged += UpdateHealth; // Přihlásit nové
             UpdateHealth(stats.currentHealth, stats.maxHealth);
-        }
 
-        if (movement != null)
-        {
-            movement.OnEnergyChanged -= UpdateEnergy;
-            movement.OnEnergyChanged += UpdateEnergy;
-            UpdateEnergy(movement.currentEnergy, movement.maxEnergy);
+            // --- STAMINA (Nové umístění) ---
+            stats.OnStaminaChanged -= UpdateEnergy;
+            stats.OnStaminaChanged += UpdateEnergy;
+            UpdateEnergy(stats.currentStamina, stats.maxStamina);
         }
     }
 

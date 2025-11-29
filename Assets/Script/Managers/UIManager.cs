@@ -1,4 +1,4 @@
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
 
@@ -14,20 +14,19 @@ public class UIManager : MonoBehaviour
 
     [Header("Reference")]
     public PlayerStats stats;
-    public PlayerMovement movement;
+    // public PlayerMovement movement; // ❌ Už nepotřebujeme, stamina je ve stats
 
     void Start()
     {
         if (stats != null)
         {
+            // --- HEALTH ---
             stats.OnHealthChanged += UpdateHealth;
             UpdateHealth(stats.currentHealth, stats.maxHealth);
-        }
 
-        if (movement != null)
-        {
-            movement.OnEnergyChanged += UpdateEnergy;
-            UpdateEnergy(movement.currentEnergy, movement.maxEnergy);
+            // --- STAMINA (Nyní ve stats) ---
+            stats.OnStaminaChanged += UpdateEnergy;
+            UpdateEnergy(stats.currentStamina, stats.maxStamina);
         }
     }
 

@@ -2,7 +2,6 @@
 using System.IO;
 using UnityEngine;
 
-// Třídy pro data necháme stejné
 [System.Serializable]
 public class InventorySlotData { public int itemID; public int quantity; }
 
@@ -20,8 +19,10 @@ public class InventorySaveSystem : MonoBehaviour
 
     private void Start()
     {
-        // Load se volá už v InventoryManager.OnSceneLoaded, ale pro jistotu při startu
-        LoadInventory(); 
+        if (InventoryManager.Instance != null && InventoryManager.Instance.itemSlots != null)
+        {
+            LoadInventory();
+        }
     }
 
     void Update()
@@ -50,13 +51,23 @@ public class InventorySaveSystem : MonoBehaviour
 
         string json = JsonUtility.ToJson(data, true);
         File.WriteAllText(savePath, json);
-        Debug.Log($"💾 Inventory saved.");
+        Debug.Log($"💾 Inventory saved to: {savePath}");
     }
 
     public void LoadInventory()
     {
-        if (ItemDatabase.Instance == null) return;
-        if (!File.Exists(savePath)) return;
+        if (ItemDatabase.Instance == null)
+        {
+            Debug.LogError("⚠️ Cannot load inventory: ItemDatabase is missing!");
+            return;
+        }
+
+        if (!File.Exists(savePath))
+        {
+            Debug.Log("ℹ️ No save file found.");
+            return;
+        }
+
         if (InventoryManager.Instance == null || InventoryManager.Instance.itemSlots == null) return;
 
         string json = File.ReadAllText(savePath);
@@ -64,12 +75,12 @@ public class InventorySaveSystem : MonoBehaviour
 
         var slots = InventoryManager.Instance.itemSlots;
 
-        // Projdeme sloty a naplníme je daty
         for (int i = 0; i < slots.Length && i < data.slots.Count; i++)
         {
-            if (slots[i] == null) continue; // Pojistka
+            if (slots[i] == null) continue;
 
             var slotData = data.slots[i];
+
             if (slotData.itemID >= 0)
             {
                 ItemSO item = ItemDatabase.Instance.GetItemByID(slotData.itemID);
@@ -77,19 +88,22 @@ public class InventorySaveSystem : MonoBehaviour
                 {
                     slots[i].itemData = item;
                     slots[i].quantity = slotData.quantity;
-                    
-                    // Aktualizace vizuálu slotu
-                    slots[i].SendMessage("UpdateUI", SendMessageOptions.DontRequireReceiver);
+                }
+                else
+                {
+                    slots[i].itemData = null;
+                    slots[i].quantity = 0;
                 }
             }
             else
             {
                 slots[i].itemData = null;
                 slots[i].quantity = 0;
-                slots[i].SendMessage("UpdateUI", SendMessageOptions.DontRequireReceiver);
             }
+
+            slots[i].SendMessage("UpdateUI", SendMessageOptions.DontRequireReceiver);
         }
-        Debug.Log("📦 Inventory loaded into new slots!");
+        Debug.Log("📦 Inventory loaded!");
     }
 
     private void OnApplicationQuit()

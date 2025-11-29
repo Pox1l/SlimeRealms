@@ -1,4 +1,4 @@
-using UnityEngine;
+ï»¿using UnityEngine;
 using System.IO;
 
 public class PlayerDataManager : MonoBehaviour
@@ -12,33 +12,30 @@ public class PlayerDataManager : MonoBehaviour
 
     private void Awake()
     {
-        // --- SINGLETON PATTERN (DONT DESTROY) ---
         if (Instance == null)
         {
-            // Pokud jsem první manager ve høe, nastavím se jako HLAVNÍ
             Instance = this;
-
-            // Tohle zajistí, e tento objekt nezmizí pøi naètení nové scény
             DontDestroyOnLoad(gameObject);
-
-            // Nastavení cesty a naètení dat
             savePath = Path.Combine(Application.persistentDataPath, "player_save.json");
             LoadPlayerData();
         }
         else
         {
-            // Pokud u jeden Manager existuje (pøišel z minulé scény),
-            // tak tento NOVİ se musí znièit, jinak by byly dva.
             Destroy(gameObject);
         }
     }
 
-    // --- ZBYTEK LOGIKY ---
-
-    public void SavePlayerData(int currentHealth)
+    // UloÅ¾Ã­ kompletnÃ­ stav hrÃ¡Äe (HP, Staminu a DEFENSE)
+    public void SavePlayerStats(int curHP, int maxHP, float curStamina, float maxStamina, float defense)
     {
-        currentData.currentHealth = currentHealth;
-        // currentData.currentStamina = ... (zde mùeš pøidat další)
+        currentData.currentHealth = curHP;
+        currentData.maxHealth = maxHP;
+
+        currentData.currentStamina = curStamina;
+        currentData.maxStamina = maxStamina;
+
+        // ğŸ”¥ UklÃ¡dÃ¡me defense
+        currentData.defense = defense;
 
         string json = JsonUtility.ToJson(currentData, true);
         File.WriteAllText(savePath, json);
@@ -68,9 +65,14 @@ public class PlayerDataManager : MonoBehaviour
     public void ResetData()
     {
         currentData = new PlayerData();
-        currentData.currentHealth = -1; // -1 = Plné zdraví pøi startu
+        currentData.currentHealth = -1;
+        currentData.maxHealth = 100;
         currentData.currentStamina = 100;
-        SavePlayerData(-1);
+        currentData.maxStamina = 100;
+        currentData.defense = 25; // DefaultnÃ­ obrana
+
+        string json = JsonUtility.ToJson(currentData, true);
+        File.WriteAllText(savePath, json);
     }
 }
 
@@ -78,5 +80,8 @@ public class PlayerDataManager : MonoBehaviour
 public class PlayerData
 {
     public int currentHealth;
+    public int maxHealth;
     public float currentStamina;
+    public float maxStamina;
+    public float defense; // ğŸ”¥ NovÃ© polÃ­Äko v JSONu
 }

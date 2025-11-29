@@ -22,6 +22,21 @@ public class ItemSlot : MonoBehaviour,
     private Image dragImage;
     private bool isDragging = false;
 
+    // 🔥 PŘIDÁNO: Proměnná pro čas poslední akce
+    private float lastClickTime;
+    // 🔥 PŘIDÁNO: Jak dlouho se musí čekat (0.2 sekundy stačí)
+    private const float CLICK_COOLDOWN = 1f;
+
+    private InventorySaveSystem SaveSystem
+    {
+        get
+        {
+            GameObject saveObj = GameObject.FindGameObjectWithTag("itemSaveSys");
+            if (saveObj != null) return saveObj.GetComponent<InventorySaveSystem>();
+            return null;
+        }
+    }
+
     public bool IsFull => itemData != null && quantity >= itemData.maxStack;
 
     private void Awake()
@@ -30,7 +45,6 @@ public class ItemSlot : MonoBehaviour,
         UpdateUI();
     }
 
-    
     public int AddItem(ItemSO newItem, int amount)
     {
         if (itemData == null)
@@ -54,7 +68,6 @@ public class ItemSlot : MonoBehaviour,
         return 0;
     }
 
-    
     public void RemoveItem(int amount)
     {
         if (itemData == null) return;
@@ -94,7 +107,8 @@ public class ItemSlot : MonoBehaviour,
         UpdateUI();
     }
 
-   
+    // --- DRAG AND DROP ---
+
     public void OnBeginDrag(PointerEventData eventData)
     {
         if (itemData == null || eventData.button != PointerEventData.InputButton.Left) return;
@@ -133,27 +147,27 @@ public class ItemSlot : MonoBehaviour,
     public void OnDrop(PointerEventData eventData)
     {
         ItemSlot draggedSlot = eventData.pointerDrag?.GetComponent<ItemSlot>();
+        bool changed = false;
 
         if (draggedSlot != null && draggedSlot != this)
         {
-            // stejné itemy -> složit do stacku
             if (draggedSlot.itemData == itemData && itemData != null)
             {
                 int leftover = AddItem(itemData, draggedSlot.quantity);
-                if (leftover <= 0)
-                {
-                    draggedSlot.ClearSlot();
-                }
-                else
-                {
-                    draggedSlot.quantity = leftover;
-                    draggedSlot.UpdateUI();
-                }
+                if (leftover <= 0) draggedSlot.ClearSlot();
+                else { draggedSlot.quantity = leftover; draggedSlot.UpdateUI(); }
+                changed = true;
             }
             else
             {
                 SwapItems(draggedSlot);
+                changed = true;
             }
+        }
+
+        if (changed && SaveSystem != null)
+        {
+            SaveSystem.SaveInventory();
         }
     }
 
@@ -171,25 +185,42 @@ public class ItemSlot : MonoBehaviour,
         this.UpdateUI();
     }
 
-    
     public void OnPointerClick(PointerEventData eventData)
     {
         if (isDragging) return;
 
-        
-        if (eventData.button == PointerEventData.InputButton.Left && itemData != null)
+        // 🔥 OCHRANA PROTI SPAMOVÁNÍ:
+        // Pokud od posledního kliknutí uběhlo méně než 0.2 sekundy, ignorujeme to.
+        // Používáme unscaledTime, protože timeScale může být 0 (pause menu).
+        if (Time.unscaledTime - lastClickTime < CLICK_COOLDOWN)
         {
-            InventoryManager.Instance.DeselectAllSlots();
-            selectedShader.SetActive(true);
-            InventoryManager.Instance.ShowItemDescription(itemData);
+            return;
         }
 
-        
+        // Uložíme čas tohoto kliknutí
+        lastClickTime = Time.unscaledTime;
+
+        // --- Levé tlačítko (Info) ---
+        if (eventData.button == PointerEventData.InputButton.Left && itemData != null)
+        {
+            if (InventoryManager.Instance != null)
+            {
+                InventoryManager.Instance.DeselectAllSlots();
+                InventoryManager.Instance.ShowItemDescription(itemData);
+            }
+            if (selectedShader) selectedShader.SetActive(true);
+        }
+
+        // --- Pravé tlačítko (Mazání) ---
         if (eventData.button == PointerEventData.InputButton.Right && itemData != null)
         {
             Debug.Log("Item odstraněn: " + itemData.itemName);
-            ClearSlot(); 
+            ClearSlot();
+
+            if (SaveSystem != null)
+            {
+                SaveSystem.SaveInventory();
+            }
         }
     }
-
 }

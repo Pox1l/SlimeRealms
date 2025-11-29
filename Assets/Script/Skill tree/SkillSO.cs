@@ -1,7 +1,8 @@
-using UnityEngine;
+﻿using UnityEngine;
 using System.Collections.Generic;
 
-public enum SkillType { None, Health, Damage, Speed }
+// 🔥 1. Přidány typy Stamina a Defense
+public enum SkillType { None, Health, Damage, Speed, Stamina, Defense }
 
 [CreateAssetMenu(menuName = "Data/Skill")]
 public class SkillSO : ScriptableObject

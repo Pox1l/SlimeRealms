@@ -1,5 +1,5 @@
-using UnityEngine;
-using System;
+﻿using UnityEngine;
+using System.Collections;
 
 public class PlayerMovement : MonoBehaviour
 {
@@ -15,28 +15,18 @@ public class PlayerMovement : MonoBehaviour
     private Vector2 movement;
     private bool isDashing = false;
 
-    [Header("Energy")]
-    public float maxEnergy = 100f;
-    public float currentEnergy;
-    public float energyRegenRate = 15f;
+    // ❌ Energy proměnné smazány (řeší PlayerStats)
 
     [Header("Animation")]
-    public Animator animator; // p�id�no
-
-    // Event pro UI
-    public event Action<float, float> OnEnergyChanged;
+    public Animator animator;
 
     void Awake()
     {
         rb = GetComponent<Rigidbody2D>();
         animator = GetComponent<Animator>();
-        currentEnergy = maxEnergy;
     }
 
-    void Start()
-    {
-        OnEnergyChanged?.Invoke(currentEnergy, maxEnergy);
-    }
+    // ❌ Start smazán (řeší PlayerStats)
 
     void Update()
     {
@@ -47,18 +37,18 @@ public class PlayerMovement : MonoBehaviour
             movement.Normalize();
         }
 
-        if (Input.GetKeyDown(KeyCode.Space) && movement != Vector2.zero && currentEnergy >= dashEnergyCost)
+        // 🔥 Kontrola staminy přes PlayerStats
+        if (Input.GetKeyDown(KeyCode.Space) && movement != Vector2.zero && !isDashing)
         {
-            StartCoroutine(Dash());
+            // Zeptáme se Banky, jestli máme dost energie
+            if (PlayerStats.Instance.HasStamina(dashEnergyCost))
+            {
+                StartCoroutine(Dash());
+            }
         }
 
-        // regenerace energie
-        if (currentEnergy < maxEnergy)
-        {
-            currentEnergy += energyRegenRate * Time.deltaTime;
-            currentEnergy = Mathf.Min(currentEnergy, maxEnergy);
-            OnEnergyChanged?.Invoke(currentEnergy, maxEnergy);
-        }
+        // ❌ Regenerace smazána (řeší PlayerStats)
+
         UpdateAnimations();
     }
 
@@ -70,12 +60,12 @@ public class PlayerMovement : MonoBehaviour
         }
     }
 
-    System.Collections.IEnumerator Dash()
+    IEnumerator Dash()
     {
         isDashing = true;
 
-        currentEnergy -= dashEnergyCost;
-        OnEnergyChanged?.Invoke(currentEnergy, maxEnergy);
+        // 🔥 Utratíme staminu z Banky
+        PlayerStats.Instance.UseStamina(dashEnergyCost);
 
         rb.velocity = movement * dashSpeed;
 
@@ -84,6 +74,7 @@ public class PlayerMovement : MonoBehaviour
         isDashing = false;
         rb.velocity = Vector2.zero;
     }
+
     private void UpdateAnimations()
     {
         if (animator == null) return;
@@ -91,6 +82,5 @@ public class PlayerMovement : MonoBehaviour
         animator.SetFloat("Horizontal", movement.x);
         animator.SetFloat("Vertical", movement.y);
         animator.SetFloat("Speed", movement.sqrMagnitude);
-
     }
 }

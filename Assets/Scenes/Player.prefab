@@ -188,10 +188,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 17a5d4e0659e52345a50fd792a26162b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  baseMaxHealth: 100
+  baseMaxStamina: 100
   maxHealth: 100
-  currentHealth: 0
+  currentHealth: 100
+  maxStamina: 100
+  currentStamina: 100
   defense: 25
-  ignoreDefense: 1
+  ignoreDefense: 0
 --- !u!95 &5114615947986399101
 Animator:
   serializedVersion: 5
@@ -491,7 +495,7 @@ GameObject:
   - component: {fileID: 647655781797942011}
   - component: {fileID: 2016945887776885701}
   m_Layer: 0
-  m_Name: attackswitchsys
+  m_Name: attackSwitchSys
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
