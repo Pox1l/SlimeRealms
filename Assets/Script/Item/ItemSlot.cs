@@ -22,10 +22,7 @@ public class ItemSlot : MonoBehaviour,
     private Image dragImage;
     private bool isDragging = false;
 
-    // 🔥 PŘIDÁNO: Proměnná pro čas poslední akce
-    private float lastClickTime;
-    // 🔥 PŘIDÁNO: Jak dlouho se musí čekat (0.2 sekundy stačí)
-    private const float CLICK_COOLDOWN = 1f;
+    // 🔥 ODSTRANĚNO: Proměnné pro časování (lastClickTime, CLICK_COOLDOWN)
 
     private InventorySaveSystem SaveSystem
     {
@@ -189,16 +186,7 @@ public class ItemSlot : MonoBehaviour,
     {
         if (isDragging) return;
 
-        // 🔥 OCHRANA PROTI SPAMOVÁNÍ:
-        // Pokud od posledního kliknutí uběhlo méně než 0.2 sekundy, ignorujeme to.
-        // Používáme unscaledTime, protože timeScale může být 0 (pause menu).
-        if (Time.unscaledTime - lastClickTime < CLICK_COOLDOWN)
-        {
-            return;
-        }
-
-        // Uložíme čas tohoto kliknutí
-        lastClickTime = Time.unscaledTime;
+        // 🔥 ODSTRANĚNO: Kontrola času (cooldown) je pryč.
 
         // --- Levé tlačítko (Info) ---
         if (eventData.button == PointerEventData.InputButton.Left && itemData != null)
@@ -211,15 +199,17 @@ public class ItemSlot : MonoBehaviour,
             if (selectedShader) selectedShader.SetActive(true);
         }
 
-        // --- Pravé tlačítko (Mazání) ---
+        // --- Pravé tlačítko (Kontextové Menu) ---
         if (eventData.button == PointerEventData.InputButton.Right && itemData != null)
         {
-            Debug.Log("Item odstraněn: " + itemData.itemName);
-            ClearSlot();
-
-            if (SaveSystem != null)
+            // Místo přímého smazání zavoláme menu
+            if (InventoryManager.Instance.contextMenu != null)
             {
-                SaveSystem.SaveInventory();
+                InventoryManager.Instance.contextMenu.OpenMenu(this, eventData.position);
+            }
+            else
+            {
+                Debug.LogWarning("Není přiřazeno ContextMenu v InventoryManageru!");
             }
         }
     }

@@ -25,6 +25,11 @@ TagManager:
   - InvDescName
   - InvDescText
   - itemSaveSys
+  - InventoryContextMenu
+  - menuPanel
+  - UseBTN
+  - TrashBTN
+  - ContextMenuUI
   layers:
   - Default
   - TransparentFX

@@ -58,7 +58,7 @@ public class CrystalRepair : MonoBehaviour
         if (collision.CompareTag("Player"))
         {
             playerInRange = true;
-            Debug.Log("Stiskni F pro opravu krystalu.");
+            Debug.Log("Stiskni E pro opravu krystalu.");
 
             if (sliderCanvas != null)
                 sliderCanvas.enabled = true;

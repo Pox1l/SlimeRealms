@@ -11,16 +11,20 @@ public class InventoryManager : MonoBehaviour
     public GameObject inventoryUI;
     public ItemSlot[] itemSlots;
 
+    [Header("Context Menu")]
+    public InventoryContextMenu contextMenu;
+
     [Header("Description UI")]
     public Image descriptionIcon;
     public TMP_Text descriptionName;
     public TMP_Text descriptionText;
 
     private bool menuActivated = false;
-    public InventorySaveSystem saveSystem; // Zpět na private
+    public InventorySaveSystem saveSystem;
 
     private void Awake()
     {
+        // Singleton logika...
         if (Instance == null)
         {
             Instance = this;
@@ -31,10 +35,14 @@ public class InventoryManager : MonoBehaviour
         else
         {
             Destroy(this.gameObject);
+            return;
         }
 
         // Zkusíme najít komponentu na sobě
         saveSystem = GetComponent<InventorySaveSystem>();
+
+        // Hned najdeme reference
+        FindUIReferences();
     }
 
     private void OnDestroy()
@@ -42,16 +50,10 @@ public class InventoryManager : MonoBehaviour
         SceneManager.sceneLoaded -= OnSceneLoaded;
     }
 
-    private void Start()
-    {
-        FindUIReferences();
-    }
-
     void OnSceneLoaded(Scene scene, LoadSceneMode mode)
     {
         FindUIReferences();
 
-        // Pokud nemáme referenci, zkusíme ji najít přes TAG
         if (saveSystem == null)
         {
             GameObject saveObj = GameObject.FindGameObjectWithTag("itemSaveSys");
@@ -73,6 +75,7 @@ public class InventoryManager : MonoBehaviour
 
     void FindUIReferences()
     {
+        // 1. Najdeme hlavní panel inventáře
         if (inventoryUI == null && CentralMenuUI.Instance != null)
         {
             inventoryUI = CentralMenuUI.Instance.inventoryPanel;
@@ -84,6 +87,7 @@ public class InventoryManager : MonoBehaviour
             if (panel != null) inventoryUI = panel;
         }
 
+        // 2. Pokud máme panel, prohledáme jeho děti
         if (inventoryUI != null)
         {
             Transform[] allChildren = inventoryUI.GetComponentsInChildren<Transform>(true);
@@ -107,6 +111,21 @@ public class InventoryManager : MonoBehaviour
                     descriptionText = t.GetComponent<TMP_Text>();
                 }
             }
+        }
+
+        // --- HLEDÁNÍ KONTEXTOVÉHO MENU (OPRAVENO) ---
+
+        // Protože jsme z ContextMenu udělali Singleton, stačí vzít jeho Instance.
+        // Je to spolehlivější než hledání přes Tagy.
+        if (contextMenu == null)
+        {
+            contextMenu = InventoryContextMenu.Instance;
+        }
+
+        // Pojistka: Kdyby Instance ještě nebyla (vzácné), zkusíme najít typem
+        if (contextMenu == null)
+        {
+            contextMenu = FindObjectOfType<InventoryContextMenu>(true);
         }
     }
 
@@ -135,7 +154,6 @@ public class InventoryManager : MonoBehaviour
     {
         if (itemSlots == null) return quantity;
 
-        // Pokud nemáme referenci, zkusíme najít přes TAG (pojistka)
         if (saveSystem == null)
         {
             GameObject saveObj = GameObject.FindGameObjectWithTag("itemSaveSys");
@@ -167,7 +185,6 @@ public class InventoryManager : MonoBehaviour
     {
         if (itemSlots == null) return;
 
-        // Pojistka pro saveSystem
         if (saveSystem == null)
         {
             GameObject saveObj = GameObject.FindGameObjectWithTag("itemSaveSys");

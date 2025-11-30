@@ -101,7 +101,8 @@ public class InventorySaveSystem : MonoBehaviour
                 slots[i].quantity = 0;
             }
 
-            slots[i].SendMessage("UpdateUI", SendMessageOptions.DontRequireReceiver);
+            //slots[i].SendMessage("UpdateUI", SendMessageOptions.DontRequireReceiver);
+            slots[i].UpdateUI();
         }
         Debug.Log("📦 Inventory loaded!");
     }
