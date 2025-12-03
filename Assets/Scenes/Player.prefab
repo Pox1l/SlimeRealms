@@ -172,9 +172,6 @@ MonoBehaviour:
   dashSpeed: 30
   dashDuration: 0.05
   dashEnergyCost: 25
-  maxEnergy: 100
-  currentEnergy: 0
-  energyRegenRate: 15
   animator: {fileID: 0}
 --- !u!114 &113634020460050641
 MonoBehaviour:
@@ -194,8 +191,10 @@ MonoBehaviour:
   currentHealth: 100
   maxStamina: 100
   currentStamina: 100
+  staminaRegenRate: 15
+  baseDefense: 25
   defense: 25
-  ignoreDefense: 0
+  ignoreDefense: 1
 --- !u!95 &5114615947986399101
 Animator:
   serializedVersion: 5

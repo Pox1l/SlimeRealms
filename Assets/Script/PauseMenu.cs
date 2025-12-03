@@ -3,42 +3,28 @@ using UnityEngine.SceneManagement;
 
 public class PauseMenu : MonoBehaviour
 {
-    // 💡 1. Singleton: Veřejný přístup, abychom věděli, že existuje
     public static PauseMenu Instance;
 
-    [Header("UI")]
-    public GameObject pauseMenuUI;
+    [Header("Hlavní Objekty")]
+    public GameObject pauseMenuRoot;    // Celý objekt "PauseMenu" (Pozadí + Tlačítka + Nadpis)
+    public GameObject settingsMenuRoot; // Celý objekt "SettingsMenu"
 
-    [Header("Player")]
+    [Header("References")]
     private Transform player;
-
-    [Header("Respawn point (jen v aktuální scéně)")]
     private Transform currentRespawnPoint;
+    private GameObject hudObject;
 
-    private bool isPaused = false;
+    public bool isPaused { get; private set; } = false;
 
     void Awake()
     {
-        // 💡 2. Kontrola duplicit
-        if (Instance != null)
-        {
-            Destroy(gameObject);
-            return;
-        }
-
+        if (Instance != null) { Destroy(gameObject); return; }
         Instance = this;
-
-        // 🛠️ ZDE: Odpojíme objekt, aby byl v kořenu (root)
         transform.SetParent(null);
-
-        // 💡 3. Hlavní příkaz
         DontDestroyOnLoad(gameObject);
-
-        // Registrace eventu
         SceneManager.sceneLoaded += OnSceneLoaded;
     }
 
-    // ⚠️ DŮLEŽITÉ: Když objekt nakonec zanikne (např. vypnutí hry), musíme event zrušit
     void OnDestroy()
     {
         SceneManager.sceneLoaded -= OnSceneLoaded;
@@ -46,50 +32,62 @@ public class PauseMenu : MonoBehaviour
 
     void Start()
     {
-        RefreshSceneLinks(); // Prvotní nalezení hráče
+        RefreshSceneLinks();
+
+        // Na začátku zajistíme, že je všechno vypnuté
+        if (pauseMenuRoot != null) pauseMenuRoot.SetActive(false);
+        if (settingsMenuRoot != null) settingsMenuRoot.SetActive(false);
     }
 
     void Update()
     {
         if (Input.GetKeyDown(KeyCode.Escape))
         {
-            if (isPaused) Resume();
-            else Pause();
+            // 1. Pokud je otevřené Nastavení -> Zavřít nastavení a vrátit Pauzu
+            if (settingsMenuRoot != null && settingsMenuRoot.activeSelf)
+            {
+                CloseSettings();
+            }
+            // 2. Pokud je otevřená Pauza -> Zavřít Pauzu a hrát
+            else if (isPaused)
+            {
+                Resume();
+            }
+            // 3. Pokud se hraje -> Otevřít Pauzu
+            else
+            {
+                Pause();
+            }
         }
     }
 
-    // Tato metoda se zavolá automaticky po každém načtení scény
     private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
     {
         RefreshSceneLinks();
+        Resume();
     }
 
-    /// <summary>
-    /// Najde znovu Playera a respawn point v AKTUÁLNÍ scéně.
-    /// </summary>
     private void RefreshSceneLinks()
     {
-        // Hledání hráče
         GameObject playerObj = GameObject.FindGameObjectWithTag("Player");
-        if (playerObj != null)
-            player = playerObj.transform;
-        else
-            // Debug.LogWarning("PauseMenu: Player nenalezen v nové scéně.");
-            player = null;
+        player = playerObj != null ? playerObj.transform : null;
 
-        // Hledání respawnu
-        currentRespawnPoint = null;
         GameObject respawnObj = GameObject.FindGameObjectWithTag("Respawn");
-        if (respawnObj != null)
-        {
-            currentRespawnPoint = respawnObj.transform;
-        }
+        currentRespawnPoint = respawnObj != null ? respawnObj.transform : null;
+
+        hudObject = GameObject.FindGameObjectWithTag("HUD");
     }
+
+    // --- LOGIKA ---
 
     public void Resume()
     {
-        if (pauseMenuUI != null)
-            pauseMenuUI.SetActive(false);
+        // Vypneme obě okna
+        if (pauseMenuRoot != null) pauseMenuRoot.SetActive(false);
+        if (settingsMenuRoot != null) settingsMenuRoot.SetActive(false);
+
+        // Zapneme HUD
+        if (hudObject != null) hudObject.SetActive(true);
 
         Time.timeScale = 1f;
         isPaused = false;
@@ -97,31 +95,45 @@ public class PauseMenu : MonoBehaviour
 
     void Pause()
     {
-        if (pauseMenuUI != null)
-            pauseMenuUI.SetActive(true);
+        RefreshSceneLinks();
+
+        // Zapneme JEN Pauzu, nastavení musí být vypnuté
+        if (pauseMenuRoot != null) pauseMenuRoot.SetActive(true);
+        if (settingsMenuRoot != null) settingsMenuRoot.SetActive(false);
+
+        // Vypneme HUD
+        if (hudObject != null) hudObject.SetActive(false);
 
         Time.timeScale = 0f;
         isPaused = true;
     }
 
+    // --- PŘEPÍNÁNÍ OKEN ---
+
+    public void OpenSettings()
+    {
+        // Vypneme celé Pause Menu
+        if (pauseMenuRoot != null) pauseMenuRoot.SetActive(false);
+
+        // Zapneme celé Settings Menu
+        if (settingsMenuRoot != null) settingsMenuRoot.SetActive(true);
+    }
+
+    public void CloseSettings()
+    {
+        // Vypneme Settings Menu
+        if (settingsMenuRoot != null) settingsMenuRoot.SetActive(false);
+
+        // Zapneme zpátky Pause Menu
+        if (pauseMenuRoot != null) pauseMenuRoot.SetActive(true);
+    }
+
+    // --- ZBYTEK ---
     public void ResetPlayerPosition()
     {
-        if (player == null)
-        {
-            Debug.LogWarning("ResetPlayerPosition: Player nebyl nalezen.");
-            return;
-        }
-
-        if (currentRespawnPoint == null)
-        {
-            Debug.LogWarning("ResetPlayerPosition: Chybí Respawn point.");
-            return;
-        }
-
-        // Teleport
+        if (player == null || currentRespawnPoint == null) return;
         player.position = currentRespawnPoint.position;
-
-        // Zavřeme menu a obnovíme čas po respawnu (volitelné)
+        Physics.SyncTransforms();
         Resume();
     }
 
