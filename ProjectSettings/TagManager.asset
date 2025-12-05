@@ -30,6 +30,7 @@ TagManager:
   - UseBTN
   - TrashBTN
   - ContextMenuUI
+  - SpawnPoint
   layers:
   - Default
   - TransparentFX

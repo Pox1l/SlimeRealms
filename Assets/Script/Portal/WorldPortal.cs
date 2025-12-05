@@ -8,7 +8,7 @@ public class WorldPortal : MonoBehaviour
     public int sceneName;
 
     [Header("Ovládání")]
-    public KeyCode interactKey = KeyCode.F;
+    public KeyCode interactKey = KeyCode.E;
     public GameObject pressFHint;   // volitelné: UI text/ikonka "F"
 
     private bool playerInRange = false;
@@ -22,9 +22,7 @@ public class WorldPortal : MonoBehaviour
             pressFHint.SetActive(false);
     }
 
-    /// <summary>
-    /// Zavolej z krystalu, když má být portál odemknutý.
-    /// </summary>
+    
     public void EnablePortal()
     {
         gameObject.SetActive(true);

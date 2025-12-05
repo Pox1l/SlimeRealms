@@ -85,6 +85,7 @@ MonoBehaviour:
     - Folder
     - Button Icon
     - winbtn_mac_close_a
+    - Add-Available
     enabled: 1
   - builtinIcons: []
     customIcons: []
