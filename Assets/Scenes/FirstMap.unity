@@ -11227,6 +11227,9 @@ MonoBehaviour:
   - name: Audio
     panel: {fileID: 1044903261}
     button: {fileID: 1044903260}
+  - name: Graphics
+    panel: {fileID: 575970234}
+    button: {fileID: 855231220}
   - name: Credits
     panel: {fileID: 1044903259}
     button: {fileID: 1044903257}
@@ -24251,6 +24254,11 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 574884837}
   m_CullTransparentMesh: 1
+--- !u!1 &575970234 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 1358272460287809152, guid: ef84787c95915b746a03c2ef7c60075f, type: 3}
+  m_PrefabInstance: {fileID: 1044903256}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &585254608
 GameObject:
   m_ObjectHideFlags: 0
@@ -25081,8 +25089,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 793.8972, y: 422.61597}
-  m_SizeDelta: {x: 302.2439, y: 188.101}
+  m_AnchoredPosition: {x: 896, y: 488}
+  m_SizeDelta: {x: 126.7129, y: 94.4845}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &617945042
 MonoBehaviour:
@@ -29946,6 +29954,17 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 854455522}
   m_CullTransparentMesh: 1
+--- !u!114 &855231220 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 656369106220163448, guid: ef84787c95915b746a03c2ef7c60075f, type: 3}
+  m_PrefabInstance: {fileID: 1044903256}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4e29b1a8efbd4b44bb3f3716e73f07ff, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &867300071
 GameObject:
   m_ObjectHideFlags: 0
@@ -45934,10 +45953,6 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 1534181005}
     m_Modifications:
-    - target: {fileID: 1903672693834783135, guid: ef84787c95915b746a03c2ef7c60075f, type: 3}
-      propertyPath: m_PixelsPerUnitMultiplier
-      value: 0.1
-      objectReference: {fileID: 0}
     - target: {fileID: 5469104891327160883, guid: ef84787c95915b746a03c2ef7c60075f, type: 3}
       propertyPath: m_Name
       value: SettingsMenu
@@ -45950,10 +45965,6 @@ PrefabInstance:
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
       objectReference: {fileID: 142796338}
-    - target: {fileID: 7456294720304480634, guid: ef84787c95915b746a03c2ef7c60075f, type: 3}
-      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
-      value: 
-      objectReference: {fileID: 0}
     - target: {fileID: 9079541286722830545, guid: ef84787c95915b746a03c2ef7c60075f, type: 3}
       propertyPath: m_Pivot.x
       value: 0.5

@@ -123,6 +123,11 @@ NavMeshSettings:
     debug:
       m_Flags: 0
   m_NavMeshData: {fileID: 0}
+--- !u!1 &3975930 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 1358272460287809152, guid: ef84787c95915b746a03c2ef7c60075f, type: 3}
+  m_PrefabInstance: {fileID: 332845155054915351}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &127101540
 GameObject:
   m_ObjectHideFlags: 0
@@ -247,6 +252,9 @@ MonoBehaviour:
   - name: Audio
     panel: {fileID: 170396015}
     button: {fileID: 1030329310}
+  - name: Graphics
+    panel: {fileID: 3975930}
+    button: {fileID: 1190772974}
   - name: Credits
     panel: {fileID: 1478305553}
     button: {fileID: 1274583614}
@@ -1593,6 +1601,17 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1118934323}
   m_CullTransparentMesh: 1
+--- !u!114 &1190772974 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 656369106220163448, guid: ef84787c95915b746a03c2ef7c60075f, type: 3}
+  m_PrefabInstance: {fileID: 332845155054915351}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4e29b1a8efbd4b44bb3f3716e73f07ff, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1233482987
 GameObject:
   m_ObjectHideFlags: 0
@@ -2914,6 +2933,26 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 127101544}
     m_Modifications:
+    - target: {fileID: 4092577130705516635, guid: ef84787c95915b746a03c2ef7c60075f, type: 3}
+      propertyPath: m_AnchorMax.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4092577130705516635, guid: ef84787c95915b746a03c2ef7c60075f, type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4427284552463938368, guid: ef84787c95915b746a03c2ef7c60075f, type: 3}
+      propertyPath: m_AnchorMax.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4427284552463938368, guid: ef84787c95915b746a03c2ef7c60075f, type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5241352810348456979, guid: ef84787c95915b746a03c2ef7c60075f, type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 5469104891327160883, guid: ef84787c95915b746a03c2ef7c60075f, type: 3}
       propertyPath: m_Name
       value: SettingsMenu
@@ -2922,10 +2961,22 @@ PrefabInstance:
       propertyPath: m_IsActive
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 5790176410688433456, guid: ef84787c95915b746a03c2ef7c60075f, type: 3}
+      propertyPath: m_Size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6117906206470341853, guid: ef84787c95915b746a03c2ef7c60075f, type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 7456294720304480634, guid: ef84787c95915b746a03c2ef7c60075f, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
       objectReference: {fileID: 1498742754}
+    - target: {fileID: 7456294720304480634, guid: ef84787c95915b746a03c2ef7c60075f, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: BackToMenu
+      objectReference: {fileID: 0}
     - target: {fileID: 9079541286722830545, guid: ef84787c95915b746a03c2ef7c60075f, type: 3}
       propertyPath: m_Pivot.x
       value: 0.5
@@ -3005,6 +3056,10 @@ PrefabInstance:
     - target: {fileID: 9079541286722830545, guid: ef84787c95915b746a03c2ef7c60075f, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 9084276617870874352, guid: ef84787c95915b746a03c2ef7c60075f, type: 3}
+      propertyPath: m_Size
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
