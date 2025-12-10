@@ -265,4 +265,27 @@ public class InventoryManager : MonoBehaviour
         }
         return true;
     }
+
+
+    public void TryShowSelectedDescription(ItemSO hoveredItem)
+    {
+        // 1. Priorita Hover: Pokud je hoveredItem platný (myš je nad něčím), zobraz ho
+        if (hoveredItem != null)
+        {
+            ShowItemDescription(hoveredItem);
+            return;
+        }
+
+        // 2. Záložní Popis: Pokud myš není nad ničím (hoveredItem == null), 
+        // zkusíme ukázat popis vybraného slotu.
+        if (ItemSlot.currentSelectedSlot != null && ItemSlot.currentSelectedSlot.itemData != null)
+        {
+            ShowItemDescription(ItemSlot.currentSelectedSlot.itemData);
+        }
+        else
+        {
+            // 3. Žádný hover a žádný vybraný item: Vynulujeme popis
+            ShowItemDescription(null);
+        }
+    }
 }

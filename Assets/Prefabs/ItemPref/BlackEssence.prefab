@@ -10,7 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 980686688684943530}
   - component: {fileID: 2427098775774800664}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Sprite
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -96,7 +96,7 @@ GameObject:
   - component: {fileID: 3245845060337777103}
   - component: {fileID: 199861455518922709}
   - component: {fileID: 2698394115013080966}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: BlackEssence
   m_TagString: Untagged
   m_Icon: {fileID: 0}

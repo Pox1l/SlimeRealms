@@ -10,7 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 527558746413809678}
   - component: {fileID: 1299082681796283235}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Sprite
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -96,7 +96,7 @@ GameObject:
   - component: {fileID: 1135225825833157026}
   - component: {fileID: 9001510320407608679}
   - component: {fileID: 5161533490870764955}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: OrangeEssence
   m_TagString: Untagged
   m_Icon: {fileID: 0}

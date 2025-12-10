@@ -42,22 +42,19 @@ public class WorldPortalButtons : MonoBehaviour
     
     void OnWorldButtonClicked(int index)
     {
-        if (index < 0 || index >= worlds.Count)
-        {
-            Debug.LogWarning($"[WorldPortalButtons] Index {index} mimo rozsah.");
-            return;
-        }
+        if (index < 0 || index >= worlds.Count) return;
 
-        var entry = worlds[index];
-
-        if (entry.portalObject != null)
+        // Projde všechny svìty
+        for (int i = 0; i < worlds.Count; i++)
         {
-            entry.portalObject.SetActive(true);
-            Debug.Log($"[WorldPortalButtons] Zobrazen portál pro svìt index {index}.");
+            if (worlds[i].portalObject != null)
+            {
+                // Zapne jen ten vybraný, ostatní vypne
+                bool isActive = (i == index);
+                worlds[i].portalObject.SetActive(isActive);
+            }
         }
-        else
-        {
-            Debug.LogWarning($"[WorldPortalButtons] Svìt {index} nemá nastavený portalObject.");
-        }
+        
+        Debug.Log($"[WorldPortalButtons] Pøepnuto na svìt index {index}.");
     }
 }

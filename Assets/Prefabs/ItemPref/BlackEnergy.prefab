@@ -10,7 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 8545618611758472460}
   - component: {fileID: 3160288435552572040}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Sprite
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -96,7 +96,7 @@ GameObject:
   - component: {fileID: 1641816953793896236}
   - component: {fileID: 9207696564269819076}
   - component: {fileID: 8161843575776309318}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: BlackEnergy
   m_TagString: Untagged
   m_Icon: {fileID: 0}

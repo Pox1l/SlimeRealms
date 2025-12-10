@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 1007399095975578898}
   - component: {fileID: 1941814373232154234}
   - component: {fileID: 3850569199900506091}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: LightBrownEssence
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -135,7 +135,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1911756187618971339}
   - component: {fileID: 193833516186252809}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Sprite
   m_TagString: Untagged
   m_Icon: {fileID: 0}

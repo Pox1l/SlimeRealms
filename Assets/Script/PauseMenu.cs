@@ -69,6 +69,7 @@ public class PauseMenu : MonoBehaviour
 
     private void RefreshSceneLinks()
     {
+        // ... tvoje existující hledání hráče ...
         GameObject playerObj = GameObject.FindGameObjectWithTag("Player");
         player = playerObj != null ? playerObj.transform : null;
 
@@ -76,6 +77,21 @@ public class PauseMenu : MonoBehaviour
         currentRespawnPoint = respawnObj != null ? respawnObj.transform : null;
 
         hudObject = GameObject.FindGameObjectWithTag("HUD");
+
+        // --- NOVÉ: Hledání Settings Menu přes Tag Canvasu ---
+        if (settingsMenuRoot == null)
+        {
+            GameObject settingsCanvas = GameObject.FindGameObjectWithTag("SettingsCanvas");
+            if (settingsCanvas != null)
+            {
+                // Hledá objekt "SettingsMenu" uvnitř Canvasu
+                Transform menuTrans = settingsCanvas.transform.Find("SettingsMenu");
+                if (menuTrans != null)
+                {
+                    settingsMenuRoot = menuTrans.gameObject;
+                }
+            }
+        }
     }
 
     // --- LOGIKA ---

@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 3428418720703185363}
   - component: {fileID: 9196166561304136212}
   - component: {fileID: 1388428644232131932}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: PurpleEnergy
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -139,7 +139,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1696623456996511155}
   - component: {fileID: 8221618101779324814}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Sprite
   m_TagString: Untagged
   m_Icon: {fileID: 0}

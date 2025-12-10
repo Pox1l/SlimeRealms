@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 6174514117070993928}
   - component: {fileID: 1134974943779319398}
   - component: {fileID: 7473636567510429912}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: OrangeEnergy
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -139,7 +139,7 @@ GameObject:
   m_Component:
   - component: {fileID: 7911421857260813266}
   - component: {fileID: 9189711382990644273}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Sprite
   m_TagString: Untagged
   m_Icon: {fileID: 0}

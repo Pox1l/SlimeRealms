@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 7883382178139266358}
   - component: {fileID: 5128829098252594795}
   - component: {fileID: 8470085274827944260}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: RedEssence
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -135,7 +135,7 @@ GameObject:
   m_Component:
   - component: {fileID: 3531839602550354642}
   - component: {fileID: 2742713176718735852}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Sprite
   m_TagString: Untagged
   m_Icon: {fileID: 0}

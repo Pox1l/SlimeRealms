@@ -8,7 +8,9 @@ public class ItemSlot : MonoBehaviour,
     IBeginDragHandler,
     IDragHandler,
     IEndDragHandler,
-    IDropHandler
+    IDropHandler,
+    IPointerEnterHandler, // Přidáno pro detekci najetí myší
+    IPointerExitHandler   // Přidáno pro detekci odjetí myší
 {
     public ItemSO itemData;
     public int quantity;
@@ -22,7 +24,8 @@ public class ItemSlot : MonoBehaviour,
     private Image dragImage;
     private bool isDragging = false;
 
-    // 🔥 ODSTRANĚNO: Proměnné pro časování (lastClickTime, CLICK_COOLDOWN)
+    // Statická proměnná pro sledování, který slot je aktuálně "kliknutý" (vybraný)
+    public static ItemSlot currentSelectedSlot;
 
     private InventorySaveSystem SaveSystem
     {
@@ -104,6 +107,83 @@ public class ItemSlot : MonoBehaviour,
         UpdateUI();
     }
 
+    // --- HOVER LOGIKA (Najetí myší) ---
+
+    public void OnPointerEnter(PointerEventData eventData)
+    {
+        if (isDragging) return;
+
+        // Pokud je item platný, pošleme ho manažeru k zobrazení.
+        if (itemData != null && InventoryManager.Instance != null)
+        {
+            // Voláme TryShowSelectedDescription, aby se zohlednil i Selected Slot
+            InventoryManager.Instance.TryShowSelectedDescription(itemData);
+        }
+    }
+
+    public void OnPointerExit(PointerEventData eventData)
+    {
+        // Pošleme manažeru null, aby věděl, že už není aktivní hover.
+        // Manažer pak zkontroluje, jestli má ukázat popis vybraného slotu.
+        if (InventoryManager.Instance != null)
+        {
+            InventoryManager.Instance.TryShowSelectedDescription(null);
+        }
+    }
+
+    // --- KLIKNUTÍ (Výběr) ---
+
+    public void OnPointerClick(PointerEventData eventData)
+    {
+        if (isDragging) return;
+
+        // --- Levé tlačítko (Výběr itemu) ---
+        if (eventData.button == PointerEventData.InputButton.Left)
+        {
+            if (itemData != null)
+            {
+                SelectThisSlot();
+            }
+            else
+            {
+                // Kliknutí do prázdna zruší výběr
+                if (InventoryManager.Instance != null)
+                {
+                    InventoryManager.Instance.DeselectAllSlots();
+                    InventoryManager.Instance.ShowItemDescription(null);
+                }
+                currentSelectedSlot = null;
+            }
+        }
+
+        // --- Pravé tlačítko (Kontextové Menu) ---
+        if (eventData.button == PointerEventData.InputButton.Right && itemData != null)
+        {
+            if (InventoryManager.Instance.contextMenu != null)
+            {
+                InventoryManager.Instance.contextMenu.OpenMenu(this, eventData.position);
+            }
+            else
+            {
+                Debug.LogWarning("Není přiřazeno ContextMenu v InventoryManageru!");
+            }
+        }
+    }
+
+    // Pomocná metoda pro označení tohoto slotu
+    private void SelectThisSlot()
+    {
+        if (InventoryManager.Instance != null)
+        {
+            InventoryManager.Instance.DeselectAllSlots(); // Zhasne starý
+                                                          // Nyní voláme přímo ShowItemDescription, protože jsme klikli
+            InventoryManager.Instance.ShowItemDescription(itemData);
+        }
+
+        currentSelectedSlot = this; // Nastaví tento jako aktuální
+        if (selectedShader) selectedShader.SetActive(true); // Rozsvítí tento
+    }
+
     // --- DRAG AND DROP ---
 
     public void OnBeginDrag(PointerEventData eventData)
@@ -112,6 +192,7 @@ public class ItemSlot : MonoBehaviour,
 
         isDragging = true;
 
+        // Vytvoření ikonky pro tažení
         dragIcon = new GameObject("DragIcon");
         dragIcon.transform.SetParent(parentCanvas.transform, false);
         dragIcon.transform.SetAsLastSibling();
@@ -150,6 +231,7 @@ public class ItemSlot : MonoBehaviour,
         {
             if (draggedSlot.itemData == itemData && itemData != null)
             {
+                // Stohování (Stacking)
                 int leftover = AddItem(itemData, draggedSlot.quantity);
                 if (leftover <= 0) draggedSlot.ClearSlot();
                 else { draggedSlot.quantity = leftover; draggedSlot.UpdateUI(); }
@@ -157,8 +239,17 @@ public class ItemSlot : MonoBehaviour,
             }
             else
             {
+                // Prohození (Swapping)
                 SwapItems(draggedSlot);
                 changed = true;
+            }
+
+            // --- KLÍČOVÁ ZMĚNA: Přesun výběru na nový slot ---
+            // Po dokončení dropu chceme, aby byl vybraný TENTO slot (kam jsme item pustili),
+            // nikoliv ten starý (odkud jsme ho vzali).
+            if (this.itemData != null)
+            {
+                SelectThisSlot();
             }
         }
 
@@ -180,37 +271,5 @@ public class ItemSlot : MonoBehaviour,
         this.itemData = tempData;
         this.quantity = tempQuantity;
         this.UpdateUI();
-    }
-
-    public void OnPointerClick(PointerEventData eventData)
-    {
-        if (isDragging) return;
-
-        // 🔥 ODSTRANĚNO: Kontrola času (cooldown) je pryč.
-
-        // --- Levé tlačítko (Info) ---
-        if (eventData.button == PointerEventData.InputButton.Left && itemData != null)
-        {
-            if (InventoryManager.Instance != null)
-            {
-                InventoryManager.Instance.DeselectAllSlots();
-                InventoryManager.Instance.ShowItemDescription(itemData);
-            }
-            if (selectedShader) selectedShader.SetActive(true);
-        }
-
-        // --- Pravé tlačítko (Kontextové Menu) ---
-        if (eventData.button == PointerEventData.InputButton.Right && itemData != null)
-        {
-            // Místo přímého smazání zavoláme menu
-            if (InventoryManager.Instance.contextMenu != null)
-            {
-                InventoryManager.Instance.contextMenu.OpenMenu(this, eventData.position);
-            }
-            else
-            {
-                Debug.LogWarning("Není přiřazeno ContextMenu v InventoryManageru!");
-            }
-        }
     }
 }

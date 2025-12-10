@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 4605278823363231623}
   - component: {fileID: 8610714814841174344}
   - component: {fileID: 6789066888506891675}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: PurpleEssence
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -135,7 +135,7 @@ GameObject:
   m_Component:
   - component: {fileID: 6516480952941216565}
   - component: {fileID: 3388941133099122051}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Sprite
   m_TagString: Untagged
   m_Icon: {fileID: 0}

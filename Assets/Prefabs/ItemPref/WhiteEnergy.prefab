@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 5262346288899038113}
   - component: {fileID: 3727408752678813919}
   - component: {fileID: 8721416773922688970}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: WhiteEnergy
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -139,7 +139,7 @@ GameObject:
   m_Component:
   - component: {fileID: 693921435051304703}
   - component: {fileID: 2150460539577464147}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Sprite
   m_TagString: Untagged
   m_Icon: {fileID: 0}

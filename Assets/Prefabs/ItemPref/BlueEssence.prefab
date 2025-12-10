@@ -10,7 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2675622335968100854}
   - component: {fileID: 1264641338256969861}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Sprite
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -96,7 +96,7 @@ GameObject:
   - component: {fileID: 6839108897879109711}
   - component: {fileID: 6824496083322835417}
   - component: {fileID: 2618370060243157823}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: BlueEssence
   m_TagString: Untagged
   m_Icon: {fileID: 0}

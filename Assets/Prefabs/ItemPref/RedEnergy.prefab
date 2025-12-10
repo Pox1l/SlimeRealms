@@ -10,7 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1877401978357171489}
   - component: {fileID: 3165401835885660437}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Sprite
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -96,7 +96,7 @@ GameObject:
   - component: {fileID: 4270436035225272358}
   - component: {fileID: 6779146846683142173}
   - component: {fileID: 1887123992487770709}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: RedEnergy
   m_TagString: Untagged
   m_Icon: {fileID: 0}

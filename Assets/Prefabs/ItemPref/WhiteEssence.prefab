@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 946016148913728542}
   - component: {fileID: 350805131324344974}
   - component: {fileID: 1096366000658212661}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: WhiteEssence
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -135,7 +135,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2245312905029553455}
   - component: {fileID: 8421308707835333044}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Sprite
   m_TagString: Untagged
   m_Icon: {fileID: 0}

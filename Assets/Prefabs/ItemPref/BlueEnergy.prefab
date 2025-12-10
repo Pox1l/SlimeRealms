@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 9003937799116826704}
   - component: {fileID: 4930623166630062357}
   - component: {fileID: 6858385219127087641}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: BlueEnergy
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -139,7 +139,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4461201574839701068}
   - component: {fileID: 8528931767554019384}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Sprite
   m_TagString: Untagged
   m_Icon: {fileID: 0}

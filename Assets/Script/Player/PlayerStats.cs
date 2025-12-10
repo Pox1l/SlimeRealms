@@ -26,6 +26,7 @@ public class PlayerStats : MonoBehaviour
 
     public event Action<int, int> OnHealthChanged;
     public event Action<float, float> OnStaminaChanged;
+    public event Action OnPlayerDied;
 
     void Awake()
     {
@@ -183,5 +184,6 @@ public class PlayerStats : MonoBehaviour
     void Die()
     {
         Debug.Log("💀 Player died!");
+        OnPlayerDied?.Invoke();
     }
 }
