@@ -16,6 +16,8 @@ GameObject:
   - component: {fileID: 8682706519647823341}
   - component: {fileID: -5526613953819479784}
   - component: {fileID: -2064030628594117553}
+  - component: {fileID: -5495240755244230755}
+  - component: {fileID: -3857066571548272842}
   - component: {fileID: 966053362295468990}
   - component: {fileID: 2635704366347227802}
   - component: {fileID: 6112605835053429561}
@@ -128,8 +130,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   moveSpeed: 2
-  aggroRange: 5
   stopDistance: 0.1
+  aggroRange: 5
+  chaseRange: 15
 --- !u!114 &4687556093294850022
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -185,6 +188,33 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 102a5f77063164446ac13f4d865b1243, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &-5495240755244230755
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8358661566486495768}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d3bb71a4513a6c04c8f79435bee0f645, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  whiteMaterial: {fileID: 2100000, guid: 56b8777d761ed334481a528a89f9075a, type: 2}
+--- !u!114 &-3857066571548272842
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8358661566486495768}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 84ec88af42713ba4b9b11faed005923d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  knockbackForce: 10
+  knockbackTime: 0.2
 --- !u!50 &966053362295468990
 Rigidbody2D:
   serializedVersion: 4

@@ -15,6 +15,11 @@ public class PlayerDataManager : MonoBehaviour
         if (Instance == null)
         {
             Instance = this;
+
+            if (transform.parent != null)
+            {
+                transform.SetParent(null);
+            }
             DontDestroyOnLoad(gameObject);
             savePath = Path.Combine(Application.persistentDataPath, "player_save.json");
             LoadPlayerData();

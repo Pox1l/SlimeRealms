@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
+using MoreMountains.Feedbacks;
 
 public class PlayerMovement : MonoBehaviour
 {
@@ -15,6 +16,8 @@ public class PlayerMovement : MonoBehaviour
     private Vector2 movement;
     private bool isDashing = false;
 
+    public MMF_Player dashFeedback;
+
     // ❌ Energy proměnné smazány (řeší PlayerStats)
 
     [Header("Animation")]
@@ -23,7 +26,7 @@ public class PlayerMovement : MonoBehaviour
     void Awake()
     {
         rb = GetComponent<Rigidbody2D>();
-        animator = GetComponent<Animator>();
+        animator = GetComponentInChildren<Animator>();
     }
 
     // ❌ Start smazán (řeší PlayerStats)
@@ -70,6 +73,11 @@ public class PlayerMovement : MonoBehaviour
         rb.velocity = movement * dashSpeed;
 
         yield return new WaitForSeconds(dashDuration);
+
+        if (dashFeedback != null)
+        {
+            dashFeedback.PlayFeedbacks();
+        }
 
         isDashing = false;
         rb.velocity = Vector2.zero;

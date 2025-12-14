@@ -1,63 +1,101 @@
 ﻿using UnityEngine;
-using UnityEngine.SceneManagement; // 🔥 NUTNÉ PRO NAČÍTÁNÍ SCÉN
+using UnityEngine.SceneManagement;
+using System.Collections; // 🔥 NUTNÉ PRO COROUTINES (IEnumerator)
 
 public class DeathUIManager : MonoBehaviour
 {
-    // Odkaz na váš Canvas DeadUI (přetáhnete v Inspectoru)
+    // Odkaz na celý objekt Canvasu
     public GameObject deadUICanvas;
 
-    // 🔥 NOVÁ PROMĚNNÁ: Index scény, kterou chcete znovu načíst
+    // 🔥 NOVÉ: Odkaz na CanvasGroup pro ovládání průhlednosti
+    public CanvasGroup uiCanvasGroup;
+
+    // 🔥 NOVÉ: Jak dlouho trvá, než se UI plně objeví (v sekundách)
+    public float fadeDuration = 1.5f;
+
     public int sceneToReloadIndex = 1;
 
     void Start()
     {
-        // Zajistí, že UI je na začátku hry skryté
         deadUICanvas.SetActive(false);
-
-        // Přihlásí se k odběru události smrti hráče
         PlayerStats.Instance.OnPlayerDied += ShowDeathUI;
+
+        // Pokud zapomeneš přiřadit CanvasGroup v Inspectoru, zkusíme ho najít sami
+        if (uiCanvasGroup == null && deadUICanvas != null)
+        {
+            uiCanvasGroup = deadUICanvas.GetComponent<CanvasGroup>();
+        }
     }
 
     private void OnDestroy()
     {
-        // Odhlášení při zničení objektu je důležité
         if (PlayerStats.Instance != null)
         {
             PlayerStats.Instance.OnPlayerDied -= ShowDeathUI;
         }
     }
 
-    // Tato metoda se zavolá, když hráč zemře
     private void ShowDeathUI()
     {
+        // 1. Aktivujeme objekt
         deadUICanvas.SetActive(true);
-        // Zastaví hru, aby hráč nemohl hýbat pozadím
+
+        // 2. Nastavíme ho jako průhledný a neklikatelný na začátek
+        if (uiCanvasGroup != null)
+        {
+            uiCanvasGroup.alpha = 0f;
+            uiCanvasGroup.interactable = false; // Aby nešlo klikat, dokud se neobjeví
+        }
+
+        // 3. Zastavíme hru (fyziku a pohyb)
         Time.timeScale = 0f;
+
+        // 4. Spustíme animaci (fade in)
+        // Musíme použít StartCoroutine, protože chceme, aby se to dělo postupně
+        StartCoroutine(FadeInUI());
     }
 
-    // --- FUNKCE PRO TLAČÍTKA ---
-
-    /// <summary>
-    /// Znovu načte scénu (Respawn/Restart).
-    /// </summary>
-    public void RespawnButton() // 🔥 PŘEJMENOVÁNO Z RestartGame
+    // 🔥 TOTO JE TA ANIMACE
+    IEnumerator FadeInUI()
     {
-        // 1. Obnovíme čas
-        Time.timeScale = 1f;
+        float timer = 0f;
 
-        // 2. Načteme scénu s indexem 1 (musíte ji mít přidanou v Build Settings)
-        // Použijte SceneManager.GetActiveScene().buildIndex pro načtení aktuální scény.
-        // SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+        while (timer < fadeDuration)
+        {
+            // Přičítáme čas. POZOR: Používáme unscaledDeltaTime, 
+            // protože Time.timeScale je 0 (hra stojí), ale my chceme animovat.
+            timer += Time.unscaledDeltaTime;
+
+            // Vypočítáme průhlednost (číslo mezi 0 a 1)
+            float alpha = Mathf.Clamp01(timer / fadeDuration);
+
+            if (uiCanvasGroup != null)
+            {
+                uiCanvasGroup.alpha = alpha;
+            }
+
+            // Čekáme na další snímek
+            yield return null;
+        }
+
+        // Na konci pojistíme, že je to plně viditelné a klikatelné
+        if (uiCanvasGroup != null)
+        {
+            uiCanvasGroup.alpha = 1f;
+            uiCanvasGroup.interactable = true;
+            uiCanvasGroup.blocksRaycasts = true;
+        }
+    }
+
+    public void RespawnButton()
+    {
+        Time.timeScale = 1f;
         SceneManager.LoadScene(sceneToReloadIndex);
     }
 
-    /// <summary>
-    /// Ukončí aplikaci.
-    /// </summary>
     public void QuitButton()
     {
         Debug.Log("QUIT GAME");
-        // Funguje jen ve buildnuté aplikaci, v Editoru se ignoruje.
         Application.Quit();
     }
 }

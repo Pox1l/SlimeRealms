@@ -12,8 +12,8 @@ GameObject:
   - component: {fileID: 1918160573792811788}
   - component: {fileID: 878947402744831093}
   - component: {fileID: 7768095468137286597}
-  - component: {fileID: 6250642921047894024}
   - component: {fileID: 836386338017622372}
+  - component: {fileID: 6041279138392753872}
   - component: {fileID: 5759734642991943481}
   - component: {fileID: 7225794366266864836}
   - component: {fileID: 1085101271164614916}
@@ -126,21 +126,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   moveSpeed: 2
-  aggroRange: 5
   stopDistance: 0.1
---- !u!114 &6250642921047894024
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 279834249153522685}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: cefa7376abde36348a032c2eafd9aa94, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  maxHealth: 20
+  aggroRange: 5
+  chaseRange: 15
 --- !u!114 &836386338017622372
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -157,6 +145,20 @@ MonoBehaviour:
   essenceAmount: 1
   energyPrefab: {fileID: 4849289567423855763, guid: 8f780771b7ec624449f8872fe9319e4e, type: 3}
   energyAmount: 1
+--- !u!114 &6041279138392753872
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 279834249153522685}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 144719ea3d6d25a4da50b3348e1d4ab3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  maxHealth: 500
+  currentHealth: 0
 --- !u!50 &5759734642991943481
 Rigidbody2D:
   serializedVersion: 4
@@ -216,7 +218,7 @@ BoxCollider2D:
   m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 0, y: -0.45}
+  m_Offset: {x: 0, y: -0.48172915}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
@@ -227,7 +229,7 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 2.5, y: 1}
+  m_Size: {x: 2.5, y: 1.0634582}
   m_EdgeRadius: 0
 --- !u!70 &1085101271164614916
 CapsuleCollider2D:
@@ -261,8 +263,8 @@ CapsuleCollider2D:
   m_IsTrigger: 1
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: -0.05, y: -0.3}
-  m_Size: {x: 2.8, y: 1.7}
+  m_Offset: {x: -0.049999975, y: -0.14928867}
+  m_Size: {x: 2.8000004, y: 2.2552557}
   m_Direction: 1
 --- !u!195 &4062522509965055406
 NavMeshAgent:

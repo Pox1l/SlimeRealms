@@ -27,11 +27,19 @@ public class PlayerStats : MonoBehaviour
     public event Action<int, int> OnHealthChanged;
     public event Action<float, float> OnStaminaChanged;
     public event Action OnPlayerDied;
+    //public Animator spriteAnimator;
 
     void Awake()
     {
         if (Instance == null) Instance = this;
         else Destroy(gameObject);
+
+        /*
+        if (spriteAnimator == null)
+        {
+            spriteAnimator = GetComponentInChildren<Animator>();
+        }
+        */
     }
 
     void Start()
@@ -184,6 +192,14 @@ public class PlayerStats : MonoBehaviour
     void Die()
     {
         Debug.Log("💀 Player died!");
+
+        /*
+        if (spriteAnimator != null)
+        {
+            // Ujisti se, že v Animatoru máš Trigger pojmenovaný "Die"
+            spriteAnimator.SetTrigger("Die");
+        }
+        */
         OnPlayerDied?.Invoke();
     }
 }

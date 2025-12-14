@@ -10,10 +10,16 @@ public class EnemyHealth : MonoBehaviour
     public event Action OnDeath;
 
     private EnemyDrop drop;
+    private EnemyController controller; 
+    private DamageFlash damageFlash;
+    private EnemyKnockback knockback;
 
     void Awake()
     {
         drop = GetComponent<EnemyDrop>();
+        controller = GetComponent<EnemyController>(); 
+        damageFlash = GetComponent<DamageFlash>();
+        knockback = GetComponent<EnemyKnockback>();
     }
 
     void OnEnable()
@@ -23,18 +29,35 @@ public class EnemyHealth : MonoBehaviour
 
     public void TakeDamage(int damage)
     {
-        if (currentHealth <= 0) return; // už je mrtvý, ignoruj další dmg
+        if (currentHealth <= 0) return;
 
         currentHealth -= damage;
 
+        
+        if (damageFlash != null)
+        {
+            damageFlash.Flash();
+        }
+
+        if (knockback != null)
+        {
+            knockback.PlayKnockback();
+        }
+            
+
+       
         if (currentHealth <= 0)
         {
-            // 💥 Drop JEDNOU
-            if (drop != null)
-                drop.DropLoot();
-
-            // 🔔 Dá signál “umřel”
-            OnDeath?.Invoke();
+            if (drop != null) drop.DropLoot();
+            OnDeath?.Invoke(); 
+            // OnDeath.Invoke(); 
+        }
+        else
+        {
+            if (controller != null)
+            {
+                controller.OnHitAggro();
+            }
         }
     }
-}
+    }

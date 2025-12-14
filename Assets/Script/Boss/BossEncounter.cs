@@ -7,27 +7,38 @@ public class BossEncounter : MonoBehaviour
     public GameObject bossPrefab;
     public Transform spawnPoint;
     public float startDelay = 0.5f;
+    public bool bossDefeated = false; // Pokud true, boss už se neobjeví
 
     [Header("Propojení")]
     public PixelCameraZoomer cameraZoomer;
 
-    private bool hasTriggered = false;
+    // Interní proměnné pro Pool
+    private ObjectPool pool;
+    private GameObject activeBoss;
+    private Coroutine spawnCoroutine;
+    private bool playerInside = false;
+
+    void Awake()
+    {
+        // Inicializace Poolu - stačí nám 1 boss (prewarm 1)
+        // Předpokládám, že máš třídu ObjectPool definovanou stejně jako v předchozím příkladu
+        pool = new ObjectPool(bossPrefab, 1, transform);
+    }
 
     void OnTriggerEnter2D(Collider2D other)
     {
         if (!other.CompareTag("Player")) return;
 
-        // 1. Vždy oddálit kameru při vstupu (i když se vrátíš později)
-        if (cameraZoomer != null)
-        {
-            cameraZoomer.ZoomToCombat();
-        }
+        playerInside = true;
 
-        // 2. Pokud boss ještě nebyl, spustíme spawn sekvenci
-        if (!hasTriggered)
+        // 1. Zoom kamery
+        if (cameraZoomer != null) cameraZoomer.ZoomToCombat();
+
+        // 2. Spawn sekvence (pokud boss žije a není zrovna aktivní)
+        if (!bossDefeated && activeBoss == null)
         {
-            hasTriggered = true;
-            StartCoroutine(SpawnSequence());
+            if (spawnCoroutine != null) StopCoroutine(spawnCoroutine);
+            spawnCoroutine = StartCoroutine(SpawnSequence());
         }
     }
 
@@ -35,24 +46,82 @@ public class BossEncounter : MonoBehaviour
     {
         if (!other.CompareTag("Player")) return;
 
-        // 3. Při odchodu vrátit kameru do normálu
-        if (cameraZoomer != null)
+        playerInside = false;
+
+        // 3. Zoom zpět
+        if (cameraZoomer != null) cameraZoomer.ZoomToNormal();
+
+        // 4. Reset boje - Boss zmizí (vrátí se do poolu), pokud jsi ho nezabil
+        if (activeBoss != null)
         {
-            cameraZoomer.ZoomToNormal();
+            DespawnBoss();
         }
     }
 
     IEnumerator SpawnSequence()
     {
-        // Čekáme jen na spawn bosse, kamera už jede hned po vstupu
         yield return new WaitForSeconds(startDelay);
 
-        if (bossPrefab != null && spawnPoint != null)
+        // Pojistka: Hráč mohl během delaye odejít
+        if (playerInside && activeBoss == null && !bossDefeated)
         {
-            Instantiate(bossPrefab, spawnPoint.position, Quaternion.identity);
-            Debug.Log("Boss spawned!");
+            SpawnBoss();
+        }
+    }
+
+    void SpawnBoss()
+    {
+        activeBoss = pool.Get();
+
+        // Nastavení pozice
+        Vector3 finalPos = (spawnPoint != null) ? spawnPoint.position : transform.position;
+        var agent = activeBoss.GetComponent<UnityEngine.AI.NavMeshAgent>();
+        if (agent != null) agent.Warp(finalPos);
+        else activeBoss.transform.position = finalPos;
+
+        // 🔥 OPRAVA: Hledáme ReturnToPoolBoss, ne ReturnToPoolOnDeath
+        var ret = activeBoss.GetComponent<ReturnToPoolBoss>();
+        if (ret != null)
+        {
+            // Inicializujeme pool
+            ret.Init(pool, OnBossReturned);
         }
 
-        // ❌ Tady jsem smazal vypnutí collideru, aby fungoval Exit
+        Debug.Log("👹 Boss Spawned z Poolu!");
+    }
+
+    void DespawnBoss()
+    {
+        if (activeBoss != null && activeBoss.activeSelf)
+        {
+            // 🔥 OPRAVA: Zase hledáme ReturnToPoolBoss
+            var ret = activeBoss.GetComponent<ReturnToPoolBoss>();
+            if (ret != null)
+            {
+                ret.ForceReturn();
+            }
+            else
+            {
+                activeBoss.SetActive(false);
+            }
+        }
+    }
+
+    // Callback volaný z ReturnToPoolOnDeath
+    void OnBossReturned()
+    {
+        activeBoss = null;
+    }
+
+    // 🔥 Tuto metodu zavolej ze skriptu Bosse (z jeho metody Die), když opravdu umře
+    public void SetBossDefeated()
+    {
+        bossDefeated = true;
+
+        // Pokud chceš, aby po smrti rovnou zmizel (nebo nechal mrtvolu a zmizel až odejdeš),
+        // upravuje se to v ReturnToPoolOnDeath na bossovi.
+
+        if (cameraZoomer != null) cameraZoomer.ZoomToNormal();
+        Debug.Log("🏆 Boss poražen navždy!");
     }
 }

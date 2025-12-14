@@ -10,10 +10,13 @@ public class EnemyController : MonoBehaviour
 
     [Header("Movement")]
     [SerializeField] private float moveSpeed = 2f;
-    [SerializeField] private float aggroRange = 5f;
-    [SerializeField] private float stopDistance = 0.1f; // tolerance pro zastavení u cíle
+    [SerializeField] private float stopDistance = 0.1f;
 
-    // "domov" enemáka – kam se vrací, když nevidí hráče
+    [Header("Aggro Settings")]
+    [SerializeField] private float aggroRange = 5f;   // Kdy si hráče všimne sám
+    [SerializeField] private float chaseRange = 15f;  // Jak daleko pronásleduje, když je naštvaný
+
+    private float currentDetectionRange; // Aktuální dosah (mění se)
     private Vector3 homePosition;
 
     void Awake()
@@ -21,34 +24,33 @@ public class EnemyController : MonoBehaviour
         agent = GetComponent<NavMeshAgent>();
         animator = GetComponent<Animator>();
 
-        // Důležité pro 2D (NavMeshPlus)
-        agent.updateRotation = false; // neotáčí objekt kolem Z
-        agent.updateUpAxis = false;   // ignoruje osu Y jako "nahoru"
+        agent.updateRotation = false;
+        agent.updateUpAxis = false;
         agent.speed = moveSpeed;
+
+        currentDetectionRange = aggroRange; // Začínáme s normálním dosahem
 
         FindPlayer();
     }
 
     void OnEnable()
     {
-        if (agent != null)
+        
+        if (agent != null && agent.isActiveAndEnabled && agent.isOnNavMesh)
+        {
             agent.ResetPath();
+        }
 
-        // pojistka: pokud by spawner náhodou nezavolal SetHomePosition,
-        // tak aspoň vezmeme aktuální pozici
-        if (homePosition == Vector3.zero)
-            homePosition = transform.position;
+        if (homePosition == Vector3.zero) homePosition = transform.position;
+        currentDetectionRange = aggroRange;
     }
 
-    void OnDisable()
+    // Tuto metodu volá EnemyHealth při zásahu
+    public void OnHitAggro()
     {
-        if (agent != null)
-            agent.ResetPath();
+        currentDetectionRange = chaseRange; // Zvětšíme dosah -> naštve se
     }
 
-    /// <summary>
-    /// Nastaví domovskou pozici enemáka (volá spawner po spawnutí).
-    /// </summary>
     public void SetHomePosition(Vector3 position)
     {
         homePosition = position;
@@ -56,6 +58,13 @@ public class EnemyController : MonoBehaviour
 
     void Update()
     {
+        // 🔥 OPRAVA: Pokud je Agent vypnutý (děje se Knockback), nic neděláme a čekáme
+        if (agent == null || !agent.enabled || !agent.isOnNavMesh)
+        {
+            return;
+        }
+
+        // --- ZBYTEK TVÉHO PŮVODNÍHO KÓDU ---
         if (player == null)
         {
             FindPlayer();
@@ -67,14 +76,17 @@ public class EnemyController : MonoBehaviour
 
         Vector3 targetPosition;
 
-        if (distanceToPlayer <= aggroRange)
+        // Používáme dynamický 'currentDetectionRange'
+        if (distanceToPlayer <= currentDetectionRange)
         {
-            // Jdeme za hráčem
+            // --- Jdeme za hráčem ---
             targetPosition = player.position;
         }
         else
         {
-            // Vracíme se domů
+            // --- Hráč utekl moc daleko -> Vracíme se domů ---
+            currentDetectionRange = aggroRange;
+
             if (distanceToHome <= stopDistance)
             {
                 agent.ResetPath();
@@ -85,6 +97,7 @@ public class EnemyController : MonoBehaviour
             targetPosition = homePosition;
         }
 
+        // Pohyb
         if (Vector2.Distance(transform.position, targetPosition) > stopDistance)
         {
             agent.SetDestination(targetPosition);
@@ -94,7 +107,7 @@ public class EnemyController : MonoBehaviour
             agent.ResetPath();
         }
 
-        // Animace podle rychlosti agenta
+        // Animace
         Vector2 velocity2D = new Vector2(agent.velocity.x, agent.velocity.y);
         SetAnimator(velocity2D);
     }
@@ -102,16 +115,12 @@ public class EnemyController : MonoBehaviour
     void FindPlayer()
     {
         GameObject playerObj = GameObject.FindGameObjectWithTag("Player");
-        if (playerObj != null)
-        {
-            player = playerObj.transform;
-        }
+        if (playerObj != null) player = playerObj.transform;
     }
 
     void SetAnimator(Vector2 dir)
     {
         if (animator == null) return;
-
         animator.SetFloat("Horizontal", dir.x);
         animator.SetFloat("Vertical", dir.y);
         animator.SetFloat("Speed", dir.magnitude);
@@ -119,7 +128,12 @@ public class EnemyController : MonoBehaviour
 
     void OnDrawGizmosSelected()
     {
+        // Červeně: Kdy si všimne hráče (normálně)
         Gizmos.color = Color.red;
         Gizmos.DrawWireSphere(transform.position, aggroRange);
+
+        // Žlutě: Kam až pronásleduje po hitu
+        Gizmos.color = Color.yellow;
+        Gizmos.DrawWireSphere(transform.position, chaseRange);
     }
 }

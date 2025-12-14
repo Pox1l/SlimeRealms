@@ -88,6 +88,7 @@ MonoBehaviour:
     - Add-Available
     - AreaEffector2D Icon
     - PrefabVariant On Icon
+    - CharacterJoint Icon
     enabled: 1
   - builtinIcons: []
     customIcons: []

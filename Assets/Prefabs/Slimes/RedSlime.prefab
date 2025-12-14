@@ -16,6 +16,8 @@ GameObject:
   - component: {fileID: 243386196141240590}
   - component: {fileID: 6209665085069885751}
   - component: {fileID: 6327520784503675405}
+  - component: {fileID: 6362774965327158452}
+  - component: {fileID: 7014068913600269260}
   - component: {fileID: 6237546715362677966}
   - component: {fileID: 4445924577189890180}
   - component: {fileID: 696396388832941272}
@@ -128,8 +130,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   moveSpeed: 2
-  aggroRange: 5
   stopDistance: 0.1
+  aggroRange: 5
+  chaseRange: 15
 --- !u!114 &65482464123432935
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -185,6 +188,33 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 102a5f77063164446ac13f4d865b1243, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &6362774965327158452
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9167260658212646342}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d3bb71a4513a6c04c8f79435bee0f645, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  whiteMaterial: {fileID: 2100000, guid: 56b8777d761ed334481a528a89f9075a, type: 2}
+--- !u!114 &7014068913600269260
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9167260658212646342}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 84ec88af42713ba4b9b11faed005923d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  knockbackForce: 5
+  knockbackTime: 0.2
 --- !u!50 &6237546715362677966
 Rigidbody2D:
   serializedVersion: 4
@@ -200,7 +230,7 @@ Rigidbody2D:
   m_Mass: 1
   m_LinearDrag: 0
   m_AngularDrag: 0.05
-  m_GravityScale: 1
+  m_GravityScale: 0
   m_Material: {fileID: 0}
   m_IncludeLayers:
     serializedVersion: 2

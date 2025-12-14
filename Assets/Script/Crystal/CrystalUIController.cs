@@ -6,7 +6,6 @@ using System.IO;
 
 public class CrystalUIController : MonoBehaviour
 {
-    // --- DATOVÉ TŘÍDY (Stejný styl jako InventorySlotData) ---
 
     [System.Serializable]
     public class Requirement
@@ -20,7 +19,6 @@ public class CrystalUIController : MonoBehaviour
     {
         public string stageName = "Stage";
         public List<Requirement> requirements = new List<Requirement>();
-        // TLAČÍTKA SVĚTŮ, které se po opravě této stage povolí
         public List<Button> worldButtonsToEnable = new List<Button>();
     }
 
@@ -30,11 +28,10 @@ public class CrystalUIController : MonoBehaviour
         public int savedStageIndex;
     }
 
-    // --- REFERENCE ---
 
     [Header("References")]
     public InventoryManager inventoryManager;
-    public CrystalVisualController visualController; // 🔥 Vizuál
+    public CrystalVisualController visualController; 
     public GameObject mainPanel;
 
     [Header("UI – požadavky")]
@@ -45,17 +42,16 @@ public class CrystalUIController : MonoBehaviour
     [Header("Stages")]
     public List<CrystalStage> stages = new List<CrystalStage>();
 
-    // --- PROMĚNNÉ ---
 
     private int currentStage = 0;
     private string saveFilePath;
 
-    // --- HLAVNÍ METODY (Podle vzoru InventorySaveSystem) ---
+    private int totalStages;
 
     void Awake()
     {
-        // 1. Nastavení cesty (stejně jako v InventorySaveSystem)
         saveFilePath = Path.Combine(Application.persistentDataPath, "crystal_save.json");
+        totalStages = stages.Count;
     }
 
     void Start()
@@ -63,14 +59,11 @@ public class CrystalUIController : MonoBehaviour
         if (mainPanel != null)
             mainPanel.SetActive(false);
 
-        // 2. Automatické načtení při startu
         LoadCrystalData();
 
-        // 3. Inicializace UI podle načtených dat
         LockAllWorldButtons();
         UnlockCompletedStages();
 
-        // Nastavení vizuálu hned po startu
         if (visualController != null) visualController.UpdateVisuals(currentStage);
 
         RefreshStageUI();
@@ -78,7 +71,8 @@ public class CrystalUIController : MonoBehaviour
 
     void Update()
     {
-        // 🛠 Debug klávesy jako v InventorySaveSystem
+        /*
+        
         if (Input.GetKeyDown(KeyCode.F5))
         {
             SaveCrystalData();
@@ -89,16 +83,23 @@ public class CrystalUIController : MonoBehaviour
             LoadCrystalData();
             RefreshStageUI();
             if (visualController != null) visualController.UpdateVisuals(currentStage);
-        }
+        }*/
+    }
+    public float GetRepairPercentage()
+    {
+        if (totalStages == 0) return 100f; // Pokud nemáme žádné etapy, považujeme to za dokončené
+
+        // currentStage je index další etapy (po dokončení poslední etapy je roven totalStages)
+        float percentage = ((float)currentStage / totalStages) * 100f;
+        return Mathf.Min(percentage, 100f); // Zajistí, že nikdy nepřesáhneme 100%
     }
 
-    // 4. Automatické uložení při vypnutí hry
+    
     private void OnApplicationQuit()
     {
         SaveCrystalData();
     }
 
-    // --- SAVE & LOAD SYSTÉM (Kopie stylu Inventory) ---
 
     public void SaveCrystalData()
     {
@@ -129,7 +130,6 @@ public class CrystalUIController : MonoBehaviour
         Debug.Log("📦 Crystal loaded! Stage: " + currentStage);
     }
 
-    // --- UI LOGIKA (Původní funkčnost zachována) ---
 
     void LockAllWorldButtons()
     {

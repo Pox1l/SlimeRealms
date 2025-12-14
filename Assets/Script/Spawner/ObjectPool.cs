@@ -22,13 +22,15 @@ public class ObjectPool
 
     public GameObject Get()
     {
+        // Pokud nemáme žádné volné, vyrobíme nový a rovnou ho vrátíme (nemusíme ho dávat do Stacku)
         if (free.Count == 0)
         {
             GameObject extra = Object.Instantiate(prefab, parent);
-            extra.SetActive(false);
-            free.Push(extra);
+            extra.SetActive(true); // Zapneme ho
+            return extra;
         }
 
+        // Pokud máme volné, vezmeme ho ze Stacku
         GameObject obj = free.Pop();
         obj.SetActive(true);
         return obj;

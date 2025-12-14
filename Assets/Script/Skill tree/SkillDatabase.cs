@@ -17,13 +17,14 @@ public class SkillDatabase : MonoBehaviour
         if (Instance == null)
         {
             Instance = this;
+
+            if (transform.parent != null)
+            {
+                transform.SetParent(null);
+            }
             DontDestroyOnLoad(gameObject);
             savePath = Path.Combine(Application.persistentDataPath, "skills_save.json");
-
-            // 1. NEJDŘÍV VŠE VYNULOVAT (Důležité pro tvůj požadavek)
             ResetAllSkills();
-
-            // 2. PAK TEPRVE NAČÍST Z JSONU
             LoadSkills();
         }
         else
@@ -82,7 +83,11 @@ public class SkillDatabase : MonoBehaviour
     // --- SAVE SYSTEM ---
 
     [System.Serializable]
-    class SkillSaveData { public int id; public int level; }
+    class SkillSaveData { 
+        public int id;
+        public string skillName;
+        public int level;
+    }
     [System.Serializable]
     class SaveList { public List<SkillSaveData> skills = new List<SkillSaveData>(); }
 
@@ -90,7 +95,11 @@ public class SkillDatabase : MonoBehaviour
     {
         SaveList saveList = new SaveList();
         foreach (var skill in allSkills)
-            saveList.skills.Add(new SkillSaveData { id = skill.id, level = skill.currentLevel });
+            saveList.skills.Add(new SkillSaveData {
+                id = skill.id,
+                skillName = skill.skillName,
+                level = skill.currentLevel
+            });
 
         File.WriteAllText(savePath, JsonUtility.ToJson(saveList, true));
     }
