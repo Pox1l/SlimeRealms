@@ -14,6 +14,9 @@ GameObject:
   - component: {fileID: 7768095468137286597}
   - component: {fileID: 836386338017622372}
   - component: {fileID: 6041279138392753872}
+  - component: {fileID: 5808073907585181944}
+  - component: {fileID: 6947936076744832118}
+  - component: {fileID: 2658596686270776495}
   - component: {fileID: 5759734642991943481}
   - component: {fileID: 7225794366266864836}
   - component: {fileID: 1085101271164614916}
@@ -24,7 +27,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &5181823065040882232
 Transform:
   m_ObjectHideFlags: 0
@@ -128,7 +131,7 @@ MonoBehaviour:
   moveSpeed: 2
   stopDistance: 0.1
   aggroRange: 5
-  chaseRange: 15
+  chaseRange: 10
 --- !u!114 &836386338017622372
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -158,7 +161,47 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   maxHealth: 500
-  currentHealth: 0
+  currentHealth: 100
+--- !u!114 &5808073907585181944
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 279834249153522685}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0a1ac85618ab4d5479873376a6631b8b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  delayBeforeReturn: 0.5
+--- !u!114 &6947936076744832118
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 279834249153522685}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 84ec88af42713ba4b9b11faed005923d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  knockbackForce: 5
+  knockbackTime: 0.2
+--- !u!114 &2658596686270776495
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 279834249153522685}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d3bb71a4513a6c04c8f79435bee0f645, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  whiteMaterial: {fileID: 2100000, guid: 56b8777d761ed334481a528a89f9075a, type: 2}
 --- !u!50 &5759734642991943481
 Rigidbody2D:
   serializedVersion: 4

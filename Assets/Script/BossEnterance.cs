@@ -5,11 +5,19 @@ using System.Collections.Generic;
 
 public class BossEntrance : MonoBehaviour
 {
+    // Definice požadavku přímo ve skriptu pro maximální univerzálnost
+    [System.Serializable]
+    public struct EntranceRequirement
+    {
+        public ItemSO itemSO; 
+        public int requiredAmount;
+    }
+
     [Header("Ovládání")]
     public KeyCode interactKey = KeyCode.E;
 
     [Header("Požadované itemy")]
-    public List<CrystalUIController.Requirement> requirements = new List<CrystalUIController.Requirement>();
+    public List<EntranceRequirement> requirements = new List<EntranceRequirement>();
 
     [Header("Inventory")]
     public InventoryManager inventoryManager;
@@ -21,8 +29,8 @@ public class BossEntrance : MonoBehaviour
     [Header("UI / Hint")]
     public GameObject pressEHint;
     public GameObject requirementsPanel;
-    public Transform requirementsParent; // Sem se instanciují řádky
-    public GameObject requirementPrefab; // Prefab řádku (musí mít childy "Icon" a "Text")
+    public Transform requirementsParent;
+    public GameObject requirementPrefab;
 
     private bool playerInRange = false;
     private bool isOpened = false;
@@ -57,17 +65,15 @@ public class BossEntrance : MonoBehaviour
     {
         if (inventoryManager == null) return;
 
-        // 1. Aktualizujeme UI (ikony, počty), aby hráč viděl, co má/nemá
         UpdateRequirementsUI();
 
-        // 2. Zkontrolujeme, zda má vše
         if (!HasAllRequirements())
         {
             Debug.Log("Hráč nemá potřebné itemy.");
-            return; // Konec, neotevíráme
+            return;
         }
 
-        // 3. Má vše -> odebereme itemy a otevřeme
+        // Odebrání itemů z tvého inventáře
         foreach (var req in requirements)
         {
             if (req.itemSO != null && req.requiredAmount > 0)
@@ -79,11 +85,13 @@ public class BossEntrance : MonoBehaviour
 
     private bool HasAllRequirements()
     {
-        if (requirements == null || requirements.Count == 0) return false;
+        if (requirements == null || requirements.Count == 0) return true;
 
         foreach (var req in requirements)
         {
             if (req.itemSO == null || req.requiredAmount <= 0) continue;
+
+            // GetTotalItemCount musí existovat ve tvém InventoryManageru
             int owned = inventoryManager.GetTotalItemCount(req.itemSO);
             if (owned < req.requiredAmount) return false;
         }
@@ -95,31 +103,25 @@ public class BossEntrance : MonoBehaviour
         if (requirementsPanel != null) requirementsPanel.SetActive(true);
         if (requirementsParent == null || requirementPrefab == null) return;
 
-        // Smazat staré řádky
         foreach (Transform child in requirementsParent) Destroy(child.gameObject);
 
-        // Vytvořit nové řádky
         foreach (var req in requirements)
         {
             if (req.itemSO == null || req.requiredAmount <= 0) continue;
 
             int owned = inventoryManager.GetTotalItemCount(req.itemSO);
-
             GameObject row = Instantiate(requirementPrefab, requirementsParent);
 
-            // Nastavení Ikony (hledá objekt jménem "Icon")
             Transform iconTransform = row.transform.Find("Icon");
             if (iconTransform != null)
                 iconTransform.GetComponent<Image>().sprite = req.itemSO.icon;
 
-            // Nastavení Textu (hledá objekt jménem "Text")
             Transform textTransform = row.transform.Find("Text");
             if (textTransform != null)
             {
                 var tmpText = textTransform.GetComponent<TextMeshProUGUI>();
                 tmpText.text = $"{owned} / {req.requiredAmount}";
 
-                // Barva: Červená když chybí, Zelená když máš dost
                 if (owned < req.requiredAmount)
                     tmpText.color = Color.red;
                 else
@@ -131,7 +133,6 @@ public class BossEntrance : MonoBehaviour
     private void OpenGate()
     {
         isOpened = true;
-
         if (requirementsPanel != null) requirementsPanel.SetActive(false);
         if (pressEHint != null) pressEHint.SetActive(false);
 
@@ -147,12 +148,9 @@ public class BossEntrance : MonoBehaviour
     {
         if (!other.CompareTag("Player")) return;
         playerInRange = true;
-
         if (!isOpened)
         {
             if (pressEHint != null) pressEHint.SetActive(true);
-
-            // Tady voláme zobrazení UI hned při vstupu
             UpdateRequirementsUI();
         }
     }
@@ -161,7 +159,6 @@ public class BossEntrance : MonoBehaviour
     {
         if (!other.CompareTag("Player")) return;
         playerInRange = false;
-
         if (pressEHint != null) pressEHint.SetActive(false);
         if (requirementsPanel != null) requirementsPanel.SetActive(false);
     }

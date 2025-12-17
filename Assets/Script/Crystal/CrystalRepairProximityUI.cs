@@ -1,6 +1,5 @@
 ﻿using UnityEngine;
-using TMPro; 
-
+using TMPro;
 
 public class CrystalRepairProximityUI : MonoBehaviour
 {
@@ -9,15 +8,15 @@ public class CrystalRepairProximityUI : MonoBehaviour
     public TextMeshProUGUI progressText;
 
     [Header("Settings")]
-    public string playerTag = "Player"; 
-    public string progressTextTag = "PhaseText"; 
+    public string playerTag = "Player";
+    public string progressTextTag = "PhaseText";
 
     private Collider2D proximityCollider;
-
     private bool isPlayerInRange = false;
 
     void Start()
     {
+        // --- Setup Progress Text ---
         if (progressText == null)
         {
             FindProgressTextBackup();
@@ -32,6 +31,7 @@ public class CrystalRepairProximityUI : MonoBehaviour
             Debug.LogError("CrystalRepairProximityUI: Progress Text není nastaven ani nalezen pomocí tagu.");
         }
 
+        // --- Setup Collider ---
         proximityCollider = GetComponent<Collider2D>();
         if (proximityCollider == null || !proximityCollider.isTrigger)
         {
@@ -50,18 +50,6 @@ public class CrystalRepairProximityUI : MonoBehaviour
         if (textObject != null)
         {
             progressText = textObject.GetComponent<TextMeshProUGUI>();
-            if (progressText != null)
-            {
-                Debug.Log($"✅ ProgressText nalezen zálohou pomocí Tagu: {progressTextTag}");
-            }
-            else
-            {
-                Debug.LogError($"GameObject s tagem '{progressTextTag}' neobsahuje komponentu TextMeshProUGUI.");
-            }
-        }
-        else
-        {
-            Debug.LogWarning($"⚠️ Nebyl nalezen žádný GameObject s tagem: {progressTextTag}");
         }
     }
 
@@ -76,24 +64,23 @@ public class CrystalRepairProximityUI : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D other)
     {
-        if (progressText == null || other == null) return;
+        if (other == null) return;
 
         if (other.CompareTag(playerTag))
         {
             isPlayerInRange = true;
-            progressText.gameObject.SetActive(true);
+            if (progressText != null) progressText.gameObject.SetActive(true);
         }
     }
 
-   
     private void OnTriggerExit2D(Collider2D other)
     {
-        if (progressText == null || other == null) return;
+        if (other == null) return;
 
         if (other.CompareTag(playerTag))
         {
             isPlayerInRange = false;
-            progressText.gameObject.SetActive(false);
+            if (progressText != null) progressText.gameObject.SetActive(false);
         }
     }
 }

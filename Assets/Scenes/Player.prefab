@@ -16,6 +16,7 @@ GameObject:
   - component: {fileID: 113634020460050641}
   - component: {fileID: 2334183526678316633}
   - component: {fileID: 2613256912368071455}
+  - component: {fileID: 4337568410318743826}
   m_Layer: 0
   m_Name: Player
   m_TagString: Player
@@ -196,6 +197,7 @@ MonoBehaviour:
   baseDefense: 25
   defense: 25
   ignoreDefense: 1
+  playerKnockback: {fileID: 0}
 --- !u!114 &2334183526678316633
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -423,6 +425,22 @@ MonoBehaviour:
         AllowAdditivePlays: 0
         DetermineScaleOnPlay: 0
         DestinationScale: 2
+--- !u!114 &4337568410318743826
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 476992415000853087}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 97bc77a99c5033547b1f6a72c65c0081, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  knockbackForce: 10
+  knockbackTime: 0.2
+  rb: {fileID: 371657353883880837}
+  playerMovementScript: {fileID: 1738376100676958485}
 --- !u!1 &1171980162905536060
 GameObject:
   m_ObjectHideFlags: 0

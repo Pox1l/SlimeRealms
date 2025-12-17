@@ -1,11 +1,11 @@
-using UnityEngine;
+﻿using UnityEngine;
 
 [RequireComponent(typeof(Collider2D))]
 public class EnemyAttack : MonoBehaviour
 {
     [Header("Attack Settings")]
     public int damage = 10;
-    public float attackCooldown = 1f; // 1 sekunda mezi �toky
+    public float attackCooldown = 1f;
 
     private float lastAttackTime = -999f;
 
@@ -32,7 +32,10 @@ public class EnemyAttack : MonoBehaviour
             PlayerStats playerStats = other.GetComponent<PlayerStats>();
             if (playerStats != null)
             {
-                playerStats.TakeDamage(damage);
+                // 🔥 ZMĚNA ZDE: Přidali jsme ", transform"
+                // Tím říkáme hráči: "Dostals dmg a útočník jsem JÁ (tento objekt)"
+                playerStats.TakeDamage(damage, transform);
+
                 lastAttackTime = Time.time;
             }
         }

@@ -29,6 +29,10 @@ public class PlayerStats : MonoBehaviour
     public event Action OnPlayerDied;
     //public Animator spriteAnimator;
 
+    [Header("Components")]
+    public PlayerKnockback playerKnockback;
+    public DamageFlash damageFlash;
+
     void Awake()
     {
         if (Instance == null) Instance = this;
@@ -40,6 +44,10 @@ public class PlayerStats : MonoBehaviour
             spriteAnimator = GetComponentInChildren<Animator>();
         }
         */
+        if (playerKnockback == null) playerKnockback = GetComponent<PlayerKnockback>();
+
+        // ⚡ Automaticky najdeme i DamageFlash, pokud je na hráči
+        if (damageFlash == null) damageFlash = GetComponentInChildren<DamageFlash>();
     }
 
     void Start()
@@ -165,7 +173,7 @@ public class PlayerStats : MonoBehaviour
         }
     }
 
-    public void TakeDamage(int baseDamage)
+    public void TakeDamage(int baseDamage, Transform attacker = null)
     {
         int finalDamage = baseDamage;
         if (!ignoreDefense)
@@ -175,6 +183,17 @@ public class PlayerStats : MonoBehaviour
         }
         finalDamage = Mathf.Max(1, finalDamage);
         currentHealth = Mathf.Max(0, currentHealth - finalDamage);
+
+        // 🔥 SPUŠTĚNÍ KNOCKBACKU
+        if (attacker != null && playerKnockback != null)
+        {
+            playerKnockback.ApplyKnockback(attacker);
+        }
+
+        if (damageFlash != null)
+        {
+            damageFlash.Flash();
+        }
 
         SaveToManager();
         OnHealthChanged?.Invoke(currentHealth, maxHealth);

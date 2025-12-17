@@ -73,21 +73,30 @@ public class BossEncounter : MonoBehaviour
     {
         activeBoss = pool.Get();
 
-        // Nastavení pozice
+        // 1. Přesuneme bosse na místo
         Vector3 finalPos = (spawnPoint != null) ? spawnPoint.position : transform.position;
         var agent = activeBoss.GetComponent<UnityEngine.AI.NavMeshAgent>();
+
         if (agent != null) agent.Warp(finalPos);
         else activeBoss.transform.position = finalPos;
 
-        // 🔥 OPRAVA: Hledáme ReturnToPoolBoss, ne ReturnToPoolOnDeath
+        // --- 👇 TOTO MUSÍŠ PŘIDAT 👇 ---
+        // Řekneme controlleru: "Zapomeň, kde ses narodil. Tady v aréně je tvůj nový domov."
+        var controller = activeBoss.GetComponent<EnemyController>();
+        if (controller != null)
+        {
+            controller.SetHomePosition(finalPos);
+        }
+        // -------------------------------
+
+        // Zbytek tvého kódu pro návrat do poolu...
         var ret = activeBoss.GetComponent<ReturnToPoolBoss>();
         if (ret != null)
         {
-            // Inicializujeme pool
             ret.Init(pool, OnBossReturned);
         }
 
-        Debug.Log("👹 Boss Spawned z Poolu!");
+        Debug.Log("👹 Boss Spawned z Poolu a má nastavený domov!");
     }
 
     void DespawnBoss()

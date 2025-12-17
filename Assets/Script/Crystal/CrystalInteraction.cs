@@ -7,10 +7,9 @@ public class CrystalInteraction : MonoBehaviour
     [Header("Reference")]
     public CrystalUIController crystalUI;
     public GameObject pressFHint;
-    public GameObject crystalOverlay;
 
     [Header("UI které se má vypnout při otevření krystalu")]
-    public GameObject hudUI;   // <-- přiřaď tady HUD canvas
+    public GameObject hudUI;
 
     private bool playerInRange = false;
 
@@ -18,9 +17,6 @@ public class CrystalInteraction : MonoBehaviour
     {
         if (pressFHint != null)
             pressFHint.SetActive(false);
-        
-        if (crystalOverlay != null)
-            crystalOverlay.SetActive(false);
 
         if (crystalUI != null && crystalUI.mainPanel != null)
             crystalUI.mainPanel.SetActive(false);
@@ -61,8 +57,7 @@ public class CrystalInteraction : MonoBehaviour
 
     private void CloseCrystalUI()
     {
-        crystalUI.CloseUI(); // musíš mít metodu na zavření
-                             // pokud nemáš, vytvořím ti ji
+        crystalUI.CloseUI();
 
         // zapni HUD
         if (hudUI != null)
@@ -75,11 +70,7 @@ public class CrystalInteraction : MonoBehaviour
 
         playerInRange = true;
         if (pressFHint != null)
-            pressFHint.SetActive(true); 
-        
-        playerInRange = true;
-        if (crystalOverlay != null)
-            crystalOverlay.SetActive(true);
+            pressFHint.SetActive(true);
     }
 
     void OnTriggerExit2D(Collider2D other)
@@ -90,9 +81,6 @@ public class CrystalInteraction : MonoBehaviour
 
         if (pressFHint != null)
             pressFHint.SetActive(false);
-
-        if (crystalOverlay != null)
-            crystalOverlay.SetActive(false);
 
         // když hráč odejde, zavři UI
         if (crystalUI != null && crystalUI.mainPanel.activeSelf)

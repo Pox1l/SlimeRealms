@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
+using UnityEngine.AI; // Přidáno pro NavMeshAgent
 
 [RequireComponent(typeof(Collider2D))]
 public class SpawnerZone2D : MonoBehaviour
@@ -11,6 +12,10 @@ public class SpawnerZone2D : MonoBehaviour
     public float spawnInterval = 2f;
     public float spawnRadius = 5f;
     public float firstSpawnDelay = 0.5f;
+
+    [Header("Kolize při spawnu")] // 👇 NOVÉ: Nastavení pro prevenci překrývání
+    public float checkRadius = 1f; // Velikost prostoru, který enemy potřebuje
+    public LayerMask obstacleLayer;  // Vrstvy, kterým se vyhýbáme (např. Enemy, Walls)
 
     private ObjectPool pool;
     private bool playerInside;
@@ -46,14 +51,12 @@ public class SpawnerZone2D : MonoBehaviour
             spawnLoop = null;
         }
 
-        // 👇 přidat tuhle podmínku
         if (gameObject.activeInHierarchy)
         {
             StartCoroutine(DespawnAllEnemies());
         }
         else
         {
-            // volitelně: můžeš to udělat sync bez coroutine
             DespawnAllEnemiesImmediate();
         }
     }
@@ -77,17 +80,35 @@ public class SpawnerZone2D : MonoBehaviour
 
     void SpawnOneEnemy()
     {
+        // 👇 NOVÉ: Hledání bezpečné pozice (max 10 pokusů)
+        Vector3 spawnPos = Vector3.zero;
+        bool validPosFound = false;
+
+        for (int i = 0; i < 10; i++)
+        {
+            Vector2 randomPoint = (Vector2)transform.position + Random.insideUnitCircle * spawnRadius;
+
+            // Zkontroluje, zda je v bodě randomPoint v okruhu checkRadius něco z vrstvy obstacleLayer
+            if (!Physics2D.OverlapCircle(randomPoint, checkRadius, obstacleLayer))
+            {
+                spawnPos = new Vector3(randomPoint.x, randomPoint.y, 0f);
+                validPosFound = true;
+                break; // Našli jsme místo, vyskočíme ze smyčky
+            }
+        }
+
+        // Pokud jsme po 10 pokusech nenašli místo, spawn zrušíme a zkusíme to v příštím cyklu
+        if (!validPosFound) return;
+
+
+        // 👇 Zbytek je stejný, jen už používáme ověřenou 'spawnPos'
         var enemy = pool.Get();
 
-        // vypočítáme spawn pozici
-        Vector2 spawnPos2D = (Vector2)transform.position + Random.insideUnitCircle * spawnRadius;
-        Vector3 spawnPos = new Vector3(spawnPos2D.x, spawnPos2D.y, 0f);
-
         // 🔹 pro NavMeshAgenta je lepší použít Warp
-        var agent = enemy.GetComponent<UnityEngine.AI.NavMeshAgent>();
+        var agent = enemy.GetComponent<NavMeshAgent>();
         if (agent != null)
         {
-            agent.Warp(spawnPos); // bezpečný "teleport" na NavMesh
+            agent.Warp(spawnPos);
         }
         else
         {
@@ -125,10 +146,9 @@ public class SpawnerZone2D : MonoBehaviour
                 var ret = child.GetComponent<ReturnToPoolOnDeath>();
                 if (ret != null)
                 {
-                    ret.ForceReturn(); // to už zavolá OnEnemyReturned
+                    ret.ForceReturn();
                 }
 
-                // rozprostření přes více framů
                 yield return null;
             }
         }

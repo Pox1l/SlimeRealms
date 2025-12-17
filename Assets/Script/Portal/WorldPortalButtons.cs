@@ -19,7 +19,6 @@ public class WorldPortalButtons : MonoBehaviour
 
     void Start()
     {
-        
         for (int i = 0; i < worlds.Count; i++)
         {
             var entry = worlds[i];
@@ -27,11 +26,9 @@ public class WorldPortalButtons : MonoBehaviour
             if (entry.portalObject != null)
                 entry.portalObject.SetActive(false);
 
-           
             if (entry.worldButton != null)
             {
                 
-                entry.worldButton.onClick.RemoveAllListeners();
 
                 int capturedIndex = i; 
                 entry.worldButton.onClick.AddListener(() => OnWorldButtonClicked(capturedIndex));
@@ -39,22 +36,20 @@ public class WorldPortalButtons : MonoBehaviour
         }
     }
 
-    
-    void OnWorldButtonClicked(int index)
+
+    public void OnWorldButtonClicked(int index)
     {
+        Debug.Log($"Kliknuto na tlaèítko {index}"); // Debug pro kontrolu
+
         if (index < 0 || index >= worlds.Count) return;
 
-        // Projde všechny svìty
         for (int i = 0; i < worlds.Count; i++)
         {
             if (worlds[i].portalObject != null)
             {
-                // Zapne jen ten vybraný, ostatní vypne
                 bool isActive = (i == index);
                 worlds[i].portalObject.SetActive(isActive);
             }
         }
-        
-        Debug.Log($"[WorldPortalButtons] Pøepnuto na svìt index {index}.");
     }
 }
