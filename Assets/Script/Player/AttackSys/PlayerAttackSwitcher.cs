@@ -8,7 +8,7 @@ public class PlayerAttackSwitcher : MonoBehaviour
     public List<AttackBase> availableAttacks = new List<AttackBase>(); // všechny útoky, které má hráč
 
     [Header("Current Attack")]
-    [SerializeField] private int currentIndex = 0;
+    [SerializeField] public int currentIndex = 0;
 
     void Start()
     {

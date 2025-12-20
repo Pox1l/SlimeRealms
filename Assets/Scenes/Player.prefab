@@ -198,6 +198,7 @@ MonoBehaviour:
   defense: 25
   ignoreDefense: 1
   playerKnockback: {fileID: 0}
+  damageFlash: {fileID: 0}
 --- !u!114 &2334183526678316633
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -437,7 +438,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 97bc77a99c5033547b1f6a72c65c0081, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  knockbackForce: 10
+  knockbackForce: 5
   knockbackTime: 0.2
   rb: {fileID: 371657353883880837}
   playerMovementScript: {fileID: 1738376100676958485}
@@ -499,6 +500,7 @@ GameObject:
   - component: {fileID: 6433982708975146065}
   - component: {fileID: 4013578011766496394}
   - component: {fileID: 6639401451793332536}
+  - component: {fileID: 7091597289534865926}
   m_Layer: 0
   m_Name: Sprite
   m_TagString: Untagged
@@ -594,6 +596,19 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
+--- !u!114 &7091597289534865926
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2078719923921081846}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d3bb71a4513a6c04c8f79435bee0f645, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  whiteMaterial: {fileID: 2100000, guid: 56b8777d761ed334481a528a89f9075a, type: 2}
 --- !u!1 &4188006988354985725
 GameObject:
   m_ObjectHideFlags: 0

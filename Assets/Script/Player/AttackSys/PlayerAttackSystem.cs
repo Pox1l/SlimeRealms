@@ -14,7 +14,7 @@ public class PlayerAttackSystem : MonoBehaviour
     [Header("Active Attack")]
     public AttackBase currentAttack;
 
-    private float nextAttackTime;
+    public float nextAttackTime;
 
     void Update()
     {

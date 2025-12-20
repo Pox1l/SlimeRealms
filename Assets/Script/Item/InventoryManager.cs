@@ -10,11 +10,15 @@ public class InventoryManager : MonoBehaviour
     [Header("UI References")]
     public GameObject inventoryUI;
     public ItemSlot[] itemSlots;
+    // Odkaz na holder pro sloty
+    public InventorySlotHolder slotHolder;
+    // --- PŘIDÁNO: Odkaz na holder pro popis ---
+    public InventoryDescriptionHolder descriptionHolder;
 
     [Header("Context Menu")]
     public InventoryContextMenu contextMenu;
 
-    [Header("Description UI")]
+    [Header("Description UI (Auto-filled via Holder)")]
     public Image descriptionIcon;
     public TMP_Text descriptionName;
     public TMP_Text descriptionText;
@@ -38,10 +42,7 @@ public class InventoryManager : MonoBehaviour
             return;
         }
 
-        // Zkusíme najít komponentu na sobě
         saveSystem = GetComponent<InventorySaveSystem>();
-
-        // Hned najdeme reference
         FindUIReferences();
     }
 
@@ -63,13 +64,9 @@ public class InventoryManager : MonoBehaviour
         if (saveSystem != null && itemSlots != null && itemSlots.Length > 0)
         {
             if (ItemDatabase.Instance != null)
-            {
                 saveSystem.LoadInventory();
-            }
             else
-            {
                 Debug.LogWarning("⚠️ ItemDatabase není připravena.");
-            }
         }
     }
 
@@ -77,9 +74,7 @@ public class InventoryManager : MonoBehaviour
     {
         // 1. Najdeme hlavní panel inventáře
         if (inventoryUI == null && CentralMenuUI.Instance != null)
-        {
             inventoryUI = CentralMenuUI.Instance.inventoryPanel;
-        }
 
         if (inventoryUI == null)
         {
@@ -87,46 +82,52 @@ public class InventoryManager : MonoBehaviour
             if (panel != null) inventoryUI = panel;
         }
 
-        // 2. Pokud máme panel, prohledáme jeho děti
-        if (inventoryUI != null)
+        // 2. Hledání SLOTŮ přes Holder
+        if (slotHolder == null)
+            slotHolder = FindObjectOfType<InventorySlotHolder>(true);
+
+        if (slotHolder != null)
+            itemSlots = slotHolder.GetComponentsInChildren<ItemSlot>(true);
+
+        // --- 3. PŘIDÁNO: Hledání POPISU přes Holder ---
+        if (descriptionHolder == null)
+            descriptionHolder = FindObjectOfType<InventoryDescriptionHolder>(true);
+
+        if (descriptionHolder != null)
+        {
+            // Vytáhneme si reference přímo z holderu
+            descriptionIcon = descriptionHolder.icon;
+            descriptionName = descriptionHolder.itemName;
+            descriptionText = descriptionHolder.itemDescription;
+        }
+        // ------------------------------------------------
+
+        // 4. Záložní logika (pokud holdery neexistují, zkusíme staré hledání přes Tagy)
+        if (inventoryUI != null && (slotHolder == null || descriptionHolder == null))
         {
             Transform[] allChildren = inventoryUI.GetComponentsInChildren<Transform>(true);
 
             foreach (Transform t in allChildren)
             {
-                if (t.CompareTag("InventorySlotsParent"))
+                // Záložní hledání slotů
+                if (slotHolder == null && t.CompareTag("InventorySlotsParent"))
                 {
                     itemSlots = t.GetComponentsInChildren<ItemSlot>(true);
                 }
-                else if (t.CompareTag("InvDescIcon"))
+
+                // Záložní hledání popisu (pokud nemáme holder)
+                if (descriptionHolder == null)
                 {
-                    descriptionIcon = t.GetComponent<Image>();
-                }
-                else if (t.CompareTag("InvDescName"))
-                {
-                    descriptionName = t.GetComponent<TMP_Text>();
-                }
-                else if (t.CompareTag("InvDescText"))
-                {
-                    descriptionText = t.GetComponent<TMP_Text>();
+                    if (t.CompareTag("InvDescIcon")) descriptionIcon = t.GetComponent<Image>();
+                    else if (t.CompareTag("InvDescName")) descriptionName = t.GetComponent<TMP_Text>();
+                    else if (t.CompareTag("InvDescText")) descriptionText = t.GetComponent<TMP_Text>();
                 }
             }
         }
 
-        // --- HLEDÁNÍ KONTEXTOVÉHO MENU (OPRAVENO) ---
-
-        // Protože jsme z ContextMenu udělali Singleton, stačí vzít jeho Instance.
-        // Je to spolehlivější než hledání přes Tagy.
-        if (contextMenu == null)
-        {
-            contextMenu = InventoryContextMenu.Instance;
-        }
-
-        // Pojistka: Kdyby Instance ještě nebyla (vzácné), zkusíme najít typem
-        if (contextMenu == null)
-        {
-            contextMenu = FindObjectOfType<InventoryContextMenu>(true);
-        }
+        // 5. Kontextové menu
+        if (contextMenu == null) contextMenu = InventoryContextMenu.Instance;
+        if (contextMenu == null) contextMenu = FindObjectOfType<InventoryContextMenu>(true);
     }
 
     public void ToggleInventory()
@@ -160,8 +161,6 @@ public class InventoryManager : MonoBehaviour
             if (saveObj != null) saveSystem = saveObj.GetComponent<InventorySaveSystem>();
         }
 
-        int originalQuantity = quantity;
-
         for (int i = 0; i < itemSlots.Length; i++)
         {
             if (itemSlots[i].itemData == null || itemSlots[i].itemData == itemData)
@@ -177,7 +176,6 @@ public class InventoryManager : MonoBehaviour
                 if (quantity <= 0) return 0;
             }
         }
-
         return quantity;
     }
 
@@ -192,7 +190,6 @@ public class InventoryManager : MonoBehaviour
         }
 
         bool itemRemoved = false;
-
         foreach (var slot in itemSlots)
         {
             if (slot.itemData == item)
@@ -201,15 +198,11 @@ public class InventoryManager : MonoBehaviour
                 slot.RemoveItem(remove);
                 amount -= remove;
                 itemRemoved = true;
-
                 if (amount <= 0) break;
             }
         }
 
-        if (itemRemoved && saveSystem != null)
-        {
-            saveSystem.SaveInventory();
-        }
+        if (itemRemoved && saveSystem != null) saveSystem.SaveInventory();
     }
 
     public void ShowItemDescription(ItemSO item)
@@ -266,25 +259,20 @@ public class InventoryManager : MonoBehaviour
         return true;
     }
 
-
     public void TryShowSelectedDescription(ItemSO hoveredItem)
     {
-        // 1. Priorita Hover: Pokud je hoveredItem platný (myš je nad něčím), zobraz ho
         if (hoveredItem != null)
         {
             ShowItemDescription(hoveredItem);
             return;
         }
 
-        // 2. Záložní Popis: Pokud myš není nad ničím (hoveredItem == null), 
-        // zkusíme ukázat popis vybraného slotu.
         if (ItemSlot.currentSelectedSlot != null && ItemSlot.currentSelectedSlot.itemData != null)
         {
             ShowItemDescription(ItemSlot.currentSelectedSlot.itemData);
         }
         else
         {
-            // 3. Žádný hover a žádný vybraný item: Vynulujeme popis
             ShowItemDescription(null);
         }
     }

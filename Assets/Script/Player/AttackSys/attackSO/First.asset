@@ -12,6 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fa7a3d74476cec84383818e94ffeedfc, type: 3}
   m_Name: First
   m_EditorClassIdentifier: 
+  icon: {fileID: 21300000, guid: 78d860626749b4c4f8cce326b604c027, type: 3}
   attackName: Melee
   attackRate: 1
   damage: 10

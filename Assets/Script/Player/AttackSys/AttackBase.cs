@@ -2,6 +2,8 @@ using UnityEngine;
 
 public abstract class AttackBase : ScriptableObject
 {
+
+    public Sprite icon;
     public string attackName = "New Attack";
     public float attackRate = 1f;
     public int damage = 10;

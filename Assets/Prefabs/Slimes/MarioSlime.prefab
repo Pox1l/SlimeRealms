@@ -132,7 +132,7 @@ MonoBehaviour:
   moveSpeed: 2
   stopDistance: 0.1
   aggroRange: 5
-  chaseRange: 12
+  chaseRange: 10
 --- !u!114 &4351209818708001173
 MonoBehaviour:
   m_ObjectHideFlags: 0

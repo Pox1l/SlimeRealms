@@ -16,6 +16,7 @@ public class CentralMenuUI : MonoBehaviour
     public GameObject profilePanel;
     public GameObject inventoryPanel;
     public GameObject skillTreePanel;
+    public GameObject craftingPanel; // PŘIDÁNO: Crafting Panel
 
     [Header("HUD (Hledá se globálně podle tagu 'HUD')")]
     public GameObject hudUI;
@@ -66,12 +67,14 @@ public class CentralMenuUI : MonoBehaviour
             if (Input.GetKeyDown(KeyCode.P)) OpenProfile();
             if (Input.GetKeyDown(KeyCode.I)) OpenInventory();
             if (Input.GetKeyDown(KeyCode.L)) OpenSkillTree();
+            if (Input.GetKeyDown(KeyCode.C)) OpenCrafting(); // PŘIDÁNO: Otevření craftingu v menu
         }
         else
         {
             if (Input.GetKeyDown(KeyCode.P)) { ToggleMenu(); OpenProfile(); }
             if (Input.GetKeyDown(KeyCode.I)) { ToggleMenu(); OpenInventory(); }
             if (Input.GetKeyDown(KeyCode.L)) { ToggleMenu(); OpenSkillTree(); }
+            if (Input.GetKeyDown(KeyCode.C)) { ToggleMenu(); OpenCrafting(); } // PŘIDÁNO: Otevření menu rovnou na craftingu
         }
     }
 
@@ -119,11 +122,13 @@ public class CentralMenuUI : MonoBehaviour
             if (t.CompareTag("ProfilePanel")) profilePanel = t.gameObject;
             else if (t.CompareTag("InventoryPanel")) inventoryPanel = t.gameObject;
             else if (t.CompareTag("SkillTreePanel")) skillTreePanel = t.gameObject;
+            else if (t.CompareTag("CraftingPanel")) craftingPanel = t.gameObject; // PŘIDÁNO: Hledání panelu
 
             // --- HLEDÁNÍ TLAČÍTEK ---
             else if (t.CompareTag("ProfileBTN")) SetupButton(t, OpenProfile);
             else if (t.CompareTag("InventoryBTN")) SetupButton(t, OpenInventory);
             else if (t.CompareTag("SkillTreeBTN")) SetupButton(t, OpenSkillTree);
+            else if (t.CompareTag("CraftingBTN")) SetupButton(t, OpenCrafting); // PŘIDÁNO: Hledání tlačítka
             else if (t.CompareTag("CloseBTN")) SetupButton(t, CloseMenu);
 
             // 🔥 NOVÉ: AUTOMATICKÉ PROPOJENÍ KONTEXTOVÉHO MENU 🔥
@@ -188,6 +193,7 @@ public class CentralMenuUI : MonoBehaviour
     public void OpenProfile() => ShowPanel(profilePanel);
     public void OpenInventory() => ShowPanel(inventoryPanel);
     public void OpenSkillTree() => ShowPanel(skillTreePanel);
+    public void OpenCrafting() => ShowPanel(craftingPanel); // PŘIDÁNO
 
     void ShowPanel(GameObject panel)
     {
@@ -200,5 +206,6 @@ public class CentralMenuUI : MonoBehaviour
         if (profilePanel) profilePanel.SetActive(false);
         if (inventoryPanel) inventoryPanel.SetActive(false);
         if (skillTreePanel) skillTreePanel.SetActive(false);
+        if (craftingPanel) craftingPanel.SetActive(false); // PŘIDÁNO
     }
 }

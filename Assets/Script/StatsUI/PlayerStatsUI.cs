@@ -6,10 +6,10 @@ public class PlayerStatsUI : MonoBehaviour
 {
     public static PlayerStatsUI Instance;
 
-    private TextMeshProUGUI damageText;
-    private TextMeshProUGUI healthText;
-    private TextMeshProUGUI defenseText;
-    private TextMeshProUGUI staminaText;
+    public TextMeshProUGUI damageText;
+    public TextMeshProUGUI healthText;
+    public TextMeshProUGUI defenseText;
+    public TextMeshProUGUI staminaText;
 
     private const int DEFAULT_DAMAGE_PLACEHOLDER = 50;
 
@@ -18,12 +18,14 @@ public class PlayerStatsUI : MonoBehaviour
         Instance = this;
     }
 
-    private void Start()
+    // Změna: Místo Start() použijeme OnEnable().
+    // To zajistí, že se kód provede pokaždé, když se toto UI zapne (otevře).
+    private void OnEnable()
     {
         // 1. Najít texty (i když jsou vypnuté), přímo pod tímto objektem ("Stats")
         FindUITextsInScene();
 
-        // 2. Aktualizovat obsah
+        // 2. Aktualizovat obsah (načte aktuální data z PlayerDataManageru při každém otevření)
         UpdateStatsDisplay();
     }
 
