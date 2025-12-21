@@ -93,6 +93,7 @@ MonoBehaviour:
         - globalObjectIdString: GlobalObjectId_V1-2-2a782948c291d074e9d58001ff8c6a4c-1616014709-0
         - globalObjectIdString: GlobalObjectId_V1-2-2a782948c291d074e9d58001ff8c6a4c-1948472143-0
         - globalObjectIdString: GlobalObjectId_V1-2-2a782948c291d074e9d58001ff8c6a4c-1104392492-0
+        - globalObjectIdString: GlobalObjectId_V1-2-2a782948c291d074e9d58001ff8c6a4c-100930387-0
         values:
         - colorIndex: 0
           iconNameOrGuid: Folder Icon
@@ -378,6 +379,10 @@ MonoBehaviour:
           iconNameOrGuid: Folder Icon
           isIconRecursive: 0
           isColorRecursive: 0
+        - colorIndex: 3
+          iconNameOrGuid: 
+          isIconRecursive: 0
+          isColorRecursive: 0
     - goDatas_byGlobalId:
         keys:
         - globalObjectIdString: GlobalObjectId_V1-2-6de1a7d931f01ef4abebbf15f7e0502c-127101540-0
@@ -598,6 +603,9 @@ MonoBehaviour:
         - globalObjectIdString: GlobalObjectId_V1-2-8f94c35e02b6398428e407565a6c5131-1460634264-0
         - globalObjectIdString: GlobalObjectId_V1-2-8f94c35e02b6398428e407565a6c5131-251184796-0
         - globalObjectIdString: GlobalObjectId_V1-2-8f94c35e02b6398428e407565a6c5131-888208053-0
+        - globalObjectIdString: GlobalObjectId_V1-2-8f94c35e02b6398428e407565a6c5131-1676519534-0
+        - globalObjectIdString: GlobalObjectId_V1-2-8f94c35e02b6398428e407565a6c5131-228322218-0
+        - globalObjectIdString: GlobalObjectId_V1-2-8f94c35e02b6398428e407565a6c5131-1164651656-0
         values:
         - colorIndex: 0
           iconNameOrGuid: Mesh Icon
@@ -719,6 +727,18 @@ MonoBehaviour:
           iconNameOrGuid: Camera Icon
           isIconRecursive: 0
           isColorRecursive: 0
+        - colorIndex: 7
+          iconNameOrGuid: Canvas Icon
+          isIconRecursive: 0
+          isColorRecursive: 0
+        - colorIndex: 7
+          iconNameOrGuid: Canvas Icon
+          isIconRecursive: 0
+          isColorRecursive: 0
+        - colorIndex: 0
+          iconNameOrGuid: Canvas Icon
+          isIconRecursive: 0
+          isColorRecursive: 0
     - goDatas_byGlobalId:
         keys:
         - globalObjectIdString: GlobalObjectId_V1-2-103c331bb13690d488c43ac75191101a-60151847-0
@@ -752,6 +772,18 @@ MonoBehaviour:
         - globalObjectIdString: GlobalObjectId_V1-2-57a6c14058b882e4e963aa25f2c416f3-662883331-0
         - globalObjectIdString: GlobalObjectId_V1-2-57a6c14058b882e4e963aa25f2c416f3-1146980782-0
         - globalObjectIdString: GlobalObjectId_V1-2-57a6c14058b882e4e963aa25f2c416f3-1766863240-0
+        - globalObjectIdString: GlobalObjectId_V1-2-57a6c14058b882e4e963aa25f2c416f3-1446739130-0
+        - globalObjectIdString: GlobalObjectId_V1-2-57a6c14058b882e4e963aa25f2c416f3-1177361784-0
+        - globalObjectIdString: GlobalObjectId_V1-2-57a6c14058b882e4e963aa25f2c416f3-1790902920-0
+        - globalObjectIdString: GlobalObjectId_V1-2-57a6c14058b882e4e963aa25f2c416f3-2108048420-0
+        - globalObjectIdString: GlobalObjectId_V1-2-57a6c14058b882e4e963aa25f2c416f3-1646106299-0
+        - globalObjectIdString: GlobalObjectId_V1-2-57a6c14058b882e4e963aa25f2c416f3-96014363-0
+        - globalObjectIdString: GlobalObjectId_V1-2-57a6c14058b882e4e963aa25f2c416f3-1248109588-0
+        - globalObjectIdString: GlobalObjectId_V1-2-57a6c14058b882e4e963aa25f2c416f3-912160050-0
+        - globalObjectIdString: GlobalObjectId_V1-2-57a6c14058b882e4e963aa25f2c416f3-1867402124-0
+        - globalObjectIdString: GlobalObjectId_V1-2-57a6c14058b882e4e963aa25f2c416f3-1553824479-0
+        - globalObjectIdString: GlobalObjectId_V1-2-57a6c14058b882e4e963aa25f2c416f3-813514010-0
+        - globalObjectIdString: GlobalObjectId_V1-2-57a6c14058b882e4e963aa25f2c416f3-1129875715-0
         values:
         - colorIndex: 0
           iconNameOrGuid: Mesh Icon
@@ -823,6 +855,54 @@ MonoBehaviour:
           isColorRecursive: 0
         - colorIndex: 0
           iconNameOrGuid: Camera Icon
+          isIconRecursive: 0
+          isColorRecursive: 0
+        - colorIndex: 3
+          iconNameOrGuid: 
+          isIconRecursive: 0
+          isColorRecursive: 0
+        - colorIndex: 3
+          iconNameOrGuid: 
+          isIconRecursive: 0
+          isColorRecursive: 0
+        - colorIndex: 4
+          iconNameOrGuid: 
+          isIconRecursive: 0
+          isColorRecursive: 0
+        - colorIndex: 4
+          iconNameOrGuid: 
+          isIconRecursive: 0
+          isColorRecursive: 0
+        - colorIndex: 5
+          iconNameOrGuid: 
+          isIconRecursive: 0
+          isColorRecursive: 0
+        - colorIndex: 8
+          iconNameOrGuid: 
+          isIconRecursive: 0
+          isColorRecursive: 0
+        - colorIndex: 0
+          iconNameOrGuid: Canvas Icon
+          isIconRecursive: 0
+          isColorRecursive: 0
+        - colorIndex: 0
+          iconNameOrGuid: Canvas Icon
+          isIconRecursive: 0
+          isColorRecursive: 0
+        - colorIndex: 0
+          iconNameOrGuid: Canvas Icon
+          isIconRecursive: 0
+          isColorRecursive: 0
+        - colorIndex: 0
+          iconNameOrGuid: Canvas Icon
+          isIconRecursive: 0
+          isColorRecursive: 0
+        - colorIndex: 0
+          iconNameOrGuid: Canvas Icon
+          isIconRecursive: 0
+          isColorRecursive: 0
+        - colorIndex: 0
+          iconNameOrGuid: Canvas Icon
           isIconRecursive: 0
           isColorRecursive: 0
   bookmarks: []

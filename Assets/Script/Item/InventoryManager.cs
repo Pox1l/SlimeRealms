@@ -2,17 +2,19 @@
 using TMPro;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
+using System; // 🔥 DŮLEŽITÉ: Přidáno pro Action
 
 public class InventoryManager : MonoBehaviour
 {
     public static InventoryManager Instance;
 
+    // 🔥 TOTO JE TA NOVINKA - Událost, kterou budou ostatní poslouchat
+    public event Action OnInventoryChanged;
+
     [Header("UI References")]
     public GameObject inventoryUI;
     public ItemSlot[] itemSlots;
-    // Odkaz na holder pro sloty
     public InventorySlotHolder slotHolder;
-    // --- PŘIDÁNO: Odkaz na holder pro popis ---
     public InventoryDescriptionHolder descriptionHolder;
 
     [Header("Context Menu")]
@@ -28,7 +30,6 @@ public class InventoryManager : MonoBehaviour
 
     private void Awake()
     {
-        // Singleton logika...
         if (Instance == null)
         {
             Instance = this;
@@ -89,33 +90,29 @@ public class InventoryManager : MonoBehaviour
         if (slotHolder != null)
             itemSlots = slotHolder.GetComponentsInChildren<ItemSlot>(true);
 
-        // --- 3. PŘIDÁNO: Hledání POPISU přes Holder ---
+        // 3. Hledání POPISU přes Holder
         if (descriptionHolder == null)
             descriptionHolder = FindObjectOfType<InventoryDescriptionHolder>(true);
 
         if (descriptionHolder != null)
         {
-            // Vytáhneme si reference přímo z holderu
             descriptionIcon = descriptionHolder.icon;
             descriptionName = descriptionHolder.itemName;
             descriptionText = descriptionHolder.itemDescription;
         }
-        // ------------------------------------------------
 
-        // 4. Záložní logika (pokud holdery neexistují, zkusíme staré hledání přes Tagy)
+        // 4. Záložní logika
         if (inventoryUI != null && (slotHolder == null || descriptionHolder == null))
         {
             Transform[] allChildren = inventoryUI.GetComponentsInChildren<Transform>(true);
 
             foreach (Transform t in allChildren)
             {
-                // Záložní hledání slotů
                 if (slotHolder == null && t.CompareTag("InventorySlotsParent"))
                 {
                     itemSlots = t.GetComponentsInChildren<ItemSlot>(true);
                 }
 
-                // Záložní hledání popisu (pokud nemáme holder)
                 if (descriptionHolder == null)
                 {
                     if (t.CompareTag("InvDescIcon")) descriptionIcon = t.GetComponent<Image>();
@@ -161,6 +158,8 @@ public class InventoryManager : MonoBehaviour
             if (saveObj != null) saveSystem = saveObj.GetComponent<InventorySaveSystem>();
         }
 
+        bool itemAdded = false; // Pomocná proměnná pro detekci změny
+
         for (int i = 0; i < itemSlots.Length; i++)
         {
             if (itemSlots[i].itemData == null || itemSlots[i].itemData == itemData)
@@ -169,13 +168,23 @@ public class InventoryManager : MonoBehaviour
 
                 if (leftOver < quantity)
                 {
+                    // Něco se přidalo
                     quantity = leftOver;
-                    if (saveSystem != null) saveSystem.SaveInventory();
+                    itemAdded = true;
                 }
 
-                if (quantity <= 0) return 0;
+                if (quantity <= 0) break; // Vyskočíme z cyklu, už máme hotovo
             }
         }
+
+        // 🔥 POKUD DOŠLO KE ZMĚNĚ, ULOŽÍME A OZNÁMÍME TO
+        if (itemAdded)
+        {
+            if (saveSystem != null) saveSystem.SaveInventory();
+            OnInventoryChanged?.Invoke(); // 📢 Oznámíme Quick Slotu, že se změnil počet!
+            return 0;
+        }
+
         return quantity;
     }
 
@@ -202,7 +211,12 @@ public class InventoryManager : MonoBehaviour
             }
         }
 
-        if (itemRemoved && saveSystem != null) saveSystem.SaveInventory();
+        // 🔥 POKUD DOŠLO KE ZMĚNĚ, ULOŽÍME A OZNÁMÍME TO
+        if (itemRemoved)
+        {
+            if (saveSystem != null) saveSystem.SaveInventory();
+            OnInventoryChanged?.Invoke(); // 📢 Oznámíme Quick Slotu, že se změnil počet!
+        }
     }
 
     public void ShowItemDescription(ItemSO item)

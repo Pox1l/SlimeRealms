@@ -6,6 +6,7 @@ public class ContextMenuSceneUI : MonoBehaviour
     [Header("Přetáhni sem objekty z Hierarchy")]
     public GameObject menuPanel;
     public Button useButton;
+    public Button equipButton;
     public Button deleteButton;
 
     private void Start()

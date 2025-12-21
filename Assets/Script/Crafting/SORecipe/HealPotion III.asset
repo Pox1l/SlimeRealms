@@ -10,12 +10,14 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 3d05139725836e14489e74f3cd93929a, type: 3}
-  m_Name: HealPotion I
+  m_Name: HealPotion III
   m_EditorClassIdentifier: 
-  recipeName: HealPotion I
-  resultItem: {fileID: 11400000, guid: 304ed027dd996eb4eaa046102bc86d35, type: 2}
+  recipeName: HealPotion III
+  resultItem: {fileID: 11400000, guid: b57a5e70d42669443a4882601609868e, type: 2}
   resultAmount: 1
   icon: {fileID: 1844098456, guid: 26e8cdfc4bcb0bb4bb388f09ad645fac, type: 3}
   ingredients:
-  - item: {fileID: 11400000, guid: 9afbd67cfc2bfa14795521a67e301288, type: 2}
-    amount: 3
+  - item: {fileID: 11400000, guid: 7d79706d2055af74f9aea9dd46328151, type: 2}
+    amount: 2
+  - item: {fileID: 11400000, guid: 2f8a88d31490768468c8cd902796b396, type: 2}
+    amount: 2

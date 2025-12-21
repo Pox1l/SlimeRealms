@@ -39,7 +39,7 @@ public class PlayerKnockback : MonoBehaviour
             return;
         }
 
-        Debug.Log("3. 🟢 Všechny reference OK. Spouštím odhození.");
+        //Debug.Log("3. 🟢 Všechny reference OK. Spouštím odhození.");
         StopAllCoroutines();
         StartCoroutine(KnockbackRoutine(damageSource));
     }
@@ -50,7 +50,7 @@ public class PlayerKnockback : MonoBehaviour
         if (playerMovementScript != null)
         {
             playerMovementScript.enabled = false;
-            Debug.Log("4. 🟢 Pohyb hráče vypnut.");
+           // Debug.Log("4. 🟢 Pohyb hráče vypnut.");
         }
 
         // 2. Aplikovat sílu
@@ -58,7 +58,7 @@ public class PlayerKnockback : MonoBehaviour
         Vector2 direction = (transform.position - damageSource.position).normalized;
         rb.AddForce(direction * knockbackForce, ForceMode2D.Impulse);
 
-        Debug.Log($"5. 🟢 Síla aplikována: {direction * knockbackForce}");
+        //Debug.Log($"5. 🟢 Síla aplikována: {direction * knockbackForce}");
 
         // 3. Čekat
         yield return new WaitForSeconds(knockbackTime);
@@ -66,6 +66,6 @@ public class PlayerKnockback : MonoBehaviour
         // 4. Zapnout pohyb
         rb.velocity = Vector2.zero;
         if (playerMovementScript != null) playerMovementScript.enabled = true;
-        Debug.Log("6. 🟢 Konec knockbacku, pohyb zapnut.");
+        //Debug.Log("6. 🟢 Konec knockbacku, pohyb zapnut.");
     }
 }
