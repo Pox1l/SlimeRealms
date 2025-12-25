@@ -13,6 +13,7 @@ GameObject:
   - component: {fileID: 9146501335343499034}
   - component: {fileID: 6997233147758391368}
   - component: {fileID: -2560309676929314926}
+  - component: {fileID: -7837329934377084177}
   m_Layer: 9
   m_Name: SmallTree
   m_TagString: Untagged
@@ -181,3 +182,19 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   fadeSpeed: 10
   targetAlpha: 0.4
+--- !u!114 &-7837329934377084177
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6631792735768694597}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9809bf1345abc5648af68b3a82653f08, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_OverrideArea: 1
+  m_Area: 1
+  m_IgnoreFromBuild: 0
+  m_AffectedAgents: ffffffff

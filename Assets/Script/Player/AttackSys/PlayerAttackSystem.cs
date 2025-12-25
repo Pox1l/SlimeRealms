@@ -1,6 +1,4 @@
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
 public class PlayerAttackSystem : MonoBehaviour
 {
@@ -10,11 +8,16 @@ public class PlayerAttackSystem : MonoBehaviour
     public Transform meleePoint;
     public Transform rangePoint;
 
-
     [Header("Active Attack")]
     public AttackBase currentAttack;
-
     public float nextAttackTime;
+
+    private PlayerStats stats;
+
+    void Start()
+    {
+        stats = GetComponent<PlayerStats>();
+    }
 
     void Update()
     {
@@ -23,7 +26,12 @@ public class PlayerAttackSystem : MonoBehaviour
 
         if (Input.GetMouseButtonDown(0))
         {
-            currentAttack.PerformAttack(transform, cam, enemyLayers);
+            // Získáme bonus (nebo 1, pokud chybí stats)
+            float multiplier = stats != null ? stats.damageMultiplier : 1f;
+
+            // ⚡ ODESLÁNÍ MULTIPLIERU DO ÚTOKU
+            currentAttack.PerformAttack(transform, cam, enemyLayers, multiplier);
+
             nextAttackTime = Time.time + 1f / currentAttack.attackRate;
         }
     }

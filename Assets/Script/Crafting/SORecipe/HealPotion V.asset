@@ -15,7 +15,7 @@ MonoBehaviour:
   recipeName: HealPotion V
   resultItem: {fileID: 11400000, guid: a4ba1c4ab4a587f468ab46999a99db01, type: 2}
   resultAmount: 1
-  icon: {fileID: 1844098456, guid: 26e8cdfc4bcb0bb4bb388f09ad645fac, type: 3}
+  icon: {fileID: 1623092292, guid: 6c769403a5da67642abf3b94d37a7c55, type: 3}
   ingredients:
   - item: {fileID: 11400000, guid: 3dded3fab14d9404cb6cf76a7f7b62af, type: 2}
     amount: 1

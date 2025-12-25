@@ -1,5 +1,5 @@
 ﻿using UnityEngine;
-
+using System.Collections.Generic; 
 public class PickupNotificationManager : MonoBehaviour
 {
     public static PickupNotificationManager Instance { get; private set; }
@@ -8,6 +8,9 @@ public class PickupNotificationManager : MonoBehaviour
     public Transform container;
     public PickupNotificationEntry entryPrefab;
 
+    // Seznam pro recyklaci (Pool)
+    private List<PickupNotificationEntry> pool = new List<PickupNotificationEntry>();
+
     void Awake()
     {
         if (Instance != null && Instance != this)
@@ -15,45 +18,45 @@ public class PickupNotificationManager : MonoBehaviour
             Destroy(gameObject);
             return;
         }
-
         Instance = this;
     }
 
-    /// <summary>
-    /// Klasické oznámení při sebrání itemu.
-    /// </summary>
-    public void ShowPickup(Sprite icon, string itemName, int amount)
+    
+    private PickupNotificationEntry GetFromPool()
     {
-        if (entryPrefab == null || container == null)
+        
+        foreach (var item in pool)
         {
-            Debug.LogWarning("PickupNotificationManager: chybí prefab nebo container!");
-            return;
+            if (!item.gameObject.activeSelf)
+            {
+                return item;
+            }
         }
 
-        // ❌ UŽ NEKONTROLUJEME amount <= 0
+        
+        var newEntry = Instantiate(entryPrefab, container);
+        pool.Add(newEntry);
+        return newEntry;
+    }
 
-        var entry = Instantiate(entryPrefab, container);
-        entry.transform.SetAsFirstSibling();
+    public void ShowPickup(Sprite icon, string itemName, int amount)
+    {
+        if (entryPrefab == null || container == null) return;
+
+        
+        var entry = GetFromPool();
 
         string msg = amount > 0 ? $"+{amount} {itemName}" : itemName;
         entry.Setup(icon, msg);
     }
 
-    /// <summary>
-    /// Obecná textová zpráva (chyba apod.).
-    /// </summary>
     public void ShowMessage(string message)
     {
-        if (entryPrefab == null || container == null)
-        {
-            Debug.LogWarning("PickupNotificationManager: chybí prefab nebo container!");
-            return;
-        }
+        if (entryPrefab == null || container == null) return;
 
-        var entry = Instantiate(entryPrefab, container);
-        entry.transform.SetAsFirstSibling();
+        
+        var entry = GetFromPool();
 
-        // žádná ikona, jen text
         entry.Setup(null, message);
     }
 }

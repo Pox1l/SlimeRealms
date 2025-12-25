@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿// PickupNotificationEntry - Úprava pro Pooling
+using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
 using System.Collections;
@@ -10,8 +11,8 @@ public class PickupNotificationEntry : MonoBehaviour
     public TextMeshProUGUI text;
 
     [Header("Nastavení")]
-    public float lifeTime = 1.5f;    // jak dlouho to zůstane viditelné
-    public float fadeTime = 0.5f;    // jak dlouho mizí
+    public float lifeTime = 1.5f;
+    public float fadeTime = 0.5f;
 
     private CanvasGroup canvasGroup;
 
@@ -24,6 +25,10 @@ public class PickupNotificationEntry : MonoBehaviour
 
     public void Setup(Sprite icon, string message, bool isError = false)
     {
+        // Ujistíme se, že je objekt aktivní a na začátku seznamu
+        gameObject.SetActive(true);
+        transform.SetAsFirstSibling();
+
         if (iconImage != null)
         {
             iconImage.sprite = icon;
@@ -36,27 +41,30 @@ public class PickupNotificationEntry : MonoBehaviour
             text.color = isError ? Color.red : Color.white;
         }
 
+        // Reset stavu (důležité při recyklaci)
         canvasGroup.alpha = 1f;
+
+        // Zastavit předchozí coroutiny (pro jistotu) a spustit novou
+        StopAllCoroutines();
         StartCoroutine(LifeRoutine());
     }
 
-
-
     IEnumerator LifeRoutine()
     {
-        // chvíli držet
-        yield return new WaitForSeconds(lifeTime);
+        // 1. Čekání (nezávislé na TimeScale)
+        yield return new WaitForSecondsRealtime(lifeTime);
 
-        // fade out
+        // 2. Fade out (nezávislé na TimeScale)
         float t = 0f;
         while (t < fadeTime)
         {
-            t += Time.deltaTime;
+            t += Time.unscaledDeltaTime;
             float k = 1f - (t / fadeTime);
             canvasGroup.alpha = k;
             yield return null;
         }
 
-        Destroy(gameObject);
+        // 3. POOLING: Místo Destroy objekt jen deaktivujeme
+        gameObject.SetActive(false);
     }
 }

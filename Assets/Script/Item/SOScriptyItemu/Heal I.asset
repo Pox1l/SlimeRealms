@@ -14,10 +14,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   itemID: 101
   itemName: Potion I
-  icon: {fileID: 1844098456, guid: 26e8cdfc4bcb0bb4bb388f09ad645fac, type: 3}
+  icon: {fileID: -1555300596, guid: 6c769403a5da67642abf3b94d37a7c55, type: 3}
   description: Heals 20hp
   maxStack: 10
   isUsable: 1
   cooldown: 1
-  lastTimeUsed: 13.826097
+  lastTimeUsed: -999
   healAmount: 20

@@ -10,16 +10,10 @@ public class BossHealth : MonoBehaviour
     public event Action OnDeath;
     public event Action<int, int> OnHealthChanged;
 
-    // Komponenty
     private EnemyDrop drop;
     private EnemyController controller;
     private DamageFlash damageFlash;
     private EnemyKnockback knockback;
-
-    // ❌ SMAZÁNO: private ReturnToPoolOnDeath returnToPool; 
-    // Už to nepotřebujeme, protože ReturnToPoolBoss poslouchá event OnDeath.
-
-    // Odkaz na Spawner
     private BossEncounter bossEncounter;
 
     void Awake()
@@ -28,13 +22,18 @@ public class BossHealth : MonoBehaviour
         controller = GetComponent<EnemyController>();
         damageFlash = GetComponent<DamageFlash>();
         knockback = GetComponent<EnemyKnockback>();
-
-        // ❌ SMAZÁNO: returnToPool = GetComponent<ReturnToPoolOnDeath>();
     }
 
     void Start()
     {
         bossEncounter = FindObjectOfType<BossEncounter>();
+
+        // --- PŘIDÁNO: Inicializace UI ---
+        // Pokud je UI aktivní, nastavíme mu plné životy hned po spawnu
+        if (BossHealthUI.Instance != null)
+        {
+            BossHealthUI.Instance.UpdateHealth(currentHealth, maxHealth);
+        }
     }
 
     void OnEnable()
@@ -49,6 +48,12 @@ public class BossHealth : MonoBehaviour
 
         currentHealth -= damage;
         OnHealthChanged?.Invoke(currentHealth, maxHealth);
+
+        // --- PŘIDÁNO: Aktualizace UI ---
+        if (BossHealthUI.Instance != null)
+        {
+            BossHealthUI.Instance.UpdateHealth(currentHealth, maxHealth);
+        }
 
         if (damageFlash != null) damageFlash.Flash();
         if (knockback != null) knockback.PlayKnockback();
@@ -67,6 +72,12 @@ public class BossHealth : MonoBehaviour
     {
         Debug.Log("💀 Boss defeated!");
 
+        // --- PŘIDÁNO: Schování UI po smrti ---
+        if (BossHealthUI.Instance != null)
+        {
+            BossHealthUI.Instance.HideUI();
+        }
+
         if (drop != null) drop.DropLoot();
 
         if (bossEncounter != null)
@@ -79,12 +90,6 @@ public class BossHealth : MonoBehaviour
             if (bossEncounter != null) bossEncounter.SetBossDefeated();
         }
 
-        // ✅ TADY SE STANE KOUZLO:
-        // Jen řekneme "Umřel jsem". Skript ReturnToPoolBoss to uslyší, 
-        // počká 3 vteřiny a pak zavolá ForceReturn sám.
         OnDeath?.Invoke();
-
-        // ❌ SMAZÁNO: Celý ten blok s returnToPool.Return() nebo ForceReturn().
-        // Kdybys to tu nechal, boss by zmizel hned a nestihla by se animace.
     }
 }

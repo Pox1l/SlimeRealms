@@ -757,13 +757,13 @@ MonoBehaviour:
   enemyPrefab: {fileID: 2071230875132957550, guid: f61cc6e1b954a784bbb69b439a5f7014, type: 3}
   prewarmCount: 5
   maxActive: 5
-  spawnInterval: 2
+  spawnInterval: 5
   spawnRadius: 4.71
   firstSpawnDelay: 0.5
-  checkRadius: 1
+  checkRadius: 2
   obstacleLayer:
     serializedVersion: 2
-    m_Bits: 64
+    m_Bits: 576
 --- !u!61 &19508143
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -3268,8 +3268,8 @@ Transform:
   - {fileID: 1165233578}
   - {fileID: 1714771437}
   - {fileID: 1074184403}
-  - {fileID: 1442220389}
   - {fileID: 1503697620}
+  - {fileID: 1442220389}
   - {fileID: 350087188}
   - {fileID: 263932349}
   m_Father: {fileID: 1563622112}
@@ -36929,13 +36929,13 @@ MonoBehaviour:
   enemyPrefab: {fileID: 3935399750475596669, guid: 0598f768723678f45a67f12fed36e7b7, type: 3}
   prewarmCount: 5
   maxActive: 5
-  spawnInterval: 2
+  spawnInterval: 5
   spawnRadius: 6
   firstSpawnDelay: 0.5
-  checkRadius: 1
+  checkRadius: 2
   obstacleLayer:
     serializedVersion: 2
-    m_Bits: 64
+    m_Bits: 576
 --- !u!61 &326864591
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -37220,7 +37220,7 @@ GameObject:
   - component: {fileID: 350087189}
   - component: {fileID: 350087192}
   m_Layer: 0
-  m_Name: Object - 2
+  m_Name: Object - 3
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -37317,7 +37317,7 @@ TilemapRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 2
+  m_SortingOrder: 3
   m_ChunkSize: {x: 32, y: 32, z: 32}
   m_ChunkCullingBounds: {x: 0, y: 0, z: 0}
   m_MaxChunkCount: 16
@@ -200444,13 +200444,13 @@ MonoBehaviour:
   enemyPrefab: {fileID: 3935399750475596669, guid: 0598f768723678f45a67f12fed36e7b7, type: 3}
   prewarmCount: 5
   maxActive: 5
-  spawnInterval: 2
+  spawnInterval: 5
   spawnRadius: 4.85
   firstSpawnDelay: 0.5
-  checkRadius: 1
+  checkRadius: 2
   obstacleLayer:
     serializedVersion: 2
-    m_Bits: 64
+    m_Bits: 576
 --- !u!61 &1353692806
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -209065,13 +209065,13 @@ MonoBehaviour:
   enemyPrefab: {fileID: 2071230875132957550, guid: f61cc6e1b954a784bbb69b439a5f7014, type: 3}
   prewarmCount: 5
   maxActive: 5
-  spawnInterval: 2
+  spawnInterval: 5
   spawnRadius: 4.1
   firstSpawnDelay: 0.5
-  checkRadius: 1
+  checkRadius: 2
   obstacleLayer:
     serializedVersion: 2
-    m_Bits: 64
+    m_Bits: 576
 --- !u!61 &1862925341
 BoxCollider2D:
   m_ObjectHideFlags: 0

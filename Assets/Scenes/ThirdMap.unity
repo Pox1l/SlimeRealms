@@ -406460,13 +406460,13 @@ MonoBehaviour:
   enemyPrefab: {fileID: 8358661566486495768, guid: 6e39daa76c427fc48a43165ecf46ffa2, type: 3}
   prewarmCount: 5
   maxActive: 5
-  spawnInterval: 2
+  spawnInterval: 5
   spawnRadius: 7.6
   firstSpawnDelay: 0.5
-  checkRadius: 1
+  checkRadius: 2
   obstacleLayer:
     serializedVersion: 2
-    m_Bits: 64
+    m_Bits: 576
 --- !u!61 &1568598837
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -411598,13 +411598,13 @@ MonoBehaviour:
   enemyPrefab: {fileID: 8358661566486495768, guid: 6e39daa76c427fc48a43165ecf46ffa2, type: 3}
   prewarmCount: 5
   maxActive: 5
-  spawnInterval: 2
+  spawnInterval: 5
   spawnRadius: 10
   firstSpawnDelay: 0.5
-  checkRadius: 1
+  checkRadius: 2
   obstacleLayer:
     serializedVersion: 2
-    m_Bits: 64
+    m_Bits: 576
 --- !u!61 &2030369454
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -412356,13 +412356,13 @@ MonoBehaviour:
   enemyPrefab: {fileID: 8358661566486495768, guid: 6e39daa76c427fc48a43165ecf46ffa2, type: 3}
   prewarmCount: 5
   maxActive: 5
-  spawnInterval: 2
+  spawnInterval: 5
   spawnRadius: 9.4
   firstSpawnDelay: 0.5
-  checkRadius: 1
+  checkRadius: 2
   obstacleLayer:
     serializedVersion: 2
-    m_Bits: 64
+    m_Bits: 576
 --- !u!61 &2086684279
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -412778,13 +412778,13 @@ MonoBehaviour:
   enemyPrefab: {fileID: 8358661566486495768, guid: 6e39daa76c427fc48a43165ecf46ffa2, type: 3}
   prewarmCount: 5
   maxActive: 5
-  spawnInterval: 2
+  spawnInterval: 5
   spawnRadius: 6.28
   firstSpawnDelay: 0.5
-  checkRadius: 1
+  checkRadius: 2
   obstacleLayer:
     serializedVersion: 2
-    m_Bits: 64
+    m_Bits: 576
 --- !u!61 &2115269475
 BoxCollider2D:
   m_ObjectHideFlags: 0

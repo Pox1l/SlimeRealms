@@ -1,6 +1,5 @@
 ﻿using UnityEngine;
 using TMPro;
-using System.Linq;
 
 public class PlayerStatsUI : MonoBehaviour
 {
@@ -11,79 +10,78 @@ public class PlayerStatsUI : MonoBehaviour
     public TextMeshProUGUI defenseText;
     public TextMeshProUGUI staminaText;
 
-    private const int DEFAULT_DAMAGE_PLACEHOLDER = 50;
-
     private void Awake()
     {
         Instance = this;
     }
 
-    // Změna: Místo Start() použijeme OnEnable().
-    // To zajistí, že se kód provede pokaždé, když se toto UI zapne (otevře).
     private void OnEnable()
     {
-        // 1. Najít texty (i když jsou vypnuté), přímo pod tímto objektem ("Stats")
         FindUITextsInScene();
-
-        // 2. Aktualizovat obsah (načte aktuální data z PlayerDataManageru při každém otevření)
         UpdateStatsDisplay();
     }
 
-    // ----------------------------------------------------
-    // --- METODA PRO HLEDÁNÍ A PROPOJOVÁNÍ ---
-    // ----------------------------------------------------
-
     public void FindUITextsInScene()
     {
-        // 🔥 Nová, správná logika: Získat všechny Texty POUZE POD TÍMTO OBJEKTEM
-        // GetComponentsInChildren(true) zajistí, že se hledají i neaktivní děti
         TextMeshProUGUI[] allTexts = GetComponentsInChildren<TextMeshProUGUI>(true);
 
-        // Reset referencí
         damageText = null; healthText = null; defenseText = null; staminaText = null;
 
         foreach (var t in allTexts)
         {
             switch (t.name)
             {
-                // Jména dětí objektu Stats: DamageValue, HealthValue, atd.
-                case "DamageValue":
-                    damageText = t;
-                    break;
-                case "HealthValue":
-                    healthText = t;
-                    break;
-                case "DefenseValue":
-                    defenseText = t;
-                    break;
-                case "StaminaValue":
-                    staminaText = t;
-                    break;
+                case "DamageValue": damageText = t; break;
+                case "HealthValue": healthText = t; break;
+                case "DefenseValue": defenseText = t; break;
+                case "StaminaValue": staminaText = t; break;
             }
         }
 
-        // Finalní kontrola
         if (damageText != null && healthText != null && defenseText != null && staminaText != null)
         {
-            Debug.Log("UI Texty pro statistiky úspěšně nalezeny a propojeny.");
+            Debug.Log("UI Texty pro statistiky úspěšně nalezeny.");
         }
         else
         {
-            Debug.LogWarning("Nebyly nalezeny všechny 4 UI Texty pod objektem 'Stats'! Zkontrolujte, zda jsou pojmenovány DamageValue, HealthValue, DefenseValue, StaminaValue.");
+            Debug.LogWarning("Nebyly nalezeny všechny UI Texty (hledám: DamageValue, HealthValue, DefenseValue, StaminaValue).");
         }
     }
 
-    // ----------------------------------------------------
-    // --- METODA PRO AKTUALIZACI ZOBRAZENÍ Z JSON DAT ---
-    // ----------------------------------------------------
-
     public void UpdateStatsDisplay()
     {
+        // Kontrola, zda máme data
         if (healthText == null || PlayerDataManager.Instance == null) return;
 
+        // Načtení uložených dat (HP, Stamina, Def)
         PlayerData data = PlayerDataManager.Instance.currentData;
 
-        damageText.text = $"Damage: {DEFAULT_DAMAGE_PLACEHOLDER}";
+
+        // --- 🔥 VÝPOČET DAMAGE (Nový kód) ---
+        int displayDamage = 0;
+
+        // 1. Získáme aktuální multiplier (bonus ze skill tree)
+        // Pokud je PlayerStats načtený, vezmeme ho odtud. Jinak 1.0 (základ).
+        float multiplier = PlayerStats.Instance != null ? PlayerStats.Instance.damageMultiplier : 1f;
+
+        // 2. Najdeme AttackSystem na hráči, abychom zjistili Base Damage zbraně
+        PlayerAttackSystem attackSystem = FindObjectOfType<PlayerAttackSystem>();
+
+        if (attackSystem != null && attackSystem.currentAttack != null)
+        {
+            // Vzorec: Základ zbraně * Skill Bonus
+            float calculatedDmg = attackSystem.currentAttack.baseDamage * multiplier;
+            displayDamage = Mathf.RoundToInt(calculatedDmg);
+        }
+        else
+        {
+            // Fallback: Pokud hráč nemá zbraň nebo script, ukážeme 0 nebo nějaký základ
+            displayDamage = 0;
+        }
+
+        // --- VÝPIS ---
+        damageText.text = $"Damage: {displayDamage}"; // Např. "Damage: 15"
+
         healthText.text = $"Health: {data.maxHealth}";
         defenseText.text = $"Defense: {Mathf.RoundToInt(data.defense)}";
         staminaText.text = $"Stamina: {Mathf.RoundToInt(data.maxStamina)}";

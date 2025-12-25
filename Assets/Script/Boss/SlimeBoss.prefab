@@ -160,8 +160,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 144719ea3d6d25a4da50b3348e1d4ab3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxHealth: 500
-  currentHealth: 100
+  maxHealth: 350
+  currentHealth: 350
 --- !u!114 &5808073907585181944
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -174,7 +174,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0a1ac85618ab4d5479873376a6631b8b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  delayBeforeReturn: 0.5
+  delayBeforeReturn: 0
 --- !u!114 &6947936076744832118
 MonoBehaviour:
   m_ObjectHideFlags: 0

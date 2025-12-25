@@ -8,6 +8,7 @@ public class PlayerStats : MonoBehaviour
     [Header("Base Stats")]
     public int baseMaxHealth = 100;
     public float baseMaxStamina = 100;
+    public float baseDamageMultiplier = 1f; // 🆕 Základní poškození (1 = 100%)
 
     [Header("Runtime Stats")]
     public int maxHealth;
@@ -16,8 +17,11 @@ public class PlayerStats : MonoBehaviour
     public float maxStamina;
     public float currentStamina;
 
+    // 🆕 Zde se uloží finální síla útoku (např. 1.5 pro +50% dmg)
+    public float damageMultiplier = 1f;
+
     [Header("Stamina Settings")]
-    public float staminaRegenRate = 15f; // 🔥 Přesunuto z PlayerMovement
+    public float staminaRegenRate = 15f;
 
     [Header("Defense")]
     public float baseDefense = 25f;
@@ -27,7 +31,6 @@ public class PlayerStats : MonoBehaviour
     public event Action<int, int> OnHealthChanged;
     public event Action<float, float> OnStaminaChanged;
     public event Action OnPlayerDied;
-    //public Animator spriteAnimator;
 
     [Header("Components")]
     public PlayerKnockback playerKnockback;
@@ -38,15 +41,7 @@ public class PlayerStats : MonoBehaviour
         if (Instance == null) Instance = this;
         else Destroy(gameObject);
 
-        /*
-        if (spriteAnimator == null)
-        {
-            spriteAnimator = GetComponentInChildren<Animator>();
-        }
-        */
         if (playerKnockback == null) playerKnockback = GetComponent<PlayerKnockback>();
-
-        // ⚡ Automaticky najdeme i DamageFlash, pokud je na hráči
         if (damageFlash == null) damageFlash = GetComponentInChildren<DamageFlash>();
     }
 
@@ -58,26 +53,21 @@ public class PlayerStats : MonoBehaviour
 
     void Update()
     {
-        // 🔥 REGENERACE STAMINY (Přesunuto sem)
         if (currentStamina < maxStamina)
         {
             currentStamina += staminaRegenRate * Time.deltaTime;
             if (currentStamina > maxStamina) currentStamina = maxStamina;
-
-            // Event voláme jen při změně, ale neukládáme na disk každý frame (moc náročné)
             OnStaminaChanged?.Invoke(currentStamina, maxStamina);
         }
     }
 
     // --- METODY PRO POHYB ---
-
-    // Zkusí odečíst staminu. Vrací true, pokud na to hráč má.
     public bool UseStamina(float amount)
     {
         if (currentStamina >= amount)
         {
             currentStamina -= amount;
-            SaveToManager(); // Uložíme změnu
+            SaveToManager();
             OnStaminaChanged?.Invoke(currentStamina, maxStamina);
             return true;
         }
@@ -99,6 +89,7 @@ public class PlayerStats : MonoBehaviour
         float calculatedHealth = baseMaxHealth;
         float calculatedStamina = baseMaxStamina;
         float calculatedDefense = baseDefense;
+        float calculatedDamage = baseDamageMultiplier; // 🆕 Začínáme na 1.0
 
         if (SkillDatabase.Instance != null)
         {
@@ -111,6 +102,8 @@ public class PlayerStats : MonoBehaviour
                         case SkillType.Health: calculatedHealth += skill.GetTotalBonus(); break;
                         case SkillType.Stamina: calculatedStamina += skill.GetTotalBonus(); break;
                         case SkillType.Defense: calculatedDefense += skill.GetTotalBonus(); break;
+                        // 🆕 Započítání damage ze skillů
+                        case SkillType.Damage: calculatedDamage += skill.GetTotalBonus(); break;
                     }
                 }
             }
@@ -119,6 +112,7 @@ public class PlayerStats : MonoBehaviour
         maxHealth = Mathf.RoundToInt(calculatedHealth);
         maxStamina = calculatedStamina;
         defense = calculatedDefense;
+        damageMultiplier = calculatedDamage; // 🆕 Uložení výsledku
 
         // Doplnění po upgradu
         if (healOnIncrease)
@@ -141,26 +135,27 @@ public class PlayerStats : MonoBehaviour
         {
             var data = PlayerDataManager.Instance.currentData;
 
-            // 1. Načtení MAX hodnot (To ti funguje, vidím 160)
             maxHealth = data.maxHealth;
             maxStamina = data.maxStamina;
             defense = data.defense;
 
-            // 2. 🔥 OPRAVA ZDE:
-            // Místo načítání starých životů (data.currentHealth) je nastavíme rovnou na MAX.
+            // Poznámka: Damage se obvykle neukládá do SaveFile, 
+            // protože se vždy přepočítá ze Skillů. Pokud ho tam chceš, přidej ho.
+            // Pro jistotu zavoláme přepočet, aby se damage nastavil správně podle aktivních skillů:
+            RecalculateStats(false);
+
             currentHealth = maxHealth;
             currentStamina = maxStamina;
         }
         else
         {
-            // Fallback (kdyby neexistoval manager)
             currentHealth = baseMaxHealth;
             maxHealth = baseMaxHealth;
             currentStamina = baseMaxStamina;
             maxStamina = baseMaxStamina;
+            damageMultiplier = baseDamageMultiplier;
         }
 
-        // Aktualizace UI hned po načtení
         OnHealthChanged?.Invoke(currentHealth, maxHealth);
         OnStaminaChanged?.Invoke(currentStamina, maxStamina);
     }
@@ -184,7 +179,6 @@ public class PlayerStats : MonoBehaviour
         finalDamage = Mathf.Max(1, finalDamage);
         currentHealth = Mathf.Max(0, currentHealth - finalDamage);
 
-        // 🔥 SPUŠTĚNÍ KNOCKBACKU
         if (attacker != null && playerKnockback != null)
         {
             playerKnockback.ApplyKnockback(attacker);
@@ -211,14 +205,6 @@ public class PlayerStats : MonoBehaviour
     void Die()
     {
         Debug.Log("💀 Player died!");
-
-        /*
-        if (spriteAnimator != null)
-        {
-            // Ujisti se, že v Animatoru máš Trigger pojmenovaný "Die"
-            spriteAnimator.SetTrigger("Die");
-        }
-        */
         OnPlayerDied?.Invoke();
     }
 }

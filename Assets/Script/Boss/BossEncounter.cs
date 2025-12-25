@@ -3,16 +3,18 @@ using System.Collections;
 
 public class BossEncounter : MonoBehaviour
 {
-    [Header("Nastavení Bosse")]
+    [Header("Nastavení")]
     public GameObject bossPrefab;
     public Transform spawnPoint;
     public float startDelay = 0.5f;
-    public bool bossDefeated = false; // Pokud true, boss už se neobjeví
+
+    // Defaultně TRUE = boss je "jakože poražen/nedostupný", dokud nezaplatíš u barikády
+    public bool bossDefeated = true;
 
     [Header("Propojení")]
     public PixelCameraZoomer cameraZoomer;
+    public BossEntrance entranceScript; // Odkaz na barikádu
 
-    // Interní proměnné pro Pool
     private ObjectPool pool;
     private GameObject activeBoss;
     private Coroutine spawnCoroutine;
@@ -20,21 +22,42 @@ public class BossEncounter : MonoBehaviour
 
     void Awake()
     {
-        // Inicializace Poolu - stačí nám 1 boss (prewarm 1)
-        // Předpokládám, že máš třídu ObjectPool definovanou stejně jako v předchozím příkladu
         pool = new ObjectPool(bossPrefab, 1, transform);
+    }
+
+    // Volá BossEntrance po odstranění barikády
+    public void PrepareBoss()
+    {
+        bossDefeated = false; // Boss je připraven
+        // Pokud už hráč stojí v aréně (např. barikáda byla uvnitř), rovnou spawnuj
+        if (playerInside && activeBoss == null)
+        {
+            if (spawnCoroutine != null) StopCoroutine(spawnCoroutine);
+            spawnCoroutine = StartCoroutine(SpawnSequence());
+        }
     }
 
     void OnTriggerEnter2D(Collider2D other)
     {
         if (!other.CompareTag("Player")) return;
-
         playerInside = true;
 
-        // 1. Zoom kamery
         if (cameraZoomer != null) cameraZoomer.ZoomToCombat();
 
-        // 2. Spawn sekvence (pokud boss žije a není zrovna aktivní)
+        // 👁️ FIX: Získání reference na UI
+        BossHealthUI ui = BossHealthUI.Instance;
+        // Pokud je instance null (protože je objekt vypnutý), najdeme ho ručně (true = hledat i neaktivní)
+        if (ui == null) ui = FindObjectOfType<BossHealthUI>(true);
+
+        // Zobrazíme UI, jen pokud boss není mrtvý a UI jsme našli
+        if (!bossDefeated && ui != null)
+        {
+            ui.ShowUI();
+            // Pro jistotu nastavíme Singleton, kdyby nebyl nastaven
+            if (BossHealthUI.Instance == null) BossHealthUI.Instance = ui;
+        }
+
+        // Spawn bosse
         if (!bossDefeated && activeBoss == null)
         {
             if (spawnCoroutine != null) StopCoroutine(spawnCoroutine);
@@ -45,92 +68,70 @@ public class BossEncounter : MonoBehaviour
     void OnTriggerExit2D(Collider2D other)
     {
         if (!other.CompareTag("Player")) return;
-
         playerInside = false;
 
-        // 3. Zoom zpět
+        // 👁️ SCHOVÁNÍ UI OKAMŽITĚ PO ODCHODU
+        // Zde taky raději zkontrolujeme, zda máme instanci, případně ji dohledáme
+        BossHealthUI ui = BossHealthUI.Instance;
+        if (ui == null) ui = FindObjectOfType<BossHealthUI>(true);
+
+        if (ui != null)
+        {
+            ui.HideUI();
+        }
+
         if (cameraZoomer != null) cameraZoomer.ZoomToNormal();
 
-        // 4. Reset boje - Boss zmizí (vrátí se do poolu), pokud jsi ho nezabil
+        // Despawn bosse, pokud jsi utekl
         if (activeBoss != null)
         {
             DespawnBoss();
         }
     }
 
+    public void SetBossDefeated()
+    {
+        bossDefeated = true; // Zámek
+
+        // Schováme UI, protože boss je tuhý
+        BossHealthUI ui = BossHealthUI.Instance;
+        if (ui == null) ui = FindObjectOfType<BossHealthUI>(true);
+        if (ui != null) ui.HideUI();
+
+        if (cameraZoomer != null) cameraZoomer.ZoomToNormal();
+
+        // 🔄 Resetujeme barikádu
+        if (entranceScript != null) entranceScript.ResetBarrier();
+    }
+
+    // --- Spawn logika ---
     IEnumerator SpawnSequence()
     {
         yield return new WaitForSeconds(startDelay);
-
-        // Pojistka: Hráč mohl během delaye odejít
-        if (playerInside && activeBoss == null && !bossDefeated)
-        {
-            SpawnBoss();
-        }
+        if (playerInside && activeBoss == null && !bossDefeated) SpawnBoss();
     }
 
     void SpawnBoss()
     {
         activeBoss = pool.Get();
 
-        // 1. Přesuneme bosse na místo
-        Vector3 finalPos = (spawnPoint != null) ? spawnPoint.position : transform.position;
-        var agent = activeBoss.GetComponent<UnityEngine.AI.NavMeshAgent>();
+        // Pozice a Domov
+        Vector3 pos = (spawnPoint != null) ? spawnPoint.position : transform.position;
+        if (activeBoss.TryGetComponent(out UnityEngine.AI.NavMeshAgent agent)) agent.Warp(pos);
+        else activeBoss.transform.position = pos;
 
-        if (agent != null) agent.Warp(finalPos);
-        else activeBoss.transform.position = finalPos;
+        if (activeBoss.TryGetComponent(out EnemyController ctrl)) ctrl.SetHomePosition(pos);
 
-        // --- 👇 TOTO MUSÍŠ PŘIDAT 👇 ---
-        // Řekneme controlleru: "Zapomeň, kde ses narodil. Tady v aréně je tvůj nový domov."
-        var controller = activeBoss.GetComponent<EnemyController>();
-        if (controller != null)
-        {
-            controller.SetHomePosition(finalPos);
-        }
-        // -------------------------------
-
-        // Zbytek tvého kódu pro návrat do poolu...
-        var ret = activeBoss.GetComponent<ReturnToPoolBoss>();
-        if (ret != null)
-        {
-            ret.Init(pool, OnBossReturned);
-        }
-
-        Debug.Log("👹 Boss Spawned z Poolu a má nastavený domov!");
+        // Inicializace návratu do poolu
+        if (activeBoss.TryGetComponent(out ReturnToPoolBoss ret)) ret.Init(pool, () => activeBoss = null);
     }
 
     void DespawnBoss()
     {
         if (activeBoss != null && activeBoss.activeSelf)
         {
-            // 🔥 OPRAVA: Zase hledáme ReturnToPoolBoss
-            var ret = activeBoss.GetComponent<ReturnToPoolBoss>();
-            if (ret != null)
-            {
-                ret.ForceReturn();
-            }
-            else
-            {
-                activeBoss.SetActive(false);
-            }
+            if (activeBoss.TryGetComponent(out ReturnToPoolBoss ret)) ret.ForceReturn();
+            else activeBoss.SetActive(false);
         }
-    }
-
-    // Callback volaný z ReturnToPoolOnDeath
-    void OnBossReturned()
-    {
-        activeBoss = null;
-    }
-
-    // 🔥 Tuto metodu zavolej ze skriptu Bosse (z jeho metody Die), když opravdu umře
-    public void SetBossDefeated()
-    {
-        bossDefeated = true;
-
-        // Pokud chceš, aby po smrti rovnou zmizel (nebo nechal mrtvolu a zmizel až odejdeš),
-        // upravuje se to v ReturnToPoolOnDeath na bossovi.
-
-        if (cameraZoomer != null) cameraZoomer.ZoomToNormal();
-        Debug.Log("🏆 Boss poražen navždy!");
     }
 }

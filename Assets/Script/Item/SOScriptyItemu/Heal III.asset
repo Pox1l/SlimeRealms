@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   itemID: 103
   itemName: Potion III
-  icon: {fileID: 1844098456, guid: 26e8cdfc4bcb0bb4bb388f09ad645fac, type: 3}
+  icon: {fileID: 1743994027, guid: 6c769403a5da67642abf3b94d37a7c55, type: 3}
   description: Heals 60hp
   maxStack: 10
   isUsable: 1
