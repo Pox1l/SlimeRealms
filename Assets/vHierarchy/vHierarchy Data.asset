@@ -432,6 +432,9 @@ MonoBehaviour:
         - globalObjectIdString: GlobalObjectId_V1-2-6de1a7d931f01ef4abebbf15f7e0502c-701124851667480378-332845155054915351
         - globalObjectIdString: GlobalObjectId_V1-2-6de1a7d931f01ef4abebbf15f7e0502c-5540334271003903805-3272000298136758559
         - globalObjectIdString: GlobalObjectId_V1-2-6de1a7d931f01ef4abebbf15f7e0502c-3975930-0
+        - globalObjectIdString: GlobalObjectId_V1-2-6de1a7d931f01ef4abebbf15f7e0502c-80160874-0
+        - globalObjectIdString: GlobalObjectId_V1-2-6de1a7d931f01ef4abebbf15f7e0502c-1358272460287809152-332845155054915351
+        - globalObjectIdString: GlobalObjectId_V1-2-6de1a7d931f01ef4abebbf15f7e0502c-3368814027637255221-332845155054915351
         values:
         - colorIndex: 0
           iconNameOrGuid: Canvas Icon
@@ -579,6 +582,18 @@ MonoBehaviour:
           isColorRecursive: 0
         - colorIndex: 0
           iconNameOrGuid: Canvas Icon
+          isIconRecursive: 0
+          isColorRecursive: 0
+        - colorIndex: 0
+          iconNameOrGuid: Canvas Icon
+          isIconRecursive: 0
+          isColorRecursive: 0
+        - colorIndex: 0
+          iconNameOrGuid: Canvas Icon
+          isIconRecursive: 0
+          isColorRecursive: 0
+        - colorIndex: 0
+          iconNameOrGuid: Folder
           isIconRecursive: 0
           isColorRecursive: 0
     - goDatas_byGlobalId:
@@ -753,6 +768,7 @@ MonoBehaviour:
         keys:
         - globalObjectIdString: GlobalObjectId_V1-2-103c331bb13690d488c43ac75191101a-60151847-0
         - globalObjectIdString: GlobalObjectId_V1-2-103c331bb13690d488c43ac75191101a-552149126-0
+        - globalObjectIdString: GlobalObjectId_V1-2-103c331bb13690d488c43ac75191101a-1192424209-0
         values:
         - colorIndex: 0
           iconNameOrGuid: EventSystem Icon
@@ -760,6 +776,10 @@ MonoBehaviour:
           isColorRecursive: 0
         - colorIndex: 0
           iconNameOrGuid: Canvas Icon
+          isIconRecursive: 0
+          isColorRecursive: 0
+        - colorIndex: 0
+          iconNameOrGuid: Camera Icon
           isIconRecursive: 0
           isColorRecursive: 0
     - goDatas_byGlobalId:

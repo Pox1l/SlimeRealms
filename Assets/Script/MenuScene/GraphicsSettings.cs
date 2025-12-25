@@ -1,53 +1,82 @@
-using UnityEngine;
-using TMPro; // D˘leûitÈ pro TextMeshPro Dropdowny
+Ôªøusing UnityEngine;
+using UnityEngine.UI; // üî• Nutn√© pro Toggle (Checkbox)
+using TMPro;
 
 public class GraphicsSettings : MonoBehaviour
 {
-    [Header("P¯et·hni sem Dropdowny z Inspectoru")]
+    [Header("UI Prvky")]
     public TMP_Dropdown resolutionDropdown;
     public TMP_Dropdown fpsDropdown;
+    public Toggle vsyncToggle; // üî• Sem p≈ôet√°hni nov√Ω Checkbox
 
     void Start()
     {
-        // 1. NA»TENÕ ULOéEN›CH DAT
-        // Pokud hra bÏûÌ poprvÈ, pouûije se defaultnÌ hodnota (druhÈ ËÌslo v z·vorce)
+        // 1. NAƒåTEN√ç DAT
         int savedResIndex = PlayerPrefs.GetInt("ResolutionIndex", 0);
-        int savedFpsIndex = PlayerPrefs.GetInt("FpsIndex", 1); // DefaultnÏ nap¯. 60 FPS (index 1)
+        int savedFpsIndex = PlayerPrefs.GetInt("FpsIndex", 1);
+        int savedVsync = PlayerPrefs.GetInt("VSyncEnabled", 0); // 0 = Vypnuto, 1 = Zapnuto
 
-        // 2. AKTUALIZACE VZHLEDU DROPDOWNŸ
-        // Aby v menu svÌtilo to, co je re·lnÏ nastavenÈ
+        // 2. AKTUALIZACE UI
         resolutionDropdown.value = savedResIndex;
         fpsDropdown.value = savedFpsIndex;
 
-        // 3. APLIKACE NASTAVENÕ
-        // Hned p¯i startu (nebo naËtenÌ scÈny) se grafika p¯enastavÌ
+        // Nastav√≠me checkbox podle ulo≈æen√© hodnoty (1 == true, 0 == false)
+        vsyncToggle.isOn = (savedVsync == 1);
+
+        // 3. APLIKACE NASTAVEN√ç (v≈°e najednou)
         ChangeResolution(savedResIndex);
-        ChangeFPS(savedFpsIndex);
+        RefreshFrameRateLogic(); // Speci√°ln√≠ funkce, kter√° ≈ôe≈°√≠ konflikt FPS vs VSync
     }
 
-    // Tuto funkci propoj v Unity na Dropdown (Resolution) -> OnValueChanged
+    // --- ROZLI≈†EN√ç ---
     public void ChangeResolution(int index)
     {
-        // P¯Ìklad rozliöenÌ - uprav si podle sebe
         if (index == 0) Screen.SetResolution(1920, 1080, FullScreenMode.FullScreenWindow);
         else if (index == 1) Screen.SetResolution(1280, 720, FullScreenMode.Windowed);
 
-        // ULOéIT VOLBU
         PlayerPrefs.SetInt("ResolutionIndex", index);
         PlayerPrefs.Save();
     }
 
-    // Tuto funkci propoj v Unity na Dropdown (FPS) -> OnValueChanged
+    // --- FPS LIMIT (Vol√° se z Dropdownu) ---
     public void ChangeFPS(int index)
     {
-        QualitySettings.vSyncCount = 0; // NutnÈ vypnout VSync pro manu·lnÌ FPS
-
-        if (index == 0) Application.targetFrameRate = 30;
-        else if (index == 1) Application.targetFrameRate = 60;
-        else if (index == 2) Application.targetFrameRate = -1; // Neomezeno
-
-        // ULOéIT VOLBU
         PlayerPrefs.SetInt("FpsIndex", index);
         PlayerPrefs.Save();
+
+        // Po zmƒõnƒõ v dropdownu mus√≠me p≈ôepoƒç√≠tat logiku (zohlednit VSync)
+        RefreshFrameRateLogic();
+    }
+
+    // --- VSYNC (Vol√° se z Toggle Checkboxu) ---
+    public void ToggleVSync(bool isEnabled)
+    {
+        PlayerPrefs.SetInt("VSyncEnabled", isEnabled ? 1 : 0);
+        PlayerPrefs.Save();
+
+        // Po kliknut√≠ na checkbox mus√≠me p≈ôepoƒç√≠tat logiku
+        RefreshFrameRateLogic();
+    }
+
+    // --- HLAVN√ç LOGIKA PRO FPS A VSYNC ---
+    // Tuhle funkci vol√°me internƒõ, aby se VSync a FPS neh√°daly
+    private void RefreshFrameRateLogic()
+    {
+        // Pokud je Checkbox za≈°krtnut√Ω -> Zapneme VSync
+        if (vsyncToggle.isOn)
+        {
+            QualitySettings.vSyncCount = 1; // Zapnuto (synchronizace s monitorem)
+            Application.targetFrameRate = -1; // FPS limit nech√°me na monitoru
+        }
+        else
+        {
+            // Pokud je Checkbox vypnut√Ω -> Vypneme VSync a ≈ô√≠d√≠me se Dropdownem
+            QualitySettings.vSyncCount = 0;
+
+            int index = fpsDropdown.value;
+            if (index == 0) Application.targetFrameRate = 30;
+            else if (index == 1) Application.targetFrameRate = 60;
+            else if (index == 2) Application.targetFrameRate = -1;
+        }
     }
 }
