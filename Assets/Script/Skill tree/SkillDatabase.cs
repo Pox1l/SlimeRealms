@@ -106,17 +106,50 @@ public class SkillDatabase : MonoBehaviour
 
     public void LoadSkills()
     {
-        if (!File.Exists(savePath)) return;
+        // 1. Pokud soubor vůbec neexistuje, rovnou ho vytvoříme s aktuálními daty (vše na 0)
+        if (!File.Exists(savePath))
+        {
+            SaveSkills(); // 🔥 Vytvoří json hned při prvním startu
+            return;
+        }
 
         try
         {
-            SaveList loadedData = JsonUtility.FromJson<SaveList>(File.ReadAllText(savePath));
+            string json = File.ReadAllText(savePath);
+
+            // 2. Pokud je soubor existuje, ale je prázdný
+            if (string.IsNullOrEmpty(json))
+            {
+                SaveSkills(); // 🔥 Opraví prázdný soubor
+                return;
+            }
+
+            SaveList loadedData = JsonUtility.FromJson<SaveList>(json);
+
+            if (loadedData == null || loadedData.skills == null)
+            {
+                SaveSkills(); // 🔥 Opraví poškozená data
+                return;
+            }
+
             foreach (var saved in loadedData.skills)
             {
                 var skill = allSkills.FirstOrDefault(s => s.id == saved.id);
                 if (skill != null) skill.currentLevel = saved.level;
             }
+
+            // Přepočet statistik po načtení
+            if (PlayerStats.Instance != null)
+            {
+                PlayerStats.Instance.RecalculateStats(false, false);
+            }
         }
-        catch { Debug.LogWarning("Chyba při načítání JSONu."); }
+        catch (System.Exception ex)
+        {
+            Debug.LogError($"Chyba save file: {ex.Message}");
+            // 3. Při kritické chybě resetujeme a uložíme čistý stav
+            ResetAllSkills();
+            SaveSkills(); // 🔥 Vytvoří nový soubor místo toho rozbitého
+        }
     }
 }

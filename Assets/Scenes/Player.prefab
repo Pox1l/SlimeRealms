@@ -189,14 +189,16 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   baseMaxHealth: 100
   baseMaxStamina: 100
+  baseDamageMultiplier: 1
   maxHealth: 100
   currentHealth: 100
   maxStamina: 100
   currentStamina: 100
+  damageMultiplier: 1
   staminaRegenRate: 15
   baseDefense: 25
   defense: 25
-  ignoreDefense: 1
+  ignoreDefense: 0
   playerKnockback: {fileID: 0}
   damageFlash: {fileID: 0}
 --- !u!114 &2334183526678316633
@@ -213,11 +215,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   enemyLayers:
     serializedVersion: 2
-    m_Bits: 0
+    m_Bits: 64
   cam: {fileID: 0}
   meleePoint: {fileID: 7109074728681241495}
   rangePoint: {fileID: 849391049754966661}
   currentAttack: {fileID: 11400000, guid: 9fc575321a7a112469cbdf6ce241cc11, type: 2}
+  nextAttackTime: 0
 --- !u!114 &2613256912368071455
 MonoBehaviour:
   m_ObjectHideFlags: 0

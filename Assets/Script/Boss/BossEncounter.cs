@@ -91,17 +91,16 @@ public class BossEncounter : MonoBehaviour
 
     public void SetBossDefeated()
     {
-        bossDefeated = true; // Zámek
+        bossDefeated = true;
 
-        // Schováme UI, protože boss je tuhý
         BossHealthUI ui = BossHealthUI.Instance;
         if (ui == null) ui = FindObjectOfType<BossHealthUI>(true);
         if (ui != null) ui.HideUI();
 
         if (cameraZoomer != null) cameraZoomer.ZoomToNormal();
 
-        // 🔄 Resetujeme barikádu
-        if (entranceScript != null) entranceScript.ResetBarrier();
+        // ODSTRANĚNO: entranceScript.ResetBarrier(); 
+        // Brána se teď resetuje sama v OnTriggerExit2D až hráč odejde chodbou.
     }
 
     // --- Spawn logika ---

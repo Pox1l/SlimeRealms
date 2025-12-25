@@ -147,6 +147,10 @@ public class BossEntrance : MonoBehaviour
     {
         if (!other.CompareTag("Player")) return;
         playerInRange = false;
+
+        // --- ZDE JSME SMAZALI LOGIKU ZAVÍRÁNÍ ---
+        // Teď to dělá ten nový BossExitTrigger v chodbě.
+
         if (pressEHint != null) pressEHint.SetActive(false);
         if (requirementsPanel != null) requirementsPanel.SetActive(false);
     }
