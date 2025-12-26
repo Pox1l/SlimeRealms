@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: 93d5c45418fdab745ac701e449bc7e8b
+guid: 990062d2aa65a8a42a2a70b980215740
 TextureImporter:
   internalIDToNameTable: []
   externalObjects: {}
@@ -110,85 +110,169 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: KrystalRepairAnim_0
+      name: torch 1_0
       rect:
         serializedVersion: 2
         x: 0
-        y: 0
-        width: 15
-        height: 32
+        y: 52
+        width: 4
+        height: 12
       alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 63a9011e0a5cf854090e9ed238a66b22
-      internalID: 1792201373
+      spriteID: 1ef6225e57d2e6742949fc0cfbc8b647
+      internalID: 609338013
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: KrystalRepairAnim_1
+      name: torch 1_1
       rect:
         serializedVersion: 2
-        x: 16
-        y: 0
-        width: 15
-        height: 32
+        x: 21
+        y: 48
+        width: 5
+        height: 14
       alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: b14968bdfbbbdec45ad164c6b3446279
-      internalID: -1513911750
+      spriteID: fe1302e3e317b364e8f6e5c939496aa9
+      internalID: 729549208
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: KrystalRepairAnim_2
+      name: torch 1_2
       rect:
         serializedVersion: 2
-        x: 32
-        y: 0
-        width: 15
-        height: 32
+        x: 53
+        y: 35
+        width: 11
+        height: 23
       alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: e09deae6cb6094a40a4b582079d2c230
-      internalID: 142318125
+      spriteID: 16bd53b7239d54843b2c23282642bce2
+      internalID: -265297918
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: KrystalRepairAnim_3
+      name: torch 1_3
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 32
+        width: 4
+        height: 12
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 7be31bdfbe56b1444adeaa09154b50b9
+      internalID: 1239120485
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: torch 1_4
+      rect:
+        serializedVersion: 2
+        x: 12
+        y: 16
+        width: 4
+        height: 12
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 047e1f302b9cefe43b3196ff084608e0
+      internalID: -130491483
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: torch 1_5
+      rect:
+        serializedVersion: 2
+        x: 22
+        y: 4
+        width: 23
+        height: 23
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: c92b7cc9d8ff13c4594cbdef0d04ece5
+      internalID: 323778120
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: torch 1_6
       rect:
         serializedVersion: 2
         x: 48
-        y: 0
-        width: 15
-        height: 32
+        y: 3
+        width: 11
+        height: 23
       alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: ca8297ae7adfdb5428bc465910853ba7
-      internalID: 1093743416
+      spriteID: e13ffee3a33d91d4a8d519d96e754715
+      internalID: 492167848
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: torch 1_7
+      rect:
+        serializedVersion: 2
+        x: 12
+        y: 4
+        width: 4
+        height: 12
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: d6d09efbfe344a746b7edb3ee744bd06
+      internalID: -1121659066
       vertices: []
       indices: 
       edges: []
@@ -204,10 +288,14 @@ TextureImporter:
     weights: []
     secondaryTextures: []
     nameFileIdTable:
-      KrystalRepairAnim_0: 1792201373
-      KrystalRepairAnim_1: -1513911750
-      KrystalRepairAnim_2: 142318125
-      KrystalRepairAnim_3: 1093743416
+      torch 1_0: 609338013
+      torch 1_1: 729549208
+      torch 1_2: -265297918
+      torch 1_3: 1239120485
+      torch 1_4: -130491483
+      torch 1_5: 323778120
+      torch 1_6: 492167848
+      torch 1_7: -1121659066
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 
