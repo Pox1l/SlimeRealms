@@ -1,13 +1,14 @@
 using System.Collections;
 using UnityEngine;
 using UnityEngine.UI;
-using FMODUnity; // Dùležité pro propojení
+using FMODUnity;
 
 public class FMODVolumeControl : MonoBehaviour
 {
     [Header("Cesta k Mixer Group (Bus)")]
-    [Tooltip("Sem napiš pøesnì: bus:/Master, bus:/Music nebo bus:/SFX")]
-    public string busPath = "bus:/Master";
+    public string busPath = "bus:/";
+
+    public string saveKey = "Master";
 
     private Slider slider;
 
@@ -15,16 +16,20 @@ public class FMODVolumeControl : MonoBehaviour
     {
         slider = GetComponent<Slider>();
 
-        // KLÍÈOVÁ ÈÁST: Èekáme ve smyèce, dokud FMOD nenaète banky
         while (!RuntimeManager.HaveMasterBanksLoaded)
         {
-            yield return null; // Poèkáme jeden snímek a zkusíme to znovu
+            yield return null;
         }
 
-        // Teï už jsou banky naètené a bezpeènì najdeme Bus
         FMOD.Studio.Bus bus = RuntimeManager.GetBus(busPath);
-        bus.getVolume(out float currentVol);
-        slider.value = currentVol;
+
+        // --- NAÈÍTÁNÍ ---
+        // Naèteme uloženou hodnotu. Pokud ještì neexistuje, použijeme 1 (plná hlasitost).
+        float savedVol = PlayerPrefs.GetFloat(saveKey, 0.5f);
+
+        // Nastavíme slider i FMOD bus na tuhle hodnotu
+        slider.value = savedVol;
+        bus.setVolume(savedVol);
 
         slider.onValueChanged.AddListener(SetVolume);
     }
@@ -33,5 +38,10 @@ public class FMODVolumeControl : MonoBehaviour
     {
         FMOD.Studio.Bus bus = RuntimeManager.GetBus(busPath);
         bus.setVolume(volume);
+
+        // --- UKLÁDÁNÍ ---
+        // Kdykoliv pohneš sliderem, hodnota se hned uloží do poèítaèe
+        PlayerPrefs.SetFloat(saveKey, volume);
+        PlayerPrefs.Save();
     }
 }

@@ -9,7 +9,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1030751278827886356}
-  - component: {fileID: 7431941711972276714}
   - component: {fileID: 7927910990808094844}
   m_Layer: 0
   m_Name: AudioManager
@@ -33,32 +32,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &7431941711972276714
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5540334271003903805}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5b24249dc5139de40ac2b7b100bae8f8, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  musicEvent:
-    Guid:
-      Data1: 117907985
-      Data2: 1080974799
-      Data3: 1584809892
-      Data4: -1833895630
-    Path: event:/New Event
-  uiClickSound:
-    Guid:
-      Data1: 117907985
-      Data2: 1080974799
-      Data3: 1584809892
-      Data4: -1833895630
-    Path: event:/New Event
 --- !u!114 &7927910990808094844
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -76,5 +49,9 @@ MonoBehaviour:
   Banks:
   - Master
   - Master.strings
+  - Music
+  - UI
+  - SFX
+  - Ambient
   CollisionTag: 
   PreloadSamples: 0
