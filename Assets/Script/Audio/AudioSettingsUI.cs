@@ -29,13 +29,13 @@ public class AudioSettingsUI : MonoBehaviour
         masterSlider.value = PlayerPrefs.GetFloat(AudioManager.MASTER_KEY, 0.5f);
         musicSlider.value = PlayerPrefs.GetFloat(AudioManager.MUSIC_KEY, 0.5f);
         sfxSlider.value = PlayerPrefs.GetFloat(AudioManager.SFX_KEY, 0.5f);
-        uiSlider.value = PlayerPrefs.GetFloat(AudioManager.UI_KEY, 0.5f);
+        
 
         // Propojení funkcí
         masterSlider.onValueChanged.AddListener(AudioManager.instance.SetMasterVolume);
         musicSlider.onValueChanged.AddListener(AudioManager.instance.SetMusicVolume);
         sfxSlider.onValueChanged.AddListener(AudioManager.instance.SetSFXVolume);
-        uiSlider.onValueChanged.AddListener(AudioManager.instance.SetUIVolume);
+        
     }
 
     private void FindSlidersByName()

@@ -1,79 +1,99 @@
 using UnityEngine;
-using UnityEngine.Audio;
+using System.Collections; // <--- TOTO MUSÍŠ PØIDAT
+using FMODUnity;
+using FMOD.Studio;
 
 public class AudioManager : MonoBehaviour
 {
     public static AudioManager instance;
 
-    [Header("Mixer")]
-    public AudioMixer audioMixer;
+    [Header("FMOD Events")]
+    public EventReference musicEvent;
+    public EventReference uiClickSound;
 
-    [Header("Sources")]
-    public AudioSource musicSource;
-    public AudioSource sfxSource;
-    public AudioSource uiSource;
+    private EventInstance musicInstance;
 
-    // ZMÌNA: Musí být PUBLIC, aby je vidìl i UI skript
     public const string MASTER_KEY = "MasterVolume";
     public const string MUSIC_KEY = "MusicVolume";
     public const string SFX_KEY = "SFXVolume";
-    public const string UI_KEY = "UIVolume";
 
     private void Awake()
     {
         if (instance == null)
         {
             instance = this;
-            transform.parent = null; 
+            transform.parent = null;
             DontDestroyOnLoad(gameObject);
         }
         else
         {
             Destroy(gameObject);
-            return;
         }
     }
 
-    private void Start()
+    // ZMÌNA ZDE: void -> IEnumerator
+    private IEnumerator Start()
     {
-        LoadVolume(MASTER_KEY);
-        LoadVolume(MUSIC_KEY);
-        LoadVolume(SFX_KEY);
-        LoadVolume(UI_KEY);
-    }
-
-    public void SetMasterVolume(float sliderValue) => SetMixerVolume(MASTER_KEY, sliderValue);
-    public void SetMusicVolume(float sliderValue) => SetMixerVolume(MUSIC_KEY, sliderValue);
-    public void SetSFXVolume(float sliderValue) => SetMixerVolume(SFX_KEY, sliderValue);
-    public void SetUIVolume(float sliderValue) => SetMixerVolume(UI_KEY, sliderValue);
-
-    private void SetMixerVolume(string parameterName, float sliderValue)
-    {
-        PlayerPrefs.SetFloat(parameterName, sliderValue);
-        PlayerPrefs.Save();
-
-        if (sliderValue <= 0.001f)
+        // 1. Èekáme, dokud FMOD nenaète banky (Master a Strings)
+        // Bez tohohle to spadne, protože GetBus nenajde cestu
+        while (!RuntimeManager.HaveMasterBanksLoaded)
         {
-            audioMixer.SetFloat(parameterName, -80f);
-            return;
+            yield return null;
         }
 
-        float dbValue = Mathf.Log10(sliderValue) * 30;
-        audioMixer.SetFloat(parameterName, dbValue);
+        // 2. Teï už je bezpeèné naèítat a nastavovat hlasitost
+        SetMasterVolume(PlayerPrefs.GetFloat(MASTER_KEY, 1f));
+        SetMusicVolume(PlayerPrefs.GetFloat(MUSIC_KEY, 1f));
+        SetSFXVolume(PlayerPrefs.GetFloat(SFX_KEY, 1f));
+
+        // 3. Spustíme hudbu
+        PlayMusic();
     }
 
-    private void LoadVolume(string paramName)
+    public void PlayMusic()
     {
-        float savedValue = PlayerPrefs.GetFloat(paramName, 0.5f);
-        SetMixerVolume(paramName, savedValue);
+        PLAYBACK_STATE playbackState;
+        musicInstance.getPlaybackState(out playbackState);
+        if (playbackState != PLAYBACK_STATE.PLAYING)
+        {
+            musicInstance = RuntimeManager.CreateInstance(musicEvent);
+            musicInstance.start();
+        }
     }
 
-    public void PlaySFX(AudioClip clip) { if (clip != null) sfxSource.PlayOneShot(clip); }
-    public void PlayUISound(AudioClip clip) { if (clip != null) uiSource.PlayOneShot(clip); }
-    public void PlayMusic(AudioClip clip)
+    public void PlayOneShot(EventReference sound)
     {
-        if (musicSource.clip == clip) return;
-        musicSource.clip = clip;
-        musicSource.Play();
+        if (!sound.IsNull)
+        {
+            RuntimeManager.PlayOneShot(sound, transform.position);
+        }
+    }
+
+    public void SetMasterVolume(float value)
+    {
+        // Zde mùžeš pøidat pojistku, kdyby to nìkdo volal moc brzy zvenèí
+        if (RuntimeManager.HaveMasterBanksLoaded)
+        {
+            RuntimeManager.GetBus("bus:/").setVolume(value);
+        }
+        PlayerPrefs.SetFloat(MASTER_KEY, value);
+    }
+
+    public void SetMusicVolume(float value)
+    {
+        if (RuntimeManager.HaveMasterBanksLoaded)
+        {
+            RuntimeManager.GetBus("bus:/Music").setVolume(value);
+        }
+        PlayerPrefs.SetFloat(MUSIC_KEY, value);
+    }
+
+    public void SetSFXVolume(float value)
+    {
+        if (RuntimeManager.HaveMasterBanksLoaded)
+        {
+            RuntimeManager.GetBus("bus:/SFX").setVolume(value);
+        }
+        PlayerPrefs.SetFloat(SFX_KEY, value);
     }
 }

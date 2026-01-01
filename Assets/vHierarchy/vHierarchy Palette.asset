@@ -89,6 +89,7 @@ MonoBehaviour:
     - AreaEffector2D Icon
     - PrefabVariant On Icon
     - CharacterJoint Icon
+    - AudioClip Icon
     enabled: 1
   - builtinIcons: []
     customIcons: []
