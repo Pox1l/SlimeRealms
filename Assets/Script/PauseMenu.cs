@@ -78,18 +78,40 @@ public class PauseMenu : MonoBehaviour
 
         hudObject = GameObject.FindGameObjectWithTag("HUD");
 
-        // --- NOVÉ: Hledání Settings Menu přes Tag Canvasu ---
         if (settingsMenuRoot == null)
         {
             GameObject settingsCanvas = GameObject.FindGameObjectWithTag("SettingsCanvas");
             if (settingsCanvas != null)
             {
-                // Hledá objekt "SettingsMenu" uvnitř Canvasu
                 Transform menuTrans = settingsCanvas.transform.Find("SettingsMenu");
                 if (menuTrans != null)
                 {
                     settingsMenuRoot = menuTrans.gameObject;
                 }
+            }
+        }
+
+        // --- NOVÉ: Automatické přiřazení zavíracího tlačítka ---
+        if (settingsMenuRoot != null)
+        {
+            // Najde tlačítko podle jména v celém podstromu SettingsMenu
+            // Použijeme GetComponentsInChildren, aby to našlo i neaktivní nebo hluboko schované objekty
+            UnityEngine.UI.Button closeButton = null;
+            foreach (var btn in settingsMenuRoot.GetComponentsInChildren<UnityEngine.UI.Button>(true))
+            {
+                if (btn.name == "XBTN") // Musí se shodovat se jménem v Hierarchy
+                {
+                    closeButton = btn;
+                    break;
+                }
+            }
+
+            if (closeButton != null)
+            {
+                // Nejdřív odstraníme staré eventy, aby se to neduplikovalo při každém načtení scény
+                closeButton.onClick.RemoveAllListeners();
+                // Přiřadíme funkci CloseSettings
+                closeButton.onClick.AddListener(CloseSettings);
             }
         }
     }
