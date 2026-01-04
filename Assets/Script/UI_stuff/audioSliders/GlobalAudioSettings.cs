@@ -1,35 +1,27 @@
-using System.Collections;
 using UnityEngine;
 using FMODUnity;
 
 public class GlobalAudioSettings : MonoBehaviour
 {
-    IEnumerator Start()
+    void Awake()
     {
-        // Poèkáme na banky
-        while (!RuntimeManager.HaveMasterBanksLoaded)
-        {
-            yield return null;
-        }
-
-        // DÙLEŽITÉ: true v závorce zajistí, že najde i vypnuté (schované) slidery
+        // Najde všechny slidery pod tímto objektem, i ty v neaktivních panelech
         FMODVolumeControl[] allSliders = GetComponentsInChildren<FMODVolumeControl>(true);
+
+        if (allSliders.Length == 0)
+        {
+            Debug.LogWarning("GlobalAudioSettings: Žádné slidery nenalezeny! Zkontroluj hierarchii.");
+        }
 
         foreach (var ctrl in allSliders)
         {
             if (ctrl == null) continue;
 
-            string path = ctrl.busPath;
-            string key = ctrl.saveKey;
-
-            // Naètení z PlayerPrefs
-            float savedVol = PlayerPrefs.GetFloat(key, 1f);
-
-            // Aplikace do FMODu
-            FMOD.Studio.Bus bus = RuntimeManager.GetBus(path);
+            float savedVol = PlayerPrefs.GetFloat(ctrl.saveKey, 0.5f);
+            FMOD.Studio.Bus bus = RuntimeManager.GetBus(ctrl.busPath);
             bus.setVolume(savedVol);
 
-            Debug.Log($"[Global Start] Nastaven {path} na {savedVol} pøes child hledání.");
+            Debug.Log($"[FMOD Awake] {ctrl.busPath} nastaven na {savedVol}");
         }
     }
 }

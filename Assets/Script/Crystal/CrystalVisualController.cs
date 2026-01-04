@@ -1,62 +1,46 @@
 ﻿using UnityEngine;
 using System.Collections.Generic;
+using FMODUnity; // 1. PŘIDÁNO: Nutné pro FMOD
 
 public class CrystalVisualController : MonoBehaviour
 {
     [Header("Komponenty")]
-    public SpriteRenderer crystalRenderer; // Pokud necháš prázdné, zkusí se najít samo
+    public SpriteRenderer crystalRenderer;
 
     [Header("Vzhledy pro každou stage")]
-    // Sem nahaž sprity: Index 0 = rozbitý, Index 1 = opravený 1. stupeň, atd.
     public List<Sprite> crystalSprites = new List<Sprite>();
 
     [Header("Efekty (Volitelné)")]
     public ParticleSystem repairEffect;
 
+    [Header("Audio (FMOD)")]
+    public EventReference repairSound; // 2. PŘIDÁNO: Políčko pro výběr zvuku v Inspektoru
+
     void Awake()
     {
-        // 🛠️ Automatická oprava: Pokud chybí reference, najdi ji na stejném objektu
         if (crystalRenderer == null)
         {
             crystalRenderer = GetComponent<SpriteRenderer>();
         }
     }
 
-    /// <summary>
-    /// Změní sprite krystalu podle aktuální stage.
-    /// </summary>
     public void UpdateVisuals(int stageIndex)
     {
-        // 1. DEBUG VÝPIS - Pokud se toto neobjeví v konzoli, nemáš propojené skripty!
         Debug.Log($"🔮 CrystalVisualController: Pokus o změnu vzhledu na Stage {stageIndex}");
 
-        if (crystalRenderer == null)
-        {
-            Debug.LogError("❌ CHYBA: CrystalVisualController nemá přiřazený SpriteRenderer!");
-            return;
-        }
+        if (crystalRenderer == null) return;
 
-        // 2. KONTROLA ANIMATORU - Animator blokuje změnu spritů
         Animator anim = GetComponent<Animator>();
         if (anim != null && anim.enabled)
         {
-            Debug.LogWarning("⚠️ VAROVÁNÍ: Na Krystalu běží Animator! Vypínám ho, aby šel změnit Sprite.");
-            anim.enabled = false; // Vypneme Animator, aby nám nepřepisoval obrázek
+            anim.enabled = false;
         }
 
-        // 3. Kontrola seznamu spritů
-        if (crystalSprites.Count == 0)
-        {
-            Debug.LogWarning("⚠️ VAROVÁNÍ: Nemáš v Inspectoru nastavené žádné obrázky (Crystal Sprites)!");
-            return;
-        }
+        if (crystalSprites.Count == 0) return;
 
-        // 4. Změna obrázku
         Sprite finalSprite;
-
         if (stageIndex >= crystalSprites.Count)
         {
-            // Pokud je stage vyšší než počet obrázků, dej tam ten poslední (úplně opravený)
             finalSprite = crystalSprites[crystalSprites.Count - 1];
         }
         else
@@ -65,15 +49,22 @@ public class CrystalVisualController : MonoBehaviour
         }
 
         crystalRenderer.sprite = finalSprite;
-        Debug.Log($"✅ Krystal změněn na obrázek: {finalSprite.name}");
     }
 
     public void PlayRepairEffect()
     {
+        // 1. Spustí vizuální efekt
         if (repairEffect != null)
         {
             repairEffect.Stop();
             repairEffect.Play();
+        }
+
+        // 3. PŘIDÁNO: Spustí FMOD zvuk
+        if (!repairSound.IsNull)
+        {
+            // Pustí zvuk na pozici krystalu (transform.position) pro 3D efekt
+            RuntimeManager.PlayOneShot(repairSound, transform.position);
         }
     }
 }

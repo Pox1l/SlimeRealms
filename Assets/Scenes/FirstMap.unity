@@ -1184,6 +1184,20 @@ MonoBehaviour:
   stopDistance: 0.1
   aggroRange: 5
   chaseRange: 15
+  movementSound:
+    Guid:
+      Data1: 0
+      Data2: 0
+      Data3: 0
+      Data4: 0
+    Path: 
+  aggroSound:
+    Guid:
+      Data1: 0
+      Data2: 0
+      Data3: 0
+      Data4: 0
+    Path: 
 --- !u!195 &76589613
 NavMeshAgent:
   m_ObjectHideFlags: 0
@@ -21574,6 +21588,20 @@ MonoBehaviour:
   stopDistance: 0.1
   aggroRange: 5
   chaseRange: 15
+  movementSound:
+    Guid:
+      Data1: 0
+      Data2: 0
+      Data3: 0
+      Data4: 0
+    Path: 
+  aggroSound:
+    Guid:
+      Data1: 0
+      Data2: 0
+      Data3: 0
+      Data4: 0
+    Path: 
 --- !u!195 &404550798
 NavMeshAgent:
   m_ObjectHideFlags: 0
@@ -28515,6 +28543,20 @@ MonoBehaviour:
   stopDistance: 0.1
   aggroRange: 5
   chaseRange: 15
+  movementSound:
+    Guid:
+      Data1: 0
+      Data2: 0
+      Data3: 0
+      Data4: 0
+    Path: 
+  aggroSound:
+    Guid:
+      Data1: 0
+      Data2: 0
+      Data3: 0
+      Data4: 0
+    Path: 
 --- !u!195 &617309577
 NavMeshAgent:
   m_ObjectHideFlags: 0
@@ -61256,6 +61298,20 @@ MonoBehaviour:
   stopDistance: 0.1
   aggroRange: 5
   chaseRange: 15
+  movementSound:
+    Guid:
+      Data1: 0
+      Data2: 0
+      Data3: 0
+      Data4: 0
+    Path: 
+  aggroSound:
+    Guid:
+      Data1: 0
+      Data2: 0
+      Data3: 0
+      Data4: 0
+    Path: 
 --- !u!195 &1378324901
 NavMeshAgent:
   m_ObjectHideFlags: 0
@@ -404397,6 +404453,20 @@ MonoBehaviour:
   stopDistance: 0.1
   aggroRange: 5
   chaseRange: 15
+  movementSound:
+    Guid:
+      Data1: 0
+      Data2: 0
+      Data3: 0
+      Data4: 0
+    Path: 
+  aggroSound:
+    Guid:
+      Data1: 0
+      Data2: 0
+      Data3: 0
+      Data4: 0
+    Path: 
 --- !u!195 &1563684085
 NavMeshAgent:
   m_ObjectHideFlags: 0
@@ -434759,7 +434829,7 @@ GameObject:
   - component: {fileID: 2079950465}
   - component: {fileID: 2079950464}
   m_Layer: 0
-  m_Name: KrystalProgressColl
+  m_Name: KrystalProgressCollZone
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -435753,6 +435823,13 @@ MonoBehaviour:
   - {fileID: 142318125, guid: 93d5c45418fdab745ac701e449bc7e8b, type: 3}
   - {fileID: 1093743416, guid: 93d5c45418fdab745ac701e449bc7e8b, type: 3}
   repairEffect: {fileID: 0}
+  repairSound:
+    Guid:
+      Data1: 569514724
+      Data2: 1145621391
+      Data3: -303752016
+      Data4: 1956861587
+    Path: event:/UpgradeCry
 --- !u!1001 &2102255309
 PrefabInstance:
   m_ObjectHideFlags: 0

@@ -133,6 +133,20 @@ MonoBehaviour:
   stopDistance: 0.1
   aggroRange: 5
   chaseRange: 10
+  movementSound:
+    Guid:
+      Data1: -1993235619
+      Data2: 1087315707
+      Data3: -1897203064
+      Data4: -2025425154
+    Path: event:/SlimeWalk3DS
+  aggroSound:
+    Guid:
+      Data1: 1256424030
+      Data2: 1283962597
+      Data3: -939132010
+      Data4: 2053634585
+    Path: event:/CloseAttackEff
 --- !u!114 &8478594423381151928
 MonoBehaviour:
   m_ObjectHideFlags: 0

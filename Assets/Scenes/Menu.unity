@@ -3519,9 +3519,21 @@ PrefabInstance:
     m_TransformParent: {fileID: 1210090627}
     m_Modifications:
     - target: {fileID: 8531093709479289337, guid: bb6ebc3ccc8810348b84000e311dc221, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.size
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8531093709479289337, guid: bb6ebc3ccc8810348b84000e311dc221, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
       objectReference: {fileID: 1498742754}
+    - target: {fileID: 8531093709479289337, guid: bb6ebc3ccc8810348b84000e311dc221, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: BackToMenu
+      objectReference: {fileID: 0}
+    - target: {fileID: 8531093709479289337, guid: bb6ebc3ccc8810348b84000e311dc221, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
+      value: MainMenu, Assembly-CSharp
+      objectReference: {fileID: 0}
     - target: {fileID: 8606612656009860138, guid: bb6ebc3ccc8810348b84000e311dc221, type: 3}
       propertyPath: m_Name
       value: SettingsCanvas

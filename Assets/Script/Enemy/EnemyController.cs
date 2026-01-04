@@ -1,5 +1,7 @@
 ﻿using UnityEngine;
 using UnityEngine.AI;
+using FMODUnity;  // 1. Nutné pro FMOD
+using FMOD.Studio; // 2. Nutné pro práci s Instancemi
 
 [RequireComponent(typeof(NavMeshAgent))]
 public class EnemyController : MonoBehaviour
@@ -13,11 +15,19 @@ public class EnemyController : MonoBehaviour
     [SerializeField] private float stopDistance = 0.1f;
 
     [Header("Aggro Settings")]
-    [SerializeField] private float aggroRange = 5f;   // Kdy si hráče všimne sám
-    [SerializeField] private float chaseRange = 15f;  // Jak daleko pronásleduje, když je naštvaný
+    [SerializeField] private float aggroRange = 5f;
+    [SerializeField] private float chaseRange = 15f;
 
-    private float currentDetectionRange; // Aktuální dosah (mění se)
+    [Header("Audio (FMOD)")]
+    public EventReference movementSound; // Sem dej smyčku chůze/lezení
+    public EventReference aggroSound;    // Sem dej zvuk "zavřeštění", když tě uvidí
+
+    private float currentDetectionRange;
     private Vector3 homePosition;
+
+    // Proměnné pro audio
+    private EventInstance moveInstance;
+    private bool isChasing = false; // Aby aggro zvuk nehrál pořád dokola
 
     void Awake()
     {
@@ -28,14 +38,24 @@ public class EnemyController : MonoBehaviour
         agent.updateUpAxis = false;
         agent.speed = moveSpeed;
 
-        currentDetectionRange = aggroRange; // Začínáme s normálním dosahem
+        currentDetectionRange = aggroRange;
 
         FindPlayer();
     }
 
+    void Start()
+    {
+        // 3. Vytvoření instance pro pohyb (aby šla stopnout)
+        if (!movementSound.IsNull)
+        {
+            moveInstance = RuntimeManager.CreateInstance(movementSound);
+            // Připneme zvuk k nepříteli, aby byl 3D
+            RuntimeManager.AttachInstanceToGameObject(moveInstance, transform, GetComponent<Rigidbody2D>());
+        }
+    }
+
     void OnEnable()
     {
-        
         if (agent != null && agent.isActiveAndEnabled && agent.isOnNavMesh)
         {
             agent.ResetPath();
@@ -43,12 +63,32 @@ public class EnemyController : MonoBehaviour
 
         if (homePosition == Vector3.zero) homePosition = transform.position;
         currentDetectionRange = aggroRange;
+        isChasing = false; // Reset stavu
     }
 
-    // Tuto metodu volá EnemyHealth při zásahu
+    void OnDisable()
+    {
+        // Pojistka: Když se nepřítel vypne, vypneme zvuk
+        StopMoveSound();
+    }
+
+    void OnDestroy()
+    {
+        // Úklid paměti
+        StopMoveSound();
+        moveInstance.release();
+    }
+
     public void OnHitAggro()
     {
-        currentDetectionRange = chaseRange; // Zvětšíme dosah -> naštve se
+        currentDetectionRange = chaseRange;
+
+        // Pokud nás trefil a my jsme o něm nevěděli, přehrajeme aggro zvuk
+        if (!isChasing)
+        {
+            PlayAggroSound();
+            isChasing = true;
+        }
     }
 
     public void SetHomePosition(Vector3 position)
@@ -58,16 +98,16 @@ public class EnemyController : MonoBehaviour
 
     void Update()
     {
-        // 🔥 OPRAVA: Pokud je Agent vypnutý (děje se Knockback), nic neděláme a čekáme
         if (agent == null || !agent.enabled || !agent.isOnNavMesh)
         {
+            StopMoveSound(); // Zastavit zvuk, pokud je knockback/vypnuto
             return;
         }
 
-        // --- ZBYTEK TVÉHO PŮVODNÍHO KÓDU ---
         if (player == null)
         {
             FindPlayer();
+            StopMoveSound();
             if (player == null) return;
         }
 
@@ -76,41 +116,88 @@ public class EnemyController : MonoBehaviour
 
         Vector3 targetPosition;
 
-        // Používáme dynamický 'currentDetectionRange'
+        // --- Logika pohybu a Aggra ---
         if (distanceToPlayer <= currentDetectionRange)
         {
-            // --- Jdeme za hráčem ---
+            // PRÁVĚ SI HO VŠIML
+            if (!isChasing)
+            {
+                PlayAggroSound();
+                isChasing = true;
+            }
+
             targetPosition = player.position;
         }
         else
         {
-            // --- Hráč utekl moc daleko -> Vracíme se domů ---
+            // HRÁČ UTEKL - VRACÍME SE
+            isChasing = false;
             currentDetectionRange = aggroRange;
 
             if (distanceToHome <= stopDistance)
             {
                 agent.ResetPath();
                 SetAnimator(Vector2.zero);
+                StopMoveSound(); // Jsme doma, ticho
                 return;
             }
 
             targetPosition = homePosition;
         }
 
-        // Pohyb
+        // --- Aplikace pohybu ---
         if (Vector2.Distance(transform.position, targetPosition) > stopDistance)
         {
             agent.SetDestination(targetPosition);
+            UpdateMoveSound(true); // Hýbeme se -> zapnout zvuk
         }
         else
         {
             agent.ResetPath();
+            UpdateMoveSound(false); // Nehýbeme se -> vypnout zvuk
         }
 
         // Animace
         Vector2 velocity2D = new Vector2(agent.velocity.x, agent.velocity.y);
         SetAnimator(velocity2D);
     }
+
+    // --- FMOD POMOCNÉ METODY ---
+
+    void UpdateMoveSound(bool isMoving)
+    {
+        if (moveInstance.isValid())
+        {
+            moveInstance.getPlaybackState(out PLAYBACK_STATE state);
+
+            if (isMoving && state != PLAYBACK_STATE.PLAYING)
+            {
+                moveInstance.start();
+            }
+            else if (!isMoving && state == PLAYBACK_STATE.PLAYING)
+            {
+                moveInstance.stop(FMOD.Studio.STOP_MODE.ALLOWFADEOUT);
+            }
+        }
+    }
+
+    void StopMoveSound()
+    {
+        if (moveInstance.isValid())
+        {
+            moveInstance.stop(FMOD.Studio.STOP_MODE.ALLOWFADEOUT);
+        }
+    }
+
+    void PlayAggroSound()
+    {
+        if (!aggroSound.IsNull)
+        {
+            RuntimeManager.PlayOneShot(aggroSound, transform.position);
+        }
+    }
+
+    // --- KONEC FMOD ---
 
     void FindPlayer()
     {
@@ -128,11 +215,9 @@ public class EnemyController : MonoBehaviour
 
     void OnDrawGizmosSelected()
     {
-        // Červeně: Kdy si všimne hráče (normálně)
         Gizmos.color = Color.red;
         Gizmos.DrawWireSphere(transform.position, aggroRange);
 
-        // Žlutě: Kam až pronásleduje po hitu
         Gizmos.color = Color.yellow;
         Gizmos.DrawWireSphere(transform.position, chaseRange);
     }

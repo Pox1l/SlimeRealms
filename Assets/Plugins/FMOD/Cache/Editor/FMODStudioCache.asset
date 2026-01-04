@@ -1,5 +1,32 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
+--- !u!114 &-5307484286362210749
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: event:/CloseAttackEff
+  m_EditorClassIdentifier: 
+  Path: event:/CloseAttackEff
+  Guid:
+    Data1: 1256424030
+    Data2: 1283962597
+    Data3: -939132010
+    Data4: 2053634585
+  Banks:
+  - {fileID: 3136255313656384484}
+  IsStream: 0
+  Is3D: 0
+  IsOneShot: 1
+  Parameters: []
+  MinDistance: 1
+  MaxDistance: 20
+  Length: 460
 --- !u!114 &-2467483790843600177
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -27,6 +54,33 @@ MonoBehaviour:
   MinDistance: 1
   MaxDistance: 20
   Length: 350
+--- !u!114 &-691621656350647908
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: event:/SlimeWalk3DS
+  m_EditorClassIdentifier: 
+  Path: event:/SlimeWalk3DS
+  Guid:
+    Data1: -1993235619
+    Data2: 1087315707
+    Data3: -1897203064
+    Data4: -2025425154
+  Banks:
+  - {fileID: 3136255313656384484}
+  IsStream: 0
+  Is3D: 1
+  IsOneShot: 0
+  Parameters: []
+  MinDistance: 1
+  MaxDistance: 20
+  Length: 525
 --- !u!114 &11400000
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -50,13 +104,16 @@ MonoBehaviour:
   - {fileID: 4048344349576224556}
   - {fileID: 7945276146983832679}
   - {fileID: -2467483790843600177}
+  - {fileID: 4780325417133048127}
+  - {fileID: -5307484286362210749}
+  - {fileID: -691621656350647908}
   EditorParameters: []
   MasterBanks:
   - {fileID: 2535322858333945084}
   StringsBanks:
   - {fileID: 950478269963886210}
   cacheVersion: 131857
-  cacheTime: 639028986541248463
+  cacheTime: 639031218006113771
   SerializableEventsDict:
   - key: event:/MenuMusic
     index: 0
@@ -64,6 +121,12 @@ MonoBehaviour:
     index: 1
   - key: event:/UIEffect
     index: 2
+  - key: event:/UpgradeCry
+    index: 3
+  - key: event:/CloseAttackEff
+    index: 4
+  - key: event:/SlimeWalk3DS
+    index: 5
 --- !u!114 &950478269963886210
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -79,10 +142,10 @@ MonoBehaviour:
   Path: FMOD/Desktop/Master.strings.bank
   Name: Master.strings
   StudioPath: bank:/Master.strings
-  lastModified: 639028986539631781
+  lastModified: 639031212881916875
   FileSizes:
   - Name: 
-    Value: 1174
+    Value: 1324
   Exists: 1
 --- !u!114 &2535322858333945084
 MonoBehaviour:
@@ -99,7 +162,7 @@ MonoBehaviour:
   Path: FMOD/Desktop/Master.bank
   Name: Master
   StudioPath: bank:/Master
-  lastModified: 639028986539571572
+  lastModified: 639031212881836729
   FileSizes: []
   Exists: 1
 --- !u!114 &3136255313656384484
@@ -117,7 +180,7 @@ MonoBehaviour:
   Path: FMOD/Desktop/SFX.bank
   Name: SFX
   StudioPath: bank:/SFX
-  lastModified: 639027031157699991
+  lastModified: 639031218006113771
   FileSizes: []
   Exists: 1
 --- !u!114 &4048344349576224556
@@ -165,6 +228,33 @@ MonoBehaviour:
   lastModified: 639028986540638441
   FileSizes: []
   Exists: 1
+--- !u!114 &4780325417133048127
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: event:/UpgradeCry
+  m_EditorClassIdentifier: 
+  Path: event:/UpgradeCry
+  Guid:
+    Data1: 569514724
+    Data2: 1145621391
+    Data3: -303752016
+    Data4: 1956861587
+  Banks:
+  - {fileID: 3136255313656384484}
+  IsStream: 0
+  Is3D: 1
+  IsOneShot: 1
+  Parameters: []
+  MinDistance: 1
+  MaxDistance: 20
+  Length: 2040
 --- !u!114 &5678546537837848210
 MonoBehaviour:
   m_ObjectHideFlags: 0
