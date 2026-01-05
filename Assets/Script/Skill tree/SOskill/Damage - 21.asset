@@ -13,11 +13,11 @@ MonoBehaviour:
   m_Name: Damage - 21
   m_EditorClassIdentifier: 
   id: 21
-  skillName: Damage upg 2e.
+  skillName: Damage upg 2.
   description: more dmg
   icon: {fileID: -5295351528858327659, guid: 951b24a4344a638439779e4177f55992, type: 3}
   type: 2
-  valuePerLevel: 5
+  valuePerLevel: 0.3
   currentLevel: 3
   levels:
   - cost:

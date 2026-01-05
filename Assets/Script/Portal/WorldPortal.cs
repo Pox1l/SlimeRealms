@@ -4,58 +4,44 @@ using UnityEngine.SceneManagement;
 public class WorldPortal : MonoBehaviour
 {
     [Header("Scene")]
-    [Tooltip("Jméno scény, do které portál teleportuje (musí být v Build Settings).")]
-    public int sceneName;
+    public int sceneIndex;
 
     [Header("Ovládání")]
     public KeyCode interactKey = KeyCode.E;
-    public GameObject pressFHint;   // volitelné: UI text/ikonka "F"
+    public GameObject pressEHint;   
 
     private bool playerInRange = false;
 
     void Awake()
     {
-        // portál je ve scénì, ale na zaèátku schovaný
         gameObject.SetActive(false);
-
-        if (pressFHint != null)
-            pressFHint.SetActive(false);
+        if (pressEHint != null)
+            pressEHint.SetActive(false);
     }
-
-    
     public void EnablePortal()
     {
         gameObject.SetActive(true);
     }
-
     void Update()
     {
         if (!playerInRange) return;
-
         if (Input.GetKeyDown(interactKey))
         {
-            
-                SceneManager.LoadScene(sceneName);
-           
-            
+            SceneManager.LoadScene(sceneIndex);
         }
     }
-
     void OnTriggerEnter2D(Collider2D other)
     {
         if (!other.CompareTag("Player")) return;
-
         playerInRange = true;
-        if (pressFHint != null)
-            pressFHint.SetActive(true);
+        if (pressEHint != null)
+            pressEHint.SetActive(true);
     }
-
     void OnTriggerExit2D(Collider2D other)
     {
         if (!other.CompareTag("Player")) return;
-
         playerInRange = false;
-        if (pressFHint != null)
-            pressFHint.SetActive(false);
+        if (pressEHint != null)
+            pressEHint.SetActive(false);
     }
 }

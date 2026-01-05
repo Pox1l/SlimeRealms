@@ -17,8 +17,8 @@ MonoBehaviour:
   description: lorem
   icon: {fileID: -7378525575689205959, guid: 951b24a4344a638439779e4177f55992, type: 3}
   type: 4
-  valuePerLevel: 10
-  currentLevel: 1
+  valuePerLevel: 5
+  currentLevel: 0
   levels:
   - cost:
     - item: {fileID: 11400000, guid: 3dded3fab14d9404cb6cf76a7f7b62af, type: 2}

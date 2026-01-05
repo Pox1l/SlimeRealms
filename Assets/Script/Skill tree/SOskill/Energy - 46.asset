@@ -10,22 +10,24 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 22cb1b8ec673ff444b73e4f096f3588e, type: 3}
-  m_Name: Health - 12
+  m_Name: Energy - 46
   m_EditorClassIdentifier: 
-  id: 12
-  skillName: Health upg 3.
-  description: more hp
-  icon: {fileID: 3950208926167540938, guid: 951b24a4344a638439779e4177f55992, type: 3}
-  type: 1
-  valuePerLevel: 5
-  currentLevel: 0
+  id: 46
+  skillName: Energy upg 7.
+  description: lorem
+  icon: {fileID: -7378525575689205959, guid: 951b24a4344a638439779e4177f55992, type: 3}
+  type: 4
+  valuePerLevel: 10
+  currentLevel: 1
   levels:
   - cost:
-    - item: {fileID: 11400000, guid: 9afbd67cfc2bfa14795521a67e301288, type: 2}
+    - item: {fileID: 11400000, guid: 3dded3fab14d9404cb6cf76a7f7b62af, type: 2}
       amount: 1
   - cost:
     - item: {fileID: 11400000, guid: 9afbd67cfc2bfa14795521a67e301288, type: 2}
-      amount: 2
+      amount: 1
+    - item: {fileID: 11400000, guid: ba8c7c03bcf68c4488ce7e4932b6c44b, type: 2}
+      amount: 1
   - cost:
     - item: {fileID: 11400000, guid: 9afbd67cfc2bfa14795521a67e301288, type: 2}
-      amount: 3
+      amount: 1

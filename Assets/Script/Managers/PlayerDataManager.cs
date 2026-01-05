@@ -15,11 +15,7 @@ public class PlayerDataManager : MonoBehaviour
         if (Instance == null)
         {
             Instance = this;
-
-            if (transform.parent != null)
-            {
-                transform.SetParent(null);
-            }
+            if (transform.parent != null) transform.SetParent(null);
             DontDestroyOnLoad(gameObject);
             savePath = Path.Combine(Application.persistentDataPath, "player_save.json");
             LoadPlayerData();
@@ -30,16 +26,21 @@ public class PlayerDataManager : MonoBehaviour
         }
     }
 
-    // Uloží kompletní stav hráče (HP, Staminu a DEFENSE)
     public void SavePlayerStats(int curHP, int maxHP, float curStamina, float maxStamina, float defense)
     {
+        // 🔥 POJISTKA: Pokud data neexistují (protože se smazal soubor), vytvoříme nová
+        if (currentData == null)
+        {
+            currentData = new PlayerData();
+        }
+
         currentData.currentHealth = curHP;
         currentData.maxHealth = maxHP;
 
-        currentData.currentStamina = curStamina;
+        // Vždy uložíme max, aby v souboru nebylo divné číslo
+        currentData.currentStamina = maxStamina;
         currentData.maxStamina = maxStamina;
 
-        // 🔥 Ukládáme defense
         currentData.defense = defense;
 
         string json = JsonUtility.ToJson(currentData, true);
@@ -70,11 +71,11 @@ public class PlayerDataManager : MonoBehaviour
     public void ResetData()
     {
         currentData = new PlayerData();
-        currentData.currentHealth = -1;
+        currentData.currentHealth = -1; // -1 signalizuje PlayerStats, ať si HP dopočítá sám
         currentData.maxHealth = 100;
         currentData.currentStamina = 100;
         currentData.maxStamina = 100;
-        currentData.defense = 25; // Defaultní obrana
+        currentData.defense = 25;
 
         string json = JsonUtility.ToJson(currentData, true);
         File.WriteAllText(savePath, json);
@@ -88,5 +89,5 @@ public class PlayerData
     public int maxHealth;
     public float currentStamina;
     public float maxStamina;
-    public float defense; // 🔥 Nové políčko v JSONu
+    public float defense;
 }

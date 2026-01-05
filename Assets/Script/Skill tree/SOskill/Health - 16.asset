@@ -10,14 +10,14 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 22cb1b8ec673ff444b73e4f096f3588e, type: 3}
-  m_Name: Health - 12
+  m_Name: Health - 16
   m_EditorClassIdentifier: 
-  id: 12
-  skillName: Health upg 3.
+  id: 16
+  skillName: Health upg 7.
   description: more hp
   icon: {fileID: 3950208926167540938, guid: 951b24a4344a638439779e4177f55992, type: 3}
   type: 1
-  valuePerLevel: 5
+  valuePerLevel: 10
   currentLevel: 0
   levels:
   - cost:

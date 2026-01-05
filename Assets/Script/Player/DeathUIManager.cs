@@ -4,30 +4,51 @@ using System.Collections;
 
 public class DeathUIManager : MonoBehaviour
 {
-    // Odkaz na celý objekt Canvasu
+    [Header("UI References")]
     public GameObject deadUICanvas;
-
-    // Odkaz na CanvasGroup pro ovládání průhlednosti
     public CanvasGroup uiCanvasGroup;
 
-    // Jak dlouho trvá, než se UI plně objeví (v sekundách)
+    [Header("Settings")]
     public float fadeDuration = 1.5f;
-
-    // ❌ SMAZÁNO: public int sceneToReloadIndex = 1; (už to nepotřebujeme)
 
     void Start()
     {
-        deadUICanvas.SetActive(false);
-        PlayerStats.Instance.OnPlayerDied += ShowDeathUI;
+        // 1. Kontrola, zda máme přiřazené UI
+        if (deadUICanvas == null)
+        {
+            Debug.LogError("CHYBA: Není přiřazen 'deadUICanvas' v Inspectoru!");
+            return;
+        }
 
-        if (uiCanvasGroup == null && deadUICanvas != null)
+        // 2. Automatické získání CanvasGroup, pokud chybí
+        if (uiCanvasGroup == null)
         {
             uiCanvasGroup = deadUICanvas.GetComponent<CanvasGroup>();
+            if (uiCanvasGroup == null)
+            {
+                // Pokud tam není, přidáme ho (pojistka)
+                uiCanvasGroup = deadUICanvas.AddComponent<CanvasGroup>();
+            }
+        }
+
+        // 3. Vypnutí UI na startu
+        deadUICanvas.SetActive(false);
+
+        // 4. Bezpečné přihlášení k eventu (čekáme, až bude PlayerStats existovat)
+        if (PlayerStats.Instance != null)
+        {
+            PlayerStats.Instance.OnPlayerDied += ShowDeathUI;
+        }
+        else
+        {
+            Debug.LogError("POZOR: PlayerStats.Instance neexistuje v době Startu DeathUI! UI se nezobrazí.");
+            // Zde by se dal použít Coroutine na čekání, ale pro teď stačí výpis chyby
         }
     }
 
     private void OnDestroy()
     {
+        // Bezpečné odhlášení
         if (PlayerStats.Instance != null)
         {
             PlayerStats.Instance.OnPlayerDied -= ShowDeathUI;
@@ -36,15 +57,18 @@ public class DeathUIManager : MonoBehaviour
 
     private void ShowDeathUI()
     {
+        Debug.Log("Zobrazuji Death UI"); // Kontrolní výpis
+
         deadUICanvas.SetActive(true);
 
-        if (uiCanvasGroup != null)
-        {
-            uiCanvasGroup.alpha = 0f;
-            uiCanvasGroup.interactable = false;
-        }
+        // Reset alpha a nastavení interakce
+        uiCanvasGroup.alpha = 0f;
+        uiCanvasGroup.interactable = false;
+        uiCanvasGroup.blocksRaycasts = true; // Aby nešlo klikat skrz
 
+        // Zastavení času
         Time.timeScale = 0f;
+
         StartCoroutine(FadeInUI());
     }
 
@@ -54,33 +78,26 @@ public class DeathUIManager : MonoBehaviour
 
         while (timer < fadeDuration)
         {
+            // Používáme unscaledDeltaTime, protože timeScale je 0
             timer += Time.unscaledDeltaTime;
             float alpha = Mathf.Clamp01(timer / fadeDuration);
 
-            if (uiCanvasGroup != null)
-            {
-                uiCanvasGroup.alpha = alpha;
-            }
-
+            uiCanvasGroup.alpha = alpha;
             yield return null;
         }
 
-        if (uiCanvasGroup != null)
-        {
-            uiCanvasGroup.alpha = 1f;
-            uiCanvasGroup.interactable = true;
-            uiCanvasGroup.blocksRaycasts = true;
-        }
+        uiCanvasGroup.alpha = 1f;
+        uiCanvasGroup.interactable = true;
+
+        // Odblokování kurzoru (pokud ho ve hře skrýváš)
+        Cursor.visible = true;
+        Cursor.lockState = CursorLockMode.None;
     }
 
     public void RespawnButton()
     {
-        // 1. Vrátíme čas do normálu
         Time.timeScale = 1f;
-
-        // 2. 🔥 Získáme index aktuální scény a znovu ji načteme
-        int currentSceneIndex = SceneManager.GetActiveScene().buildIndex;
-        SceneManager.LoadScene(currentSceneIndex);
+        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
     }
 
     public void QuitButton()

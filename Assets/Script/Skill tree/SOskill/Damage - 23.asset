@@ -10,15 +10,15 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 22cb1b8ec673ff444b73e4f096f3588e, type: 3}
-  m_Name: Health - 12
+  m_Name: Damage - 23
   m_EditorClassIdentifier: 
-  id: 12
-  skillName: Health upg 3.
-  description: more hp
-  icon: {fileID: 3950208926167540938, guid: 951b24a4344a638439779e4177f55992, type: 3}
-  type: 1
-  valuePerLevel: 5
-  currentLevel: 0
+  id: 23
+  skillName: Damage upg 4.
+  description: more dmg
+  icon: {fileID: -5295351528858327659, guid: 951b24a4344a638439779e4177f55992, type: 3}
+  type: 2
+  valuePerLevel: 0.5
+  currentLevel: 3
   levels:
   - cost:
     - item: {fileID: 11400000, guid: 9afbd67cfc2bfa14795521a67e301288, type: 2}
