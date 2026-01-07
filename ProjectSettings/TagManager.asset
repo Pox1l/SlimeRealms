@@ -35,6 +35,7 @@ TagManager:
   - PhaseText
   - CraftingPanel
   - CraftingBTN
+  - LoadingCanvas
   layers:
   - Default
   - TransparentFX

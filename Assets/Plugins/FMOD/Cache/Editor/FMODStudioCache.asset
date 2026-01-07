@@ -80,7 +80,7 @@ MonoBehaviour:
   Parameters: []
   MinDistance: 1
   MaxDistance: 20
-  Length: 525
+  Length: 750
 --- !u!114 &11400000
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -113,7 +113,7 @@ MonoBehaviour:
   StringsBanks:
   - {fileID: 950478269963886210}
   cacheVersion: 131857
-  cacheTime: 639031220025676786
+  cacheTime: 639033137380352084
   SerializableEventsDict:
   - key: event:/MenuMusic
     index: 0
@@ -142,7 +142,7 @@ MonoBehaviour:
   Path: FMOD/Desktop/Master.strings.bank
   Name: Master.strings
   StudioPath: bank:/Master.strings
-  lastModified: 639031212881916875
+  lastModified: 639033137377861003
   FileSizes:
   - Name: 
     Value: 1324
@@ -162,7 +162,7 @@ MonoBehaviour:
   Path: FMOD/Desktop/Master.bank
   Name: Master
   StudioPath: bank:/Master
-  lastModified: 639031212881836729
+  lastModified: 639033137377811094
   FileSizes: []
   Exists: 1
 --- !u!114 &3136255313656384484
@@ -180,7 +180,7 @@ MonoBehaviour:
   Path: FMOD/Desktop/SFX.bank
   Name: SFX
   StudioPath: bank:/SFX
-  lastModified: 639031220025676786
+  lastModified: 639033137380352084
   FileSizes: []
   Exists: 1
 --- !u!114 &4048344349576224556
