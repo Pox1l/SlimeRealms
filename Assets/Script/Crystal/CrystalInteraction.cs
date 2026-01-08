@@ -4,64 +4,37 @@ public class CrystalInteraction : MonoBehaviour
 {
     public KeyCode interactKey = KeyCode.E;
 
-    [Header("Reference")]
-    public CrystalUIController crystalUI;
-    public GameObject pressFHint;
-
-    [Header("UI které se má vypnout při otevření krystalu")]
-    public GameObject hudUI;
+    [Header("Visual Hint")]
+    public GameObject pressFHint; // Bublina "Stiskni E" nad krystalem
 
     private bool playerInRange = false;
 
     void Start()
     {
+        // Jen skryjeme nápovědu, UI už neřešíme (to dělá Manager)
         if (pressFHint != null)
             pressFHint.SetActive(false);
-
-        if (crystalUI != null && crystalUI.mainPanel != null)
-            crystalUI.mainPanel.SetActive(false);
     }
 
     void Update()
     {
         if (!playerInRange) return;
 
+        // Pokud je pauza nebo hráč je mrtvý, tlačítko nebude fungovat
+        if (UIManager.Instance.isPaused || UIManager.Instance.isDead) return;
+
         if (Input.GetKeyDown(interactKey))
         {
-            if (crystalUI == null)
+            if (UIManager.Instance != null)
             {
-                Debug.LogWarning("CrystalInteraction: chybí reference na CrystalUIController!");
-                return;
-            }
-
-            // === Toggle UI ===
-            if (crystalUI.mainPanel.activeSelf)
-            {
-                CloseCrystalUI();
+                // 🔥 Voláme Managera, ať to vyřeší
+                UIManager.Instance.ToggleCrystalUI();
             }
             else
             {
-                OpenCrystalUI();
+                Debug.LogWarning("Chybí UIManager ve scéně!");
             }
         }
-    }
-
-    private void OpenCrystalUI()
-    {
-        crystalUI.OpenUI();
-
-        // vypni HUD
-        if (hudUI != null)
-            hudUI.SetActive(false);
-    }
-
-    private void CloseCrystalUI()
-    {
-        crystalUI.CloseUI();
-
-        // zapni HUD
-        if (hudUI != null)
-            hudUI.SetActive(true);
     }
 
     void OnTriggerEnter2D(Collider2D other)
@@ -82,10 +55,10 @@ public class CrystalInteraction : MonoBehaviour
         if (pressFHint != null)
             pressFHint.SetActive(false);
 
-        // když hráč odejde, zavři UI
-        if (crystalUI != null && crystalUI.mainPanel.activeSelf)
+        // Když hráč odejde daleko, řekneme Manageru, ať to zavře
+        if (UIManager.Instance != null && UIManager.Instance.isCrystalUIOpen)
         {
-            CloseCrystalUI();
+            UIManager.Instance.CloseCrystalMenu();
         }
     }
 }

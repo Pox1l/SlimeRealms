@@ -50,7 +50,8 @@ public class EnemyController : MonoBehaviour
         {
             moveInstance = RuntimeManager.CreateInstance(movementSound);
             // Připneme zvuk k nepříteli, aby byl 3D
-            RuntimeManager.AttachInstanceToGameObject(moveInstance, transform, GetComponent<Rigidbody2D>());
+            // OPRAVA: Místo 'transform' posíláme 'gameObject'
+            RuntimeManager.AttachInstanceToGameObject(moveInstance, gameObject, GetComponent<Rigidbody2D>());
         }
     }
 
