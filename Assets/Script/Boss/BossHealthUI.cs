@@ -4,52 +4,45 @@ using TMPro;
 
 public class BossHealthUI : MonoBehaviour
 {
-    public static BossHealthUI Instance;
-
     [Header("UI Elementy")]
-    public Slider healthSlider;     // Sem přetáhni objekt 'BossSlider'
-    public TextMeshProUGUI hpText;  // Sem přetáhni 'BossHPText'
+    public GameObject rootPanel;    // Hlavní objekt, který se bude vypínat/zapínat
+    public Slider healthSlider;     // Slider života
+    public TextMeshProUGUI hpText;  // Text "500 / 500"
+    public TextMeshProUGUI nameText; // Jméno bosse (volitelné)
 
-    private void Awake()
+    // Inicializace hodnot (volá UIManager na začátku boje)
+    public void Init(string bossName, int maxHP)
     {
-        Instance = this;
-    }
+        if (nameText != null) nameText.text = bossName;
 
-    private void Start()
-    {
-        // 🔒 Na začátku hry UI schováme
-        HideUI();
-    }
-
-    public void ShowUI()
-    {
-        // 1. Zapneme hlavní rodičovský objekt (BossUI)
-        gameObject.SetActive(true);
-
-        // 2. 🔥 VYNUTÍME zapnutí slideru a textu (child objektů)
-        if (healthSlider != null) healthSlider.gameObject.SetActive(true);
-        if (hpText != null) hpText.gameObject.SetActive(true);
-    }
-
-    public void HideUI()
-    {
-        // Vypneme hlavní objekt (tím zmizí i děti)
-        gameObject.SetActive(false);
-    }
-
-    public void UpdateHealth(int current, int max)
-    {
-        // Posuvník
         if (healthSlider != null)
         {
-            healthSlider.maxValue = max;
+            healthSlider.maxValue = maxHP;
+            healthSlider.value = maxHP;
+        }
+        UpdateHealth(maxHP, maxHP);
+    }
+
+    // Aktualizace vizuálu (volá UIManager při zásahu)
+    public void UpdateHealth(int current, int max)
+    {
+        if (healthSlider != null)
+        {
             healthSlider.value = current;
         }
 
-        // Text (např. "450 / 500")
         if (hpText != null)
         {
             hpText.text = $"{current} / {max}";
         }
+    }
+
+    // Zobrazení/Skrytí (volá UIManager podle stavu hry)
+    public void ToggleVisibility(bool state)
+    {
+        if (rootPanel != null)
+            rootPanel.SetActive(state);
+        else
+            gameObject.SetActive(state); // Fallback
     }
 }

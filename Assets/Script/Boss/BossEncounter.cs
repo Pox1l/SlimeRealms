@@ -7,13 +7,15 @@ public class BossEncounter : MonoBehaviour
     public GameObject bossPrefab;
     public Transform spawnPoint;
     public float startDelay = 0.5f;
+    public string bossName = "Evil Boss";
 
-    // Defaultně TRUE = boss je "jakože poražen/nedostupný", dokud nezaplatíš u barikády
+    // ODSTRANĚNO: public int bossMaxHP = 500; -> Už to čteme přímo z bosse
+
     public bool bossDefeated = true;
 
     [Header("Propojení")]
     public PixelCameraZoomer cameraZoomer;
-    public BossEntrance entranceScript; // Odkaz na barikádu
+    public BossEntrance entranceScript;
 
     private ObjectPool pool;
     private GameObject activeBoss;
@@ -25,11 +27,9 @@ public class BossEncounter : MonoBehaviour
         pool = new ObjectPool(bossPrefab, 1, transform);
     }
 
-    // Volá BossEntrance po odstranění barikády
     public void PrepareBoss()
     {
-        bossDefeated = false; // Boss je připraven
-        // Pokud už hráč stojí v aréně (např. barikáda byla uvnitř), rovnou spawnuj
+        bossDefeated = false;
         if (playerInside && activeBoss == null)
         {
             if (spawnCoroutine != null) StopCoroutine(spawnCoroutine);
@@ -44,20 +44,19 @@ public class BossEncounter : MonoBehaviour
 
         if (cameraZoomer != null) cameraZoomer.ZoomToCombat();
 
-        // 👁️ FIX: Získání reference na UI
-        BossHealthUI ui = BossHealthUI.Instance;
-        // Pokud je instance null (protože je objekt vypnutý), najdeme ho ručně (true = hledat i neaktivní)
-        if (ui == null) ui = FindObjectOfType<BossHealthUI>(true);
-
-        // Zobrazíme UI, jen pokud boss není mrtvý a UI jsme našli
-        if (!bossDefeated && ui != null)
+        // 🔥 OZNÁMENÍ MANAGERU: Začátek boje
+        if (!bossDefeated && UIManager.Instance != null)
         {
-            ui.ShowUI();
-            // Pro jistotu nastavíme Singleton, kdyby nebyl nastaven
-            if (BossHealthUI.Instance == null) BossHealthUI.Instance = ui;
+            // Změna: Zjistíme HP přímo z prefabu bosse, místo natvrdo zadaného čísla
+            int realMaxHP = 100; // Fallback hodnota
+            if (bossPrefab != null && bossPrefab.TryGetComponent(out BossHealth hpScript))
+            {
+                realMaxHP = hpScript.maxHealth;
+            }
+
+            UIManager.Instance.StartBossFight(bossName, realMaxHP);
         }
 
-        // Spawn bosse
         if (!bossDefeated && activeBoss == null)
         {
             if (spawnCoroutine != null) StopCoroutine(spawnCoroutine);
@@ -70,19 +69,14 @@ public class BossEncounter : MonoBehaviour
         if (!other.CompareTag("Player")) return;
         playerInside = false;
 
-        // 👁️ SCHOVÁNÍ UI OKAMŽITĚ PO ODCHODU
-        // Zde taky raději zkontrolujeme, zda máme instanci, případně ji dohledáme
-        BossHealthUI ui = BossHealthUI.Instance;
-        if (ui == null) ui = FindObjectOfType<BossHealthUI>(true);
-
-        if (ui != null)
+        // 🔥 OZNÁMENÍ MANAGERU: Konec boje (útěk)
+        if (UIManager.Instance != null)
         {
-            ui.HideUI();
+            UIManager.Instance.EndBossFight();
         }
 
         if (cameraZoomer != null) cameraZoomer.ZoomToNormal();
 
-        // Despawn bosse, pokud jsi utekl
         if (activeBoss != null)
         {
             DespawnBoss();
@@ -93,17 +87,13 @@ public class BossEncounter : MonoBehaviour
     {
         bossDefeated = true;
 
-        BossHealthUI ui = BossHealthUI.Instance;
-        if (ui == null) ui = FindObjectOfType<BossHealthUI>(true);
-        if (ui != null) ui.HideUI();
+        // 🔥 OZNÁMENÍ MANAGERU: Konec boje (smrt bosse)
+        if (UIManager.Instance != null)
+            UIManager.Instance.EndBossFight();
 
         if (cameraZoomer != null) cameraZoomer.ZoomToNormal();
-
-        // ODSTRANĚNO: entranceScript.ResetBarrier(); 
-        // Brána se teď resetuje sama v OnTriggerExit2D až hráč odejde chodbou.
     }
 
-    // --- Spawn logika ---
     IEnumerator SpawnSequence()
     {
         yield return new WaitForSeconds(startDelay);
@@ -113,16 +103,19 @@ public class BossEncounter : MonoBehaviour
     void SpawnBoss()
     {
         activeBoss = pool.Get();
-
-        // Pozice a Domov
         Vector3 pos = (spawnPoint != null) ? spawnPoint.position : transform.position;
         if (activeBoss.TryGetComponent(out UnityEngine.AI.NavMeshAgent agent)) agent.Warp(pos);
         else activeBoss.transform.position = pos;
 
         if (activeBoss.TryGetComponent(out EnemyController ctrl)) ctrl.SetHomePosition(pos);
-
-        // Inicializace návratu do poolu
         if (activeBoss.TryGetComponent(out ReturnToPoolBoss ret)) ret.Init(pool, () => activeBoss = null);
+
+        // 🔥 OPRAVA: Už nepřepisujeme MaxHealth, jen resetujeme CurrentHealth na MaxHealth
+        if (activeBoss.TryGetComponent(out BossHealth hpScript))
+        {
+            // hpScript.maxHealth nechej tak, jak je nastavené v prefabu!
+            hpScript.currentHealth = hpScript.maxHealth;
+        }
     }
 
     void DespawnBoss()

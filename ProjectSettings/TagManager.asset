@@ -36,6 +36,19 @@ TagManager:
   - CraftingPanel
   - CraftingBTN
   - LoadingCanvas
+  - PauseMenuCanvas
+  - PauseMenuRoot
+  - SettingsBTN
+  - ResetBTN
+  - QuitBTN
+  - ResumeBTN
+  - CloseSettingsBTN
+  - SettingsMenuRoot
+  - DeadUICanvas
+  - DeadUIRoot
+  - RespawnBTN
+  - KrystalCanvas
+  - KrystalRoot
   layers:
   - Default
   - TransparentFX

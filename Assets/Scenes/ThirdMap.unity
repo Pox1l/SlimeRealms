@@ -411180,7 +411180,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1326680b8794c7440a5ca2648918c2d4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  text: Add invetory system and every other script and game object.
+  text: Add invetory system and every other script.
 --- !u!4 &1627493386
 Transform:
   m_ObjectHideFlags: 0

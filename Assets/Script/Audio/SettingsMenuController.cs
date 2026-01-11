@@ -1,4 +1,4 @@
-using System.Collections.Generic;
+ï»¿using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -12,10 +12,6 @@ public class SettingsMenuController : MonoBehaviour
         public Button button;
     }
 
-    [Header("Auto Setup References")]
-    public Transform buttonContainer; // Sem pøetáhni objekt, v kterém jsou tlaèítka
-    public Transform panelContainer;  // Sem pøetáhni objekt, v kterém jsou panely
-
     [Header("Tabs Configuration")]
     public List<MenuTab> tabs = new List<MenuTab>();
 
@@ -25,55 +21,28 @@ public class SettingsMenuController : MonoBehaviour
 
     void Start()
     {
-        // Pokud je seznam prázdný a máme kontejnery, zkusíme to naplnit sami
-        if (tabs.Count == 0 && buttonContainer != null && panelContainer != null)
-        {
-            AutoFindTabs();
-        }
-
+        // PropojenÃ­ tlaÄÃ­tek
         foreach (var tab in tabs)
         {
-            // Musíme použít lokální promìnnou pro lambda výraz
-            var currentTab = tab;
-            if (currentTab.button != null)
+            if (tab.button != null)
             {
-                currentTab.button.onClick.AddListener(() => OnTabClicked(currentTab));
+                tab.button.onClick.AddListener(() => OnTabClicked(tab));
             }
         }
 
-        if (tabs.Count > 0)
-            OnTabClicked(tabs[0]);
+        // Reset na prvnÃ­ tab
+        ResetTabs();
     }
 
-    // Funkce pro automatické nalezení
-    [ContextMenu("Load Tabs From Containers")] // Umožní spustit to i pøes pravé tlaèítko v editoru
-    public void AutoFindTabs()
+    public void ResetTabs()
     {
-        tabs.Clear();
-
-        int count = Mathf.Min(buttonContainer.childCount, panelContainer.childCount);
-
-        for (int i = 0; i < count; i++)
+        if (tabs.Count > 0)
         {
-            MenuTab newTab = new MenuTab();
-
-            // Vezmeme tlaèítko a panel na stejném indexu (poøadí)
-            Transform btnObj = buttonContainer.GetChild(i);
-            Transform pnlObj = panelContainer.GetChild(i);
-
-            newTab.name = btnObj.name;
-            newTab.button = btnObj.GetComponent<Button>();
-            newTab.panel = pnlObj.gameObject;
-
-            if (newTab.button != null)
-            {
-                tabs.Add(newTab);
-            }
+            OnTabClicked(tabs[0]);
         }
-        Debug.Log($"Automaticky naèteno {tabs.Count} tabù.");
     }
 
-    private void OnTabClicked(MenuTab activeTab)
+    public void OnTabClicked(MenuTab activeTab)
     {
         foreach (var tab in tabs)
         {

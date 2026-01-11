@@ -28,11 +28,10 @@ public class BossHealth : MonoBehaviour
     {
         bossEncounter = FindObjectOfType<BossEncounter>();
 
-        // --- PŘIDÁNO: Inicializace UI ---
-        // Pokud je UI aktivní, nastavíme mu plné životy hned po spawnu
-        if (BossHealthUI.Instance != null)
+        // Init UI přes Managera
+        if (UIManager.Instance != null)
         {
-            BossHealthUI.Instance.UpdateHealth(currentHealth, maxHealth);
+            UIManager.Instance.UpdateBossHP(currentHealth, maxHealth);
         }
     }
 
@@ -49,10 +48,10 @@ public class BossHealth : MonoBehaviour
         currentHealth -= damage;
         OnHealthChanged?.Invoke(currentHealth, maxHealth);
 
-        // --- PŘIDÁNO: Aktualizace UI ---
-        if (BossHealthUI.Instance != null)
+        // 🔥 AKTUALIZACE UI PŘES MANAGERA
+        if (UIManager.Instance != null)
         {
-            BossHealthUI.Instance.UpdateHealth(currentHealth, maxHealth);
+            UIManager.Instance.UpdateBossHP(currentHealth, maxHealth);
         }
 
         if (damageFlash != null) damageFlash.Flash();
@@ -71,12 +70,6 @@ public class BossHealth : MonoBehaviour
     void Die()
     {
         Debug.Log("💀 Boss defeated!");
-
-        // --- PŘIDÁNO: Schování UI po smrti ---
-        if (BossHealthUI.Instance != null)
-        {
-            BossHealthUI.Instance.HideUI();
-        }
 
         if (drop != null) drop.DropLoot();
 
