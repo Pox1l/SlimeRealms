@@ -49,6 +49,7 @@ TagManager:
   - RespawnBTN
   - KrystalCanvas
   - KrystalRoot
+  - BossUICanvas
   layers:
   - Default
   - TransparentFX
