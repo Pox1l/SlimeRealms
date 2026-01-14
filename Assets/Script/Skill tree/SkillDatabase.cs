@@ -23,7 +23,10 @@ public class SkillDatabase : MonoBehaviour
                 transform.SetParent(null);
             }
             DontDestroyOnLoad(gameObject);
-            savePath = Path.Combine(Application.persistentDataPath, "skills_save.json");
+
+            // ZMĚNA ZDE:
+            savePath = ProfileManager.GetSavePath("skills_save.json");
+
             ResetAllSkills();
             LoadSkills();
         }

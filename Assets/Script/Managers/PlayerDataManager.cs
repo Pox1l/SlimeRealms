@@ -17,7 +17,10 @@ public class PlayerDataManager : MonoBehaviour
             Instance = this;
             if (transform.parent != null) transform.SetParent(null);
             DontDestroyOnLoad(gameObject);
-            savePath = Path.Combine(Application.persistentDataPath, "player_save.json");
+
+            // ZMĚNA ZDE: Cestu si bereme přes ProfileManager
+            savePath = ProfileManager.GetSavePath("player_save.json");
+
             LoadPlayerData();
         }
         else

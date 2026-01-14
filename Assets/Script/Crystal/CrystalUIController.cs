@@ -6,7 +6,6 @@ using System.IO;
 
 public class CrystalUIController : MonoBehaviour
 {
-
     [System.Serializable]
     public class Requirement
     {
@@ -28,10 +27,9 @@ public class CrystalUIController : MonoBehaviour
         public int savedStageIndex;
     }
 
-
     [Header("References")]
     public InventoryManager inventoryManager;
-    public CrystalVisualController visualController; 
+    public CrystalVisualController visualController;
     public GameObject mainPanel;
 
     [Header("UI – požadavky")]
@@ -42,15 +40,13 @@ public class CrystalUIController : MonoBehaviour
     [Header("Stages")]
     public List<CrystalStage> stages = new List<CrystalStage>();
 
-
     private int currentStage = 0;
     private string saveFilePath;
-
     private int totalStages;
 
     void Awake()
     {
-        saveFilePath = Path.Combine(Application.persistentDataPath, "crystal_save.json");
+        saveFilePath = ProfileManager.GetSavePath("crystal_save.json");
         totalStages = stages.Count;
     }
 
@@ -60,106 +56,37 @@ public class CrystalUIController : MonoBehaviour
             mainPanel.SetActive(false);
 
         LoadCrystalData();
-
         LockAllWorldButtons();
         UnlockCompletedStages();
 
         if (visualController != null) visualController.UpdateVisuals(currentStage);
 
+        // Aktualizace hned na začátku
         RefreshStageUI();
-    }
 
-    void Update()
-    {
-        /*
-        
-        if (Input.GetKeyDown(KeyCode.F5))
+        // 🔥 PŘIDÁNO: Automatická aktualizace, když se změní inventář
+        if (inventoryManager != null)
         {
-            SaveCrystalData();
-        }
-
-        if (Input.GetKeyDown(KeyCode.F9))
-        {
-            LoadCrystalData();
-            RefreshStageUI();
-            if (visualController != null) visualController.UpdateVisuals(currentStage);
-        }*/
-    }
-    public float GetRepairPercentage()
-    {
-        if (totalStages == 0) return 100f; // Pokud nemáme žádné etapy, považujeme to za dokončené
-
-        // currentStage je index další etapy (po dokončení poslední etapy je roven totalStages)
-        float percentage = ((float)currentStage / totalStages) * 100f;
-        return Mathf.Min(percentage, 100f); // Zajistí, že nikdy nepřesáhneme 100%
-    }
-
-    
-    private void OnApplicationQuit()
-    {
-        SaveCrystalData();
-    }
-
-
-    public void SaveCrystalData()
-    {
-        CrystalSaveData data = new CrystalSaveData();
-        data.savedStageIndex = currentStage;
-
-        // true = hezké formátování JSONu (stejně jako v inventáři)
-        string json = JsonUtility.ToJson(data, true);
-        File.WriteAllText(saveFilePath, json);
-
-        Debug.Log($"💾 Crystal saved to {saveFilePath}");
-    }
-
-    public void LoadCrystalData()
-    {
-        if (!File.Exists(saveFilePath))
-        {
-            Debug.Log("No crystal save found (New Game).");
-            currentStage = 0;
-            return;
-        }
-
-        string json = File.ReadAllText(saveFilePath);
-        CrystalSaveData data = JsonUtility.FromJson<CrystalSaveData>(json);
-
-        currentStage = data.savedStageIndex;
-
-        Debug.Log("📦 Crystal loaded! Stage: " + currentStage);
-    }
-
-
-    void LockAllWorldButtons()
-    {
-        foreach (var stage in stages)
-        {
-            foreach (var btn in stage.worldButtonsToEnable)
-            {
-                if (btn != null) btn.interactable = false;
-            }
+            inventoryManager.OnInventoryChanged += RefreshStageUI;
         }
     }
 
-    void UnlockCompletedStages()
+    // 🔥 PŘIDÁNO: Důležité pro čištění paměti
+    private void OnDestroy()
     {
-        for (int i = 0; i < currentStage; i++)
+        if (inventoryManager != null)
         {
-            if (i < stages.Count)
-            {
-                foreach (var btn in stages[i].worldButtonsToEnable)
-                {
-                    if (btn != null) btn.interactable = true;
-                }
-            }
+            inventoryManager.OnInventoryChanged -= RefreshStageUI;
         }
     }
 
+    // Metoda pro otevření UI - TADY SE DĚJE TO, CO JSI CHTĚL
     public void OpenUI()
     {
         mainPanel.SetActive(true);
         Time.timeScale = 0;
+
+        // 🔥 Tohle zajistí, že se zkontrolují itemy hned při otevření
         RefreshStageUI();
     }
 
@@ -169,8 +96,11 @@ public class CrystalUIController : MonoBehaviour
         Time.timeScale = 1;
     }
 
-    void RefreshStageUI()
+    public void RefreshStageUI()
     {
+        // Pojistka, pokud nejsou nastavené reference
+        if (inventoryManager == null) return;
+
         if (currentStage >= stages.Count)
         {
             foreach (Transform child in requirementsParent) Destroy(child.gameObject);
@@ -198,9 +128,14 @@ public class CrystalUIController : MonoBehaviour
             if (iconImg != null) iconImg.sprite = req.itemSO.icon;
 
             TextMeshProUGUI amountText = row.transform.Find("Text").GetComponent<TextMeshProUGUI>();
-            if (amountText != null) amountText.text = $"{req.requiredAmount}x";
 
+            // Získání počtu itemů z inventáře
             int owned = inventoryManager.GetTotalItemCount(req.itemSO);
+
+            if (amountText != null)
+                amountText.text = $"{owned} / {req.requiredAmount}"; // Upravil jsem text, aby ukazoval "Máš / Potřebuješ"
+
+            // Kontrola, zda má hráč dostatek
             if (owned < req.requiredAmount)
             {
                 canRepair = false;
@@ -212,6 +147,7 @@ public class CrystalUIController : MonoBehaviour
             }
         }
 
+        // Povolí nebo zakáže tlačítko podle toho, jestli má hráč všechno
         if (repairButton != null) repairButton.interactable = canRepair;
     }
 
@@ -243,18 +179,82 @@ public class CrystalUIController : MonoBehaviour
 
         // Zvýšení stage
         currentStage++;
-
-        // 🔥 Uložení hned po akci (pro jistotu, i když máme OnApplicationQuit)
         SaveCrystalData();
-
         RefreshStageUI();
 
-        // Aktualizace vizuálu
         if (visualController != null)
         {
             visualController.UpdateVisuals(currentStage);
             visualController.PlayRepairEffect();
         }
+    }
+
+    public void SaveCrystalData()
+    {
+        CrystalSaveData data = new CrystalSaveData();
+        data.savedStageIndex = currentStage;
+        string json = JsonUtility.ToJson(data, true);
+        File.WriteAllText(saveFilePath, json);
+        Debug.Log($"💾 Crystal saved to {saveFilePath}");
+    }
+
+    public void LoadCrystalData()
+    {
+        if (!File.Exists(saveFilePath))
+        {
+            currentStage = 0;
+            SaveCrystalData();
+            return;
+        }
+
+        try
+        {
+            string json = File.ReadAllText(saveFilePath);
+            CrystalSaveData data = JsonUtility.FromJson<CrystalSaveData>(json);
+            currentStage = data.savedStageIndex;
+        }
+        catch
+        {
+            currentStage = 0;
+            SaveCrystalData();
+        }
+    }
+
+    private void OnApplicationQuit()
+    {
+        SaveCrystalData();
+    }
+
+    void LockAllWorldButtons()
+    {
+        foreach (var stage in stages)
+        {
+            foreach (var btn in stage.worldButtonsToEnable)
+            {
+                if (btn != null) btn.interactable = false;
+            }
+        }
+    }
+
+    void UnlockCompletedStages()
+    {
+        for (int i = 0; i < currentStage; i++)
+        {
+            if (i < stages.Count)
+            {
+                foreach (var btn in stages[i].worldButtonsToEnable)
+                {
+                    if (btn != null) btn.interactable = true;
+                }
+            }
+        }
+    }
+
+    public float GetRepairPercentage()
+    {
+        if (totalStages == 0) return 100f;
+        float percentage = ((float)currentStage / totalStages) * 100f;
+        return Mathf.Min(percentage, 100f);
     }
 
     [ContextMenu("Delete Save File")]
@@ -263,7 +263,6 @@ public class CrystalUIController : MonoBehaviour
         if (File.Exists(saveFilePath))
         {
             File.Delete(saveFilePath);
-            Debug.Log("Save file deleted.");
             currentStage = 0;
             RefreshStageUI();
             if (visualController != null) visualController.UpdateVisuals(0);

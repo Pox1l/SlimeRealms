@@ -156,8 +156,7 @@ MonoBehaviour:
   attackCooldown: 1.5
   jumpDamageRadius: 3
   jumpDamageAmount: 10
-  jumpDuration: 1
-  jumpEffectPrefab: {fileID: 0}
+  jumpEffectPrefab: {fileID: 7833264089034156682, guid: 78fbdda2adb33fc438ffab8a75621ab1, type: 3}
   warningRadius: 0.75
   circleSegments: 30
 --- !u!114 &836386338017622372

@@ -50,6 +50,7 @@ TagManager:
   - KrystalCanvas
   - KrystalRoot
   - BossUICanvas
+  - WorldUI
   layers:
   - Default
   - TransparentFX

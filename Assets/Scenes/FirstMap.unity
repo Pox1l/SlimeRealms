@@ -13939,7 +13939,7 @@ GameObject:
   - component: {fileID: 167218176}
   m_Layer: 0
   m_Name: WorldUICanvas
-  m_TagString: Untagged
+  m_TagString: WorldUI
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -51919,7 +51919,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &1042120369
 Transform:
   m_ObjectHideFlags: 0
@@ -435444,6 +435444,7 @@ MonoBehaviour:
   - itemSO: {fileID: 11400000, guid: 512f1d49121f3854da5307a13a34cdac, type: 2}
     requiredAmount: 1
   inventoryManager: {fileID: 1970522358}
+  WorldCanvas: {fileID: 0}
   pressEHint: {fileID: 2111517053}
   requirementsPanel: {fileID: 1009262228}
   requirementsParent: {fileID: 1009262229}
@@ -566408,10 +566409,6 @@ PrefabInstance:
     - target: {fileID: 279834249153522685, guid: 573b62628d477b44793c6450e2a54ff6, type: 3}
       propertyPath: m_Name
       value: SlimeBoss
-      objectReference: {fileID: 0}
-    - target: {fileID: 279834249153522685, guid: 573b62628d477b44793c6450e2a54ff6, type: 3}
-      propertyPath: m_IsActive
-      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5181823065040882232, guid: 573b62628d477b44793c6450e2a54ff6, type: 3}
       propertyPath: m_LocalPosition.x

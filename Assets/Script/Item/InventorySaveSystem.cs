@@ -14,7 +14,8 @@ public class InventorySaveSystem : MonoBehaviour
 
     private void Awake()
     {
-        savePath = Path.Combine(Application.persistentDataPath, "inventory_save.json");
+        // ZMĚNA ZDE:
+        savePath = ProfileManager.GetSavePath("inventory_save.json");
     }
 
     private void Start()

@@ -282,6 +282,7 @@ GameObject:
   - component: {fileID: 127101543}
   - component: {fileID: 127101542}
   - component: {fileID: 127101541}
+  - component: {fileID: 127101545}
   m_Layer: 5
   m_Name: MenuCanvas
   m_TagString: Untagged
@@ -365,7 +366,6 @@ RectTransform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 898995913}
-  - {fileID: 1457758844}
   - {fileID: 1495986647}
   m_Father: {fileID: 1210090627}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -374,6 +374,19 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0, y: 0}
+--- !u!114 &127101545
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 127101540}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6d31bb3c8918554449041640ca2ad525, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  profilDropdown: {fileID: 1457758845}
 --- !u!1 &187185454
 GameObject:
   m_ObjectHideFlags: 0
@@ -2080,6 +2093,7 @@ RectTransform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
+  - {fileID: 1457758844}
   - {fileID: 793902682}
   - {fileID: 757500642}
   - {fileID: 873057085}
@@ -2857,7 +2871,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 0, y: 0.000061035156}
   m_SizeDelta: {x: 0, y: 64.5108}
   m_Pivot: {x: 0.5, y: 1}
 --- !u!1 &1396209322
@@ -3071,7 +3085,7 @@ RectTransform:
   - {fileID: 734313479}
   - {fileID: 2027067977}
   - {fileID: 187185455}
-  m_Father: {fileID: 127101544}
+  m_Father: {fileID: 898995913}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
@@ -4085,7 +4099,7 @@ MonoBehaviour:
   m_HandleRect: {fileID: 916995610}
   m_Direction: 2
   m_Value: 0
-  m_Size: 1
+  m_Size: 0.73956215
   m_NumberOfSteps: 0
   m_OnValueChanged:
     m_PersistentCalls:
@@ -4298,14 +4312,14 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 264772822}
-        m_TargetAssemblyTypeName: LevelLoader, Assembly-CSharp
-        m_MethodName: LoadLevel
-        m_Mode: 3
+      - m_Target: {fileID: 127101545}
+        m_TargetAssemblyTypeName: ProfileMenuManager, Assembly-CSharp
+        m_MethodName: SetProfileID
+        m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 1
+          m_IntArgument: 0
           m_FloatArgument: 0
           m_StringArgument: 
           m_BoolArgument: 0
@@ -4318,6 +4332,18 @@ MonoBehaviour:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
           m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 264772822}
+        m_TargetAssemblyTypeName: LevelLoader, Assembly-CSharp
+        m_MethodName: LoadLevel
+        m_Mode: 3
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 1
           m_FloatArgument: 0
           m_StringArgument: 
           m_BoolArgument: 0

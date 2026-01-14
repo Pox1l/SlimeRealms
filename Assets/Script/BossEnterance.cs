@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿// [2025-12-11] Upraveno: Odstraněn debug status text, logika hledání zachována
+using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
 using System.Collections.Generic;
@@ -25,17 +26,35 @@ public class BossEntrance : MonoBehaviour
     public InventoryManager inventoryManager;
 
     [Header("UI Hinty")]
+    public GameObject WorldCanvas; // ZDE můžeš přiřadit ručně
     public GameObject pressEHint;
     public GameObject requirementsPanel;
     public Transform requirementsParent;
     public GameObject requirementPrefab;
 
-    private List<GameObject> uiPool = new List<GameObject>(); // Pool pro UI prvky
+    private List<GameObject> uiPool = new List<GameObject>();
     private bool playerInRange = false;
     private bool isActivated = false;
 
     private void Awake()
     {
+        // 1. Získání WorldCanvasu (Ručně nebo Auto přes Tag)
+        if (WorldCanvas == null)
+        {
+            WorldCanvas = GameObject.FindGameObjectWithTag("WorldUI");
+        }
+
+        // 2. Pokud máme Canvas ale chybí Panel, zkusíme ho najít uvnitř
+        if (requirementsPanel == null && WorldCanvas != null)
+        {
+            FindUIReferences();
+        }
+        else if (requirementsPanel == null && WorldCanvas == null)
+        {
+            Debug.LogError("BossEntrance: WorldCanvas chybí (není přiřazen ani nalezen tagem 'WorldUI')");
+        }
+
+        // Zbytek inicializace
         if (inventoryManager == null && InventoryManager.Instance != null)
             inventoryManager = InventoryManager.Instance;
 
@@ -44,8 +63,36 @@ public class BossEntrance : MonoBehaviour
         if (collidersToDisable == null || collidersToDisable.Length == 0)
             collidersToDisable = barrierObject.GetComponents<Collider2D>();
 
-        // Předvytvoření UI (volitelné, ale pomůže)
         PrepareUIPool();
+    }
+
+    private void FindUIReferences()
+    {
+        // Hledáme ReqBossPanel uvnitř WorldCanvasu (i inactive)
+        Transform foundPanel = FindDeepChild(WorldCanvas.transform, "ReqBossPanel");
+
+        if (foundPanel != null)
+        {
+            requirementsPanel = foundPanel.gameObject;
+            // Pokud není přiřazen parent pro itemy, použijeme samotný panel
+            if (requirementsParent == null) requirementsParent = foundPanel;
+        }
+        else
+        {
+            Debug.LogError($"BossEntrance: Máme Canvas '{WorldCanvas.name}', ale uvnitř není 'ReqBossPanel'!");
+        }
+    }
+
+    private Transform FindDeepChild(Transform parent, string childName)
+    {
+        foreach (Transform child in parent)
+        {
+            if (child.name == childName) return child;
+
+            Transform result = FindDeepChild(child, childName);
+            if (result != null) return result;
+        }
+        return null;
     }
 
     private void Update()
@@ -95,7 +142,7 @@ public class BossEntrance : MonoBehaviour
 
     private void PrepareUIPool()
     {
-        // Skryjeme stávající děti, pokud nějaké jsou
+        if (requirementsParent == null) return;
         foreach (Transform child in requirementsParent) child.gameObject.SetActive(false);
     }
 
@@ -104,7 +151,6 @@ public class BossEntrance : MonoBehaviour
         if (requirementsPanel == null) return;
         requirementsPanel.SetActive(true);
 
-        // Deaktivujeme všechny stávající řádky v poolu
         for (int i = 0; i < uiPool.Count; i++) uiPool[i].SetActive(false);
 
         for (int i = 0; i < requirements.Count; i++)
@@ -120,6 +166,7 @@ public class BossEntrance : MonoBehaviour
             }
             else
             {
+                if (requirementsParent == null) return;
                 row = Instantiate(requirementPrefab, requirementsParent);
                 uiPool.Add(row);
             }
@@ -147,9 +194,6 @@ public class BossEntrance : MonoBehaviour
     {
         if (!other.CompareTag("Player")) return;
         playerInRange = false;
-
-        // --- ZDE JSME SMAZALI LOGIKU ZAVÍRÁNÍ ---
-        // Teď to dělá ten nový BossExitTrigger v chodbě.
 
         if (pressEHint != null) pressEHint.SetActive(false);
         if (requirementsPanel != null) requirementsPanel.SetActive(false);

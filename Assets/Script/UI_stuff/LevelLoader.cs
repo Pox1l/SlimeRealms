@@ -1,4 +1,4 @@
-using System.Collections;
+ï»¿using System.Collections;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
@@ -9,12 +9,14 @@ public class LevelLoader : MonoBehaviour
     public GameObject loadingScreen;
     public Slider slider;
 
-    [Header("Nastavení")]
-    [Tooltip("Minimální èas v sekundách, jak dlouho loading potrvá")]
-    public float minLoadTime = 4f; // Zde nastav tøeba 4 sekundy
+    [Header("NastavenÃ­")]
+    public float minLoadTime = 4f;
 
     public void LoadLevel(int sceneIndex)
     {
+        // ğŸ”¥ OPRAVA: MusÃ­me zajistit, Å¾e Äas bÄ›Å¾Ã­, jinak se loading zasekne!
+        Time.timeScale = 1f;
+
         StartCoroutine(LoadAsynchronously(sceneIndex));
     }
 
@@ -28,23 +30,22 @@ public class LevelLoader : MonoBehaviour
 
         float elapsedTime = 0f;
 
-        // Smyèka bìí dokud není naèteno NEBO dokud neuplyne náš èas
         while (!operation.isDone)
         {
+            // PÅ™iÄÃ­tÃ¡me Äas
             elapsedTime += Time.deltaTime;
 
-            // 1. Spoèítáme progress podle reálného naèítání (0 a 1)
+            // SpoÄÃ­tÃ¡me progress (0 aÅ¾ 1)
+            // operation.progress jde jen do 0.9, proto dÄ›lÃ­me 0.9
             float realProgress = Mathf.Clamp01(operation.progress / 0.9f);
 
-            // 2. Spoèítáme progress podle našeho èasovaèe (0 a 1)
+            // SpoÄÃ­tÃ¡me nÃ¡Å¡ umÄ›lÃ½ ÄasovaÄ (0 aÅ¾ 1)
             float timeProgress = Mathf.Clamp01(elapsedTime / minLoadTime);
 
-            // 3. Pouijeme tu MENŠÍ hodnotu. 
-            // Pokud je hra naètená hned (real=1), brzdí to èasovaè (time).
-            // Pokud by se hra sekla (real=0.5), bar nepobìí dopøedu, dokud se nenaète data.
+            // Slider ukazuje tu MENÅ Ã hodnotu (aby neproletÄ›l hned na konec)
             slider.value = Mathf.Min(realProgress, timeProgress);
 
-            // Pokud je reálnì naèteno (0.9) A zároveò èasovaè dobìhl (1.0)
+            // Pokud je hra naÄtenÃ¡ (0.9) A zÃ¡roveÅˆ ubÄ›hl nÃ¡Å¡ Äas (1.0)
             if (operation.progress >= 0.9f && timeProgress >= 1f)
             {
                 slider.value = 1f;
