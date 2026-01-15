@@ -6,7 +6,7 @@ public class EnemyRangedAttack : MonoBehaviour
     [Header("References")]
     public GameObject projectilePrefab;
 
-    // 🔥 DŮLEŽITÉ: Rodič FirePointu (střed otáčení)
+    // 🔥 DŮLEŽITÉ: Rodič FirePointu (střed otáčení zbraně)
     public Transform fixedPoint;
     // Ústí hlavně (dítě fixedPointu)
     public Transform firePoint;
@@ -42,16 +42,13 @@ public class EnemyRangedAttack : MonoBehaviour
     void Update()
     {
         if (playerTransform == null) return;
-
-        // Pojistka proti chybám při knockbacku
         if (agent == null || !agent.isOnNavMesh || !agent.isActiveAndEnabled) return;
 
-        // 🔥 1. Pokud útočíme, otáčíme zbraní za hráčem
+        // 🔥 1. Pokud útočíme, otáčíme ZBRANÍ za hráčem (tohle musí zůstat, aby střela letěla správně)
         if (isAttacking)
         {
             RotateGunToPlayer();
 
-            // Aktualizace Aim Line, aby vycházela ze správného místa
             if (aimLine != null && aimLine.enabled)
             {
                 UpdateAimLinePosition();
@@ -67,7 +64,9 @@ public class EnemyRangedAttack : MonoBehaviour
             {
                 agent.isStopped = true;
                 agent.velocity = Vector3.zero;
-                FacePlayer();
+
+                // 🔥 UPRAVENO: Zakomentoval jsem otáčení těla nepřítele
+                // FacePlayer(); 
             }
             else
             {
@@ -82,7 +81,7 @@ public class EnemyRangedAttack : MonoBehaviour
         }
     }
 
-    // 🔥 Funkce pro otáčení fixedPointu
+    // Funkce pro otáčení zbraně (necháváme zapnuté)
     void RotateGunToPlayer()
     {
         if (fixedPoint == null || playerTransform == null) return;
@@ -90,7 +89,6 @@ public class EnemyRangedAttack : MonoBehaviour
         Vector2 dir = playerTransform.position - fixedPoint.position;
         float angle = Mathf.Atan2(dir.y, dir.x) * Mathf.Rad2Deg;
 
-        // Aplikujeme rotaci na fixedPoint
         fixedPoint.rotation = Quaternion.Euler(0, 0, angle);
     }
 
@@ -113,7 +111,7 @@ public class EnemyRangedAttack : MonoBehaviour
         if (aimLine != null)
         {
             aimLine.enabled = true;
-            RotateGunToPlayer(); // Prvotní srovnání
+            RotateGunToPlayer();
             UpdateAimLinePosition();
         }
 
@@ -127,24 +125,20 @@ public class EnemyRangedAttack : MonoBehaviour
         CancelInvoke("FinishAttack");
     }
 
-    // 🔥 Tady je ta změna pro rotaci projektilu
     public void Shoot()
     {
         if (aimLine != null) aimLine.enabled = false;
 
         if (projectilePrefab == null || firePoint == null || fixedPoint == null) return;
 
-        // Pro jistotu naposledy srovnáme rotaci před výstřelem, aby to bylo přesné
+        // Tady necháváme původní logiku, zbraň míří na hráče
         RotateGunToPlayer();
-
-        // 🔥 ZMĚNA: Použijeme fixedPoint.rotation.
-        // Tím zajistíme, že projektil bude natočený stejně jako zbraň.
         Instantiate(projectilePrefab, firePoint.position, fixedPoint.rotation);
     }
 
+    // 🔥 Tuto funkci už nevoláme, takže se enemy nebude otáčet (zrcadlit)
     void FacePlayer()
     {
-        // Otáčíme jen tělo enemyho (ne zbraň, tu řeší RotateGunToPlayer)
         if (playerTransform.position.x > transform.position.x)
             transform.localScale = new Vector3(1, 1, 1);
         else
