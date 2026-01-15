@@ -15,10 +15,10 @@ MonoBehaviour:
   id: 56
   skillName: Defence upg 7.
   description: deffence against monsters
-  icon: {fileID: 343810611024959501, guid: 951b24a4344a638439779e4177f55992, type: 3}
+  icon: {fileID: -887031688, guid: 0f674a9a30981814cb19cfd8518b29e3, type: 3}
   type: 5
   valuePerLevel: 5
-  currentLevel: 2
+  currentLevel: 0
   levels:
   - cost:
     - item: {fileID: 11400000, guid: 8e82602e5a43d9a44abfc264c1de6c2c, type: 2}

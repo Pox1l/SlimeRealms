@@ -15,7 +15,7 @@ MonoBehaviour:
   id: 41
   skillName: Energy upg 2.
   description: lorem
-  icon: {fileID: -7378525575689205959, guid: 951b24a4344a638439779e4177f55992, type: 3}
+  icon: {fileID: 1786616673, guid: 87d706832dc4965429dc57fb916b27b1, type: 3}
   type: 4
   valuePerLevel: 5
   currentLevel: 0
