@@ -40,8 +40,8 @@ public class RangedAttack : AttackBase
         DamageDealer dealer = proj.GetComponent<DamageDealer>();
         if (dealer != null)
         {
-            // Vynásobíme základní poškození (z AttackBase) multiplikátorem (z PlayerStats)
-            int finalDamage = Mathf.RoundToInt(baseDamage * damageMultiplier);
+            // 🟢 ZMĚNA: Používáme CeilToInt, aby se započítalo i malé procento (např. 10.3 -> 11)
+            int finalDamage = Mathf.CeilToInt(baseDamage * damageMultiplier);
 
             dealer.damage = finalDamage;       // Nastavíme sílu
             dealer.enemyLayers = enemyLayers;  // Pro jistotu nastavíme i koho má trefit

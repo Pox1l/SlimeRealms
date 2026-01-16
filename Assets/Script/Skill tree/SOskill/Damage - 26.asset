@@ -17,7 +17,7 @@ MonoBehaviour:
   description: more dmg
   icon: {fileID: 1744166152, guid: 21b028580a97c2c42af4c9672c28b0ab, type: 3}
   type: 2
-  valuePerLevel: 1.5
+  valuePerLevel: 0.06
   currentLevel: 0
   levels:
   - cost:

@@ -28,7 +28,9 @@ public class MeleeAttack : AttackBase
         Vector2 center = meleePos + aimDir * boxDistance;
 
         // --- VÝPOČET SKUTEČNÉHO DAMAGE ---
-        int finalDamage = Mathf.RoundToInt(baseDamage * damageMultiplier);
+        // 🟢 ZMĚNA: Používáme CeilToInt (Zaokrouhlení nahoru)
+        // Příklad: Base 10 * 1.03 (3%) = 10.3 -> Zaokrouhlí se na 11
+        int finalDamage = Mathf.CeilToInt(baseDamage * damageMultiplier);
 
         // --- Vytvoření efektu ---
         if (slashPrefab)
@@ -36,29 +38,21 @@ public class MeleeAttack : AttackBase
             var slash = Instantiate(slashPrefab, center, Quaternion.Euler(0, 0, angleDeg - 90));
 
             // 🔥 UPDATE VIZUÁLU: Najdeme DamageDealer na efektu a přepíšeme mu damage
-            // (Jen aby to v Inspectoru vypadalo správně, nebo pro případ, že používáš kolize)
             var visualDealer = slash.GetComponent<DamageDealer>();
             if (visualDealer != null)
             {
                 visualDealer.damage = finalDamage;
                 visualDealer.enemyLayers = enemyLayers;
-
-                // POZOR: Pokud teď má efekt zapnutý Collider, dá damage taky! 
-                // Pokud chceš damage jen přes OverlapBox (dole), vypni tady collider:
-                // var col = slash.GetComponent<Collider2D>();
-                // if (col) col.enabled = false; 
             }
 
             Destroy(slash, slashDuration);
         }
 
         // --- APLIKACE DAMAGE (Přes OverlapBox - okamžitý zásah) ---
-        // Toto je ten "hlavní" útok
         Collider2D[] hits = Physics2D.OverlapBoxAll(center, boxSize, angleDeg, enemyLayers);
 
         foreach (Collider2D hit in hits)
         {
-            // Zkontrolujeme, jestli jsme netrefili sami sebe nebo vizuální efekt
             if (hit.gameObject == attacker.gameObject) continue;
 
             if (hit.TryGetComponent(out EnemyHealth enemy))
