@@ -42186,7 +42186,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4fb96b5aecb094647bffb1ab5e2aa57a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  damageText: {fileID: 0}
+  meleeDamageText: {fileID: 0}
+  rangedDamageText: {fileID: 0}
   healthText: {fileID: 0}
   defenseText: {fileID: 0}
   staminaText: {fileID: 0}
@@ -45779,6 +45780,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   skillNameText: {fileID: 1617077445}
+  selectedSkillImage: {fileID: 0}
+  descriptionText: {fileID: 0}
+  valueText: {fileID: 0}
   purchaseButton: {fileID: 967444912}
   purchaseButtonText: {fileID: 992355296}
   requirementsContainer: {fileID: 198322255}
@@ -56043,6 +56047,8 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 10091d857b8e12d4cb74029be2868629, type: 2}
   - {fileID: 11400000, guid: 1dc5d55b05a5b8742a5adb5ec37662c6, type: 2}
   recipeScroll: {fileID: 1097312013}
+  selectedItemImage: {fileID: 0}
+  itemValueText: {fileID: 0}
   requirementsContainer: {fileID: 1465407750}
   requirementPrefab: {fileID: 6340279977591990911, guid: 7094d004ae3c0074080576e680861b51, type: 3}
   craftButton: {fileID: 877844447}
@@ -210739,6 +210745,14 @@ PrefabInstance:
       propertyPath: m_Name
       value: BossUI
       objectReference: {fileID: 0}
+    - target: {fileID: 2267699305006906776, guid: 17b64f108563e68428463ed15ecab6f0, type: 3}
+      propertyPath: m_AnchorMax.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2267699305006906776, guid: 17b64f108563e68428463ed15ecab6f0, type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 7292586735965828989, guid: 17b64f108563e68428463ed15ecab6f0, type: 3}
       propertyPath: m_Pivot.x
       value: 0
@@ -210817,6 +210831,10 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7292586735965828989, guid: 17b64f108563e68428463ed15ecab6f0, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 9096482049182002217, guid: 17b64f108563e68428463ed15ecab6f0, type: 3}
+      propertyPath: m_IsActive
       value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []

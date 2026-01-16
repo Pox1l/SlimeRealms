@@ -2932,7 +2932,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: f9263caf72a90f442be6308853a06d2d, type: 3}
+  m_Sprite: {fileID: 21300000, guid: dd5f986d72b6b1947a8284136c6338d1, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -4175,7 +4175,7 @@ MonoBehaviour:
   m_HandleRect: {fileID: 916995610}
   m_Direction: 2
   m_Value: 0
-  m_Size: 0.73956215
+  m_Size: 1
   m_NumberOfSteps: 0
   m_OnValueChanged:
     m_PersistentCalls:
@@ -4844,6 +4844,18 @@ PrefabInstance:
     - target: {fileID: 5827332138504785962, guid: a33f8ecb4cd7fae4fa9263ac3b2434ef, type: 3}
       propertyPath: m_Name
       value: LoadingCanvas
+      objectReference: {fileID: 0}
+    - target: {fileID: 5827332138504785962, guid: a33f8ecb4cd7fae4fa9263ac3b2434ef, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7886858447781628961, guid: a33f8ecb4cd7fae4fa9263ac3b2434ef, type: 3}
+      propertyPath: m_AnchorMax.x
+      value: 0.53
+      objectReference: {fileID: 0}
+    - target: {fileID: 7886858447781628961, guid: a33f8ecb4cd7fae4fa9263ac3b2434ef, type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 8381621447724868998, guid: a33f8ecb4cd7fae4fa9263ac3b2434ef, type: 3}
       propertyPath: m_Pivot.x
