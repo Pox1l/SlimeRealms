@@ -15,6 +15,6 @@ MonoBehaviour:
   icon: {fileID: 21300000, guid: 89820d9a161cc6a4b8ab9f37160ff256, type: 3}
   attackName: Range
   attackRate: 1
-  baseDamage: 10
+  baseDamage: 5
   projectilePrefab: {fileID: 6456194704895711400, guid: 667862e28fdfa014da8946bf09ba34e9, type: 3}
   projectileSpeed: 12

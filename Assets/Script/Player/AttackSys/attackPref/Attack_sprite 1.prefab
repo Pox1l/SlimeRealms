@@ -11,7 +11,6 @@ GameObject:
   - component: {fileID: 1708176023151408684}
   - component: {fileID: 1296334678195743453}
   - component: {fileID: 8756199622623433574}
-  - component: {fileID: 625803458814736773}
   m_Layer: 8
   m_Name: Attack_sprite 1
   m_TagString: Untagged
@@ -131,21 +130,3 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 1.6, y: 0.75}
   m_EdgeRadius: 0
---- !u!114 &625803458814736773
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6469178570042879681}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8f9adb49f9f4d2b49aa4ddc056b2dbd4, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  damage: 10
-  lifetime: 0.2
-  enemyLayers:
-    serializedVersion: 2
-    m_Bits: 64
-  destroyOnHit: 0

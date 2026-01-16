@@ -15,7 +15,7 @@ MonoBehaviour:
   icon: {fileID: 21300000, guid: 78d860626749b4c4f8cce326b604c027, type: 3}
   attackName: Melee
   attackRate: 1
-  damage: 10
+  baseDamage: 5
   boxSize: {x: 0.85, y: 1.5}
   boxDistance: 1
   slashPrefab: {fileID: 6469178570042879681, guid: 4c9ea20fddbb92247bf962e41dbce168, type: 3}

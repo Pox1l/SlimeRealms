@@ -184,34 +184,31 @@ public class PlayerStats : MonoBehaviour
 
         if (!ignoreDefense)
         {
-            // Jednoduché odečtení: Útok - Obrana
-            // Příklad: 10 dmg - 4 def = 6 dmg
-            // Příklad: 10 dmg - 25 def = -15 dmg (pořešíme níže)
-            finalDamage = baseDamage - (int)defense;
+            // --- ZMĚNA NA PROCENTA ---
+            // Příklad: Defense je 0.15 (15%)
+            // Multiplier bude: 1.0 - 0.15 = 0.85 (85% poškození projde)
+            float damageMultiplier = 1f - defense;
+
+            // Pojistka, aby multiplier nebyl záporný (nechceme hráče léčit)
+            damageMultiplier = Mathf.Clamp(damageMultiplier, 0f, 1f);
+
+            // Výpočet: 100 dmg * 0.85 = 85 dmg
+            finalDamage = Mathf.RoundToInt(baseDamage * damageMultiplier);
         }
 
-        // 🔥 Pojistka: Vždy udělíme alespoň 1 DMG (pokud chceš být nesmrtelný, dej sem 0)
+        // Vždy udělit alespoň 1 damage (aby hráč nebyl úplně nesmrtelný, volitelné)
         finalDamage = Mathf.Max(1, finalDamage);
 
-        // Debug výpis pro kontrolu
-        Debug.Log($"Enemy Dmg: {baseDamage} | Tvoje Def: {defense} | Finální Dmg: {finalDamage}");
+        // ... zbytek metody je stejný (odečtení HP, knockback, flash...)
+        Debug.Log($"Enemy Dmg: {baseDamage} | Def Reduction: {defense * 100}% | Final: {finalDamage}");
 
         currentHealth = Mathf.Max(0, currentHealth - finalDamage);
 
-        if (attacker != null && playerKnockback != null)
-        {
-            playerKnockback.ApplyKnockback(attacker);
-        }
-
-        if (damageFlash != null)
-        {
-            damageFlash.Flash();
-        }
-
-        // Tady SaveToManager necháme, protože poškození se nestává 60x za vteřinu
+        // ... (zbytek kódu: SaveToManager, OnHealthChanged, Die atd.)
+        if (attacker != null && playerKnockback != null) playerKnockback.ApplyKnockback(attacker);
+        if (damageFlash != null) damageFlash.Flash();
         SaveToManager();
         OnHealthChanged?.Invoke(currentHealth, maxHealth);
-
         if (currentHealth <= 0) Die();
     }
 

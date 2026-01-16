@@ -17,8 +17,8 @@ MonoBehaviour:
   description: deffence against monsters
   icon: {fileID: -1764694027, guid: 0f674a9a30981814cb19cfd8518b29e3, type: 3}
   type: 5
-  valuePerLevel: 5
-  currentLevel: 3
+  valuePerLevel: 0.02
+  currentLevel: 0
   levels:
   - cost:
     - item: {fileID: 11400000, guid: 8e82602e5a43d9a44abfc264c1de6c2c, type: 2}
