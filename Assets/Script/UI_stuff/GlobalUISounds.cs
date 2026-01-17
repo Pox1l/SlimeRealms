@@ -56,6 +56,7 @@ public class GlobalUISounds : MonoBehaviour
             // 1. Ignorujeme tlaèítka, která jsou jen v projektu (prefabs) a ne ve høe
             if (btn.gameObject.scene.rootCount == 0) continue;
 
+            //Debug.Log("Našel jsem tlaèítko: " + btn.name);
             // 2. Zkontrolujeme, jestli už jsme ho nenapojili (aby nehrálo 2x)
             int id = btn.GetInstanceID();
             if (hookedButtons.Contains(id)) continue;

@@ -2,7 +2,7 @@
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
-using UnityEngine.Events; // 🔥 Důležité: Přidáno pro UnityEvent
+using UnityEngine.Events;
 
 public class LevelLoader : MonoBehaviour
 {
@@ -10,34 +10,41 @@ public class LevelLoader : MonoBehaviour
     public GameObject loadingScreen;
     public Slider slider;
 
+    [Header("Náhodné Pozadí")]
+    public Image backgroundImage;      // 🔥 NOVÉ: Sem přetáhni ten Image komponent, co má měnit obrázek
+    public Sprite[] backgroundSprites; // 🔥 NOVÉ: Sem vlož ty 3 (nebo víc) obrázky
+
     [Header("Nastavení")]
     public float minLoadTime = 4f;
 
     [Header("Co se má stát při startu (Profil, Zvuk)")]
-    public UnityEvent OnLoadStart; // 🔥 SEM v inspektoru přetáhneš Profil a Zvuk
+    public UnityEvent OnLoadStart;
 
     public void LoadLevel(int sceneIndex)
     {
-        // 1. HNED zapneme Loading Screen
+        // 🔥 NOVÉ: Vybereme náhodný obrázek (pokud nějaké máme)
+        if (backgroundSprites.Length > 0)
+        {
+            int randomIndex = Random.Range(0, backgroundSprites.Length);
+            backgroundImage.sprite = backgroundSprites[randomIndex];
+        }
+
+        // 1. HNED zapneme Loading Screen (už s novým obrázkem)
         loadingScreen.SetActive(true);
         Time.timeScale = 1f;
 
-        // 2. Spustíme coroutinu, která se postará o pořadí
+        // 2. Spustíme sekvenci
         StartCoroutine(LoadSequence(sceneIndex));
     }
 
     IEnumerator LoadSequence(int sceneIndex)
     {
-        // 🔥 Čekáme 1 snímek – to donutí Unity vykreslit Loading Screen na monitor
         yield return null;
 
-        // 3. Teď spustíme Profil a Zvuk. I když se tady hra sekne, hráč už vidí Loading Screen!
         OnLoadStart.Invoke();
 
-        // Pro jistotu počkáme ještě do konce snímku, aby se zvuk chytil
         yield return new WaitForEndOfFrame();
 
-        // 4. Až teď začneme načítat scénu
         StartCoroutine(LoadAsynchronously(sceneIndex));
     }
 

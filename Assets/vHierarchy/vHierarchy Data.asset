@@ -122,6 +122,7 @@ MonoBehaviour:
         - globalObjectIdString: GlobalObjectId_V1-2-2a782948c291d074e9d58001ff8c6a4c-4286315615548193163-7336447223139691930
         - globalObjectIdString: GlobalObjectId_V1-2-2a782948c291d074e9d58001ff8c6a4c-632781511885760876-6686873009600192807
         - globalObjectIdString: GlobalObjectId_V1-2-2a782948c291d074e9d58001ff8c6a4c-1249065827-0
+        - globalObjectIdString: GlobalObjectId_V1-2-2a782948c291d074e9d58001ff8c6a4c-1830489149-0
         values:
         - colorIndex: 0
           iconNameOrGuid: Folder Icon
@@ -521,6 +522,10 @@ MonoBehaviour:
           isColorRecursive: 0
         - colorIndex: 3
           iconNameOrGuid: 
+          isIconRecursive: 0
+          isColorRecursive: 0
+        - colorIndex: 0
+          iconNameOrGuid: AudioClip Icon
           isIconRecursive: 0
           isColorRecursive: 0
     - goDatas_byGlobalId:
