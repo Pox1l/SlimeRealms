@@ -4175,7 +4175,7 @@ MonoBehaviour:
   m_HandleRect: {fileID: 916995610}
   m_Direction: 2
   m_Value: 0
-  m_Size: 1
+  m_Size: 0.73956215
   m_NumberOfSteps: 0
   m_OnValueChanged:
     m_PersistentCalls:
@@ -4388,30 +4388,6 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 127101545}
-        m_TargetAssemblyTypeName: ProfileMenuManager, Assembly-CSharp
-        m_MethodName: SetProfileID
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
-      - m_Target: {fileID: 1086491461}
-        m_TargetAssemblyTypeName: GlobalUISounds, Assembly-CSharp
-        m_MethodName: PlayClick
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
       - m_Target: {fileID: 264772822}
         m_TargetAssemblyTypeName: LevelLoader, Assembly-CSharp
         m_MethodName: LoadLevel
@@ -4828,6 +4804,14 @@ PrefabInstance:
       propertyPath: m_Name
       value: AudioManager
       objectReference: {fileID: 0}
+    - target: {fileID: 7927910990808094844, guid: ed107a0392734d34aaada6a4bb92709c, type: 3}
+      propertyPath: PreloadSamples
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7927910990808094844, guid: ed107a0392734d34aaada6a4bb92709c, type: 3}
+      propertyPath: Banks.Array.size
+      value: 6
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -4841,21 +4825,17 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 1210090627}
     m_Modifications:
+    - target: {fileID: 4004583115708694962, guid: a33f8ecb4cd7fae4fa9263ac3b2434ef, type: 3}
+      propertyPath: OnLoadStart.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 127101545}
+    - target: {fileID: 4004583115708694962, guid: a33f8ecb4cd7fae4fa9263ac3b2434ef, type: 3}
+      propertyPath: OnLoadStart.m_PersistentCalls.m_Calls.Array.data[1].m_Target
+      value: 
+      objectReference: {fileID: 1086491461}
     - target: {fileID: 5827332138504785962, guid: a33f8ecb4cd7fae4fa9263ac3b2434ef, type: 3}
       propertyPath: m_Name
       value: LoadingCanvas
-      objectReference: {fileID: 0}
-    - target: {fileID: 5827332138504785962, guid: a33f8ecb4cd7fae4fa9263ac3b2434ef, type: 3}
-      propertyPath: m_IsActive
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 7886858447781628961, guid: a33f8ecb4cd7fae4fa9263ac3b2434ef, type: 3}
-      propertyPath: m_AnchorMax.x
-      value: 0.53
-      objectReference: {fileID: 0}
-    - target: {fileID: 7886858447781628961, guid: a33f8ecb4cd7fae4fa9263ac3b2434ef, type: 3}
-      propertyPath: m_AnchorMax.y
-      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 8381621447724868998, guid: a33f8ecb4cd7fae4fa9263ac3b2434ef, type: 3}
       propertyPath: m_Pivot.x
