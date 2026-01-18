@@ -13,8 +13,8 @@ MonoBehaviour:
   m_Name: Health - 14
   m_EditorClassIdentifier: 
   id: 14
-  skillName: Health upg 5.
-  description: more hp
+  skillName: Lifeblood
+  description: Increases your maximum vitality. Allows you to survive longer in battle.
   icon: {fileID: 1144105756, guid: 9e044c2a9d6d14649902149a6f7544ea, type: 3}
   type: 1
   valuePerLevel: 10

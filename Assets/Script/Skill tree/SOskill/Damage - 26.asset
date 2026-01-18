@@ -13,8 +13,8 @@ MonoBehaviour:
   m_Name: Damage - 26
   m_EditorClassIdentifier: 
   id: 26
-  skillName: Damage upg 7.
-  description: more dmg
+  skillName: Godslayer
+  description: Increases your attack power. Deal more damage with every strike.
   icon: {fileID: 1744166152, guid: 21b028580a97c2c42af4c9672c28b0ab, type: 3}
   type: 2
   valuePerLevel: 0.06

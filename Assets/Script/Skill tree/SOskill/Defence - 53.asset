@@ -13,8 +13,9 @@ MonoBehaviour:
   m_Name: Defence - 53
   m_EditorClassIdentifier: 
   id: 53
-  skillName: Defence upg 4.
-  description: deffence against monsters
+  skillName: Iron Clad
+  description: Strengthens your physical resistance. Reduces the damage taken from
+    enemy attacks.
   icon: {fileID: -1764694027, guid: 0f674a9a30981814cb19cfd8518b29e3, type: 3}
   type: 5
   valuePerLevel: 0.02

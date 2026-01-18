@@ -13,8 +13,8 @@ MonoBehaviour:
   m_Name: Health - 11
   m_EditorClassIdentifier: 
   id: 11
-  skillName: Health upg 2.
-  description: more hp
+  skillName: Vitality
+  description: Increases your maximum vitality. Allows you to survive longer in battle.
   icon: {fileID: -1132471967, guid: 9e044c2a9d6d14649902149a6f7544ea, type: 3}
   type: 1
   valuePerLevel: 5

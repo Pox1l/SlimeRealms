@@ -13,12 +13,13 @@ MonoBehaviour:
   m_Name: Energy - 41
   m_EditorClassIdentifier: 
   id: 41
-  skillName: Energy upg 2.
-  description: lorem
+  skillName: Endurance
+  description: Boosts your endurance. Sprint and dodge for longer periods without
+    tiring.
   icon: {fileID: 1786616673, guid: 87d706832dc4965429dc57fb916b27b1, type: 3}
   type: 4
   valuePerLevel: 5
-  currentLevel: 0
+  currentLevel: 1
   levels:
   - cost:
     - item: {fileID: 11400000, guid: 3dded3fab14d9404cb6cf76a7f7b62af, type: 2}

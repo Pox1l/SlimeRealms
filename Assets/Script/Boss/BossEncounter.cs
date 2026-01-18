@@ -8,10 +8,11 @@ public class BossEncounter : MonoBehaviour
     public Transform spawnPoint;
     public float startDelay = 0.5f;
     public string bossName = "Evil Boss";
-
-    // ODSTRANĚNO: public int bossMaxHP = 500; -> Už to čteme přímo z bosse
-
     public bool bossDefeated = true;
+
+    [Header("Bariéra")]
+    public GameObject barrierObject; // Objekt bariéry
+    public float barrierDelay = 1.0f; // 🔥 NOVÉ: Zpoždění bariéry (1 sekunda)
 
     [Header("Propojení")]
     public PixelCameraZoomer cameraZoomer;
@@ -20,11 +21,14 @@ public class BossEncounter : MonoBehaviour
     private ObjectPool pool;
     private GameObject activeBoss;
     private Coroutine spawnCoroutine;
+    private Coroutine barrierCoroutine; // 🔥 NOVÉ: Pro ovládání zpoždění bariéry
     private bool playerInside = false;
 
     void Awake()
     {
         pool = new ObjectPool(bossPrefab, 1, transform);
+
+        if (barrierObject != null) barrierObject.SetActive(false);
     }
 
     public void PrepareBoss()
@@ -42,18 +46,23 @@ public class BossEncounter : MonoBehaviour
         if (!other.CompareTag("Player")) return;
         playerInside = true;
 
+        // 🔥 UPRAVENO: Bariéru nezapínáme hned, ale spustíme odpočet
+        if (barrierObject != null && !bossDefeated)
+        {
+            if (barrierCoroutine != null) StopCoroutine(barrierCoroutine);
+            barrierCoroutine = StartCoroutine(ActivateBarrierWithDelay());
+        }
+
         if (cameraZoomer != null) cameraZoomer.ZoomToCombat();
 
-        // 🔥 OZNÁMENÍ MANAGERU: Začátek boje
+        // OZNÁMENÍ MANAGERU: Začátek boje
         if (!bossDefeated && UIManager.Instance != null)
         {
-            // Změna: Zjistíme HP přímo z prefabu bosse, místo natvrdo zadaného čísla
-            int realMaxHP = 100; // Fallback hodnota
+            int realMaxHP = 100;
             if (bossPrefab != null && bossPrefab.TryGetComponent(out BossHealth hpScript))
             {
                 realMaxHP = hpScript.maxHealth;
             }
-
             UIManager.Instance.StartBossFight(bossName, realMaxHP);
         }
 
@@ -69,7 +78,17 @@ public class BossEncounter : MonoBehaviour
         if (!other.CompareTag("Player")) return;
         playerInside = false;
 
-        // 🔥 OZNÁMENÍ MANAGERU: Konec boje (útěk)
+        // 🔥 DŮLEŽITÉ: Pokud hráč odejde, okamžitě zrušíme čekání na bariéru
+        if (barrierCoroutine != null)
+        {
+            StopCoroutine(barrierCoroutine);
+            barrierCoroutine = null;
+        }
+
+        // A vypneme bariéru, pokud už byla aktivní
+        if (barrierObject != null) barrierObject.SetActive(false);
+
+        // OZNÁMENÍ MANAGERU: Konec boje (útěk)
         if (UIManager.Instance != null)
         {
             UIManager.Instance.EndBossFight();
@@ -87,11 +106,28 @@ public class BossEncounter : MonoBehaviour
     {
         bossDefeated = true;
 
-        // 🔥 OZNÁMENÍ MANAGERU: Konec boje (smrt bosse)
+        // Zrušíme případný odpočet a vypneme bariéru
+        if (barrierCoroutine != null) StopCoroutine(barrierCoroutine);
+        if (barrierObject != null) barrierObject.SetActive(false);
+
         if (UIManager.Instance != null)
             UIManager.Instance.EndBossFight();
 
         if (cameraZoomer != null) cameraZoomer.ZoomToNormal();
+    }
+
+    // 🔥 NOVÁ COROUTINA: Čeká 1 sekundu a pak zkontroluje, jestli je hráč stále uvnitř
+    IEnumerator ActivateBarrierWithDelay()
+    {
+        yield return new WaitForSeconds(barrierDelay);
+
+        // Po čekání znovu ověříme podmínky:
+        // 1. Hráč musí být stále uvnitř (playerInside == true)
+        // 2. Boss nesmí být mrtvý
+        if (playerInside && !bossDefeated && barrierObject != null)
+        {
+            barrierObject.SetActive(true);
+        }
     }
 
     IEnumerator SpawnSequence()
@@ -110,10 +146,8 @@ public class BossEncounter : MonoBehaviour
         if (activeBoss.TryGetComponent(out EnemyController ctrl)) ctrl.SetHomePosition(pos);
         if (activeBoss.TryGetComponent(out ReturnToPoolBoss ret)) ret.Init(pool, () => activeBoss = null);
 
-        // 🔥 OPRAVA: Už nepřepisujeme MaxHealth, jen resetujeme CurrentHealth na MaxHealth
         if (activeBoss.TryGetComponent(out BossHealth hpScript))
         {
-            // hpScript.maxHealth nechej tak, jak je nastavené v prefabu!
             hpScript.currentHealth = hpScript.maxHealth;
         }
     }

@@ -13,8 +13,9 @@ MonoBehaviour:
   m_Name: Defence - 56
   m_EditorClassIdentifier: 
   id: 56
-  skillName: Defence upg 7.
-  description: deffence against monsters
+  skillName: Unbreakable
+  description: Strengthens your physical resistance. Reduces the damage taken from
+    enemy attacks.
   icon: {fileID: -887031688, guid: 0f674a9a30981814cb19cfd8518b29e3, type: 3}
   type: 5
   valuePerLevel: 0.04

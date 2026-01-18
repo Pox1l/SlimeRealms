@@ -13,8 +13,9 @@ MonoBehaviour:
   m_Name: Energy - 45
   m_EditorClassIdentifier: 
   id: 45
-  skillName: Energy upg 6.
-  description: lorem
+  skillName: Relentless
+  description: Boosts your endurance. Sprint and dodge for longer periods without
+    tiring.
   icon: {fileID: 477234945, guid: 87d706832dc4965429dc57fb916b27b1, type: 3}
   type: 4
   valuePerLevel: 10

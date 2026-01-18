@@ -13,8 +13,8 @@ MonoBehaviour:
   m_Name: Health - 16
   m_EditorClassIdentifier: 
   id: 16
-  skillName: Health upg 7.
-  description: more hp
+  skillName: Immortality
+  description: Increases your maximum vitality. Allows you to survive longer in battle.
   icon: {fileID: -1380389199, guid: 9e044c2a9d6d14649902149a6f7544ea, type: 3}
   type: 1
   valuePerLevel: 10

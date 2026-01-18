@@ -13,8 +13,8 @@ MonoBehaviour:
   m_Name: Damage - 22
   m_EditorClassIdentifier: 
   id: 22
-  skillName: Damage upg 3.
-  description: more dmg
+  skillName: Warriors Might
+  description: Increases your attack power. Deal more damage with every strike.
   icon: {fileID: 132706264, guid: 21b028580a97c2c42af4c9672c28b0ab, type: 3}
   type: 2
   valuePerLevel: 0.03

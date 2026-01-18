@@ -13,8 +13,9 @@ MonoBehaviour:
   m_Name: Defence - 54
   m_EditorClassIdentifier: 
   id: 54
-  skillName: Defence upg 5.
-  description: deffence against monsters
+  skillName: Steel Barrier
+  description: Strengthens your physical resistance. Reduces the damage taken from
+    enemy attacks.
   icon: {fileID: 1281351838, guid: 0f674a9a30981814cb19cfd8518b29e3, type: 3}
   type: 5
   valuePerLevel: 0.025

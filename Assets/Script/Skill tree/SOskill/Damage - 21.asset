@@ -13,12 +13,12 @@ MonoBehaviour:
   m_Name: Damage - 21
   m_EditorClassIdentifier: 
   id: 21
-  skillName: Damage upg 2.
-  description: more dmg
+  skillName: Brute Force
+  description: Increases your attack power. Deal more damage with every strike.
   icon: {fileID: 1725372736, guid: 21b028580a97c2c42af4c9672c28b0ab, type: 3}
   type: 2
   valuePerLevel: 0.03
-  currentLevel: 1
+  currentLevel: 0
   levels:
   - cost:
     - item: {fileID: 11400000, guid: 9afbd67cfc2bfa14795521a67e301288, type: 2}

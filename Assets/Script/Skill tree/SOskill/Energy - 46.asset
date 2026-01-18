@@ -13,8 +13,9 @@ MonoBehaviour:
   m_Name: Energy - 46
   m_EditorClassIdentifier: 
   id: 46
-  skillName: Energy upg 7.
-  description: lorem
+  skillName: Infinite Vigor
+  description: Boosts your endurance. Sprint and dodge for longer periods without
+    tiring.
   icon: {fileID: 1347661835, guid: 87d706832dc4965429dc57fb916b27b1, type: 3}
   type: 4
   valuePerLevel: 10

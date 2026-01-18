@@ -13,8 +13,9 @@ MonoBehaviour:
   m_Name: Energy - 44
   m_EditorClassIdentifier: 
   id: 44
-  skillName: Energy upg 5.
-  description: lorem
+  skillName: Second Wind
+  description: Boosts your endurance. Sprint and dodge for longer periods without
+    tiring.
   icon: {fileID: -2084253446, guid: 87d706832dc4965429dc57fb916b27b1, type: 3}
   type: 4
   valuePerLevel: 10

@@ -13,8 +13,9 @@ MonoBehaviour:
   m_Name: Defence - 50
   m_EditorClassIdentifier: 
   id: 50
-  skillName: Defence upg 1.
-  description: deffence against monsters
+  skillName: Resilience
+  description: Strengthens your physical resistance. Reduces the damage taken from
+    enemy attacks.
   icon: {fileID: 38631731, guid: 0f674a9a30981814cb19cfd8518b29e3, type: 3}
   type: 5
   valuePerLevel: 0.01

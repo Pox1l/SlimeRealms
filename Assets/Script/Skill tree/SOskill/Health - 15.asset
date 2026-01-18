@@ -13,8 +13,8 @@ MonoBehaviour:
   m_Name: Health - 15
   m_EditorClassIdentifier: 
   id: 15
-  skillName: Health upg 6.
-  description: more hp
+  skillName: Iron Heart
+  description: Increases your maximum vitality. Allows you to survive longer in battle.
   icon: {fileID: 1317325967, guid: 9e044c2a9d6d14649902149a6f7544ea, type: 3}
   type: 1
   valuePerLevel: 10
