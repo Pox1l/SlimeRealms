@@ -25,6 +25,7 @@ public class CrystalUIController : MonoBehaviour
     public class CrystalSaveData
     {
         public int savedStageIndex;
+        public int totalStagesSaved;
     }
 
     [Header("References")]
@@ -193,6 +194,8 @@ public class CrystalUIController : MonoBehaviour
     {
         CrystalSaveData data = new CrystalSaveData();
         data.savedStageIndex = currentStage;
+        data.totalStagesSaved = stages.Count; //obrazení kdekoliv
+
         string json = JsonUtility.ToJson(data, true);
         File.WriteAllText(saveFilePath, json);
         Debug.Log($"💾 Crystal saved to {saveFilePath}");
@@ -267,5 +270,17 @@ public class CrystalUIController : MonoBehaviour
             RefreshStageUI();
             if (visualController != null) visualController.UpdateVisuals(0);
         }
+    }
+
+    public string GetProgressString()
+    {
+        // Vrátí například "1 / 4"
+        return $"{currentStage} / {stages.Count}";
+    }
+
+   
+    public int GetCurrentStageInt()
+    {
+        return currentStage;
     }
 }

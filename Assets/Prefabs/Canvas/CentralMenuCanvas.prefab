@@ -3449,7 +3449,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -144.35583, y: 242.85828}
+  m_AnchoredPosition: {x: -140, y: 105}
   m_SizeDelta: {x: 507.9276, y: 72.2835}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &3337140752267379661
@@ -3480,7 +3480,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: 'Enemies killed: 12,123 kills'
+  m_text: 
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 7c954dac1de116b478a8154de93b2b6c, type: 2}
   m_sharedMaterial: {fileID: 9199864149694275698, guid: 7c954dac1de116b478a8154de93b2b6c, type: 2}
@@ -4442,7 +4442,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &6377229081132791913
 RectTransform:
   m_ObjectHideFlags: 0
@@ -4576,7 +4576,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &3287988335946051286
 RectTransform:
   m_ObjectHideFlags: 0
@@ -8817,7 +8817,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &8921465587598389385
 RectTransform:
   m_ObjectHideFlags: 0
@@ -9232,6 +9232,7 @@ GameObject:
   - component: {fileID: 6573692636044505467}
   - component: {fileID: 9166383685994181510}
   - component: {fileID: 2177566563049979029}
+  - component: {fileID: 2004946549972385254}
   m_Layer: 5
   m_Name: Information
   m_TagString: Untagged
@@ -9300,6 +9301,20 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 0.1
+--- !u!114 &2004946549972385254
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9170547731846866866}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 723bc8548271cd748893b3d6e481b7e6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  crystalProgressText: {fileID: 24812755828225118}
+  crystalController: {fileID: 0}
 --- !u!1001 &530694811635368354
 PrefabInstance:
   m_ObjectHideFlags: 0
