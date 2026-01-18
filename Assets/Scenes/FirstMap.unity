@@ -21981,6 +21981,10 @@ MonoBehaviour:
     objectToEnable: {fileID: 0}
     uiElementToHighlight: {fileID: 0}
     requireMenuOpen: 0
+  - instructionText: Show HP, stamina and slots
+    objectToEnable: {fileID: 0}
+    uiElementToHighlight: {fileID: 0}
+    requireMenuOpen: 0
   - instructionText: Press TAB
     objectToEnable: {fileID: 0}
     uiElementToHighlight: {fileID: 0}
@@ -22002,6 +22006,12 @@ MonoBehaviour:
     uiElementToHighlight: {fileID: 0}
     requireMenuOpen: 0
   - instructionText: After closing cent. UI go kill enemy
+    objectToEnable: {fileID: 0}
+    uiElementToHighlight: {fileID: 0}
+    requireMenuOpen: 0
+  - instructionText: 'END
+
+'
     objectToEnable: {fileID: 0}
     uiElementToHighlight: {fileID: 0}
     requireMenuOpen: 0
@@ -45871,7 +45881,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &1272045687
 Transform:
   m_ObjectHideFlags: 0
@@ -545756,10 +545766,6 @@ PrefabInstance:
       propertyPath: m_Name
       value: CentralMenuCanvas
       objectReference: {fileID: 0}
-    - target: {fileID: 812409372794269405, guid: fbbdcb4d6471b924797348ea3b8ddb2a, type: 3}
-      propertyPath: m_IsActive
-      value: 1
-      objectReference: {fileID: 0}
     - target: {fileID: 885577903250257950, guid: fbbdcb4d6471b924797348ea3b8ddb2a, type: 3}
       propertyPath: m_Pivot.x
       value: 0
@@ -545839,10 +545845,6 @@ PrefabInstance:
     - target: {fileID: 885577903250257950, guid: fbbdcb4d6471b924797348ea3b8ddb2a, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 7289751854428742444, guid: fbbdcb4d6471b924797348ea3b8ddb2a, type: 3}
-      propertyPath: m_IsActive
-      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
