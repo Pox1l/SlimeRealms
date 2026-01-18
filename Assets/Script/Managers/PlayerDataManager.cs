@@ -48,6 +48,8 @@ public class PlayerDataManager : MonoBehaviour
 
         string json = JsonUtility.ToJson(currentData, true);
         File.WriteAllText(savePath, json);
+
+        Debug.Log($"💾 Player Data uložena do: {savePath}");
     }
 
     public void LoadPlayerData()

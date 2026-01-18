@@ -105,6 +105,7 @@ public class SkillDatabase : MonoBehaviour
             });
 
         File.WriteAllText(savePath, JsonUtility.ToJson(saveList, true));
+        Debug.Log($"💾 Skills uloženy do: {savePath}");
     }
 
     public void LoadSkills()
