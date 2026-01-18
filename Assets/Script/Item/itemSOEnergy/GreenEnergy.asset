@@ -15,5 +15,9 @@ MonoBehaviour:
   itemID: 22
   itemName: GreenEnergy
   icon: {fileID: 7344302198150461739, guid: dd0f9be6d0dcc914fb7c48b46c0c677c, type: 3}
-  description: 
+  description: Raw power to fuel the core. Use it to upgrade and strengthen the central
+    crystal.
   maxStack: 25
+  isUsable: 0
+  cooldown: 1
+  lastTimeUsed: -999

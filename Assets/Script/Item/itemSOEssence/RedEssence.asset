@@ -15,5 +15,9 @@ MonoBehaviour:
   itemID: 14
   itemName: RedEssence
   icon: {fileID: 4365568868351336609, guid: dd0f9be6d0dcc914fb7c48b46c0c677c, type: 3}
-  description: "Essence pro vylep\u0161en\xED postavy"
+  description: A rare substance for personal growth. Use it to upgrade your character's
+    stats and abilities.
   maxStack: 25
+  isUsable: 0
+  cooldown: 1
+  lastTimeUsed: -999
