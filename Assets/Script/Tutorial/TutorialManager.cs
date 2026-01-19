@@ -10,32 +10,42 @@ public class TutorialManager : MonoBehaviour
     [Header("Systémové Reference")]
     public TutorialSaveSystem saveSystem;
 
-    [Header("UI Reference")]
-    public GameObject tutorialPanel;
-    public TextMeshProUGUI instructionTextUI;
-    public GameObject uiBlocker;            // Černý panel pro spotlight efekt
-    // centralMenuRoot už nepotřebujeme, zeptáme se UIManageru
+    [Header("World UI (HUD - Roh obrazovky)")]
+    public GameObject tutorialPanel;          // Panel s úkolem v rohu
+    public TextMeshProUGUI instructionTextUI; // Text v tom panelu
+
+    [Header("Menu UI (Bublina & Blocker)")]
+    public GameObject uiBlocker;              // Černé poloprůhledné pozadí
+    public GameObject bubblePanel;            // Bublina s textem
+    public TextMeshProUGUI bubbleTextUI;      // Text v bublině
+    public Button bubbleNextButton;           // Tlačítko "Pokračovat" v bublině
+    public Vector3 bubbleOffset = new Vector3(0, -100, 0); // Odsazení bubliny od cíle
 
     [System.Serializable]
     public class TutorialStep
     {
-        [TextArea] public string instructionText;
-        public GameObject objectToEnable;         // 3D šipka ve světě
+        [TextArea] public string instructionText; // Text úkolu
+        public GameObject objectToEnable;         // Volitelné: 3D šipka ve světě
 
         [Header("UI Interakce")]
-        public RectTransform uiElementToHighlight; // Tlačítko, které má svítit
-        public bool requireMenuOpen;               // Musí být otevřené menu?
+        public List<RectTransform> uiTargets;     // Seznam UI prvků k vysvícení (Highlight)
+
+        public bool requireMenuOpen;              // Máme čekat, dokud nebude UIManager.isGameMenuOpen?
+        public bool waitForClickOnItem;           // TRUE = Hráč musí kliknout na vysvícený item. FALSE = Hráč kliká na bublinu "Pokračovat".
     }
 
     [Header("Nastavení Kroků")]
     public List<TutorialStep> steps;
 
+    // Lokální data
     private TutorialData currentData;
+
+    // Pomocné pro WASD
     private bool wDone, aDone, sDone, dDone;
 
-    // Proměnné pro Highlight
-    private Canvas tempCanvas;
-    private GraphicRaycaster tempRaycaster;
+    // Seznamy pro čištění Highlightu
+    private List<Canvas> tempCanvases = new List<Canvas>();
+    private List<GraphicRaycaster> tempRaycasters = new List<GraphicRaycaster>();
 
     private void Awake()
     {
@@ -48,9 +58,18 @@ public class TutorialManager : MonoBehaviour
         if (saveSystem != null) currentData = saveSystem.Load();
         else currentData = new TutorialData();
 
+        // 2. Reset UI na startu
         if (uiBlocker != null) uiBlocker.SetActive(false);
+        if (bubblePanel != null) bubblePanel.SetActive(false);
 
-        // 2. Start nebo Skrytí
+        // Listener pro tlačítko v bublině ("Pokračovat")
+        if (bubbleNextButton != null)
+        {
+            bubbleNextButton.onClick.RemoveAllListeners();
+            bubbleNextButton.onClick.AddListener(OnBubbleNextClicked);
+        }
+
+        // 3. Spuštění kroku nebo skrytí tutoriálu
         if (!currentData.isCompleted)
         {
             InitializeStep(currentData.currentStepIndex);
@@ -58,8 +77,7 @@ public class TutorialManager : MonoBehaviour
         else
         {
             tutorialPanel.SetActive(false);
-            foreach (var step in steps)
-                if (step.objectToEnable != null) step.objectToEnable.SetActive(false);
+            if (bubblePanel != null) bubblePanel.SetActive(false);
         }
     }
 
@@ -79,55 +97,43 @@ public class TutorialManager : MonoBehaviour
             CheckWASDInput();
         }
 
-        // --- B) KROK VYŽADUJÍCÍ MENU ---
+        // --- B) ČEKÁNÍ NA MENU ---
 
-        // 1. Pokud krok chce menu, ale menu je ZAVŘENÉ -> Čekáme
+        // 1. Pokud krok vyžaduje menu, ale to je ZAVŘENÉ -> Čekáme na TAB/I...
         if (step.requireMenuOpen && !UIManager.Instance.isGameMenuOpen)
         {
-            // Tady hráč musí zmáčknout TAB.
-            // UIManager to zachytí a nastaví isGameMenuOpen = true.
+            // Nic neděláme, HUD panel ukazuje "Otevři menu".
         }
 
-        // 2. Pokud krok chce menu a menu JE OTEVŘENÉ
+        // 2. Pokud krok vyžaduje menu a to JE OTEVŘENÉ
         else if (step.requireMenuOpen && UIManager.Instance.isGameMenuOpen)
         {
-            // Zkontrolujeme, jestli krok nemá tlačítko na kliknutí (Highlight)
-            // Pokud nemá Highlight (jen úkol "Otevři menu"), tak ho rovnou splníme.
-            if (step.uiElementToHighlight == null)
+            // Pokud krok nemá žádné UI cíle k vysvícení (jen úkol "Otevři menu"), rovnou ho splníme.
+            if (step.uiTargets.Count == 0)
             {
                 AdvanceStep();
             }
-            // Pokud MÁ Highlight (např. "Klikni na Inventář"), čekáme na kliknutí (řeší funkce HighlightUIElement)
+            // Pokud má UI cíle, už jsou vysvícené (InitializeStep to udělal) a čekáme na kliknutí.
         }
     }
 
-    // --- Logika pro WASD ---
-    void CheckWASDInput()
+    // --- LOGIKA POSUNU KROKŮ ---
+
+    // Volá se tlačítkem v bublině "Pokračovat"
+    private void OnBubbleNextClicked()
     {
-        bool changed = false;
-        if (Input.GetKey(KeyCode.W) && !wDone) { wDone = true; changed = true; }
-        if (Input.GetKey(KeyCode.A) && !aDone) { aDone = true; changed = true; }
-        if (Input.GetKey(KeyCode.S) && !sDone) { sDone = true; changed = true; }
-        if (Input.GetKey(KeyCode.D) && !dDone) { dDone = true; changed = true; }
-
-        if (changed) UpdateWASDText();
-
-        if (wDone && aDone && sDone && dDone) AdvanceStep();
+        AdvanceStep();
     }
 
-    void UpdateWASDText()
+    // Volá se, když hráč klikne na vysvícený předmět (pokud je waitForClickOnItem = true)
+    private void OnHighlightedItemClicked()
     {
-        string w = wDone ? "<color=green>W</color>" : "W";
-        string a = aDone ? "<color=green>A</color>" : "A";
-        string s = sDone ? "<color=green>S</color>" : "S";
-        string d = dDone ? "<color=green>D</color>" : "D";
-        instructionTextUI.text = $"Pohyb: {w} {a} {s} {d}";
+        AdvanceStep();
     }
 
-    // --- Hlavní posuvník kroků ---
     public void AdvanceStep()
     {
-        CleanupHighlight();
+        CleanupHighlight(); // Úklid po starém kroku
 
         // Vypnout 3D objekt z minulého kroku
         if (currentData.currentStepIndex < steps.Count)
@@ -136,9 +142,11 @@ public class TutorialManager : MonoBehaviour
             if (prevObj != null) prevObj.SetActive(false);
         }
 
+        // Zvýšit index a uložit
         currentData.currentStepIndex++;
         if (saveSystem != null) saveSystem.Save(currentData);
 
+        // Spustit nový krok
         InitializeStep(currentData.currentStepIndex);
     }
 
@@ -150,76 +158,148 @@ public class TutorialManager : MonoBehaviour
             return;
         }
 
-        tutorialPanel.SetActive(true);
         TutorialStep currentStep = steps[index];
 
-        // Nastavení textu
-        if (index == 0)
+        // Zapnout 3D objekt (pokud existuje)
+        if (currentStep.objectToEnable != null) currentStep.objectToEnable.SetActive(true);
+
+        // --- ROZHODOVÁNÍ: HUD vs. BUBLINA ---
+
+        // Pokud máme UI cíle k vysvícení -> Režim Bublina + Highlight
+        if (currentStep.uiTargets != null && currentStep.uiTargets.Count > 0)
         {
-            wDone = false; aDone = false; sDone = false; dDone = false;
-            UpdateWASDText();
+            // HUD skryjeme
+            if (tutorialPanel != null) tutorialPanel.SetActive(false);
+
+            // Aktivujeme Highlight
+            HighlightMultipleElements(currentStep);
         }
         else
         {
-            instructionTextUI.text = currentStep.instructionText;
-        }
+            // Nemáme cíle -> Režim HUD (Svět / WASD / Obyčejný úkol)
+            if (bubblePanel != null) bubblePanel.SetActive(false);
+            if (uiBlocker != null) uiBlocker.SetActive(false);
+            if (tutorialPanel != null) tutorialPanel.SetActive(true);
 
-        // Zapnutí 3D objektu
-        if (currentStep.objectToEnable != null) currentStep.objectToEnable.SetActive(true);
-
-        // Zapnutí UI Highlightu (pokud je definován) 
-        if (currentStep.uiElementToHighlight != null)
-        {
-            HighlightUIElement(currentStep.uiElementToHighlight);
-        }
-    }
-
-    // --- SPOTLIGHT EFEKT (Vysvícení tlačítka) ---
-    private void HighlightUIElement(RectTransform element)
-    {
-        if (uiBlocker != null) uiBlocker.SetActive(true); // Zapneme tmu
-
-        // Přidáme Canvas, aby se tlačítko vykreslilo NAD tmou
-        tempCanvas = element.GetComponent<Canvas>();
-        if (tempCanvas == null) tempCanvas = element.gameObject.AddComponent<Canvas>();
-
-        tempCanvas.overrideSorting = true;
-        tempCanvas.sortingOrder = 30000; // Musí být vyšší než sortingOrder UIManageru
-
-        // Přidáme Raycaster pro klikání
-        tempRaycaster = element.GetComponent<GraphicRaycaster>();
-        if (tempRaycaster == null) tempRaycaster = element.gameObject.AddComponent<GraphicRaycaster>();
-
-        // Přidáme posluchače na tlačítko
-        Button btn = element.GetComponent<Button>();
-        if (btn != null)
-        {
-            btn.onClick.AddListener(OnHighlightedButtonClicked);
+            // WASD má speciální text, ostatní berou text z Inspectoru
+            if (index == 0)
+            {
+                wDone = false; aDone = false; sDone = false; dDone = false;
+                UpdateWASDText();
+            }
+            else
+            {
+                if (instructionTextUI != null) instructionTextUI.text = currentStep.instructionText;
+            }
         }
     }
 
-    private void OnHighlightedButtonClicked()
+    // --- HIGHLIGHT & BUBLINA ---
+    private void HighlightMultipleElements(TutorialStep step)
     {
-        // Kliknul na správné tlačítko -> další krok
-        AdvanceStep();
+        if (uiBlocker != null) uiBlocker.SetActive(true); // Tma
+
+        // 1. Vysvícení všech cílů
+        foreach (RectTransform target in step.uiTargets)
+        {
+            if (target == null) continue;
+
+            // Přidáme Canvas (aby to bylo nad tmou)
+            Canvas cv = target.GetComponent<Canvas>();
+            if (cv == null) cv = target.gameObject.AddComponent<Canvas>();
+            cv.overrideSorting = true;
+            cv.sortingOrder = 30000;
+            tempCanvases.Add(cv);
+
+            // Přidáme Raycaster (aby šlo klikat)
+            GraphicRaycaster gr = target.GetComponent<GraphicRaycaster>();
+            if (gr == null) gr = target.gameObject.AddComponent<GraphicRaycaster>();
+            tempRaycasters.Add(gr);
+
+            // Pokud čekáme na kliknutí přímo na item, přidáme Listener
+            if (step.waitForClickOnItem)
+            {
+                Button btn = target.GetComponent<Button>();
+                if (btn != null) btn.onClick.AddListener(OnHighlightedItemClicked);
+            }
+        }
+
+        // 2. Nastavení Bubliny
+        if (bubblePanel != null)
+        {
+            bubblePanel.SetActive(true);
+            if (bubbleTextUI != null) bubbleTextUI.text = step.instructionText;
+
+            // Pozice: Pod prvním elementem v seznamu
+            if (step.uiTargets.Count > 0 && step.uiTargets[0] != null)
+            {
+                bubblePanel.transform.position = step.uiTargets[0].position + bubbleOffset;
+            }
+
+            // Viditelnost tlačítka "Pokračovat":
+            // Pokud čekáme na item (např. Profil), tlačítko skryjeme.
+            // Pokud jen vysvětlujeme (např. HUD), tlačítko ukážeme.
+            if (bubbleNextButton != null)
+            {
+                bubbleNextButton.gameObject.SetActive(!step.waitForClickOnItem);
+            }
+        }
     }
 
     private void CleanupHighlight()
     {
         if (uiBlocker != null) uiBlocker.SetActive(false);
+        if (bubblePanel != null) bubblePanel.SetActive(false);
 
+        // Odstranit listenery z tlačítek v aktuálním kroku
         if (currentData.currentStepIndex < steps.Count)
         {
             var step = steps[currentData.currentStepIndex];
-            if (step.uiElementToHighlight != null)
+            if (step.uiTargets != null)
             {
-                Button btn = step.uiElementToHighlight.GetComponent<Button>();
-                if (btn != null) btn.onClick.RemoveListener(OnHighlightedButtonClicked);
-
-                if (tempRaycaster != null) Destroy(tempRaycaster);
-                if (tempCanvas != null) Destroy(tempCanvas);
+                foreach (var target in step.uiTargets)
+                {
+                    if (target == null) continue;
+                    Button btn = target.GetComponent<Button>();
+                    if (btn != null) btn.onClick.RemoveListener(OnHighlightedItemClicked);
+                }
             }
         }
+
+        // Zničit dočasné komponenty
+        foreach (var gr in tempRaycasters) if (gr != null) Destroy(gr);
+        foreach (var cv in tempCanvases) if (cv != null) Destroy(cv);
+
+        tempRaycasters.Clear();
+        tempCanvases.Clear();
+    }
+
+    // --- WASD LOGIKA ---
+    void CheckWASDInput()
+    {
+        bool changed = false;
+        if (Input.GetKey(KeyCode.W) && !wDone) { wDone = true; changed = true; }
+        if (Input.GetKey(KeyCode.A) && !aDone) { aDone = true; changed = true; }
+        if (Input.GetKey(KeyCode.S) && !sDone) { sDone = true; changed = true; }
+        if (Input.GetKey(KeyCode.D) && !dDone) { dDone = true; changed = true; }
+
+        if (changed) UpdateWASDText();
+
+        if (wDone && aDone && sDone && dDone)
+        {
+            AdvanceStep();
+        }
+    }
+
+    void UpdateWASDText()
+    {
+        string w = wDone ? "<color=green>W</color>" : "W";
+        string a = aDone ? "<color=green>A</color>" : "A";
+        string s = sDone ? "<color=green>S</color>" : "S";
+        string d = dDone ? "<color=green>D</color>" : "D";
+
+        if (instructionTextUI != null)
+            instructionTextUI.text = $"Pohyb: {w} {a} {s} {d}";
     }
 
     private void CompleteTutorial()
@@ -228,7 +308,7 @@ public class TutorialManager : MonoBehaviour
         if (saveSystem != null) saveSystem.Save(currentData);
 
         CleanupHighlight();
-        tutorialPanel.SetActive(false);
+        if (tutorialPanel != null) tutorialPanel.SetActive(false);
         Debug.Log("🎓 Tutoriál kompletně dokončen!");
     }
 }
