@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: 6dfb027b005be96449cd62d772c39703
+guid: 6e7042808c061ff428dfe584001a79a8
 TextureImporter:
   internalIDToNameTable: []
   externalObjects: {}
@@ -110,7 +110,7 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: SlimeWhi_Idle_0
+      name: SlimeWhi_attack_0
       rect:
         serializedVersion: 2
         x: 0
@@ -118,20 +118,20 @@ TextureImporter:
         width: 32
         height: 32
       alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: ecc5070700c637f478da8bed318fd4db
-      internalID: -250626122
+      spriteID: d4e69cee25178ca49ba3aead30ff26e1
+      internalID: 491541261
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: SlimeWhi_Idle_1
+      name: SlimeWhi_attack_1
       rect:
         serializedVersion: 2
         x: 32
@@ -139,20 +139,20 @@ TextureImporter:
         width: 32
         height: 32
       alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 27d8a3655b30a6e429f4a7c82fe4cfbb
-      internalID: 175904159
+      spriteID: 17430426124eacd4e86998ffe09520db
+      internalID: 2117035892
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: SlimeWhi_Idle_2
+      name: SlimeWhi_attack_2
       rect:
         serializedVersion: 2
         x: 64
@@ -160,20 +160,20 @@ TextureImporter:
         width: 32
         height: 32
       alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: df0831c4c4a33f243a968e1cb719f79a
-      internalID: -1618729487
+      spriteID: d2b7706916897e147b3879462bc3b94a
+      internalID: 29721601
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: SlimeWhi_Idle_3
+      name: SlimeWhi_attack_3
       rect:
         serializedVersion: 2
         x: 96
@@ -181,14 +181,98 @@ TextureImporter:
         width: 32
         height: 32
       alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 0363e35374a991842ab9a4b7838e58ce
-      internalID: -1509567123
+      spriteID: c8ac417c4284e8d41ae0431a6715232e
+      internalID: 590623699
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: SlimeWhi_attack_4
+      rect:
+        serializedVersion: 2
+        x: 128
+        y: 0
+        width: 32
+        height: 32
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 5018fa825e8de23438bba6d917c79d18
+      internalID: -575606118
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: SlimeWhi_attack_5
+      rect:
+        serializedVersion: 2
+        x: 160
+        y: 0
+        width: 32
+        height: 32
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 495151750e3e4374cb97e12697e38810
+      internalID: -2114819087
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: SlimeWhi_attack_6
+      rect:
+        serializedVersion: 2
+        x: 192
+        y: 0
+        width: 32
+        height: 32
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 80db26068fad94d4ea5ab4fea13583da
+      internalID: -787101700
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: SlimeWhi_attack_7
+      rect:
+        serializedVersion: 2
+        x: 224
+        y: 0
+        width: 32
+        height: 32
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: fc6c4978d7c015c498a0a6feea4eeb83
+      internalID: 534410765
       vertices: []
       indices: 
       edges: []
@@ -204,10 +288,14 @@ TextureImporter:
     weights: []
     secondaryTextures: []
     nameFileIdTable:
-      SlimeWhi_Idle_0: -250626122
-      SlimeWhi_Idle_1: 175904159
-      SlimeWhi_Idle_2: -1618729487
-      SlimeWhi_Idle_3: -1509567123
+      SlimeWhi_attack_0: 491541261
+      SlimeWhi_attack_1: 2117035892
+      SlimeWhi_attack_2: 29721601
+      SlimeWhi_attack_3: 590623699
+      SlimeWhi_attack_4: -575606118
+      SlimeWhi_attack_5: -2114819087
+      SlimeWhi_attack_6: -787101700
+      SlimeWhi_attack_7: 534410765
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 
