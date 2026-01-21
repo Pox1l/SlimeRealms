@@ -1276,6 +1276,16 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 9142507863727794242}
     m_Modifications:
+    - target: {fileID: 1786959603257734117, guid: ef84787c95915b746a03c2ef7c60075f, type: 3}
+      propertyPath: m_text
+      value: "CREDITS\r\n\nGAME DEVELOPMENT\r\n  Lead Developer: ME\n  Programmer:
+        ME\n\r\nART\r\n  Character Art: ME\n  UI Artist: ME\n\r\nSOUND\r\n  Music:
+        ME\n  Sound Effects: ME\n\r\n"
+      objectReference: {fileID: 0}
+    - target: {fileID: 1786959603257734117, guid: ef84787c95915b746a03c2ef7c60075f, type: 3}
+      propertyPath: m_VerticalAlignment
+      value: 512
+      objectReference: {fileID: 0}
     - target: {fileID: 2212332917540936929, guid: ef84787c95915b746a03c2ef7c60075f, type: 3}
       propertyPath: m_TagString
       value: CloseSettingsBTN

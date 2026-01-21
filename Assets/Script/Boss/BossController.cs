@@ -157,8 +157,12 @@ public class BossController : MonoBehaviour
         {
             if (hit.CompareTag("Player"))
             {
-                Debug.Log("JUMP HIT - DAMAGE");
-                // Zde zavolej player.TakeDamage...
+                // Místo Debug.Log to napoj na HP hráče:
+                PlayerHealth hp = hit.GetComponent<PlayerHealth>();
+                if (hp != null)
+                {
+                    hp.TakeDamage(jumpDamageAmount);
+                }
             }
         }
 
