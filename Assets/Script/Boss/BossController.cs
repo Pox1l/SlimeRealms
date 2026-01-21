@@ -134,12 +134,21 @@ public class BossController : MonoBehaviour
     // --- FÁZE 2: JUMP (S ANIMATION EVENTEM) ---
     void StartJumpAttack()
     {
-        if (animator != null) animator.SetTrigger("Jump");
+        // 1. Zastavit agenta
+        agent.isStopped = true;
+        agent.velocity = Vector3.zero; // Fyzické zastavení
 
-        // Zapneme warning kruh
+        // 2. 🔥 NOVÉ: Resetovat parametry v Animatoru, aby nehrála chůze
+        if (animator != null)
+        {
+            animator.SetFloat("Speed", 0);
+            animator.SetTrigger("Jump");
+        }
+
+        // 3. Zapnout warning kruh
         if (warningLine != null) warningLine.enabled = true;
 
-        // ❌ UŽ ŽÁDNÝ INVOKE! Čekáme na Event z animace.
+        // Čekáme na Animation Event "AnimEvent_LandHit"
     }
 
     // 🔥 TUTO FUNKCI VYBER V ANIMATION EVENTU (v okně Animation)
