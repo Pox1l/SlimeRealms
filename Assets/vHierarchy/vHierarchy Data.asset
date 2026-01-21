@@ -128,6 +128,9 @@ MonoBehaviour:
         - globalObjectIdString: GlobalObjectId_V1-2-2a782948c291d074e9d58001ff8c6a4c-1562314758-0
         - globalObjectIdString: GlobalObjectId_V1-2-2a782948c291d074e9d58001ff8c6a4c-2115800548-0
         - globalObjectIdString: GlobalObjectId_V1-2-2a782948c291d074e9d58001ff8c6a4c-1701793665-0
+        - globalObjectIdString: GlobalObjectId_V1-2-2a782948c291d074e9d58001ff8c6a4c-1365013999-0
+        - globalObjectIdString: GlobalObjectId_V1-2-2a782948c291d074e9d58001ff8c6a4c-1727360806-0
+        - globalObjectIdString: GlobalObjectId_V1-2-2a782948c291d074e9d58001ff8c6a4c-2139028257-0
         values:
         - colorIndex: 0
           iconNameOrGuid: Folder Icon
@@ -189,7 +192,7 @@ MonoBehaviour:
           iconNameOrGuid: AvatarMask On Icon
           isIconRecursive: 0
           isColorRecursive: 0
-        - colorIndex: 0
+        - colorIndex: 1
           iconNameOrGuid: Canvas Icon
           isIconRecursive: 0
           isColorRecursive: 0
@@ -553,6 +556,18 @@ MonoBehaviour:
           iconNameOrGuid: PrefabVariant On Icon
           isIconRecursive: 0
           isColorRecursive: 0
+        - colorIndex: 0
+          iconNameOrGuid: Folder Icon
+          isIconRecursive: 0
+          isColorRecursive: 0
+        - colorIndex: 0
+          iconNameOrGuid: CharacterJoint Icon
+          isIconRecursive: 0
+          isColorRecursive: 0
+        - colorIndex: 0
+          iconNameOrGuid: CharacterJoint Icon
+          isIconRecursive: 0
+          isColorRecursive: 0
     - goDatas_byGlobalId:
         keys:
         - globalObjectIdString: GlobalObjectId_V1-2-6de1a7d931f01ef4abebbf15f7e0502c-127101540-0
@@ -845,6 +860,9 @@ MonoBehaviour:
         - globalObjectIdString: GlobalObjectId_V1-2-8f94c35e02b6398428e407565a6c5131-292510461-0
         - globalObjectIdString: GlobalObjectId_V1-2-8f94c35e02b6398428e407565a6c5131-1383117755-0
         - globalObjectIdString: GlobalObjectId_V1-2-8f94c35e02b6398428e407565a6c5131-1483129218-0
+        - globalObjectIdString: GlobalObjectId_V1-2-8f94c35e02b6398428e407565a6c5131-1995103385-0
+        - globalObjectIdString: GlobalObjectId_V1-2-8f94c35e02b6398428e407565a6c5131-1198388357-0
+        - globalObjectIdString: GlobalObjectId_V1-2-8f94c35e02b6398428e407565a6c5131-886706578-0
         values:
         - colorIndex: 0
           iconNameOrGuid: Mesh Icon
@@ -898,7 +916,7 @@ MonoBehaviour:
           iconNameOrGuid: Canvas Icon
           isIconRecursive: 0
           isColorRecursive: 0
-        - colorIndex: 0
+        - colorIndex: 1
           iconNameOrGuid: Folder Icon
           isIconRecursive: 0
           isColorRecursive: 0
@@ -1074,6 +1092,18 @@ MonoBehaviour:
           iconNameOrGuid: PrefabVariant On Icon
           isIconRecursive: 0
           isColorRecursive: 0
+        - colorIndex: 0
+          iconNameOrGuid: Folder Icon
+          isIconRecursive: 0
+          isColorRecursive: 0
+        - colorIndex: 0
+          iconNameOrGuid: Camera Icon
+          isIconRecursive: 0
+          isColorRecursive: 0
+        - colorIndex: 0
+          iconNameOrGuid: Camera Icon
+          isIconRecursive: 0
+          isColorRecursive: 0
     - goDatas_byGlobalId:
         keys:
         - globalObjectIdString: GlobalObjectId_V1-2-103c331bb13690d488c43ac75191101a-60151847-0
@@ -1136,6 +1166,9 @@ MonoBehaviour:
         - globalObjectIdString: GlobalObjectId_V1-2-57a6c14058b882e4e963aa25f2c416f3-517852354-0
         - globalObjectIdString: GlobalObjectId_V1-2-57a6c14058b882e4e963aa25f2c416f3-934895479-0
         - globalObjectIdString: GlobalObjectId_V1-2-57a6c14058b882e4e963aa25f2c416f3-1085791090-0
+        - globalObjectIdString: GlobalObjectId_V1-2-57a6c14058b882e4e963aa25f2c416f3-1692090661-0
+        - globalObjectIdString: GlobalObjectId_V1-2-57a6c14058b882e4e963aa25f2c416f3-1500380656-0
+        - globalObjectIdString: GlobalObjectId_V1-2-57a6c14058b882e4e963aa25f2c416f3-155889260-0
         values:
         - colorIndex: 0
           iconNameOrGuid: Mesh Icon
@@ -1303,6 +1336,18 @@ MonoBehaviour:
           isColorRecursive: 0
         - colorIndex: 0
           iconNameOrGuid: BoxCollider Icon
+          isIconRecursive: 0
+          isColorRecursive: 0
+        - colorIndex: 0
+          iconNameOrGuid: Folder Icon
+          isIconRecursive: 0
+          isColorRecursive: 0
+        - colorIndex: 0
+          iconNameOrGuid: Camera Icon
+          isIconRecursive: 0
+          isColorRecursive: 0
+        - colorIndex: 0
+          iconNameOrGuid: Camera Icon
           isIconRecursive: 0
           isColorRecursive: 0
   bookmarks: []

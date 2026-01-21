@@ -27,9 +27,13 @@ public class PlayerStats : MonoBehaviour
     public float defense;
     public bool ignoreDefense = false;
 
+    // Původní eventy
     public event Action<int, int> OnHealthChanged;
     public event Action<float, float> OnStaminaChanged;
     public event Action OnPlayerDied;
+
+    // 🔥 NOVÉ: Event pro Camera Shake / Feel (posílá, kolik dmg jsi dostal)
+    public static event Action<int> OnPlayerHit;
 
     [Header("Components")]
     public PlayerKnockback playerKnockback;
@@ -66,10 +70,7 @@ public class PlayerStats : MonoBehaviour
         if (currentStamina >= amount)
         {
             currentStamina -= amount;
-
             // ❌ ODSTRANĚNO: SaveToManager(); 
-            // Důvod: Zápis na disk při každém sprintu způsobuje lagy.
-
             OnStaminaChanged?.Invoke(currentStamina, maxStamina);
             return true;
         }
@@ -84,9 +85,7 @@ public class PlayerStats : MonoBehaviour
     public void RecalculateStats(bool healOnIncrease = true, bool autoSave = true)
     {
         int oldMaxHealth = maxHealth;
-        // float oldMaxStamina = maxStamina; // Už nepotřebujeme pro léčení, stamina se stejně doplní
 
-        // Reset na základy
         float calculatedHealth = baseMaxHealth;
         float calculatedStamina = baseMaxStamina;
         float calculatedDefense = baseDefense;
@@ -121,8 +120,6 @@ public class PlayerStats : MonoBehaviour
         }
 
         if (currentHealth > maxHealth) currentHealth = maxHealth;
-
-        // 🔥 Při přepočtu statů se stamina vždy doplní, pokud chceme, nebo se jen ořízne
         if (currentStamina > maxStamina) currentStamina = maxStamina;
 
         if (autoSave)
@@ -159,9 +156,7 @@ public class PlayerStats : MonoBehaviour
             currentHealth = maxHealth;
         }
 
-        // 🔥 ZMĚNA: Staminu nečteme ze savu, ale vždy ji dáme plnou
         currentStamina = maxStamina;
-
         currentHealth = Mathf.Clamp(currentHealth, 0, maxHealth);
 
         OnHealthChanged?.Invoke(currentHealth, maxHealth);
@@ -172,43 +167,36 @@ public class PlayerStats : MonoBehaviour
     {
         if (PlayerDataManager.Instance != null)
         {
-            // Místo currentStamina tam posíláme maxStamina (nebo cokoliv, stejně to nebudeme načítat)
             PlayerDataManager.Instance.SavePlayerStats(currentHealth, maxHealth, maxStamina, maxStamina, defense);
         }
     }
 
-    // 🔥 TOTO JE UPRAVENÁ METODA PRO DMG
     public void TakeDamage(int baseDamage, Transform attacker = null)
     {
         int finalDamage = baseDamage;
 
         if (!ignoreDefense)
         {
-            // --- ZMĚNA NA PROCENTA ---
-            // Příklad: Defense je 0.15 (15%)
-            // Multiplier bude: 1.0 - 0.15 = 0.85 (85% poškození projde)
             float damageMultiplier = 1f - defense;
-
-            // Pojistka, aby multiplier nebyl záporný (nechceme hráče léčit)
             damageMultiplier = Mathf.Clamp(damageMultiplier, 0f, 1f);
-
-            // Výpočet: 100 dmg * 0.85 = 85 dmg
             finalDamage = Mathf.RoundToInt(baseDamage * damageMultiplier);
         }
 
-        // Vždy udělit alespoň 1 damage (aby hráč nebyl úplně nesmrtelný, volitelné)
         finalDamage = Mathf.Max(1, finalDamage);
 
-        // ... zbytek metody je stejný (odečtení HP, knockback, flash...)
         Debug.Log($"Enemy Dmg: {baseDamage} | Def Reduction: {defense * 100}% | Final: {finalDamage}");
 
         currentHealth = Mathf.Max(0, currentHealth - finalDamage);
 
-        // ... (zbytek kódu: SaveToManager, OnHealthChanged, Die atd.)
+        // 🔥 NOVÉ: Zde voláme Feedback systém (Feel se o vše postará)
+        OnPlayerHit?.Invoke(finalDamage);
+
         if (attacker != null && playerKnockback != null) playerKnockback.ApplyKnockback(attacker);
         if (damageFlash != null) damageFlash.Flash();
+
         SaveToManager();
         OnHealthChanged?.Invoke(currentHealth, maxHealth);
+
         if (currentHealth <= 0) Die();
     }
 
