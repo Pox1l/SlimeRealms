@@ -292231,6 +292231,7 @@ GameObject:
   - component: {fileID: 1362560373}
   - component: {fileID: 1362560375}
   - component: {fileID: 1362560374}
+  - component: {fileID: 1362560376}
   m_Layer: 0
   m_Name: portalSprite
   m_TagString: Untagged
@@ -292326,6 +292327,20 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!114 &1362560376
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1362560372}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2baf782c2c3a14b45a6cff375f3ce827, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  speed: 1
+  amplitude: 0.1
 --- !u!1001 &1362869677
 PrefabInstance:
   m_ObjectHideFlags: 0

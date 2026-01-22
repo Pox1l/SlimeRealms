@@ -39751,6 +39751,7 @@ GameObject:
   - component: {fileID: 965793386}
   - component: {fileID: 965793387}
   - component: {fileID: 965793388}
+  - component: {fileID: 965793389}
   m_Layer: 0
   m_Name: portalSprite
   m_TagString: Untagged
@@ -39846,6 +39847,20 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
+--- !u!114 &965793389
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 965793385}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2baf782c2c3a14b45a6cff375f3ce827, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  speed: 1
+  amplitude: 0.1
 --- !u!1 &965859749
 GameObject:
   m_ObjectHideFlags: 0
@@ -43290,6 +43305,7 @@ GameObject:
   - component: {fileID: 1124216899}
   - component: {fileID: 1124216901}
   - component: {fileID: 1124216902}
+  - component: {fileID: 1124216903}
   m_Layer: 0
   m_Name: portalSprite
   m_TagString: Untagged
@@ -43385,6 +43401,20 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
+--- !u!114 &1124216903
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1124216898}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2baf782c2c3a14b45a6cff375f3ce827, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  speed: 1
+  amplitude: 0.1
 --- !u!1 &1126159020
 GameObject:
   m_ObjectHideFlags: 0
@@ -407561,6 +407591,7 @@ GameObject:
   - component: {fileID: 1852877210}
   - component: {fileID: 1852877212}
   - component: {fileID: 1852877213}
+  - component: {fileID: 1852877214}
   m_Layer: 0
   m_Name: portalSprite
   m_TagString: Untagged
@@ -407656,6 +407687,20 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
+--- !u!114 &1852877214
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1852877209}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2baf782c2c3a14b45a6cff375f3ce827, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  speed: 1
+  amplitude: 0.1
 --- !u!114 &1856636018 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 8968057584747232848, guid: fbbdcb4d6471b924797348ea3b8ddb2a, type: 3}
@@ -546688,6 +546733,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: CentralMenuCanvas
       objectReference: {fileID: 0}
+    - target: {fileID: 812409372794269405, guid: fbbdcb4d6471b924797348ea3b8ddb2a, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 885577903250257950, guid: fbbdcb4d6471b924797348ea3b8ddb2a, type: 3}
       propertyPath: m_Pivot.x
       value: 0
@@ -546768,7 +546817,15 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 1246775474676472859, guid: fbbdcb4d6471b924797348ea3b8ddb2a, type: 3}
+      propertyPath: m_SizeDelta.y
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 4415869100949022850, guid: fbbdcb4d6471b924797348ea3b8ddb2a, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7058685942823658197, guid: fbbdcb4d6471b924797348ea3b8ddb2a, type: 3}
       propertyPath: m_IsActive
       value: 0
       objectReference: {fileID: 0}
