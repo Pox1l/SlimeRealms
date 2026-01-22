@@ -12540,6 +12540,58 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 653300469585923128, guid: 17baee03e32124e4dbea1f87eb367842, type: 3}
   m_PrefabInstance: {fileID: 847854122}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &182477781
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 182477782}
+  - component: {fileID: 182477783}
+  m_Layer: 0
+  m_Name: enemyPhaseSpawner2
+  m_TagString: Untagged
+  m_Icon: {fileID: 1206586993520771344, guid: 0000000000000000d000000000000000, type: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &182477782
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 182477781}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 16.9, y: 8.71, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1969371081}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &182477783
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 182477781}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: dc9b5b3a86a01f74c8766e5a06a31ac9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  enemyPrefab: {fileID: 4817493094607594389, guid: f152b7f2418909740addb96875fef386, type: 3}
+  spawnAmount: 3
+  spawnRadius: 3
+  checkRadius: 1
+  obstacleLayer:
+    serializedVersion: 2
+    m_Bits: 576
+  prewarmCount: 2
 --- !u!114 &185068421 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 8920700853427203959, guid: fbbdcb4d6471b924797348ea3b8ddb2a, type: 3}
@@ -48670,7 +48722,7 @@ GameObject:
   - component: {fileID: 1412250926}
   - component: {fileID: 1412250925}
   - component: {fileID: 1412250924}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: treesBlock_coll -L6
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -243530,7 +243582,7 @@ GameObject:
   - component: {fileID: 1468224129}
   - component: {fileID: 1468224128}
   - component: {fileID: 1468224133}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: Blocks_coll -L5
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -394573,7 +394625,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1829485220}
   m_Layer: 0
-  m_Name: spawner
+  m_Name: bossSpawner
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -394646,6 +394698,58 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &1831077246
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1831077247}
+  - component: {fileID: 1831077248}
+  m_Layer: 0
+  m_Name: enemyPhaseSpawner1
+  m_TagString: Untagged
+  m_Icon: {fileID: 1206586993520771344, guid: 0000000000000000d000000000000000, type: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1831077247
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1831077246}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -15.51, y: 8.32, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1969371081}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1831077248
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1831077246}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: dc9b5b3a86a01f74c8766e5a06a31ac9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  enemyPrefab: {fileID: 6118897555543749394, guid: 935d809c55c960d44be44a5e180f8713, type: 3}
+  spawnAmount: 3
+  spawnRadius: 3
+  checkRadius: 1
+  obstacleLayer:
+    serializedVersion: 2
+    m_Bits: 576
+  prewarmCount: 2
 --- !u!1 &1831594838
 GameObject:
   m_ObjectHideFlags: 0
@@ -411081,6 +411185,8 @@ Transform:
   m_Children:
   - {fileID: 1829485220}
   - {fileID: 892014534}
+  - {fileID: 1831077247}
+  - {fileID: 182477782}
   m_Father: {fileID: 1083634408}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!4 &1970522357 stripped
@@ -412644,7 +412750,7 @@ GameObject:
   - component: {fileID: 2028383855}
   - component: {fileID: 2028383854}
   - component: {fileID: 2028383853}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: Buildings-L7
   m_TagString: Untagged
   m_Icon: {fileID: 0}

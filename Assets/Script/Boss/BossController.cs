@@ -48,8 +48,10 @@ public class BossController : MonoBehaviour
     private bool isAttacking = false;
 
     public static event Action OnBossLand;
+    public static event Action OnPhase2Start;
+    private bool phase2SignalSent = false;
 
-    
+
 
     void Awake() { agent = GetComponent<NavMeshAgent>(); if (animator == null) animator = GetComponent<Animator>(); if (spriteRenderer == null) spriteRenderer = GetComponent<SpriteRenderer>(); if (bossHealth == null) bossHealth = GetComponent<BossHealth>(); agent.updateRotation = false; agent.updateUpAxis = false; agent.speed = moveSpeed; }
     void Start() { if (!movementSound.IsNull) { moveInstance = RuntimeManager.CreateInstance(movementSound); RuntimeManager.AttachInstanceToGameObject(moveInstance, gameObject, GetComponent<Rigidbody2D>()); } if (warningLine == null && firePoint != null) warningLine = firePoint.GetComponent<LineRenderer>(); if (warningLine != null) warningLine.enabled = false; GameObject player = GameObject.FindGameObjectWithTag("Player"); if (player != null) playerTransform = player.transform; }
@@ -103,7 +105,25 @@ public class BossController : MonoBehaviour
     void PlayAggroSound() { if (!aggroSound.IsNull) RuntimeManager.PlayOneShot(aggroSound, transform.position); }
     void OnDisable() => StopMoveSound();
     void OnDestroy() { StopMoveSound(); moveInstance.release(); }
-    void CheckBossPhase() { if (bossHealth != null && bossHealth.maxHealth > 0) { float hpPercent = (float)bossHealth.currentHealth / bossHealth.maxHealth; if (hpPercent <= 0.5f) currentStage = BossStage.Phase2; } }
+    void CheckBossPhase()
+    {
+        if (bossHealth != null && bossHealth.maxHealth > 0)
+        {
+            float hpPercent = (float)bossHealth.currentHealth / bossHealth.maxHealth;
+
+            if (hpPercent <= 0.5f)
+            {
+                currentStage = BossStage.Phase2;
+
+                // 🔥 NOVÉ: Pokud jsme ještě neposlali signál, pošleme ho teď
+                if (!phase2SignalSent)
+                {
+                    OnPhase2Start?.Invoke(); // "Haló, fáze 2 začala!"
+                    phase2SignalSent = true;
+                }
+            }
+        }
+    }
 
     void DecideAttack()
     {
