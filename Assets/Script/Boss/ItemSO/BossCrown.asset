@@ -15,7 +15,7 @@ MonoBehaviour:
   itemID: 202
   itemName: BossCrown
   icon: {fileID: -1617980436, guid: 73a0fbb303e65c84981880a4c5e7f1d3, type: 3}
-  description: 
+  description: Boss Crow...
   maxStack: 25
   isUsable: 0
   cooldown: 1

@@ -11,8 +11,8 @@ public class BossEncounter : MonoBehaviour
     public bool bossDefeated = true;
 
     [Header("Bariéra")]
-    public GameObject barrierObject; // Objekt bariéry
-    public float barrierDelay = 1.0f; // 🔥 NOVÉ: Zpoždění bariéry (1 sekunda)
+    public GameObject barrierObject; 
+    public float barrierDelay = 1.0f; 
 
     [Header("Propojení")]
     public PixelCameraZoomer cameraZoomer;
@@ -21,7 +21,7 @@ public class BossEncounter : MonoBehaviour
     private ObjectPool pool;
     private GameObject activeBoss;
     private Coroutine spawnCoroutine;
-    private Coroutine barrierCoroutine; // 🔥 NOVÉ: Pro ovládání zpoždění bariéry
+    private Coroutine barrierCoroutine; 
     private bool playerInside = false;
 
     void Awake()

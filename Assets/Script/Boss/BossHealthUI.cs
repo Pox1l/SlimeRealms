@@ -37,12 +37,12 @@ public class BossHealthUI : MonoBehaviour
         }
     }
 
-    // Zobrazení/Skrytí (volá UIManager podle stavu hry)
+    
     public void ToggleVisibility(bool state)
     {
         if (rootPanel != null)
             rootPanel.SetActive(state);
         else
-            gameObject.SetActive(state); // Fallback
+            gameObject.SetActive(state); 
     }
 }

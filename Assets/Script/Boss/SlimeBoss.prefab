@@ -171,10 +171,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4c781178db24d0a468e7d3189582d5f5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  essencePrefab: {fileID: 653204788952132559, guid: aa65598f26c4e754baa9786d0301c8b5, type: 3}
+  essencePrefab: {fileID: 2711640279769296278, guid: 6d634b5acf52f1c4d8864d29a2953e83, type: 3}
   essenceAmount: 1
+  essenceChance: 20
   energyPrefab: {fileID: 4849289567423855763, guid: 8f780771b7ec624449f8872fe9319e4e, type: 3}
   energyAmount: 1
+  energyChance: 80
 --- !u!114 &6041279138392753872
 MonoBehaviour:
   m_ObjectHideFlags: 0

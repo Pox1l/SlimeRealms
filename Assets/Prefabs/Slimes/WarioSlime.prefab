@@ -208,8 +208,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   essencePrefab: {fileID: 7845407948840742303, guid: 5f79c0aff693c4941b205beba2dc53e2, type: 3}
   essenceAmount: 1
+  essenceChance: 70
   energyPrefab: {fileID: 312974616001917859, guid: d904ce10bb0da3c4eac13f57c60d0160, type: 3}
-  energyAmount: 0
+  energyAmount: 1
+  energyChance: 30
 --- !u!114 &1029840765516087695
 MonoBehaviour:
   m_ObjectHideFlags: 0

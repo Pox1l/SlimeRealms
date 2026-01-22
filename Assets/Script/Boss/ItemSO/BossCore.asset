@@ -15,7 +15,7 @@ MonoBehaviour:
   itemID: 201
   itemName: BossCore
   icon: {fileID: 1286451806, guid: 73a0fbb303e65c84981880a4c5e7f1d3, type: 3}
-  description: 
+  description: Boss Core...
   maxStack: 25
   isUsable: 0
   cooldown: 1

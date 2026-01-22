@@ -4,33 +4,41 @@ public class EnemyProjectile : MonoBehaviour
 {
     public float speed = 5f;
     public int damage = 10;
+    public float lifeTime = 2f;
+
+    // Tady si v Inspectoru nastavíš, co je pro kulku "zeï" (napø. Layer 'Ground' nebo 'Default')
+    public LayerMask whatIsObstacle;
 
     void Start()
     {
-        // Znièení po 5 vteøinách, aby nezatìžoval hru, pokud nic netrefí
-        Destroy(gameObject, 2f);
+        Destroy(gameObject, lifeTime);
     }
 
     void Update()
     {
-        // DÙLEŽITÉ: Letí "doprava" (Vector2.right) v lokálním prostoru.
-        // Protože jsme ho v pøedchozím scriptu otoèili èumákem k hráèi,
-        // jeho "doprava" je nyní smìr k hráèi.
         transform.Translate(Vector2.right * speed * Time.deltaTime);
     }
 
     void OnTriggerEnter2D(Collider2D other)
     {
+        // 1. Trefil jsem hráèe?
         if (other.CompareTag("Player"))
         {
             PlayerStats stats = other.GetComponent<PlayerStats>();
             if (stats != null)
             {
-                // Místo 'transform' mùžeš poslat null, pokud nepotøebuješ vìdìt, kdo dmg udìlil
                 stats.TakeDamage(damage, transform);
             }
-            Destroy(gameObject); // Znièit projektil po zásahu
+            Destroy(gameObject);
+            return; // Ukonèíme funkci, abychom nekontrolovali dál
         }
-        
+
+        // 2. Trefil jsem zeï? (Zkontroluje, jestli objekt, do kterého jsme vrazili, je v LayerMask)
+        if (((1 << other.gameObject.layer) & whatIsObstacle) != 0)
+        {
+            Destroy(gameObject);
+        }
+
+        // Pokud to trefilo Enemy nebo jinou kulku, díky nastavení Physics Matrix se nestane nic a letí dál.
     }
 }

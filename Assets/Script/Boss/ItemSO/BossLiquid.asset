@@ -14,8 +14,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   itemID: 203
   itemName: BossLiquid
-  icon: {fileID: 1286451806, guid: 73a0fbb303e65c84981880a4c5e7f1d3, type: 3}
-  description: 
+  icon: {fileID: -1537402482, guid: 73a0fbb303e65c84981880a4c5e7f1d3, type: 3}
+  description: Boss Liquid...
   maxStack: 25
   isUsable: 0
   cooldown: 1
