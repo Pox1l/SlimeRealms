@@ -2,6 +2,7 @@
 using UnityEngine.AI;
 using FMODUnity;
 using FMOD.Studio;
+using System;
 
 [RequireComponent(typeof(NavMeshAgent))]
 public class BossController : MonoBehaviour
@@ -46,10 +47,12 @@ public class BossController : MonoBehaviour
     private NavMeshAgent agent;
     private bool isAttacking = false;
 
-    // ... (Awake, Start, Update jsou stejné) ...
+    public static event Action OnBossLand;
 
-    void Awake() { /* Stejné jako předtím */ agent = GetComponent<NavMeshAgent>(); if (animator == null) animator = GetComponent<Animator>(); if (spriteRenderer == null) spriteRenderer = GetComponent<SpriteRenderer>(); if (bossHealth == null) bossHealth = GetComponent<BossHealth>(); agent.updateRotation = false; agent.updateUpAxis = false; agent.speed = moveSpeed; }
-    void Start() { /* Stejné jako předtím */ if (!movementSound.IsNull) { moveInstance = RuntimeManager.CreateInstance(movementSound); RuntimeManager.AttachInstanceToGameObject(moveInstance, gameObject, GetComponent<Rigidbody2D>()); } if (warningLine == null && firePoint != null) warningLine = firePoint.GetComponent<LineRenderer>(); if (warningLine != null) warningLine.enabled = false; GameObject player = GameObject.FindGameObjectWithTag("Player"); if (player != null) playerTransform = player.transform; }
+    
+
+    void Awake() { agent = GetComponent<NavMeshAgent>(); if (animator == null) animator = GetComponent<Animator>(); if (spriteRenderer == null) spriteRenderer = GetComponent<SpriteRenderer>(); if (bossHealth == null) bossHealth = GetComponent<BossHealth>(); agent.updateRotation = false; agent.updateUpAxis = false; agent.speed = moveSpeed; }
+    void Start() { if (!movementSound.IsNull) { moveInstance = RuntimeManager.CreateInstance(movementSound); RuntimeManager.AttachInstanceToGameObject(moveInstance, gameObject, GetComponent<Rigidbody2D>()); } if (warningLine == null && firePoint != null) warningLine = firePoint.GetComponent<LineRenderer>(); if (warningLine != null) warningLine.enabled = false; GameObject player = GameObject.FindGameObjectWithTag("Player"); if (player != null) playerTransform = player.transform; }
 
     void Update()
     {
@@ -154,28 +157,24 @@ public class BossController : MonoBehaviour
     // 🔥 TUTO FUNKCI VYBER V ANIMATION EVENTU (v okně Animation)
     public void AnimEvent_LandHit()
     {
-        // 1. Vypnout warning (už dopadl)
         if (warningLine != null) warningLine.enabled = false;
 
-        // 2. Efekt
         if (jumpEffectPrefab != null) Instantiate(jumpEffectPrefab, transform.position, Quaternion.identity);
 
-        // 3. Damage
+        // 🔥 MÍSTO PŘÍMÉHO PŘEHRÁNÍ POŠLEME SIGNÁL
+        OnBossLand?.Invoke();
+
+        // ... zbytek damage logiky (Physics2D.OverlapCircleAll atd.) ...
         Collider2D[] hits = Physics2D.OverlapCircleAll(transform.position, jumpDamageRadius);
         foreach (Collider2D hit in hits)
         {
             if (hit.CompareTag("Player"))
             {
-                // Místo Debug.Log to napoj na HP hráče:
-                PlayerHealth hp = hit.GetComponent<PlayerHealth>();
-                if (hp != null)
-                {
-                    hp.TakeDamage(jumpDamageAmount);
-                }
+                PlayerStats playerStats = hit.GetComponent<PlayerStats>();
+                if (playerStats != null) playerStats.TakeDamage(jumpDamageAmount, transform);
             }
         }
 
-        // 4. Ukončit stav útoku
         FinishAttack();
     }
 
