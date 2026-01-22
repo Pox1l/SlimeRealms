@@ -20,3 +20,17 @@ MonoBehaviour:
   boxDistance: 1
   slashPrefab: {fileID: 6469178570042879681, guid: 4c9ea20fddbb92247bf962e41dbce168, type: 3}
   slashDuration: 0.2
+  swingSound:
+    Guid:
+      Data1: 1256424030
+      Data2: 1283962597
+      Data3: -939132010
+      Data4: 2053634585
+    Path: event:/CloseAttackEff
+  hitSound:
+    Guid:
+      Data1: 0
+      Data2: 0
+      Data3: 0
+      Data4: 0
+    Path: 

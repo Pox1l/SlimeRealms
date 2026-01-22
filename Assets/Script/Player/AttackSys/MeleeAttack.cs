@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections.Generic;
+using FMODUnity; // 🔥 Nutné pro FMOD
 
 [CreateAssetMenu(menuName = "Attacks/Melee Attack")]
 public class MeleeAttack : AttackBase
@@ -12,10 +13,20 @@ public class MeleeAttack : AttackBase
     public GameObject slashPrefab;
     public float slashDuration = 0.2f;
 
+    [Header("Audio (FMOD)")]
+    public EventReference swingSound; // Zvuk máchnutí (vzduch)
+    public EventReference hitSound;   // Zvuk zásahu (maso/kov)
+
     public override void PerformAttack(Transform attacker, Camera cam, LayerMask enemyLayers, float damageMultiplier)
     {
         var cameraToUse = cam != null ? cam : Camera.main;
         if (cameraToUse == null) return;
+
+        // 🔥 1. Přehrát zvuk máchnutí (vždy)
+        if (!swingSound.IsNull)
+        {
+            RuntimeManager.PlayOneShot(swingSound, attacker.position);
+        }
 
         PlayerAttackSystem attackSystem = attacker.GetComponent<PlayerAttackSystem>();
         Transform meleePoint = attackSystem != null ? attackSystem.meleePoint : attacker;
@@ -37,22 +48,23 @@ public class MeleeAttack : AttackBase
         {
             var slash = Instantiate(slashPrefab, center, Quaternion.Euler(0, 0, angleDeg - 90));
 
-            // Zničíme DamageDealer na efektu
             var visualDealer = slash.GetComponent<DamageDealer>();
             if (visualDealer != null) Destroy(visualDealer);
 
             Destroy(slash, slashDuration);
         }
 
-        // --- APLIKACE DAMAGE (S opravou dvojitého zásahu) ---
+        // --- APLIKACE DAMAGE ---
         Collider2D[] hits = Physics2D.OverlapBoxAll(center, boxSize, angleDeg, enemyLayers);
 
-        // Seznam už trefených skriptů
         List<MonoBehaviour> alreadyHitTargets = new List<MonoBehaviour>();
+        bool didHitSomething = false; // Kontrola pro zvuk zásahu
 
         foreach (Collider2D hit in hits)
         {
             if (hit.gameObject == attacker.gameObject) continue;
+
+            bool hitSuccess = false;
 
             // 1. Zkusíme EnemyHealth
             if (hit.TryGetComponent(out EnemyHealth enemy))
@@ -61,9 +73,7 @@ public class MeleeAttack : AttackBase
 
                 enemy.TakeDamage(finalDamage);
                 alreadyHitTargets.Add(enemy);
-
-                // 🛠️ OPRAVA ZDE: Smazal jsem "(HP: {enemy.currentHealth})", 
-                // protože currentHealth je private a nešlo to přečíst.
+                hitSuccess = true;
                 Debug.Log($"Melee hit: {enemy.name}");
             }
             // 2. Zkusíme BossHealth
@@ -73,8 +83,18 @@ public class MeleeAttack : AttackBase
 
                 boss.TakeDamage(finalDamage);
                 alreadyHitTargets.Add(boss);
+                hitSuccess = true;
                 Debug.Log($"Melee hit BOSS: {boss.name}");
             }
+
+            if (hitSuccess) didHitSomething = true;
+        }
+
+        // 🔥 2. Přehrát zvuk zásahu (pokud jsme něco trefili)
+        if (didHitSomething && !hitSound.IsNull)
+        {
+            // Přehráváme zvuk na místě zásahu (center)
+            RuntimeManager.PlayOneShot(hitSound, center);
         }
     }
 }

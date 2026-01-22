@@ -138,11 +138,11 @@ MonoBehaviour:
   loseAggroRange: 20
   movementSound:
     Guid:
-      Data1: 0
-      Data2: 0
-      Data3: 0
-      Data4: 0
-    Path: 
+      Data1: -1993235619
+      Data2: 1087315707
+      Data3: -1897203064
+      Data4: -2025425154
+    Path: event:/SlimeWalk3DS
   aggroSound:
     Guid:
       Data1: 0

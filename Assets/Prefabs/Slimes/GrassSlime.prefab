@@ -207,11 +207,11 @@ MonoBehaviour:
     Path: event:/SlimeWalk3DS
   aggroSound:
     Guid:
-      Data1: 1256424030
-      Data2: 1283962597
-      Data3: -939132010
-      Data4: 2053634585
-    Path: event:/CloseAttackEff
+      Data1: 0
+      Data2: 0
+      Data3: 0
+      Data4: 0
+    Path: 
 --- !u!114 &8478594423381151928
 MonoBehaviour:
   m_ObjectHideFlags: 0

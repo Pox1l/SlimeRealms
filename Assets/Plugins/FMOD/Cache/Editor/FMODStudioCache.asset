@@ -54,6 +54,33 @@ MonoBehaviour:
   MinDistance: 1
   MaxDistance: 20
   Length: 350
+--- !u!114 &-1078129642596678724
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: event:/MenuMusic 2
+  m_EditorClassIdentifier: 
+  Path: event:/MenuMusic 2
+  Guid:
+    Data1: 1041946417
+    Data2: 1231369847
+    Data3: -1280867926
+    Data4: 949799165
+  Banks:
+  - {fileID: 4273880664184461481}
+  IsStream: 0
+  Is3D: 0
+  IsOneShot: 0
+  Parameters: []
+  MinDistance: 1
+  MaxDistance: 20
+  Length: 8045
 --- !u!114 &-691621656350647908
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -107,13 +134,14 @@ MonoBehaviour:
   - {fileID: 4780325417133048127}
   - {fileID: -5307484286362210749}
   - {fileID: -691621656350647908}
+  - {fileID: -1078129642596678724}
   EditorParameters: []
   MasterBanks:
   - {fileID: 2535322858333945084}
   StringsBanks:
   - {fileID: 950478269963886210}
   cacheVersion: 131857
-  cacheTime: 639042599818698713
+  cacheTime: 639047097180779059
   SerializableEventsDict:
   - key: event:/MenuMusic
     index: 0
@@ -127,6 +155,8 @@ MonoBehaviour:
     index: 4
   - key: event:/SlimeWalk3DS
     index: 5
+  - key: event:/MenuMusic 2
+    index: 6
 --- !u!114 &950478269963886210
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -142,10 +172,10 @@ MonoBehaviour:
   Path: FMOD/Desktop/Master.strings.bank
   Name: Master.strings
   StudioPath: bank:/Master.strings
-  lastModified: 639042599816563403
+  lastModified: 639047096766406869
   FileSizes:
   - Name: 
-    Value: 1324
+    Value: 1368
   Exists: 1
 --- !u!114 &2535322858333945084
 MonoBehaviour:
@@ -162,7 +192,7 @@ MonoBehaviour:
   Path: FMOD/Desktop/Master.bank
   Name: Master
   StudioPath: bank:/Master
-  lastModified: 639042599816493413
+  lastModified: 639047096766376875
   FileSizes: []
   Exists: 1
 --- !u!114 &3136255313656384484
@@ -203,13 +233,13 @@ MonoBehaviour:
     Data4: -845503949
   Banks:
   - {fileID: 4273880664184461481}
-  IsStream: 0
+  IsStream: 1
   Is3D: 0
   IsOneShot: 0
   Parameters: []
   MinDistance: 1
   MaxDistance: 20
-  Length: 8045
+  Length: 150073
 --- !u!114 &4273880664184461481
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -225,7 +255,7 @@ MonoBehaviour:
   Path: FMOD/Desktop/Music.bank
   Name: Music
   StudioPath: bank:/Music
-  lastModified: 639042599817323376
+  lastModified: 639047097180779059
   FileSizes: []
   Exists: 1
 --- !u!114 &4780325417133048127
