@@ -134,6 +134,16 @@ MonoBehaviour:
         - globalObjectIdString: GlobalObjectId_V1-2-2a782948c291d074e9d58001ff8c6a4c-1844834202-0
         - globalObjectIdString: GlobalObjectId_V1-2-2a782948c291d074e9d58001ff8c6a4c-1831077246-0
         - globalObjectIdString: GlobalObjectId_V1-2-2a782948c291d074e9d58001ff8c6a4c-182477781-0
+        - globalObjectIdString: GlobalObjectId_V1-2-2a782948c291d074e9d58001ff8c6a4c-1249337000-0
+        - globalObjectIdString: GlobalObjectId_V1-2-2a782948c291d074e9d58001ff8c6a4c-965859749-0
+        - globalObjectIdString: GlobalObjectId_V1-2-2a782948c291d074e9d58001ff8c6a4c-1452864334-0
+        - globalObjectIdString: GlobalObjectId_V1-2-2a782948c291d074e9d58001ff8c6a4c-41089916-0
+        - globalObjectIdString: GlobalObjectId_V1-2-2a782948c291d074e9d58001ff8c6a4c-687368863-0
+        - globalObjectIdString: GlobalObjectId_V1-2-2a782948c291d074e9d58001ff8c6a4c-1796693934-0
+        - globalObjectIdString: GlobalObjectId_V1-2-2a782948c291d074e9d58001ff8c6a4c-1107763569-0
+        - globalObjectIdString: GlobalObjectId_V1-2-2a782948c291d074e9d58001ff8c6a4c-1499805185-0
+        - globalObjectIdString: GlobalObjectId_V1-2-2a782948c291d074e9d58001ff8c6a4c-939045556-0
+        - globalObjectIdString: GlobalObjectId_V1-2-2a782948c291d074e9d58001ff8c6a4c-1143420728-0
         values:
         - colorIndex: 0
           iconNameOrGuid: Folder Icon
@@ -581,6 +591,46 @@ MonoBehaviour:
           isColorRecursive: 0
         - colorIndex: 0
           iconNameOrGuid: LightProbes Icon
+          isIconRecursive: 0
+          isColorRecursive: 0
+        - colorIndex: 0
+          iconNameOrGuid: winbtn_mac_close_a
+          isIconRecursive: 0
+          isColorRecursive: 0
+        - colorIndex: 0
+          iconNameOrGuid: winbtn_mac_close_a
+          isIconRecursive: 0
+          isColorRecursive: 0
+        - colorIndex: 0
+          iconNameOrGuid: Canvas Icon
+          isIconRecursive: 0
+          isColorRecursive: 0
+        - colorIndex: 0
+          iconNameOrGuid: PreMatQuad
+          isIconRecursive: 0
+          isColorRecursive: 0
+        - colorIndex: 0
+          iconNameOrGuid: Button Icon
+          isIconRecursive: 0
+          isColorRecursive: 0
+        - colorIndex: 0
+          iconNameOrGuid: Button Icon
+          isIconRecursive: 0
+          isColorRecursive: 0
+        - colorIndex: 0
+          iconNameOrGuid: Button Icon
+          isIconRecursive: 0
+          isColorRecursive: 0
+        - colorIndex: 0
+          iconNameOrGuid: Canvas Icon
+          isIconRecursive: 0
+          isColorRecursive: 0
+        - colorIndex: 0
+          iconNameOrGuid: PreMatQuad
+          isIconRecursive: 0
+          isColorRecursive: 0
+        - colorIndex: 0
+          iconNameOrGuid: Button Icon
           isIconRecursive: 0
           isColorRecursive: 0
     - goDatas_byGlobalId:
