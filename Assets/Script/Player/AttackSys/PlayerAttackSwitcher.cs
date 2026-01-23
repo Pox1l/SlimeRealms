@@ -4,28 +4,40 @@ using UnityEngine;
 public class PlayerAttackSwitcher : MonoBehaviour
 {
     [Header("Reference")]
-    public PlayerAttackSystem attackSystem;  // reference na PlayerAttackSystem (kde se provádí útok)
-    public List<AttackBase> availableAttacks = new List<AttackBase>(); // všechny útoky, které má hráč
+    public PlayerAttackSystem attackSystem;
+    public List<AttackBase> availableAttacks = new List<AttackBase>();
+
+    [Header("UI Feedback (Auto-Find)")]
+    public WeaponIconPopup iconPopup; // 🔥 Teď se to zkusí najít samo, když to necháš prázdné
 
     [Header("Current Attack")]
     [SerializeField] public int currentIndex = 0;
 
     void Start()
     {
+        // 1. Najdeme Attack System
         if (attackSystem == null)
             attackSystem = GetComponent<PlayerAttackSystem>();
 
-        // Nastaví výchozí útok, pokud existuje
+        // 2. 🔥 AUTOMATICKÉ HLEDÁNÍ POPUPU 🔥
+        if (iconPopup == null)
+        {
+            // Hledá komponentu WeaponIconPopup v dětech (to je ten tvůj WeaponIconCanvas)
+            iconPopup = GetComponentInChildren<WeaponIconPopup>();
+
+            if (iconPopup == null)
+                Debug.LogWarning("⚠️ PlayerAttackSwitcher: Nenašel jsem WeaponIconPopup! Máš WeaponIconCanvas jako dítě hráče?");
+        }
+
+        // 3. Nastavíme první útok
         if (availableAttacks.Count > 0)
             SetAttack(0);
     }
 
     void Update()
     {
-        if (availableAttacks.Count == 0 || attackSystem == null)
-            return;
+        if (availableAttacks.Count == 0 || attackSystem == null) return;
 
-        // 🔢 Přepínání útoků klávesami 1–9
         for (int i = 0; i < availableAttacks.Count; i++)
         {
             if (Input.GetKeyDown(KeyCode.Alpha1 + i))
@@ -41,12 +53,22 @@ public class PlayerAttackSwitcher : MonoBehaviour
         if (index < 0 || index >= availableAttacks.Count) return;
 
         currentIndex = index;
-        attackSystem.currentAttack = availableAttacks[index];
+        AttackBase selectedAttack = availableAttacks[index];
 
-        Debug.Log($"🔄 Switched attack to: {attackSystem.currentAttack.attackName} (slot {index + 1})");
+        attackSystem.currentAttack = selectedAttack;
+
+        // Zobrazení ikony
+        if (iconPopup != null && selectedAttack != null)
+        {
+            if (selectedAttack.icon != null)
+            {
+                iconPopup.Show(selectedAttack.icon);
+            }
+        }
+
+        Debug.Log($"🔄 Switched attack to: {attackSystem.currentAttack.attackName}");
     }
 
-    // 👇 (volitelné) veřejná funkce pro přepnutí z jiného scriptu (např. ze skill tree)
     public void SetAttackByID(int index)
     {
         SetAttack(index);
