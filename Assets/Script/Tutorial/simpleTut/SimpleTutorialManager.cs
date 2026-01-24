@@ -11,7 +11,8 @@ public class SimpleTutorialManager : MonoBehaviour
     [System.Serializable]
     public class TutorialSlide
     {
-        [TextArea(3, 5)] public string description;
+        // 🔥 ZMĚNA: TextArea(5, 10) udělá v Inspectoru velké textové pole (min 5 řádků, max 10)
+        [TextArea(5, 10)] public string description;
         public Sprite image;
     }
 
@@ -107,16 +108,16 @@ public class SimpleTutorialManager : MonoBehaviour
         }
         if (pageText) pageText.text = $"{currentIndex + 1} / {slides.Count}";
 
-        // 2. Logika tlačítek (Změněno!)
+        // 2. Logika tlačítek (Next/Prev jen šednou, nemizí)
 
-        // Previous: Aktivní jen pokud nejsme na začátku (ale nezmizí, jen zešedne)
+        // Previous: Aktivní jen pokud nejsme na začátku
         if (prevButton)
         {
             prevButton.gameObject.SetActive(true); // Vždy vidět
             prevButton.interactable = (currentIndex > 0);
         }
 
-        // Next: Aktivní jen pokud nejsme na konci (ale nezmizí, jen zešedne)
+        // Next: Aktivní jen pokud nejsme na konci
         if (nextButton)
         {
             nextButton.gameObject.SetActive(true); // Vždy vidět
