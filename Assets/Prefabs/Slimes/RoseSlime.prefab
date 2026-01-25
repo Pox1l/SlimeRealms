@@ -133,7 +133,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   moveSpeed: 2
   stopDistance: 0.1
-  aggroRange: 7
+  aggroRange: 8
   chaseRange: 10
   movementSound:
     Guid:
@@ -197,10 +197,13 @@ MonoBehaviour:
   firePoint: {fileID: 1065054215931395745}
   animator: {fileID: 3272120863718602785}
   aimLine: {fileID: 848451259677836210}
-  attackRange: 8
+  attackRange: 7
   stoppingDistance: 6
   attackCooldown: 2
   aimLineLength: 10
+  whatIsTarget:
+    serializedVersion: 2
+    m_Bits: 520
 --- !u!114 &3471562253165774309
 MonoBehaviour:
   m_ObjectHideFlags: 0
