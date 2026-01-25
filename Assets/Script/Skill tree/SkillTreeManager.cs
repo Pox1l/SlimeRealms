@@ -9,7 +9,7 @@ public class SkillTreeManager : MonoBehaviour
     public TextMeshProUGUI skillNameText;
     public Image selectedSkillImage;
     public TextMeshProUGUI descriptionText;
-    public TextMeshProUGUI valueText; // PŘIDÁNO: Sem přetáhni nový Value Text (TMP)
+    public TextMeshProUGUI valueText;
 
     public Button purchaseButton;
     public TextMeshProUGUI purchaseButtonText;
@@ -34,17 +34,15 @@ public class SkillTreeManager : MonoBehaviour
         skillNameText.text = selectedSkill.skillName;
         if (selectedSkillImage != null) selectedSkillImage.sprite = selectedSkill.icon;
 
-        // 1. Zobrazení popisu (pouze text)
+        // 1. Zobrazení popisu
         if (descriptionText != null) descriptionText.text = selectedSkill.description;
 
         // 2. Zobrazení hodnot (Value Text)
         if (valueText != null)
         {
-            float currentVal = selectedSkill.GetTotalBonus();
-            float nextVal = (selectedSkill.currentLevel + 1) * selectedSkill.valuePerLevel;
-
-            // Pokud je hodnota malá (<= 1), bereme to jako procenta (např. 0.2 = 20%)
-            bool isPercent = selectedSkill.valuePerLevel <= 1f;
+            // 🔥 Nyní pracujeme s INT (celá čísla)
+            int currentVal = selectedSkill.GetTotalBonus();
+            int nextVal = (selectedSkill.currentLevel + 1) * selectedSkill.valuePerLevel;
 
             // Zkratka podle typu skillu
             string unit = "";
@@ -58,14 +56,13 @@ public class SkillTreeManager : MonoBehaviour
                 default: unit = ""; break;
             }
 
-            // Formátování čísel
-            string curStr = isPercent ? $"{Mathf.Round(currentVal * 100)}%" : $"{currentVal}";
-            string nextStr = isPercent ? $"{Mathf.Round(nextVal * 100)}%" : $"{nextVal}";
+            // 🔥 Odstraněna logika pro procenta, vypisujeme přímo číslo
+            string curStr = $"{currentVal}";
+            string nextStr = $"{nextVal}";
 
             // Výpis: "Aktuální -> Příští"
             if (selectedSkill.currentLevel < selectedSkill.MaxLevel)
             {
-                // Příklad: 10% DMG -> 20% DMG (druhé číslo zeleně)
                 valueText.text = $"{curStr} {unit} -> <color=#00FF00>{nextStr} {unit}</color>";
             }
             else
@@ -107,7 +104,6 @@ public class SkillTreeManager : MonoBehaviour
             purchaseButton.interactable = canAfford;
         }
 
-        // Refresh layoutu pro scrollbar
         LayoutRebuilder.ForceRebuildLayoutImmediate(requirementsContainer.GetComponent<RectTransform>());
     }
 

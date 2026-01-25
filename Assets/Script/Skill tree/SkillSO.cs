@@ -1,7 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections.Generic;
 
-// 🔥 1. Přidány typy Stamina a Defense
 public enum SkillType { None, Health, Damage, Speed, Stamina, Defense }
 
 [CreateAssetMenu(menuName = "Data/Skill")]
@@ -14,7 +13,7 @@ public class SkillSO : ScriptableObject
 
     [Header("Efekt Skillu")]
     public SkillType type;
-    public float valuePerLevel;
+    public int valuePerLevel; // 🔥 Změněno na int (celá čísla)
 
     [Header("Leveling")]
     public int currentLevel;
@@ -22,7 +21,7 @@ public class SkillSO : ScriptableObject
 
     public int MaxLevel => levels.Count;
 
-    public float GetTotalBonus()
+    public int GetTotalBonus() // 🔥 Změněno na int
     {
         return currentLevel * valuePerLevel;
     }

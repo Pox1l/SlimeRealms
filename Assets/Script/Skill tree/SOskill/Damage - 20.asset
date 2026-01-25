@@ -17,7 +17,7 @@ MonoBehaviour:
   description: Increases your attack power. Deal more damage with every strike.
   icon: {fileID: -1371452202, guid: 21b028580a97c2c42af4c9672c28b0ab, type: 3}
   type: 2
-  valuePerLevel: 0.02
+  valuePerLevel: 1
   currentLevel: 2
   levels:
   - cost:

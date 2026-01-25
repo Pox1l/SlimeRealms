@@ -407837,7 +407837,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &1844834203
 RectTransform:
   m_ObjectHideFlags: 0
@@ -410683,6 +410683,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Player
       objectReference: {fileID: 0}
+    - target: {fileID: 871807143615653583, guid: a6b29e46d1ff20f43b685d6d272bebbc, type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: 78d860626749b4c4f8cce326b604c027, type: 3}
     - target: {fileID: 2334183526678316633, guid: a6b29e46d1ff20f43b685d6d272bebbc, type: 3}
       propertyPath: cam
       value: 
@@ -547477,10 +547481,6 @@ PrefabInstance:
       propertyPath: m_Name
       value: CentralMenuCanvas
       objectReference: {fileID: 0}
-    - target: {fileID: 812409372794269405, guid: fbbdcb4d6471b924797348ea3b8ddb2a, type: 3}
-      propertyPath: m_IsActive
-      value: 0
-      objectReference: {fileID: 0}
     - target: {fileID: 885577903250257950, guid: fbbdcb4d6471b924797348ea3b8ddb2a, type: 3}
       propertyPath: m_Pivot.x
       value: 0
@@ -547561,25 +547561,8 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 1246775474676472859, guid: fbbdcb4d6471b924797348ea3b8ddb2a, type: 3}
-      propertyPath: m_SizeDelta.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4415869100949022850, guid: fbbdcb4d6471b924797348ea3b8ddb2a, type: 3}
-      propertyPath: m_IsActive
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 7058685942823658197, guid: fbbdcb4d6471b924797348ea3b8ddb2a, type: 3}
-      propertyPath: m_IsActive
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 7289751854428742444, guid: fbbdcb4d6471b924797348ea3b8ddb2a, type: 3}
-      propertyPath: m_IsActive
-      value: 0
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
-    m_RemovedGameObjects:
-    - {fileID: 4415869100949022850, guid: fbbdcb4d6471b924797348ea3b8ddb2a, type: 3}
+    m_RemovedGameObjects: []
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: fbbdcb4d6471b924797348ea3b8ddb2a, type: 3}

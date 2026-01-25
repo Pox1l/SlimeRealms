@@ -40,17 +40,16 @@ public class RangedAttack : AttackBase
         DamageDealer dealer = proj.GetComponent<DamageDealer>();
         if (dealer != null)
         {
-            // 🟢 ZMĚNA: Používáme CeilToInt, aby se započítalo i malé procento (např. 10.3 -> 11)
-            int finalDamage = Mathf.CeilToInt(baseDamage * damageMultiplier);
+            // 🔥 OPRAVA: ZMĚNA Z * NA +
+            int bonusDamage = Mathf.RoundToInt(damageMultiplier);
+            int finalDamage = baseDamage + bonusDamage;
 
-            dealer.damage = finalDamage;       // Nastavíme sílu
-            dealer.enemyLayers = enemyLayers;  // Pro jistotu nastavíme i koho má trefit
-
-            // Debug.Log($"Vystřelil jsem s DMG: {finalDamage} (Base: {baseDamage} x {damageMultiplier})");
+            dealer.damage = finalDamage;       
+            dealer.enemyLayers = enemyLayers; 
         }
         else
         {
-            Debug.LogWarning("Projektil nemá komponentu DamageDealer! Damage nebude fungovat.");
+            Debug.LogWarning("Projektil nemá komponentu DamageDealer!");
         }
     }
 }

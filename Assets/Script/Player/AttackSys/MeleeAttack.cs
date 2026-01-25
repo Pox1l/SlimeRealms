@@ -41,7 +41,16 @@ public class MeleeAttack : AttackBase
 
         Vector2 center = meleePos + aimDir * boxDistance;
 
-        int finalDamage = Mathf.CeilToInt(baseDamage * damageMultiplier);
+        // -----------------------------------------------------------------------
+        // 🔥 OPRAVA: PŘECHOD NA FLAT DAMAGE (SČÍTÁNÍ)
+        // Místo násobení (base * multiplier) nyní přičítáme bonus (base + bonus).
+        // damageMultiplier teď reprezentuje číslo, které se přičte (např. +2, +5).
+        // -----------------------------------------------------------------------
+        int bonusDamage = Mathf.RoundToInt(damageMultiplier);
+        int finalDamage = baseDamage + bonusDamage;
+
+        // Debug pro kontrolu (pokud bys chtěl vidět čísla v konzoli, odkomentuj)
+        // Debug.Log($"Melee Attack: Base {baseDamage} + Bonus {bonusDamage} = {finalDamage}");
 
         // --- Vizuální efekt ---
         if (slashPrefab)
@@ -74,7 +83,7 @@ public class MeleeAttack : AttackBase
                 enemy.TakeDamage(finalDamage);
                 alreadyHitTargets.Add(enemy);
                 hitSuccess = true;
-                Debug.Log($"Melee hit: {enemy.name}");
+                // Debug.Log($"Melee hit: {enemy.name}");
             }
             // 2. Zkusíme BossHealth
             else if (hit.TryGetComponent(out BossHealth boss))
@@ -84,7 +93,7 @@ public class MeleeAttack : AttackBase
                 boss.TakeDamage(finalDamage);
                 alreadyHitTargets.Add(boss);
                 hitSuccess = true;
-                Debug.Log($"Melee hit BOSS: {boss.name}");
+                // Debug.Log($"Melee hit BOSS: {boss.name}");
             }
 
             if (hitSuccess) didHitSomething = true;

@@ -18,7 +18,7 @@ MonoBehaviour:
     enemy attacks.
   icon: {fileID: 1836256350, guid: 0f674a9a30981814cb19cfd8518b29e3, type: 3}
   type: 5
-  valuePerLevel: 0.03
+  valuePerLevel: 4
   currentLevel: 0
   levels:
   - cost:

@@ -26,7 +26,7 @@ public class PlayerStatsUI : MonoBehaviour
     public void FindUITextsInScene()
     {
         TextMeshProUGUI[] allTexts = GetComponentsInChildren<TextMeshProUGUI>(true);
-        // (Tato část zůstává stejná jako předtím, pro zkrácení ji vynechávám, ale v kódu ji nech)
+
         meleeDamageText = null; rangedDamageText = null;
         healthText = null; defenseText = null; staminaText = null;
 
@@ -50,7 +50,13 @@ public class PlayerStatsUI : MonoBehaviour
         PlayerData data = PlayerDataManager.Instance.currentData;
 
         // --- Získání referencí ---
-        float multiplier = PlayerStats.Instance != null ? PlayerStats.Instance.damageMultiplier : 1f;
+        // 🔥 ZMĚNA: Převedeme hodnotu na int. Předpokládáme, že 'damageMultiplier' 
+        // nyní v PlayerStats funguje jako sčítač bonusů (např. hodnota 2, 5, 10).
+        int damageBonus = PlayerStats.Instance != null ? (int)PlayerStats.Instance.damageMultiplier : 0;
+
+        // POZNÁMKA: Pokud PlayerStats stále začíná na 1 (kvůli násobení), 
+        // budeš tam muset odečíst 1, nebo v PlayerStats nastavit start na 0.
+
         PlayerAttackSwitcher switcher = FindObjectOfType<PlayerAttackSwitcher>();
 
         int displayMeleeDamage = 0;
@@ -63,8 +69,10 @@ public class PlayerStatsUI : MonoBehaviour
             {
                 if (attack == null) continue;
 
-                // Zjistíme damage podle typu skriptu (MeleeAttack vs RangedAttack)
-                int dmg = Mathf.CeilToInt(attack.baseDamage * multiplier);
+                // 🔥 OPRAVA: Změněno z násobení (*) na sčítání (+)
+                // Protože jsme přešli na celá čísla (Flat Bonus), damage se prostě přičte.
+                // Příklad: Base 10 + Bonus 1 = 11.
+                int dmg = attack.baseDamage + damageBonus;
 
                 if (attack is MeleeAttack)
                 {
