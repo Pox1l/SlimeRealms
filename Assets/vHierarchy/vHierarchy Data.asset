@@ -928,6 +928,7 @@ MonoBehaviour:
         - globalObjectIdString: GlobalObjectId_V1-2-8f94c35e02b6398428e407565a6c5131-1995103385-0
         - globalObjectIdString: GlobalObjectId_V1-2-8f94c35e02b6398428e407565a6c5131-1198388357-0
         - globalObjectIdString: GlobalObjectId_V1-2-8f94c35e02b6398428e407565a6c5131-886706578-0
+        - globalObjectIdString: GlobalObjectId_V1-2-8f94c35e02b6398428e407565a6c5131-1777678810-0
         values:
         - colorIndex: 0
           iconNameOrGuid: Mesh Icon
@@ -1169,6 +1170,10 @@ MonoBehaviour:
           iconNameOrGuid: Camera Icon
           isIconRecursive: 0
           isColorRecursive: 0
+        - colorIndex: 1
+          iconNameOrGuid: 
+          isIconRecursive: 0
+          isColorRecursive: 0
     - goDatas_byGlobalId:
         keys:
         - globalObjectIdString: GlobalObjectId_V1-2-103c331bb13690d488c43ac75191101a-60151847-0
@@ -1234,6 +1239,13 @@ MonoBehaviour:
         - globalObjectIdString: GlobalObjectId_V1-2-57a6c14058b882e4e963aa25f2c416f3-1692090661-0
         - globalObjectIdString: GlobalObjectId_V1-2-57a6c14058b882e4e963aa25f2c416f3-1500380656-0
         - globalObjectIdString: GlobalObjectId_V1-2-57a6c14058b882e4e963aa25f2c416f3-155889260-0
+        - globalObjectIdString: GlobalObjectId_V1-2-57a6c14058b882e4e963aa25f2c416f3-306110883-0
+        - globalObjectIdString: GlobalObjectId_V1-2-57a6c14058b882e4e963aa25f2c416f3-1024965034-0
+        - globalObjectIdString: GlobalObjectId_V1-2-57a6c14058b882e4e963aa25f2c416f3-368389714-0
+        - globalObjectIdString: GlobalObjectId_V1-2-57a6c14058b882e4e963aa25f2c416f3-1246642688-0
+        - globalObjectIdString: GlobalObjectId_V1-2-57a6c14058b882e4e963aa25f2c416f3-722383472-0
+        - globalObjectIdString: GlobalObjectId_V1-2-57a6c14058b882e4e963aa25f2c416f3-434684298-0
+        - globalObjectIdString: GlobalObjectId_V1-2-57a6c14058b882e4e963aa25f2c416f3-1198607744-0
         values:
         - colorIndex: 0
           iconNameOrGuid: Mesh Icon
@@ -1413,6 +1425,34 @@ MonoBehaviour:
           isColorRecursive: 0
         - colorIndex: 0
           iconNameOrGuid: Camera Icon
+          isIconRecursive: 0
+          isColorRecursive: 0
+        - colorIndex: 3
+          iconNameOrGuid: 
+          isIconRecursive: 0
+          isColorRecursive: 0
+        - colorIndex: 0
+          iconNameOrGuid: Camera Icon
+          isIconRecursive: 0
+          isColorRecursive: 0
+        - colorIndex: 0
+          iconNameOrGuid: PrefabVariant On Icon
+          isIconRecursive: 0
+          isColorRecursive: 0
+        - colorIndex: 0
+          iconNameOrGuid: PrefabVariant On Icon
+          isIconRecursive: 0
+          isColorRecursive: 0
+        - colorIndex: 0
+          iconNameOrGuid: AreaEffector2D Icon
+          isIconRecursive: 0
+          isColorRecursive: 0
+        - colorIndex: 0
+          iconNameOrGuid: AreaEffector2D Icon
+          isIconRecursive: 0
+          isColorRecursive: 0
+        - colorIndex: 0
+          iconNameOrGuid: AreaEffector2D Icon
           isIconRecursive: 0
           isColorRecursive: 0
   bookmarks: []

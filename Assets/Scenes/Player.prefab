@@ -17,7 +17,7 @@ GameObject:
   - component: {fileID: 2334183526678316633}
   - component: {fileID: 2613256912368071455}
   - component: {fileID: 4337568410318743826}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: Player
   m_TagString: Player
   m_Icon: {fileID: 0}
@@ -458,7 +458,7 @@ GameObject:
   - component: {fileID: 8962486271920309527}
   - component: {fileID: 4032725367963042481}
   - component: {fileID: 8043027816783559542}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: WeaponIconCanvas
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -576,7 +576,7 @@ GameObject:
   - component: {fileID: 8119326054239946857}
   - component: {fileID: 871807143615653583}
   - component: {fileID: 9136672450990550047}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: Icon
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -630,7 +630,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 0}
+  m_Sprite: {fileID: 21300000, guid: 78d860626749b4c4f8cce326b604c027, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -662,7 +662,7 @@ GameObject:
   m_Component:
   - component: {fileID: 849391049754966661}
   - component: {fileID: 6478925001275979489}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: AttackPointRange
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -711,7 +711,7 @@ GameObject:
   - component: {fileID: 4013578011766496394}
   - component: {fileID: 6639401451793332536}
   - component: {fileID: 7091597289534865926}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: Sprite
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -828,7 +828,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 7109074728681241495}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: AttackPointMelle
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -859,7 +859,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 6348339854446584173}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: attacksys
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -890,7 +890,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1038830898055954622}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: AttackCont
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -924,7 +924,7 @@ GameObject:
   m_Component:
   - component: {fileID: 647655781797942011}
   - component: {fileID: 2016945887776885701}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: attackSwitchSys
   m_TagString: Untagged
   m_Icon: {fileID: 0}
