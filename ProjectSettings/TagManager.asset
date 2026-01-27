@@ -51,6 +51,8 @@ TagManager:
   - KrystalRoot
   - BossUICanvas
   - WorldUI
+  - TutorialCanvas
+  - TutorialRoot
   layers:
   - Default
   - TransparentFX

@@ -758,8 +758,8 @@ MonoBehaviour:
   prewarmCount: 5
   maxActive: 5
   spawnInterval: 5
-  spawnRadius: 4.71
-  firstSpawnDelay: 0.5
+  spawnRadius: 4.7
+  firstSpawnDelay: 1
   checkRadius: 2
   obstacleLayer:
     serializedVersion: 2
@@ -796,7 +796,7 @@ BoxCollider2D:
   m_IsTrigger: 1
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 2.6251335, y: 6.3948174}
+  m_Offset: {x: 0.16357327, y: 0.96676064}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0, y: 0}
@@ -807,7 +807,7 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 25.995773, y: 23.797634}
+  m_Size: {x: 21.072653, y: 12.941521}
   m_EdgeRadius: 0
 --- !u!4 &22387233 stripped
 Transform:
@@ -213032,7 +213032,7 @@ MonoBehaviour:
   maxActive: 5
   spawnInterval: 5
   spawnRadius: 4.1
-  firstSpawnDelay: 0.5
+  firstSpawnDelay: 1
   checkRadius: 2
   obstacleLayer:
     serializedVersion: 2
@@ -213069,7 +213069,7 @@ BoxCollider2D:
   m_IsTrigger: 1
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 1.5218315, y: -3.5338497}
+  m_Offset: {x: 0.0012311935, y: 1.3567314}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0, y: 0}
@@ -213080,7 +213080,7 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 33.063324, y: 20.698902}
+  m_Size: {x: 21.473875, y: 10.91774}
   m_EdgeRadius: 0
 --- !u!1001 &1874827803
 PrefabInstance:

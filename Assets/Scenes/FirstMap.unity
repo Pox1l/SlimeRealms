@@ -42188,6 +42188,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e623d15d36bc3ed4e8956ab7a9938f4b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  tutorialCanvas: {fileID: 0}
+  tutorialRoot: {fileID: 0}
   centralMenuCanvas: {fileID: 0}
   centralMenuRoot: {fileID: 1496146008}
   profilePanel: {fileID: 1884622443}
@@ -43138,7 +43140,7 @@ GameObject:
   - component: {fileID: 1107763571}
   m_Layer: 5
   m_Name: PreviousBTN
-  m_TagString: CloseBTN
+  m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -243576,8 +243578,8 @@ GameObject:
   - component: {fileID: 1452864337}
   - component: {fileID: 1452864336}
   m_Layer: 5
-  m_Name: TutorialSimplePanel
-  m_TagString: Untagged
+  m_Name: TutorialSimplePanele
+  m_TagString: TutorialRoot
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -394168,7 +394170,7 @@ GameObject:
   - component: {fileID: 1796693936}
   m_Layer: 5
   m_Name: NextBTN
-  m_TagString: CloseBTN
+  m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -407833,11 +407835,11 @@ GameObject:
   - component: {fileID: 1844834207}
   m_Layer: 0
   m_Name: TutorialCanvas
-  m_TagString: Untagged
+  m_TagString: TutorialCanvas
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &1844834203
 RectTransform:
   m_ObjectHideFlags: 0
