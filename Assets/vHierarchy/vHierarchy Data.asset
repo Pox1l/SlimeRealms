@@ -1291,6 +1291,9 @@ MonoBehaviour:
         - globalObjectIdString: GlobalObjectId_V1-2-57a6c14058b882e4e963aa25f2c416f3-722383472-0
         - globalObjectIdString: GlobalObjectId_V1-2-57a6c14058b882e4e963aa25f2c416f3-434684298-0
         - globalObjectIdString: GlobalObjectId_V1-2-57a6c14058b882e4e963aa25f2c416f3-1198607744-0
+        - globalObjectIdString: GlobalObjectId_V1-2-57a6c14058b882e4e963aa25f2c416f3-559787778-0
+        - globalObjectIdString: GlobalObjectId_V1-2-57a6c14058b882e4e963aa25f2c416f3-8606612656009860138-1820082114
+        - globalObjectIdString: GlobalObjectId_V1-2-57a6c14058b882e4e963aa25f2c416f3-5827332138504785962-1013601218
         values:
         - colorIndex: 0
           iconNameOrGuid: Mesh Icon
@@ -1316,7 +1319,7 @@ MonoBehaviour:
           iconNameOrGuid: WheelCollider Icon
           isIconRecursive: 0
           isColorRecursive: 0
-        - colorIndex: 0
+        - colorIndex: 4
           iconNameOrGuid: AreaEffector2D Icon
           isIconRecursive: 0
           isColorRecursive: 0
@@ -1388,7 +1391,19 @@ MonoBehaviour:
           iconNameOrGuid: 
           isIconRecursive: 0
           isColorRecursive: 0
-        - colorIndex: 0
+        - colorIndex: 7
+          iconNameOrGuid: Canvas Icon
+          isIconRecursive: 0
+          isColorRecursive: 0
+        - colorIndex: 9
+          iconNameOrGuid: Canvas Icon
+          isIconRecursive: 0
+          isColorRecursive: 0
+        - colorIndex: 2
+          iconNameOrGuid: Canvas Icon
+          isIconRecursive: 0
+          isColorRecursive: 0
+        - colorIndex: 5
           iconNameOrGuid: Canvas Icon
           isIconRecursive: 0
           isColorRecursive: 0
@@ -1396,19 +1411,7 @@ MonoBehaviour:
           iconNameOrGuid: Canvas Icon
           isIconRecursive: 0
           isColorRecursive: 0
-        - colorIndex: 0
-          iconNameOrGuid: Canvas Icon
-          isIconRecursive: 0
-          isColorRecursive: 0
-        - colorIndex: 0
-          iconNameOrGuid: Canvas Icon
-          isIconRecursive: 0
-          isColorRecursive: 0
-        - colorIndex: 0
-          iconNameOrGuid: Canvas Icon
-          isIconRecursive: 0
-          isColorRecursive: 0
-        - colorIndex: 0
+        - colorIndex: 5
           iconNameOrGuid: Canvas Icon
           isIconRecursive: 0
           isColorRecursive: 0
@@ -1498,6 +1501,18 @@ MonoBehaviour:
           isColorRecursive: 0
         - colorIndex: 0
           iconNameOrGuid: AreaEffector2D Icon
+          isIconRecursive: 0
+          isColorRecursive: 0
+        - colorIndex: 1
+          iconNameOrGuid: Canvas Icon
+          isIconRecursive: 0
+          isColorRecursive: 0
+        - colorIndex: 7
+          iconNameOrGuid: Canvas Icon
+          isIconRecursive: 0
+          isColorRecursive: 0
+        - colorIndex: 5
+          iconNameOrGuid: Canvas Icon
           isIconRecursive: 0
           isColorRecursive: 0
   bookmarks: []
