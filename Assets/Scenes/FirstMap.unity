@@ -394924,7 +394924,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c518f4fbe57d4de48a65a5c3549a150b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  saveIconGroup: {fileID: 969893778}
   animationDuration: 2
 --- !u!1 &1810088378
 GameObject:
@@ -411807,7 +411806,7 @@ GameObject:
   - component: {fileID: 1969371079}
   m_Layer: 0
   m_Name: bossSpawnZone/Encounter
-  m_TagString: Untagged
+  m_TagString: BossEncounter
   m_Icon: {fileID: -1412012063857583412, guid: 0000000000000000d000000000000000, type: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0

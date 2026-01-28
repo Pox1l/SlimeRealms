@@ -53,6 +53,7 @@ TagManager:
   - WorldUI
   - TutorialCanvas
   - TutorialRoot
+  - BossEncounter
   layers:
   - Default
   - TransparentFX

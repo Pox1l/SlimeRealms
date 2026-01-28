@@ -1,4 +1,4 @@
-﻿// [2025-12-11] Upraveno: Odstraněn debug status text, logika hledání zachována
+﻿// [2025-12-11] Upraveno: Přidáno automatické hledání BossEncounter podle tagu
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
@@ -52,6 +52,20 @@ public class BossEntrance : MonoBehaviour
         else if (requirementsPanel == null && WorldCanvas == null)
         {
             Debug.LogError("BossEntrance: WorldCanvas chybí (není přiřazen ani nalezen tagem 'WorldUI')");
+        }
+
+        // 3. Hledání BossEncounter podle tagu (NOVÉ)
+        if (bossEncounter == null)
+        {
+            GameObject bossObj = GameObject.FindGameObjectWithTag("BossEncounter");
+            if (bossObj != null)
+            {
+                bossEncounter = bossObj.GetComponent<BossEncounter>();
+            }
+            else
+            {
+                Debug.LogWarning("BossEntrance: Objekt s tagem 'BossEncounter' nebyl nalezen!");
+            }
         }
 
         // Zbytek inicializace
