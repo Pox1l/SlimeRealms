@@ -18,7 +18,6 @@ public class PlayerDataManager : MonoBehaviour
             if (transform.parent != null) transform.SetParent(null);
             DontDestroyOnLoad(gameObject);
 
-            // ZMĚNA ZDE: Cestu si bereme přes ProfileManager
             savePath = ProfileManager.GetSavePath("player_save.json");
 
             LoadPlayerData();
@@ -31,7 +30,6 @@ public class PlayerDataManager : MonoBehaviour
 
     public void SavePlayerStats(int curHP, int maxHP, float curStamina, float maxStamina, float defense)
     {
-        // 🔥 POJISTKA: Pokud data neexistují (protože se smazal soubor), vytvoříme nová
         if (currentData == null)
         {
             currentData = new PlayerData();
@@ -39,15 +37,15 @@ public class PlayerDataManager : MonoBehaviour
 
         currentData.currentHealth = curHP;
         currentData.maxHealth = maxHP;
-
-        // Vždy uložíme max, aby v souboru nebylo divné číslo
         currentData.currentStamina = maxStamina;
         currentData.maxStamina = maxStamina;
-
         currentData.defense = defense;
 
         string json = JsonUtility.ToJson(currentData, true);
         File.WriteAllText(savePath, json);
+
+        // PŘIDÁNO: Řekneme ikoně, ať blikne
+        SaveVisual.ReportSave();
 
         Debug.Log($"💾 Player Data uložena do: {savePath}");
     }
@@ -76,7 +74,7 @@ public class PlayerDataManager : MonoBehaviour
     public void ResetData()
     {
         currentData = new PlayerData();
-        currentData.currentHealth = -1; // -1 signalizuje PlayerStats, ať si HP dopočítá sám
+        currentData.currentHealth = -1;
         currentData.maxHealth = 100;
         currentData.currentStamina = 100;
         currentData.maxStamina = 100;
@@ -84,6 +82,9 @@ public class PlayerDataManager : MonoBehaviour
 
         string json = JsonUtility.ToJson(currentData, true);
         File.WriteAllText(savePath, json);
+
+        // PŘIDÁNO: I při resetu blikneme
+        SaveVisual.ReportSave();
     }
 }
 
