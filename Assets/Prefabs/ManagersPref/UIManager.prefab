@@ -1,0 +1,65 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1 &7111738428959340125
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 437445109094271345}
+  - component: {fileID: 4455205394993608458}
+  m_Layer: 0
+  m_Name: UIManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &437445109094271345
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7111738428959340125}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 10.2741785, y: -2.5720377, z: -0.082668364}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &4455205394993608458
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7111738428959340125}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e623d15d36bc3ed4e8956ab7a9938f4b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  tutorialCanvas: {fileID: 0}
+  tutorialRoot: {fileID: 0}
+  centralMenuCanvas: {fileID: 0}
+  centralMenuRoot: {fileID: 0}
+  profilePanel: {fileID: 0}
+  inventoryPanel: {fileID: 0}
+  skillTreePanel: {fileID: 0}
+  craftingPanel: {fileID: 0}
+  crystalMenuCanvas: {fileID: 0}
+  crystalMenuRoot: {fileID: 0}
+  pauseMenuCanvas: {fileID: 0}
+  pauseMenuRoot: {fileID: 0}
+  settingsMenuCanvas: {fileID: 0}
+  settingsMenuRoot: {fileID: 0}
+  bossMenuCanvas: {fileID: 0}
+  bossScript: {fileID: 0}
+  deadMenuCanvas: {fileID: 0}
+  deadMenuRoot: {fileID: 0}
+  hudUI: {fileID: 0}
