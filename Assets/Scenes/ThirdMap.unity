@@ -416199,7 +416199,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4b24566955ac3c044a0a1832dd87ef9b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  enemyPrefab: {fileID: 8358661566486495768, guid: 6e39daa76c427fc48a43165ecf46ffa2, type: 3}
+  enemyPrefab: {fileID: 7301117420267126295, guid: aa1cf035c91ec8f44a746d587fc1cc04, type: 3}
   prewarmCount: 5
   maxActive: 5
   spawnInterval: 5
@@ -417799,7 +417799,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4b24566955ac3c044a0a1832dd87ef9b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  enemyPrefab: {fileID: 8358661566486495768, guid: 6e39daa76c427fc48a43165ecf46ffa2, type: 3}
+  enemyPrefab: {fileID: 7301117420267126295, guid: aa1cf035c91ec8f44a746d587fc1cc04, type: 3}
   prewarmCount: 5
   maxActive: 5
   spawnInterval: 5
@@ -418164,6 +418164,10 @@ PrefabInstance:
     - target: {fileID: 7301117420267126295, guid: aa1cf035c91ec8f44a746d587fc1cc04, type: 3}
       propertyPath: m_Name
       value: CrystalSlime
+      objectReference: {fileID: 0}
+    - target: {fileID: 7301117420267126295, guid: aa1cf035c91ec8f44a746d587fc1cc04, type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8989531334443712304, guid: aa1cf035c91ec8f44a746d587fc1cc04, type: 3}
       propertyPath: m_LocalPosition.x

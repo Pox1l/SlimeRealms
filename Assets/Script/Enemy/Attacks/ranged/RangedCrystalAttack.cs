@@ -14,6 +14,7 @@ public class RangedCrystalAttack : MonoBehaviour
     [Header("Combat Ranges")]
     public float attackRange = 7f;
     public float keepDistance = 3f;
+    public float chaseRange = 15f; // 🔥 NOVÉ: Slime půjde za hráčem jen pokud je blíž než toto číslo
 
     [Header("Combat Settings")]
     public float attackCooldown = 2f;
@@ -21,8 +22,9 @@ public class RangedCrystalAttack : MonoBehaviour
 
     [Header("Burst Settings")]
     public int shotCount = 4;
-    public float timeBetweenShots = 1f; // Čas mezi jednotlivými náboji
-    public float recoveryTime = 1f;     // 🔥 NOVÉ: Pauza po dokončení celé série
+    public float timeBetweenShots = 1f;
+    public float recoveryTime = 1f;
+    public float shootAnimDelay = 0.2f; // 🔥 NOVÉ: Zpoždění výstřelu po spuštění animace (synchronizace)
 
     [Header("2D Settings & Clearance")]
     public LayerMask whatIsTarget;
@@ -33,7 +35,6 @@ public class RangedCrystalAttack : MonoBehaviour
     private NavMeshAgent agent;
     private bool isAttacking = false;
 
-    // Logika nadbíhání
     private float clearanceTimer = 0f;
     private bool wasBlocked = false;
 
@@ -87,16 +88,20 @@ public class RangedCrystalAttack : MonoBehaviour
         // --- 3. POHYB ---
         bool shouldMove = true;
 
-        if (isAttacking)
+        // 🔥 OPRAVA POHYBU: Pokud je hráč moc daleko, enemy stojí a nic nedělá
+        if (distanceToPlayer > chaseRange)
         {
-            shouldMove = false; // Během útoku i během "recovery" pauzy stojí
+            shouldMove = false;
+        }
+        else if (isAttacking)
+        {
+            shouldMove = false;
         }
         else if (hasLineOfSight && distanceToPlayer <= attackRange && !isClearingCorner)
         {
             if (distanceToPlayer > keepDistance) shouldMove = false;
             else shouldMove = false;
 
-            // Kontrola cooldownu
             if (Time.time >= lastAttackTime + attackCooldown)
             {
                 StartAttackSequence();
@@ -121,12 +126,8 @@ public class RangedCrystalAttack : MonoBehaviour
         if (isAttacking) return;
 
         isAttacking = true;
-        // Nastavíme čas posledního útoku. 
-        // Pozor: Pokud je cooldown kratší než trvání střelby + recovery, bude útočit hned znova.
         lastAttackTime = Time.time;
-
-        if (animator != null) animator.SetTrigger("Attack");
-
+        // Animaci nespouštíme tady, ale až ve smyčce pro každý výstřel zvlášť
         StartCoroutine(BurstFireRoutine());
     }
 
@@ -137,33 +138,37 @@ public class RangedCrystalAttack : MonoBehaviour
             if (this == null || !gameObject.activeInHierarchy) yield break;
             if (playerTransform == null) break;
 
-            // Kontrola úniku hráče (zachována z minula)
             float currentDist = Vector2.Distance(transform.position, playerTransform.position);
             bool currentSight = CheckLineOfSight();
 
             if (currentDist > attackRange || !currentSight)
             {
-                FinishAttack(); // Okamžitě přeruší a jde běhat
+                FinishAttack();
                 yield break;
             }
 
-            // Zapnutí AimLine
+            // 1. Spustíme animaci
+            if (animator != null) animator.SetTrigger("Attack");
+
+            // 2. Zapneme zaměřovač (volitelné)
             if (aimLine != null)
             {
                 aimLine.enabled = true;
                 UpdateAimLinePosition();
             }
 
+            // 3. 🔥 Čekáme na "moment výstřelu" v animaci
+            yield return new WaitForSeconds(shootAnimDelay);
+
+            // 4. Vystřelíme prefab
             Shoot();
 
-            // Čekání mezi střelami
+            // 5. Čekáme zbytek času do dalšího výstřelu
+            // (Odečítáme delay, aby celkový interval seděl, nebo prostě počkáme fixní čas)
             yield return new WaitForSeconds(timeBetweenShots);
         }
 
-        // 🔥 NOVÉ: Čekání po dokončení celé série (recovery time)
-        // Enemy stále stojí na místě (protože isAttacking je stále true)
         yield return new WaitForSeconds(recoveryTime);
-
         FinishAttack();
     }
 
@@ -171,9 +176,6 @@ public class RangedCrystalAttack : MonoBehaviour
     {
         isAttacking = false;
         if (aimLine != null) aimLine.enabled = false;
-
-        // Volitelné: Reset cooldownu až po dokončení střelby, 
-        // pokud chceš, aby cooldown 2s běžel až po té "recovery" pauze:
         lastAttackTime = Time.time;
     }
 
@@ -230,5 +232,9 @@ public class RangedCrystalAttack : MonoBehaviour
         Gizmos.DrawWireSphere(transform.position, attackRange);
         Gizmos.color = Color.blue;
         Gizmos.DrawWireSphere(transform.position, keepDistance);
+
+        // 🔥 Žlutá sféra pro maximální vzdálenost, kdy si tě všimne
+        Gizmos.color = Color.yellow;
+        Gizmos.DrawWireSphere(transform.position, chaseRange);
     }
 }
