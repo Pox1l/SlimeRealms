@@ -19195,11 +19195,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4953538714074341452, guid: a6b29e46d1ff20f43b685d6d272bebbc, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -32.5
+      value: -4.5
       objectReference: {fileID: 0}
     - target: {fileID: 4953538714074341452, guid: a6b29e46d1ff20f43b685d6d272bebbc, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 8.4
+      value: -1.6
       objectReference: {fileID: 0}
     - target: {fileID: 4953538714074341452, guid: a6b29e46d1ff20f43b685d6d272bebbc, type: 3}
       propertyPath: m_LocalPosition.z
@@ -418143,10 +418143,6 @@ PrefabInstance:
     - target: {fileID: 3222688068087597085, guid: fe687aab8e2b19d4ebf494827ca8576b, type: 3}
       propertyPath: m_Name
       value: SpiderBoss
-      objectReference: {fileID: 0}
-    - target: {fileID: 3222688068087597085, guid: fe687aab8e2b19d4ebf494827ca8576b, type: 3}
-      propertyPath: m_IsActive
-      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

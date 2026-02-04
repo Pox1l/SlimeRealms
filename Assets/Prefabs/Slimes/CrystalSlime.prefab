@@ -9,7 +9,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 3395003469402947825}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: FixedPoint
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -53,9 +53,9 @@ GameObject:
   - component: {fileID: 5953402278856845775}
   - component: {fileID: 1234713857034408668}
   - component: {fileID: 2931430949142696225}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: CrystalSlime
-  m_TagString: Untagged
+  m_TagString: Monster
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -198,11 +198,13 @@ MonoBehaviour:
   aimLine: {fileID: 8289472638285987817}
   attackRange: 8
   keepDistance: 7
+  chaseRange: 15
   attackCooldown: 2
   aimLineLength: 10
   shotCount: 4
   timeBetweenShots: 0.5
   recoveryTime: 1
+  shootAnimDelay: 0.2
   whatIsTarget:
     serializedVersion: 2
     m_Bits: 8
@@ -381,7 +383,7 @@ GameObject:
   m_Component:
   - component: {fileID: 729241033355099553}
   - component: {fileID: 8289472638285987817}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: FirePoint
   m_TagString: Untagged
   m_Icon: {fileID: 0}

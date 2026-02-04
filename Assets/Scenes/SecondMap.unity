@@ -41303,6 +41303,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: RoseSlime
       objectReference: {fileID: 0}
+    - target: {fileID: 6118897555543749394, guid: 7b41c5cefb7fa394fba0394e41ad8016, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []

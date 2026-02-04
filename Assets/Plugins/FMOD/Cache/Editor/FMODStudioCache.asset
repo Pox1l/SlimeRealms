@@ -1,5 +1,33 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
+--- !u!114 &-5737325153267478889
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: event:/CrystalSoundEffect
+  m_EditorClassIdentifier: 
+  Path: event:/CrystalSoundEffect
+  Guid:
+    Data1: 1167436009
+    Data2: 1148897526
+    Data3: 829627041
+    Data4: -1675433475
+  Banks:
+  - {fileID: 8147198445935787367}
+  - {fileID: 3136255313656384484}
+  IsStream: 0
+  Is3D: 1
+  IsOneShot: 0
+  Parameters: []
+  MinDistance: 1
+  MaxDistance: 20
+  Length: 5276
 --- !u!114 &-5307484286362210749
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -135,13 +163,15 @@ MonoBehaviour:
   - {fileID: -5307484286362210749}
   - {fileID: -691621656350647908}
   - {fileID: -1078129642596678724}
+  - {fileID: 2199477326900194584}
+  - {fileID: -5737325153267478889}
   EditorParameters: []
   MasterBanks:
   - {fileID: 2535322858333945084}
   StringsBanks:
   - {fileID: 950478269963886210}
   cacheVersion: 131857
-  cacheTime: 639047097180779059
+  cacheTime: 639058102217981413
   SerializableEventsDict:
   - key: event:/MenuMusic
     index: 0
@@ -157,6 +187,34 @@ MonoBehaviour:
     index: 5
   - key: event:/MenuMusic 2
     index: 6
+  - key: event:/forestAmbient
+    index: 7
+  - key: event:/CrystalSoundEffect
+    index: 8
+--- !u!114 &120870321558914011
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fecb8ef7f94ca804a8ab72049b86782e, type: 3}
+  m_Name: parameter:/MenuMusic/isLooped
+  m_EditorClassIdentifier: 
+  Name: isLooped
+  StudioPath: 
+  Min: 0
+  Max: 1
+  Default: 0
+  ID:
+    data1: 3904408588
+    data2: 2059216568
+  Type: 0
+  IsGlobal: 0
+  Labels: []
+  Exists: 1
 --- !u!114 &950478269963886210
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -172,11 +230,38 @@ MonoBehaviour:
   Path: FMOD/Desktop/Master.strings.bank
   Name: Master.strings
   StudioPath: bank:/Master.strings
-  lastModified: 639047096766406869
+  lastModified: 639058096834848460
   FileSizes:
   - Name: 
-    Value: 1368
+    Value: 1510
   Exists: 1
+--- !u!114 &2199477326900194584
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: event:/forestAmbient
+  m_EditorClassIdentifier: 
+  Path: event:/forestAmbient
+  Guid:
+    Data1: 1008781434
+    Data2: 1313498299
+    Data3: 456350341
+    Data4: -520867659
+  Banks:
+  - {fileID: 8147198445935787367}
+  IsStream: 1
+  Is3D: 0
+  IsOneShot: 1
+  Parameters: []
+  MinDistance: 1
+  MaxDistance: 20
+  Length: 4018625
 --- !u!114 &2535322858333945084
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -192,7 +277,7 @@ MonoBehaviour:
   Path: FMOD/Desktop/Master.bank
   Name: Master
   StudioPath: bank:/Master
-  lastModified: 639047096766376875
+  lastModified: 639058096834838479
   FileSizes: []
   Exists: 1
 --- !u!114 &3136255313656384484
@@ -210,7 +295,7 @@ MonoBehaviour:
   Path: FMOD/Desktop/SFX.bank
   Name: SFX
   StudioPath: bank:/SFX
-  lastModified: 639042599818138692
+  lastModified: 639058102217981413
   FileSizes: []
   Exists: 1
 --- !u!114 &4048344349576224556
@@ -236,7 +321,8 @@ MonoBehaviour:
   IsStream: 1
   Is3D: 0
   IsOneShot: 0
-  Parameters: []
+  Parameters:
+  - {fileID: 120870321558914011}
   MinDistance: 1
   MaxDistance: 20
   Length: 150073
@@ -255,7 +341,7 @@ MonoBehaviour:
   Path: FMOD/Desktop/Music.bank
   Name: Music
   StudioPath: bank:/Music
-  lastModified: 639047097180779059
+  lastModified: 639058096835348456
   FileSizes: []
   Exists: 1
 --- !u!114 &4780325417133048127
@@ -345,6 +431,6 @@ MonoBehaviour:
   Path: FMOD/Desktop/Ambient.bank
   Name: Ambient
   StudioPath: bank:/Ambient
-  lastModified: 639042599816273542
+  lastModified: 639058102217475429
   FileSizes: []
   Exists: 1

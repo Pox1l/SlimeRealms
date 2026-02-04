@@ -1,4 +1,4 @@
-using UnityEngine;
+Ôªøusing UnityEngine;
 using UnityEngine.AI;
 using FMODUnity;
 using FMOD.Studio;
@@ -29,10 +29,10 @@ public class Boss3Controller : MonoBehaviour
 
     [Header("Stats - Base")]
     public float moveSpeed = 3.5f;
-    public float attackRange = 2.0f;    // BlÌzko (Stomp)
-    public float rangedRange = 8.0f;    // D·lka (F·ze 2)
+    public float attackRange = 2.0f;
+    public float rangedRange = 8.0f;
     public float attackCooldown = 1.5f;
-    public float aggroRange = 15f;      // Kdy si vöimne hr·Ëe
+    public float aggroRange = 15f;
 
     [Header("Stats - Phase 3 (Enraged)")]
     public float fastMoveSpeed = 5.5f;
@@ -47,6 +47,10 @@ public class Boss3Controller : MonoBehaviour
     private NavMeshAgent agent;
     private bool isAttacking = false;
     private bool phase3BuffApplied = false;
+
+    // Eventy pro p≈ô√≠padnou dal≈°√≠ logiku (jako u BossController)
+    public static event Action OnMeleeAttack;
+    public static event Action OnRangedAttack;
 
     void Awake()
     {
@@ -75,17 +79,11 @@ public class Boss3Controller : MonoBehaviour
         CheckBossPhase();
         RotatePivotToPlayer();
 
-        // KreslenÌ warning kruhu (pokud ˙toËÌme)
         if (isAttacking && warningLine != null && warningLine.enabled)
             DrawWarningCircle(warningRadius);
 
         float distance = Vector2.Distance(transform.position, playerTransform.position);
-
-        // --- Logika pohybu a zastavenÌ ---
-        // F·ze 2 zastavuje d·l (aby st¯Ìlel), F·ze 1 a 3 musÌ jÌt aû k tÏlu
         float stopDistance = (currentStage == BossStage.Phase2) ? rangedRange : attackRange;
-
-        // V˝jimka pro F·zi 2: Pokud je hr·Ë moc blÌzko, boss se zastavÌ, aby dal melee
         if (currentStage == BossStage.Phase2 && distance <= attackRange) stopDistance = attackRange;
 
         if (!isAttacking)
@@ -94,23 +92,33 @@ public class Boss3Controller : MonoBehaviour
 
             if (distance <= stopDistance)
             {
+                // --- BOSS ZASTAVUJE ---
                 agent.isStopped = true;
                 agent.velocity = Vector3.zero;
                 UpdateMoveSound(false);
 
-                // Kontrola cooldownu (ve f·zi 3 je rychlejöÌ)
-                float currentCooldown = (currentStage == BossStage.Phase3) ? fastAttackCooldown : attackCooldown;
+                // üî• OPRAVA: Vypoƒç√≠t√°me smƒõr k hr√°ƒçi ruƒçnƒõ, aby Animator vƒõdƒõl, kam se d√≠vat
+                Vector2 dirToPlayer = (playerTransform.position - transform.position).normalized;
+                if (animator != null)
+                {
+                    animator.SetFloat("Horizontal", dirToPlayer.x);
+                    animator.SetFloat("Vertical", dirToPlayer.y);
+                    animator.SetFloat("Speed", 0); // Rychlost 0 = Idle smƒõrem k hr√°ƒçi
+                }
 
-                if (Time.time >= lastAttackTime + currentCooldown)
-                    DecideAttack(distance);
+                float currentCooldown = (currentStage == BossStage.Phase3) ? fastAttackCooldown : attackCooldown;
+                if (Time.time >= lastAttackTime + currentCooldown) DecideAttack(distance);
             }
             else
             {
+                // --- BOSS SE H√ùBE ---
                 agent.isStopped = false;
                 agent.SetDestination(playerTransform.position);
                 UpdateMoveSound(true);
+
+                // Animace pohybu se nastavuje jen kdy≈æ se h√Ωbeme
+                SetAnimator(agent.velocity);
             }
-            SetAnimator(agent.velocity);
         }
         else
         {
@@ -122,10 +130,8 @@ public class Boss3Controller : MonoBehaviour
     void CheckBossPhase()
     {
         if (bossHealth == null) return;
-
         float hpPercent = (float)bossHealth.currentHealth / bossHealth.maxHealth;
 
-        // F·ze 3: Pod 33% HP
         if (hpPercent <= 0.33f)
         {
             currentStage = BossStage.Phase3;
@@ -133,19 +139,11 @@ public class Boss3Controller : MonoBehaviour
             {
                 agent.speed = fastMoveSpeed;
                 phase3BuffApplied = true;
-                animator.SetTrigger("Enrage");
+                if (animator != null) animator.SetTrigger("Enrage");
             }
         }
-        // F·ze 2: Pod 66% HP
-        else if (hpPercent <= 0.66f)
-        {
-            currentStage = BossStage.Phase2;
-        }
-        // F·ze 1: Nad 66% HP
-        else
-        {
-            currentStage = BossStage.Phase1;
-        }
+        else if (hpPercent <= 0.66f) currentStage = BossStage.Phase2;
+        else currentStage = BossStage.Phase1;
     }
 
     void DecideAttack(float distance)
@@ -153,47 +151,42 @@ public class Boss3Controller : MonoBehaviour
         lastAttackTime = Time.time;
         isAttacking = true;
 
+        // Reset Speed pro animator aby p≈ôi √∫toku nebƒõ≈æela animace ch≈Øze
+        if (animator != null) animator.SetFloat("Speed", 0);
+
         switch (currentStage)
         {
             case BossStage.Phase1:
-                StartMeleeAttack(); // Jen melee
+                StartMeleeAttack();
                 break;
-
             case BossStage.Phase2:
-                if (distance <= attackRange)
-                    StartMeleeAttack(); // Hr·Ë je blÌzko -> BraÚ se!
-                else
-                    StartRangedAttack(); // Hr·Ë je daleko -> St¯Ìlej!
+                if (distance <= attackRange) StartMeleeAttack();
+                else StartRangedAttack();
                 break;
-
             case BossStage.Phase3:
-                StartMeleeAttack(); // RychlÈ melee (cooldown ¯eöÌ Update)
+                StartMeleeAttack();
                 break;
         }
     }
 
-    // --- ⁄TOKY ---
+    // --- √öTOKY ---
 
     void StartMeleeAttack()
     {
         if (animator != null) animator.SetTrigger("Attack");
         if (warningLine != null) warningLine.enabled = true;
-
-        float delay = (currentStage == BossStage.Phase3) ? 0.4f : 0.8f;
-        Invoke("SpawnMeleeHitbox", delay);
-        Invoke("FinishAttack", delay + 0.2f);
+        // ƒåek√° na AnimEvent_MeleeHit
     }
 
     void StartRangedAttack()
     {
         if (animator != null) animator.SetTrigger("AttackRanged");
         if (warningLine != null) warningLine.enabled = true;
-
-        Invoke("SpawnProjectile", 0.5f);
-        Invoke("FinishAttack", 1.0f);
+        // ƒåek√° na AnimEvent_RangedHit
     }
 
-    public void SpawnMeleeHitbox()
+    // üî• TUTO FUNKCI P≈òIDEJ DO ANIMACE "Attack"
+    public void AnimEvent_MeleeHit()
     {
         if (warningLine != null) warningLine.enabled = false;
         if (attackPrefab != null && firePoint != null)
@@ -201,9 +194,12 @@ public class Boss3Controller : MonoBehaviour
             RotatePivotToPlayer();
             Instantiate(attackPrefab, firePoint.position, fixedPoint.rotation);
         }
+        OnMeleeAttack?.Invoke();
+        FinishAttack();
     }
 
-    public void SpawnProjectile()
+    // üî• TUTO FUNKCI P≈òIDEJ DO ANIMACE "AttackRanged"
+    public void AnimEvent_RangedHit()
     {
         if (warningLine != null) warningLine.enabled = false;
         if (projectilePrefab != null && firePoint != null)
@@ -213,6 +209,8 @@ public class Boss3Controller : MonoBehaviour
             if (proj.GetComponent<Rigidbody2D>())
                 proj.GetComponent<Rigidbody2D>().velocity = fixedPoint.right * 10f;
         }
+        OnRangedAttack?.Invoke();
+        FinishAttack();
     }
 
     public void FinishAttack()
@@ -225,25 +223,25 @@ public class Boss3Controller : MonoBehaviour
     void UpdateMoveSound(bool isMoving) { if (moveInstance.isValid()) { moveInstance.getPlaybackState(out PLAYBACK_STATE state); if (isMoving && state != PLAYBACK_STATE.PLAYING) moveInstance.start(); else if (!isMoving && state == PLAYBACK_STATE.PLAYING) moveInstance.stop(FMOD.Studio.STOP_MODE.ALLOWFADEOUT); } }
     void StopMoveSound() { if (moveInstance.isValid()) moveInstance.stop(FMOD.Studio.STOP_MODE.ALLOWFADEOUT); }
     void PlayAggroSound() { if (!aggroSound.IsNull) RuntimeManager.PlayOneShot(aggroSound, transform.position); }
+
     void RotatePivotToPlayer() { if (fixedPoint == null || playerTransform == null) return; Vector2 dir = playerTransform.position - fixedPoint.position; float angle = Mathf.Atan2(dir.y, dir.x) * Mathf.Rad2Deg; fixedPoint.rotation = Quaternion.Euler(0, 0, angle); }
-    void SetAnimator(Vector2 velocity) { if (animator == null) return; animator.SetFloat("Speed", velocity.magnitude); }
+
+    void SetAnimator(Vector2 velocity)
+    {
+        if (animator == null) return;
+        animator.SetFloat("Horizontal", velocity.x);
+        animator.SetFloat("Vertical", velocity.y);
+        animator.SetFloat("Speed", velocity.magnitude);
+    }
+
     void DrawWarningCircle(float radius) { if (warningLine == null || firePoint == null) return; warningLine.positionCount = circleSegments; float angleStep = 360f / circleSegments; for (int i = 0; i < circleSegments; i++) { float currentAngle = i * angleStep * Mathf.Deg2Rad; float x = Mathf.Cos(currentAngle) * radius; float y = Mathf.Sin(currentAngle) * radius; warningLine.SetPosition(i, firePoint.position + new Vector3(x, y, 0)); } }
     void OnDisable() => StopMoveSound();
     void OnDestroy() { StopMoveSound(); moveInstance.release(); }
 
-    // --- GIZMOS (Visualizace v Editoru) ---
     void OnDrawGizmosSelected()
     {
-        // 1. Melee Range (»erven·)
-        Gizmos.color = Color.red;
-        Gizmos.DrawWireSphere(transform.position, attackRange);
-
-        // 2. Ranged Range (Tyrkysov·)
-        Gizmos.color = Color.cyan;
-        Gizmos.DrawWireSphere(transform.position, rangedRange);
-
-        // 3. Aggro Range (élut·)
-        Gizmos.color = Color.yellow;
-        Gizmos.DrawWireSphere(transform.position, aggroRange);
+        Gizmos.color = Color.red; Gizmos.DrawWireSphere(transform.position, attackRange);
+        Gizmos.color = Color.cyan; Gizmos.DrawWireSphere(transform.position, rangedRange);
+        Gizmos.color = Color.yellow; Gizmos.DrawWireSphere(transform.position, aggroRange);
     }
 }

@@ -39872,6 +39872,13 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   speed: 1
   amplitude: 0.1
+  humSound:
+    Guid:
+      Data1: 0
+      Data2: 0
+      Data3: 0
+      Data4: 0
+    Path: 
 --- !u!1 &965859749
 GameObject:
   m_ObjectHideFlags: 0
@@ -43470,6 +43477,13 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   speed: 1
   amplitude: 0.1
+  humSound:
+    Guid:
+      Data1: 0
+      Data2: 0
+      Data3: 0
+      Data4: 0
+    Path: 
 --- !u!1 &1126159020
 GameObject:
   m_ObjectHideFlags: 0
@@ -408232,6 +408246,13 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   speed: 1
   amplitude: 0.1
+  humSound:
+    Guid:
+      Data1: 0
+      Data2: 0
+      Data3: 0
+      Data4: 0
+    Path: 
 --- !u!114 &1856636018 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 8968057584747232848, guid: fbbdcb4d6471b924797348ea3b8ddb2a, type: 3}
@@ -412046,6 +412067,13 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   speed: 2
   amplitude: 0.2
+  humSound:
+    Guid:
+      Data1: 1167436009
+      Data2: 1148897526
+      Data3: 829627041
+      Data4: -1675433475
+    Path: event:/CrystalSoundEffect
 --- !u!1001 &1977732635
 PrefabInstance:
   m_ObjectHideFlags: 0
