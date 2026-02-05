@@ -39874,11 +39874,11 @@ MonoBehaviour:
   amplitude: 0.1
   humSound:
     Guid:
-      Data1: 0
-      Data2: 0
-      Data3: 0
-      Data4: 0
-    Path: 
+      Data1: -435534047
+      Data2: 1270366757
+      Data3: 112042374
+      Data4: -1852431741
+    Path: event:/portalSound
 --- !u!1 &965859749
 GameObject:
   m_ObjectHideFlags: 0
@@ -43479,11 +43479,11 @@ MonoBehaviour:
   amplitude: 0.1
   humSound:
     Guid:
-      Data1: 0
-      Data2: 0
-      Data3: 0
-      Data4: 0
-    Path: 
+      Data1: -435534047
+      Data2: 1270366757
+      Data3: 112042374
+      Data4: -1852431741
+    Path: event:/portalSound
 --- !u!1 &1126159020
 GameObject:
   m_ObjectHideFlags: 0
@@ -408248,11 +408248,11 @@ MonoBehaviour:
   amplitude: 0.1
   humSound:
     Guid:
-      Data1: 0
-      Data2: 0
-      Data3: 0
-      Data4: 0
-    Path: 
+      Data1: -435534047
+      Data2: 1270366757
+      Data3: 112042374
+      Data4: -1852431741
+    Path: event:/portalSound
 --- !u!114 &1856636018 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 8968057584747232848, guid: fbbdcb4d6471b924797348ea3b8ddb2a, type: 3}

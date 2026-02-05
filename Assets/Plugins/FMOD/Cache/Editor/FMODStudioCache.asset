@@ -1,5 +1,56 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
+--- !u!114 &-6490795326822290952
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fecb8ef7f94ca804a8ab72049b86782e, type: 3}
+  m_Name: parameter:/MenuMusic/isLooped
+  m_EditorClassIdentifier: 
+  Name: isLooped
+  StudioPath: 
+  Min: 0
+  Max: 1
+  Default: 0
+  ID:
+    data1: 3904408588
+    data2: 2059216568
+  Type: 0
+  IsGlobal: 0
+  Labels: []
+  Exists: 1
+--- !u!114 &-5942233356881046981
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: event:/UIEffect
+  m_EditorClassIdentifier: 
+  Path: event:/UIEffect
+  Guid:
+    Data1: 336034926
+    Data2: 1121296603
+    Data3: 891093418
+    Data4: 1831742708
+  Banks:
+  - {fileID: 5678546537837848210}
+  IsStream: 0
+  Is3D: 0
+  IsOneShot: 1
+  Parameters: []
+  MinDistance: 1
+  MaxDistance: 20
+  Length: 350
 --- !u!114 &-5737325153267478889
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -28,6 +79,33 @@ MonoBehaviour:
   MinDistance: 1
   MaxDistance: 20
   Length: 5276
+--- !u!114 &-5634038018258013670
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: event:/forestAmbient
+  m_EditorClassIdentifier: 
+  Path: event:/forestAmbient
+  Guid:
+    Data1: 1008781434
+    Data2: 1313498299
+    Data3: 456350341
+    Data4: -520867659
+  Banks:
+  - {fileID: 8147198445935787367}
+  IsStream: 1
+  Is3D: 0
+  IsOneShot: 1
+  Parameters: []
+  MinDistance: 1
+  MaxDistance: 20
+  Length: 4018625
 --- !u!114 &-5307484286362210749
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -55,34 +133,7 @@ MonoBehaviour:
   MinDistance: 1
   MaxDistance: 20
   Length: 460
---- !u!114 &-2467483790843600177
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
-  m_Name: event:/UIEffect
-  m_EditorClassIdentifier: 
-  Path: event:/UIEffect
-  Guid:
-    Data1: 336034926
-    Data2: 1121296603
-    Data3: 891093418
-    Data4: 1831742708
-  Banks:
-  - {fileID: 5678546537837848210}
-  IsStream: 0
-  Is3D: 0
-  IsOneShot: 1
-  Parameters: []
-  MinDistance: 1
-  MaxDistance: 20
-  Length: 350
---- !u!114 &-1078129642596678724
+--- !u!114 &-3361382793659417616
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -156,65 +207,44 @@ MonoBehaviour:
   - {fileID: 5678546537837848210}
   - {fileID: 8147198445935787367}
   EditorEvents:
-  - {fileID: 4048344349576224556}
-  - {fileID: 7945276146983832679}
-  - {fileID: -2467483790843600177}
-  - {fileID: 4780325417133048127}
   - {fileID: -5307484286362210749}
   - {fileID: -691621656350647908}
-  - {fileID: -1078129642596678724}
-  - {fileID: 2199477326900194584}
   - {fileID: -5737325153267478889}
+  - {fileID: 2168483254754294196}
+  - {fileID: -5634038018258013670}
+  - {fileID: 8448261200672613434}
+  - {fileID: 3930003198878368396}
+  - {fileID: -3361382793659417616}
+  - {fileID: 8214135890479273579}
+  - {fileID: -5942233356881046981}
   EditorParameters: []
   MasterBanks:
   - {fileID: 2535322858333945084}
   StringsBanks:
   - {fileID: 950478269963886210}
   cacheVersion: 131857
-  cacheTime: 639058102217981413
+  cacheTime: 639058847196990924
   SerializableEventsDict:
-  - key: event:/MenuMusic
-    index: 0
-  - key: event:/CaveAmbientSound
-    index: 1
-  - key: event:/UIEffect
-    index: 2
-  - key: event:/UpgradeCry
-    index: 3
   - key: event:/CloseAttackEff
-    index: 4
+    index: 0
   - key: event:/SlimeWalk3DS
-    index: 5
-  - key: event:/MenuMusic 2
-    index: 6
-  - key: event:/forestAmbient
-    index: 7
+    index: 1
   - key: event:/CrystalSoundEffect
+    index: 2
+  - key: event:/Ambient/portalSound
+    index: 3
+  - key: event:/Ambient/forestAmbient
+    index: 4
+  - key: event:/Ambient/CaveAmbientSound
+    index: 5
+  - key: event:/Music/MenuMusic
+    index: 6
+  - key: event:/Music/MenuMusic 2
+    index: 7
+  - key: event:/UI/UpgradeCry
     index: 8
---- !u!114 &120870321558914011
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: fecb8ef7f94ca804a8ab72049b86782e, type: 3}
-  m_Name: parameter:/MenuMusic/isLooped
-  m_EditorClassIdentifier: 
-  Name: isLooped
-  StudioPath: 
-  Min: 0
-  Max: 1
-  Default: 0
-  ID:
-    data1: 3904408588
-    data2: 2059216568
-  Type: 0
-  IsGlobal: 0
-  Labels: []
-  Exists: 1
+  - key: event:/UI/UIEffect
+    index: 9
 --- !u!114 &950478269963886210
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -230,12 +260,12 @@ MonoBehaviour:
   Path: FMOD/Desktop/Master.strings.bank
   Name: Master.strings
   StudioPath: bank:/Master.strings
-  lastModified: 639058096834848460
+  lastModified: 639058847195470922
   FileSizes:
   - Name: 
-    Value: 1510
+    Value: 1552
   Exists: 1
---- !u!114 &2199477326900194584
+--- !u!114 &2168483254754294196
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -245,23 +275,23 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
-  m_Name: event:/forestAmbient
+  m_Name: event:/portalSound
   m_EditorClassIdentifier: 
-  Path: event:/forestAmbient
+  Path: event:/portalSound
   Guid:
-    Data1: 1008781434
-    Data2: 1313498299
-    Data3: 456350341
-    Data4: -520867659
+    Data1: -435534047
+    Data2: 1270366757
+    Data3: 112042374
+    Data4: -1852431741
   Banks:
   - {fileID: 8147198445935787367}
   IsStream: 1
-  Is3D: 0
-  IsOneShot: 1
+  Is3D: 1
+  IsOneShot: 0
   Parameters: []
   MinDistance: 1
   MaxDistance: 20
-  Length: 4018625
+  Length: 16150
 --- !u!114 &2535322858333945084
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -277,7 +307,7 @@ MonoBehaviour:
   Path: FMOD/Desktop/Master.bank
   Name: Master
   StudioPath: bank:/Master
-  lastModified: 639058096834838479
+  lastModified: 639058847195440939
   FileSizes: []
   Exists: 1
 --- !u!114 &3136255313656384484
@@ -295,10 +325,10 @@ MonoBehaviour:
   Path: FMOD/Desktop/SFX.bank
   Name: SFX
   StudioPath: bank:/SFX
-  lastModified: 639058102217981413
+  lastModified: 639058847196630916
   FileSizes: []
   Exists: 1
---- !u!114 &4048344349576224556
+--- !u!114 &3930003198878368396
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -322,7 +352,7 @@ MonoBehaviour:
   Is3D: 0
   IsOneShot: 0
   Parameters:
-  - {fileID: 120870321558914011}
+  - {fileID: -6490795326822290952}
   MinDistance: 1
   MaxDistance: 20
   Length: 150073
@@ -341,10 +371,46 @@ MonoBehaviour:
   Path: FMOD/Desktop/Music.bank
   Name: Music
   StudioPath: bank:/Music
-  lastModified: 639058096835348456
+  lastModified: 639058847196040939
   FileSizes: []
   Exists: 1
---- !u!114 &4780325417133048127
+--- !u!114 &5678546537837848210
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c18180ecb35941f4682ae60107b85b7c, type: 3}
+  m_Name: bank:/UI.bank
+  m_EditorClassIdentifier: 
+  Path: FMOD/Desktop/UI.bank
+  Name: UI
+  StudioPath: bank:/UI
+  lastModified: 639058847196990924
+  FileSizes: []
+  Exists: 1
+--- !u!114 &8147198445935787367
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c18180ecb35941f4682ae60107b85b7c, type: 3}
+  m_Name: bank:/Ambient.bank
+  m_EditorClassIdentifier: 
+  Path: FMOD/Desktop/Ambient.bank
+  Name: Ambient
+  StudioPath: bank:/Ambient
+  lastModified: 639058847195330930
+  FileSizes: []
+  Exists: 1
+--- !u!114 &8214135890479273579
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -371,25 +437,7 @@ MonoBehaviour:
   MinDistance: 1
   MaxDistance: 20
   Length: 2040
---- !u!114 &5678546537837848210
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c18180ecb35941f4682ae60107b85b7c, type: 3}
-  m_Name: bank:/UI.bank
-  m_EditorClassIdentifier: 
-  Path: FMOD/Desktop/UI.bank
-  Name: UI
-  StudioPath: bank:/UI
-  lastModified: 639042599818698713
-  FileSizes: []
-  Exists: 1
---- !u!114 &7945276146983832679
+--- !u!114 &8448261200672613434
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -416,21 +464,3 @@ MonoBehaviour:
   MinDistance: 1
   MaxDistance: 20
   Length: 446616
---- !u!114 &8147198445935787367
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c18180ecb35941f4682ae60107b85b7c, type: 3}
-  m_Name: bank:/Ambient.bank
-  m_EditorClassIdentifier: 
-  Path: FMOD/Desktop/Ambient.bank
-  Name: Ambient
-  StudioPath: bank:/Ambient
-  lastModified: 639058102217475429
-  FileSizes: []
-  Exists: 1
