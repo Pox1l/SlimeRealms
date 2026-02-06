@@ -11,8 +11,8 @@ public class BossEncounter : MonoBehaviour
     public bool bossDefeated = true;
 
     [Header("Bariéra")]
-    public GameObject barrierObject; 
-    public float barrierDelay = 1.0f; 
+    public GameObject barrierObject;
+    public float barrierDelay = 1.0f;
 
     [Header("Propojení")]
     public PixelCameraZoomer cameraZoomer;
@@ -21,7 +21,7 @@ public class BossEncounter : MonoBehaviour
     private ObjectPool pool;
     private GameObject activeBoss;
     private Coroutine spawnCoroutine;
-    private Coroutine barrierCoroutine; 
+    private Coroutine barrierCoroutine;
     private bool playerInside = false;
 
     void Awake()
@@ -29,6 +29,12 @@ public class BossEncounter : MonoBehaviour
         pool = new ObjectPool(bossPrefab, 1, transform);
 
         if (barrierObject != null) barrierObject.SetActive(false);
+
+        // 🔥 NOVÉ: Automatické nalezení zoomeru, pokud není přiřazen
+        if (cameraZoomer == null)
+        {
+            cameraZoomer = FindAnyObjectByType<PixelCameraZoomer>();
+        }
     }
 
     public void PrepareBoss()
@@ -53,6 +59,7 @@ public class BossEncounter : MonoBehaviour
             barrierCoroutine = StartCoroutine(ActivateBarrierWithDelay());
         }
 
+        // Zoom kamery
         if (cameraZoomer != null) cameraZoomer.ZoomToCombat();
 
         // OZNÁMENÍ MANAGERU: Začátek boje
@@ -94,6 +101,7 @@ public class BossEncounter : MonoBehaviour
             UIManager.Instance.EndBossFight();
         }
 
+        // Zoom zpět
         if (cameraZoomer != null) cameraZoomer.ZoomToNormal();
 
         if (activeBoss != null)

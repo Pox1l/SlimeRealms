@@ -416197,7 +416197,7 @@ MonoBehaviour:
     requiredAmount: 1
   - itemSO: {fileID: 11400000, guid: 9afbd67cfc2bfa14795521a67e301288, type: 2}
     requiredAmount: 1
-  inventoryManager: {fileID: 1970522358}
+  inventoryManager: {fileID: 0}
   WorldCanvas: {fileID: 0}
   pressEHint: {fileID: 2111517053}
   requirementsPanel: {fileID: 1009262228}
@@ -545212,7 +545212,7 @@ PrefabInstance:
     - target: {fileID: 1645044421406316427, guid: 407f821c9ef3eda408c75d4b5166215d, type: 3}
       propertyPath: inventoryUI
       value: 
-      objectReference: {fileID: 290774614}
+      objectReference: {fileID: 0}
     - target: {fileID: 1645044421406316427, guid: 407f821c9ef3eda408c75d4b5166215d, type: 3}
       propertyPath: descriptionIcon
       value: 
