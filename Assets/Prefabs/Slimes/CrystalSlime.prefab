@@ -59,7 +59,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &8989531334443712304
 Transform:
   m_ObjectHideFlags: 0
@@ -204,7 +204,6 @@ MonoBehaviour:
   shotCount: 4
   timeBetweenShots: 0.5
   recoveryTime: 1
-  shootAnimDelay: 0.2
   whatIsTarget:
     serializedVersion: 2
     m_Bits: 8

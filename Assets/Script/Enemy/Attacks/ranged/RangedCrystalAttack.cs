@@ -14,7 +14,7 @@ public class RangedCrystalAttack : MonoBehaviour
     [Header("Combat Ranges")]
     public float attackRange = 7f;
     public float keepDistance = 3f;
-    public float chaseRange = 15f; // 🔥 NOVÉ: Slime půjde za hráčem jen pokud je blíž než toto číslo
+    public float chaseRange = 15f;
 
     [Header("Combat Settings")]
     public float attackCooldown = 2f;
@@ -24,7 +24,7 @@ public class RangedCrystalAttack : MonoBehaviour
     public int shotCount = 4;
     public float timeBetweenShots = 1f;
     public float recoveryTime = 1f;
-    public float shootAnimDelay = 0.2f; // 🔥 NOVÉ: Zpoždění výstřelu po spuštění animace (synchronizace)
+    // public float shootAnimDelay = 0.2f; // 🔥 ZRUŠENO: Časování řídí animace
 
     [Header("2D Settings & Clearance")]
     public LayerMask whatIsTarget;
@@ -88,7 +88,6 @@ public class RangedCrystalAttack : MonoBehaviour
         // --- 3. POHYB ---
         bool shouldMove = true;
 
-        // 🔥 OPRAVA POHYBU: Pokud je hráč moc daleko, enemy stojí a nic nedělá
         if (distanceToPlayer > chaseRange)
         {
             shouldMove = false;
@@ -127,7 +126,6 @@ public class RangedCrystalAttack : MonoBehaviour
 
         isAttacking = true;
         lastAttackTime = Time.time;
-        // Animaci nespouštíme tady, ale až ve smyčce pro každý výstřel zvlášť
         StartCoroutine(BurstFireRoutine());
     }
 
@@ -157,14 +155,10 @@ public class RangedCrystalAttack : MonoBehaviour
                 UpdateAimLinePosition();
             }
 
-            // 3. 🔥 Čekáme na "moment výstřelu" v animaci
-            yield return new WaitForSeconds(shootAnimDelay);
+            // 🔥 ZMĚNA: Už nečekáme na delay a nestřílíme zde.
+            // Čekáme pouze na další 'takt' v burstu. 
+            // Výstřel (Shoot) musí zavolat Animation Event v Unity!
 
-            // 4. Vystřelíme prefab
-            Shoot();
-
-            // 5. Čekáme zbytek času do dalšího výstřelu
-            // (Odečítáme delay, aby celkový interval seděl, nebo prostě počkáme fixní čas)
             yield return new WaitForSeconds(timeBetweenShots);
         }
 
@@ -179,6 +173,7 @@ public class RangedCrystalAttack : MonoBehaviour
         lastAttackTime = Time.time;
     }
 
+    // 🔥 Tuto metodu musíš nastavit v Animation Eventu!
     public void Shoot()
     {
         if (aimLine != null) aimLine.enabled = false;
@@ -232,8 +227,6 @@ public class RangedCrystalAttack : MonoBehaviour
         Gizmos.DrawWireSphere(transform.position, attackRange);
         Gizmos.color = Color.blue;
         Gizmos.DrawWireSphere(transform.position, keepDistance);
-
-        // 🔥 Žlutá sféra pro maximální vzdálenost, kdy si tě všimne
         Gizmos.color = Color.yellow;
         Gizmos.DrawWireSphere(transform.position, chaseRange);
     }
