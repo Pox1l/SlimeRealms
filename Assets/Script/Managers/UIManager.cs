@@ -139,36 +139,43 @@ public class UIManager : MonoBehaviour
 
     void HandleEscapeInput()
     {
-        if (isTutorialOpen)
-        {
-            CloseTutorial();
-            return;
-        }
-
+        // Priorita 1: Settings (pokud jsme v nastavení, vracíme se do Pause menu)
         if (settingsMenuRoot != null && settingsMenuRoot.activeSelf)
         {
             OpenPauseMenu();
             return;
         }
 
+        // Priorita 2: Krystal UI
         if (isCrystalUIOpen)
         {
             CloseCrystalMenu();
             return;
         }
 
+        // Priorita 3: Pokud je hra zapauzovaná (i když je tutoriál na pozadí), chceme Resume
         if (isPaused)
         {
             ResumeGame();
             return;
         }
 
+        // Priorita 4: Game Menu (Inventář)
         if (isGameMenuOpen)
         {
             CloseGameMenu();
             return;
         }
 
+        // Priorita 5: Tutoriál
+        // Otevřeme Pause Menu, ale tutoriál zůstane ve stavu "otevřeno" na pozadí
+        if (isTutorialOpen)
+        {
+            PauseGame();
+            return;
+        }
+
+        // Priorita 6: Normální pauza
         PauseGame();
     }
 
@@ -192,8 +199,6 @@ public class UIManager : MonoBehaviour
                 if (t.CompareTag("TutorialRoot")) tutorialRoot = t.gameObject; // Hledá objekt s tagem TutorialRoot
                 else if (t.CompareTag("CloseBTN")) SetupButton(t, CloseTutorial);
             }
-
-            
         }
 
         // 1. GAME MENU
@@ -264,7 +269,9 @@ public class UIManager : MonoBehaviour
 
         isTutorialOpen = true;
         Time.timeScale = 0f;
-        if (hudUI != null) hudUI.SetActive(false);
+
+        // ZMĚNA: HUD zůstává viditelný
+        if (hudUI != null) hudUI.SetActive(true);
 
         Cursor.visible = true;
         Cursor.lockState = CursorLockMode.None;
@@ -380,9 +387,20 @@ public class UIManager : MonoBehaviour
         if (pauseMenuRoot == null) return;
         isPaused = true;
         Time.timeScale = 0;
+
+        // HUD při pauze vypneme
         if (hudUI != null) hudUI.SetActive(false);
+
         if (centralMenuRoot != null) centralMenuRoot.SetActive(false);
         isGameMenuOpen = false;
+
+        // Pokud je tutoriál otevřený, dočasně ho skryjeme, aby bylo vidět Pause Menu
+        if (isTutorialOpen)
+        {
+            if (tutorialRoot != null) tutorialRoot.SetActive(false);
+            else if (tutorialCanvas != null) tutorialCanvas.SetActive(false);
+        }
+
         pauseMenuRoot.SetActive(true);
         if (settingsMenuRoot != null) settingsMenuRoot.SetActive(false);
         RefreshBossVisibility();
@@ -391,12 +409,30 @@ public class UIManager : MonoBehaviour
     public void ResumeGame()
     {
         isPaused = false;
-        Time.timeScale = 1;
-        if (hudUI != null) hudUI.SetActive(true);
+
         if (pauseMenuRoot != null) pauseMenuRoot.SetActive(false);
         if (settingsMenuRoot != null) settingsMenuRoot.SetActive(false);
         if (centralMenuRoot != null) centralMenuRoot.SetActive(false);
         if (crystalMenuRoot != null) crystalMenuRoot.SetActive(false);
+
+        // Návrat do tutoriálu (pokud byl aktivní)
+        if (isTutorialOpen)
+        {
+            if (tutorialRoot != null) tutorialRoot.SetActive(true);
+            else if (tutorialCanvas != null) tutorialCanvas.SetActive(true);
+
+            Time.timeScale = 0f; // Tutoriál má hru zastavenou
+
+            // ZMĚNA: HUD zapneme zpátky
+            if (hudUI != null) hudUI.SetActive(true);
+        }
+        else
+        {
+            // Normální návrat do hry
+            Time.timeScale = 1;
+            if (hudUI != null) hudUI.SetActive(true);
+        }
+
         RefreshBossVisibility();
     }
 
