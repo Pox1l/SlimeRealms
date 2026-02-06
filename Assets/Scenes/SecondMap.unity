@@ -51664,11 +51664,11 @@ MonoBehaviour:
   amplitude: 0.1
   humSound:
     Guid:
-      Data1: 0
-      Data2: 0
-      Data3: 0
-      Data4: 0
-    Path: 
+      Data1: -435534047
+      Data2: 1270366757
+      Data3: 112042374
+      Data4: -1852431741
+    Path: event:/portalSound
 --- !u!1001 &1143341778
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -214811,11 +214811,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4953538714074341452, guid: a6b29e46d1ff20f43b685d6d272bebbc, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 0
+      value: 5.5
       objectReference: {fileID: 0}
     - target: {fileID: 4953538714074341452, guid: a6b29e46d1ff20f43b685d6d272bebbc, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 2.39
+      value: -6.8
       objectReference: {fileID: 0}
     - target: {fileID: 4953538714074341452, guid: a6b29e46d1ff20f43b685d6d272bebbc, type: 3}
       propertyPath: m_LocalPosition.z

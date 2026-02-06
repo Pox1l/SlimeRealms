@@ -954,11 +954,11 @@ MonoBehaviour:
           iconNameOrGuid: Mesh Icon
           isIconRecursive: 0
           isColorRecursive: 0
-        - colorIndex: 0
+        - colorIndex: 5
           iconNameOrGuid: AreaEffector2D Icon
           isIconRecursive: 0
           isColorRecursive: 0
-        - colorIndex: 4
+        - colorIndex: 5
           iconNameOrGuid: Add-Available
           isIconRecursive: 0
           isColorRecursive: 0
@@ -1114,7 +1114,7 @@ MonoBehaviour:
           iconNameOrGuid: cs Script Icon
           isIconRecursive: 0
           isColorRecursive: 0
-        - colorIndex: 0
+        - colorIndex: 4
           iconNameOrGuid: WheelCollider Icon
           isIconRecursive: 0
           isColorRecursive: 0
