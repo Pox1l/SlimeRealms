@@ -16,6 +16,7 @@ GameObject:
   - component: {fileID: 2249234615387925807}
   - component: {fileID: 9127668038993353280}
   - component: {fileID: 4281783677729438982}
+  - component: {fileID: 3230426240451777864}
   - component: {fileID: 956895104297085045}
   - component: {fileID: 7954383618518855110}
   - component: {fileID: 8389856233449258162}
@@ -129,20 +130,20 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   currentStage: 0
-  bossHealth: {fileID: 0}
+  bossHealth: {fileID: 2249234615387925807}
   attackPrefab: {fileID: 0}
   warningLine: {fileID: 0}
   fixedPoint: {fileID: 0}
   firePoint: {fileID: 0}
-  animator: {fileID: 0}
-  spriteRenderer: {fileID: 0}
+  animator: {fileID: 3566357575191887581}
+  spriteRenderer: {fileID: 6201844922603884478}
   movementSound:
     Guid:
-      Data1: 0
-      Data2: 0
-      Data3: 0
-      Data4: 0
-    Path: 
+      Data1: -1993235619
+      Data2: 1087315707
+      Data3: -1897203064
+      Data4: -2025425154
+    Path: event:/SlimeWalk3DS
   aggroSound:
     Guid:
       Data1: 0
@@ -151,7 +152,7 @@ MonoBehaviour:
       Data4: 0
     Path: 
   moveSpeed: 3.5
-  attackRange: 1.5
+  attackRange: 2.5
   attackCooldown: 1.5
   jumpDamageRadius: 3
   jumpDamageAmount: 10
@@ -215,8 +216,21 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 84ec88af42713ba4b9b11faed005923d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  knockbackForce: 10
+  knockbackForce: 4
   knockbackTime: 0.2
+--- !u!114 &3230426240451777864
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4075706533552199152}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d3bb71a4513a6c04c8f79435bee0f645, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  whiteMaterial: {fileID: 2100000, guid: 56b8777d761ed334481a528a89f9075a, type: 2}
 --- !u!50 &956895104297085045
 Rigidbody2D:
   serializedVersion: 4
@@ -332,7 +346,7 @@ NavMeshAgent:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4075706533552199152}
   m_Enabled: 1
-  m_AgentTypeID: 0
+  m_AgentTypeID: -1372625422
   m_Radius: 2
   m_Speed: 3.5
   m_Acceleration: 8
