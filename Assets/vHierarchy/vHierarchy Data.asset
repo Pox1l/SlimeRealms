@@ -146,6 +146,9 @@ MonoBehaviour:
         - globalObjectIdString: GlobalObjectId_V1-2-2a782948c291d074e9d58001ff8c6a4c-1143420728-0
         - globalObjectIdString: GlobalObjectId_V1-2-2a782948c291d074e9d58001ff8c6a4c-1809627383-0
         - globalObjectIdString: GlobalObjectId_V1-2-2a782948c291d074e9d58001ff8c6a4c-969893775-0
+        - globalObjectIdString: GlobalObjectId_V1-2-2a782948c291d074e9d58001ff8c6a4c-7111738428959340125-544123811235926121
+        - globalObjectIdString: GlobalObjectId_V1-2-2a782948c291d074e9d58001ff8c6a4c-456284230-0
+        - globalObjectIdString: GlobalObjectId_V1-2-2a782948c291d074e9d58001ff8c6a4c-4377812140615301959-3425986118548834552
         values:
         - colorIndex: 0
           iconNameOrGuid: Folder Icon
@@ -641,6 +644,18 @@ MonoBehaviour:
           isColorRecursive: 0
         - colorIndex: 0
           iconNameOrGuid: PrefabVariant On Icon
+          isIconRecursive: 0
+          isColorRecursive: 0
+        - colorIndex: 5
+          iconNameOrGuid: 
+          isIconRecursive: 0
+          isColorRecursive: 0
+        - colorIndex: 0
+          iconNameOrGuid: Canvas Icon
+          isIconRecursive: 0
+          isColorRecursive: 0
+        - colorIndex: 0
+          iconNameOrGuid: Canvas Icon
           isIconRecursive: 0
           isColorRecursive: 0
     - goDatas_byGlobalId:

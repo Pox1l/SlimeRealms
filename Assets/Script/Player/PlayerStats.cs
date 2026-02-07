@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 using System;
-using System.Collections; // 🔥 NUTNÉ PRO COROUTINES
+using System.Collections;
 
 public class PlayerStats : MonoBehaviour
 {
@@ -14,10 +14,8 @@ public class PlayerStats : MonoBehaviour
     [Header("Runtime Stats")]
     public int maxHealth;
     public int currentHealth;
-
     public float maxStamina;
     public float currentStamina;
-
     public float damageMultiplier = 1f;
 
     [Header("Stamina Settings")]
@@ -38,7 +36,6 @@ public class PlayerStats : MonoBehaviour
     public PlayerKnockback playerKnockback;
     public DamageFlash damageFlash;
 
-    // 🔥 NOVÉ: Proměnná pro odložené ukládání
     private Coroutine saveCoroutine;
 
     void Awake()
@@ -60,17 +57,18 @@ public class PlayerStats : MonoBehaviour
         if (currentStamina < maxStamina)
         {
             currentStamina += staminaRegenRate * Time.deltaTime;
+            currentStamina = (float)Math.Round(currentStamina, 2);
             if (currentStamina > maxStamina) currentStamina = maxStamina;
             OnStaminaChanged?.Invoke(currentStamina, maxStamina);
         }
     }
 
-    // --- METODY PRO POHYB ---
     public bool UseStamina(float amount)
     {
         if (currentStamina >= amount)
         {
             currentStamina -= amount;
+            currentStamina = (float)Math.Round(currentStamina, 2);
             OnStaminaChanged?.Invoke(currentStamina, maxStamina);
             return true;
         }
@@ -121,10 +119,7 @@ public class PlayerStats : MonoBehaviour
         if (currentHealth > maxHealth) currentHealth = maxHealth;
         if (currentStamina > maxStamina) currentStamina = maxStamina;
 
-        if (autoSave)
-        {
-            SaveToManager();
-        }
+        if (autoSave) SaveToManager();
 
         OnHealthChanged?.Invoke(currentHealth, maxHealth);
         OnStaminaChanged?.Invoke(currentStamina, maxStamina);
@@ -143,8 +138,17 @@ public class PlayerStats : MonoBehaviour
         var data = PlayerDataManager.Instance.currentData;
         RecalculateStats(false, false);
 
-        if (data.currentHealth > 0) currentHealth = data.currentHealth;
-        else currentHealth = maxHealth;
+        // 🔥 STANDARDNÍ NAČÍTÁNÍ BEZ EFEKTU
+        if (data.currentHealth > 0)
+        {
+            currentHealth = data.currentHealth;
+        }
+        else
+        {
+            // Pokud je zdraví 0 nebo méně, dáme plné zdraví a uložíme
+            currentHealth = maxHealth;
+            SaveToManager();
+        }
 
         currentStamina = maxStamina;
         currentHealth = Mathf.Clamp(currentHealth, 0, maxHealth);
@@ -153,7 +157,6 @@ public class PlayerStats : MonoBehaviour
         OnStaminaChanged?.Invoke(currentStamina, maxStamina);
     }
 
-    // 🔥 Toto je klasické uložení (používáme při Heal, Upgrade, Start atd.)
     public void SaveToManager()
     {
         if (PlayerDataManager.Instance != null)
@@ -162,26 +165,17 @@ public class PlayerStats : MonoBehaviour
         }
     }
 
-    // 🔥 NOVÉ: Odložené uložení (používáme v boji)
     public void RequestDelayedSave()
     {
-        // Pokud už běží odpočet, zastavíme ho (resetujeme časovač)
         if (saveCoroutine != null) StopCoroutine(saveCoroutine);
-
-        // Spustíme nový odpočet
         saveCoroutine = StartCoroutine(SaveAfterDelay());
     }
 
-    // 🔥 NOVÉ: Samotný odpočet
     IEnumerator SaveAfterDelay()
     {
-        // Počkáme 3 sekundy. Pokud během té doby dostaneš další hit,
-        // tato coroutina se zruší a spustí se nová.
         yield return new WaitForSeconds(3f);
-
-        SaveToManager(); // Teprve teď uložíme
+        SaveToManager();
         saveCoroutine = null;
-        // Debug.Log("AutoSave Complete"); // Pro kontrolu můžeš odkomentovat
     }
 
     public void TakeDamage(int baseDamage, Transform attacker = null)
@@ -197,8 +191,6 @@ public class PlayerStats : MonoBehaviour
 
         finalDamage = Mathf.Max(1, finalDamage);
 
-        // Debug.Log($"Enemy Dmg: {baseDamage} | Defense: {defense} | Final: {finalDamage}");
-
         currentHealth = Mathf.Max(0, currentHealth - finalDamage);
 
         OnPlayerHit?.Invoke(finalDamage);
@@ -207,7 +199,6 @@ public class PlayerStats : MonoBehaviour
         if (attacker != null && playerKnockback != null) playerKnockback.ApplyKnockback(attacker);
         if (damageFlash != null) damageFlash.Flash();
 
-        // 🔥 ZMĚNA: Místo SaveToManager() voláme DelayedSave
         RequestDelayedSave();
 
         if (currentHealth <= 0) Die();
@@ -216,7 +207,7 @@ public class PlayerStats : MonoBehaviour
     public void Heal(int amount)
     {
         currentHealth = Mathf.Min(maxHealth, currentHealth + amount);
-        SaveToManager(); // U léčení to nevadí, to se neděje 10x za sekundu
+        SaveToManager();
         OnHealthChanged?.Invoke(currentHealth, maxHealth);
     }
 
@@ -224,19 +215,17 @@ public class PlayerStats : MonoBehaviour
     {
         Debug.Log("💀 Player died!");
 
-        // 1. Důležité: Pokud běží nějaký odpočet uložení, OKAMŽITĚ ho zruš.
-        // Nechceme, aby se za 2 sekundy něco snažilo přepsat náš zápis smrti.
         if (saveCoroutine != null) StopCoroutine(saveCoroutine);
 
-        // 2. Pro jistotu vynulujeme životy (kdyby náhodou byly třeba -5)
         currentHealth = 0;
-        // Aktualizujeme UI, ať to vypadá hezky (0/100)
         OnHealthChanged?.Invoke(currentHealth, maxHealth);
-
-        // 3. 🔥 KLÍČOVÉ: Při smrti ukládáme HNED (žádný delay)!
-        // Tím se do JSONu zapíše "currentHealth": 0
         SaveToManager();
 
         OnPlayerDied?.Invoke();
+
+        if (UIManager.Instance != null)
+        {
+            UIManager.Instance.ShowDeathScreen();
+        }
     }
 }

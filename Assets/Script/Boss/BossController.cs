@@ -4,6 +4,7 @@ using FMODUnity;
 using FMOD.Studio;
 using System;
 
+// Téma: BossController - Úprava Slash útoku na Animation Event
 [RequireComponent(typeof(NavMeshAgent))]
 public class BossController : MonoBehaviour
 {
@@ -50,7 +51,6 @@ public class BossController : MonoBehaviour
     public static event Action OnBossLand;
     public static event Action OnPhase2Start;
     private bool phase2SignalSent = false;
-
 
 
     void Awake() { agent = GetComponent<NavMeshAgent>(); if (animator == null) animator = GetComponent<Animator>(); if (spriteRenderer == null) spriteRenderer = GetComponent<SpriteRenderer>(); if (bossHealth == null) bossHealth = GetComponent<BossHealth>(); agent.updateRotation = false; agent.updateUpAxis = false; agent.speed = moveSpeed; }
@@ -134,20 +134,22 @@ public class BossController : MonoBehaviour
         else if (currentStage == BossStage.Phase2) StartJumpAttack();
     }
 
-    // --- FÁZE 1: MELEE ---
+    // --- FÁZE 1: MELEE (UPRAVENO PRO ANIMATION EVENT) ---
     void StartMeleeAttack()
     {
         if (animator != null) animator.SetTrigger("Attack");
         if (warningLine != null) warningLine.enabled = true;
 
-        // U Melee útoku zatím necháme Invoke, pokud tam taky nemáš Event
-        Invoke("SpawnAttackHitbox", 0.8f);
-        Invoke("FinishAttack", 1.0f);
+        // POJISTKA: Pokud by selhal Animation Event, tohle to ukončí natvrdo po 1.5 vteřině
+       // Invoke("FinishAttack", 1.5f);
     }
 
+    // 🔥 TUTO FUNKCI VYBER V ANIMATION EVENTU PRO SLASH
     public void SpawnAttackHitbox()
     {
+        // Vypneme warning line, protože útok právě vyšel
         if (warningLine != null) warningLine.enabled = false;
+
         if (attackPrefab == null || firePoint == null || fixedPoint == null) return;
         RotatePivotToPlayer();
         Quaternion correction = Quaternion.Euler(0, 0, 0);
@@ -198,6 +200,7 @@ public class BossController : MonoBehaviour
         FinishAttack();
     }
 
+    // 🔥 TUTO FUNKCI MŮŽEŠ TAKY ZAVOLAT EVENTEM NA KONCI ANIMACE
     public void FinishAttack()
     {
         isAttacking = false;

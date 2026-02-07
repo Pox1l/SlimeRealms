@@ -233,9 +233,9 @@ MonoBehaviour:
   stoppingDistance: 4
   attackCooldown: 2
   aimLineLength: 10
-  shootDelay: 0.5
+  shootDelay: 1
   shotCount: 3
-  timeBetweenShots: 0.4
+  timeBetweenShots: 0.8
 --- !u!114 &447185163697472492
 MonoBehaviour:
   m_ObjectHideFlags: 0
