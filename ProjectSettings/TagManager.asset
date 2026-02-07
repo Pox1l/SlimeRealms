@@ -54,6 +54,7 @@ TagManager:
   - TutorialCanvas
   - TutorialRoot
   - BossEncounter
+  - BossEntrance
   layers:
   - Default
   - TransparentFX

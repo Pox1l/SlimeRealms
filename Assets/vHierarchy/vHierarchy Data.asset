@@ -149,6 +149,7 @@ MonoBehaviour:
         - globalObjectIdString: GlobalObjectId_V1-2-2a782948c291d074e9d58001ff8c6a4c-7111738428959340125-544123811235926121
         - globalObjectIdString: GlobalObjectId_V1-2-2a782948c291d074e9d58001ff8c6a4c-456284230-0
         - globalObjectIdString: GlobalObjectId_V1-2-2a782948c291d074e9d58001ff8c6a4c-4377812140615301959-3425986118548834552
+        - globalObjectIdString: GlobalObjectId_V1-2-2a782948c291d074e9d58001ff8c6a4c-76802069197858532-3037439657434703945
         values:
         - colorIndex: 0
           iconNameOrGuid: Folder Icon
@@ -658,6 +659,10 @@ MonoBehaviour:
           iconNameOrGuid: Canvas Icon
           isIconRecursive: 0
           isColorRecursive: 0
+        - colorIndex: 0
+          iconNameOrGuid: Folder Icon
+          isIconRecursive: 0
+          isColorRecursive: 0
     - goDatas_byGlobalId:
         keys:
         - globalObjectIdString: GlobalObjectId_V1-2-6de1a7d931f01ef4abebbf15f7e0502c-127101540-0
@@ -964,6 +969,7 @@ MonoBehaviour:
         - globalObjectIdString: GlobalObjectId_V1-2-8f94c35e02b6398428e407565a6c5131-3264848769875045776-342719125
         - globalObjectIdString: GlobalObjectId_V1-2-8f94c35e02b6398428e407565a6c5131-7111738428959340125-883253462
         - globalObjectIdString: GlobalObjectId_V1-2-8f94c35e02b6398428e407565a6c5131-4377812140615301959-630178739
+        - globalObjectIdString: GlobalObjectId_V1-2-8f94c35e02b6398428e407565a6c5131-7141419887029725286-943467968
         values:
         - colorIndex: 0
           iconNameOrGuid: Mesh Icon
@@ -1247,6 +1253,10 @@ MonoBehaviour:
           isColorRecursive: 0
         - colorIndex: 5
           iconNameOrGuid: 
+          isIconRecursive: 0
+          isColorRecursive: 0
+        - colorIndex: 0
+          iconNameOrGuid: cs Script Icon
           isIconRecursive: 0
           isColorRecursive: 0
     - goDatas_byGlobalId:

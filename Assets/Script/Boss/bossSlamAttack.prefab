@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 690763263214746767}
   - component: {fileID: 4927054233940888494}
   - component: {fileID: -6794789734344533867}
-  - component: {fileID: 1068063422584362772}
+  - component: {fileID: 6257850194462292395}
   m_Layer: 0
   m_Name: bossSlamAttack
   m_TagString: Untagged
@@ -122,8 +122,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   damage: 20
   lifetime: 0.3
---- !u!58 &1068063422584362772
-CircleCollider2D:
+--- !u!70 &6257850194462292395
+CapsuleCollider2D:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -154,6 +154,6 @@ CircleCollider2D:
   m_IsTrigger: 1
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 0, y: 0}
-  serializedVersion: 2
-  m_Radius: 3.3
+  m_Offset: {x: -0.023707196, y: -0.34366658}
+  m_Size: {x: 6.000035, y: 5.217915}
+  m_Direction: 1

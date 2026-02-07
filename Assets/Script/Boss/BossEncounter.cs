@@ -16,7 +16,7 @@ public class BossEncounter : MonoBehaviour
 
     [Header("Propojení")]
     public PixelCameraZoomer cameraZoomer;
-    public BossEntrance entranceScript;
+    public BossEntrance entranceScript; // Toto se teď bude hledat samo
 
     private ObjectPool pool;
     private GameObject activeBoss;
@@ -30,10 +30,29 @@ public class BossEncounter : MonoBehaviour
 
         if (barrierObject != null) barrierObject.SetActive(false);
 
-        // 🔥 NOVÉ: Automatické nalezení zoomeru, pokud není přiřazen
+        // 1. Automatické nalezení zoomeru
         if (cameraZoomer == null)
         {
             cameraZoomer = FindAnyObjectByType<PixelCameraZoomer>();
+        }
+
+        // 🔥 2. NOVÉ: Automatické hledání BossEntrance podle TAGU
+        if (entranceScript == null)
+        {
+            // Hledáme objekt s tagem "BossEntrance"
+            GameObject entObj = GameObject.FindGameObjectWithTag("BossEntrance");
+
+            if (entObj != null)
+            {
+                entranceScript = entObj.GetComponent<BossEntrance>();
+            }
+            else
+            {
+                // Záloha: Pokud tag nenajde, zkusí najít jakýkoliv objekt s tímto skriptem
+                entranceScript = FindAnyObjectByType<BossEntrance>();
+                if (entranceScript == null)
+                    Debug.LogWarning("BossEncounter: Nenalezen 'BossEntrance'! Ujisti se, že máš objekt s tagem 'BossEntrance'.");
+            }
         }
     }
 
@@ -52,17 +71,14 @@ public class BossEncounter : MonoBehaviour
         if (!other.CompareTag("Player")) return;
         playerInside = true;
 
-        // 🔥 UPRAVENO: Bariéru nezapínáme hned, ale spustíme odpočet
         if (barrierObject != null && !bossDefeated)
         {
             if (barrierCoroutine != null) StopCoroutine(barrierCoroutine);
             barrierCoroutine = StartCoroutine(ActivateBarrierWithDelay());
         }
 
-        // Zoom kamery
         if (cameraZoomer != null) cameraZoomer.ZoomToCombat();
 
-        // OZNÁMENÍ MANAGERU: Začátek boje
         if (!bossDefeated && UIManager.Instance != null)
         {
             int realMaxHP = 100;
@@ -85,23 +101,19 @@ public class BossEncounter : MonoBehaviour
         if (!other.CompareTag("Player")) return;
         playerInside = false;
 
-        // 🔥 DŮLEŽITÉ: Pokud hráč odejde, okamžitě zrušíme čekání na bariéru
         if (barrierCoroutine != null)
         {
             StopCoroutine(barrierCoroutine);
             barrierCoroutine = null;
         }
 
-        // A vypneme bariéru, pokud už byla aktivní
         if (barrierObject != null) barrierObject.SetActive(false);
 
-        // OZNÁMENÍ MANAGERU: Konec boje (útěk)
         if (UIManager.Instance != null)
         {
             UIManager.Instance.EndBossFight();
         }
 
-        // Zoom zpět
         if (cameraZoomer != null) cameraZoomer.ZoomToNormal();
 
         if (activeBoss != null)
@@ -114,7 +126,6 @@ public class BossEncounter : MonoBehaviour
     {
         bossDefeated = true;
 
-        // Zrušíme případný odpočet a vypneme bariéru
         if (barrierCoroutine != null) StopCoroutine(barrierCoroutine);
         if (barrierObject != null) barrierObject.SetActive(false);
 
@@ -124,14 +135,10 @@ public class BossEncounter : MonoBehaviour
         if (cameraZoomer != null) cameraZoomer.ZoomToNormal();
     }
 
-    // 🔥 NOVÁ COROUTINA: Čeká 1 sekundu a pak zkontroluje, jestli je hráč stále uvnitř
     IEnumerator ActivateBarrierWithDelay()
     {
         yield return new WaitForSeconds(barrierDelay);
 
-        // Po čekání znovu ověříme podmínky:
-        // 1. Hráč musí být stále uvnitř (playerInside == true)
-        // 2. Boss nesmí být mrtvý
         if (playerInside && !bossDefeated && barrierObject != null)
         {
             barrierObject.SetActive(true);

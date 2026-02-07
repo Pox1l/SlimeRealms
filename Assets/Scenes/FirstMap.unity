@@ -411662,8 +411662,8 @@ MonoBehaviour:
   bossDefeated: 0
   barrierObject: {fileID: 892014531}
   barrierDelay: 1
-  cameraZoomer: {fileID: 2115800549}
-  entranceScript: {fileID: 2095699302}
+  cameraZoomer: {fileID: 0}
+  entranceScript: {fileID: 0}
 --- !u!4 &1969371081
 Transform:
   m_ObjectHideFlags: 0
@@ -416156,7 +416156,7 @@ GameObject:
   - component: {fileID: 2095699303}
   m_Layer: 0
   m_Name: BossBarierTrigger/Enterance
-  m_TagString: Untagged
+  m_TagString: BossEntrance
   m_Icon: {fileID: 5132851093641282708, guid: 0000000000000000d000000000000000, type: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
