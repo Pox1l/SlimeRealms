@@ -46,11 +46,11 @@ MonoBehaviour:
   - {fileID: 5678546537837848210}
   IsStream: 0
   Is3D: 0
-  IsOneShot: 0
+  IsOneShot: 1
   Parameters: []
   MinDistance: 1
   MaxDistance: 20
-  Length: 395
+  Length: 350
 --- !u!114 &-5737325153267478889
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -222,7 +222,7 @@ MonoBehaviour:
   StringsBanks:
   - {fileID: 950478269963886210}
   cacheVersion: 131857
-  cacheTime: 639061461443812951
+  cacheTime: 639061478100113748
   SerializableEventsDict:
   - key: event:/SlimeWalk3DS
     index: 0
@@ -259,7 +259,7 @@ MonoBehaviour:
   Path: FMOD/Desktop/Master.strings.bank
   Name: Master.strings
   StudioPath: bank:/Master.strings
-  lastModified: 639061461441308422
+  lastModified: 639061478100113748
   FileSizes:
   - Name: 
     Value: 1566
@@ -279,7 +279,7 @@ MonoBehaviour:
   Path: FMOD/Desktop/Master.bank
   Name: Master
   StudioPath: bank:/Master
-  lastModified: 639061461441264043
+  lastModified: 639061478100093659
   FileSizes: []
   Exists: 1
 --- !u!114 &3136255313656384484
@@ -297,7 +297,7 @@ MonoBehaviour:
   Path: FMOD/Desktop/SFX.bank
   Name: SFX
   StudioPath: bank:/SFX
-  lastModified: 639061461443352972
+  lastModified: 639061474164228042
   FileSizes: []
   Exists: 1
 --- !u!114 &3930003198878368396
@@ -361,7 +361,7 @@ MonoBehaviour:
   Path: FMOD/Desktop/UI.bank
   Name: UI
   StudioPath: bank:/UI
-  lastModified: 639061461443812951
+  lastModified: 639061474164884903
   FileSizes: []
   Exists: 1
 --- !u!114 &8147198445935787367
@@ -379,7 +379,7 @@ MonoBehaviour:
   Path: FMOD/Desktop/Ambient.bank
   Name: Ambient
   StudioPath: bank:/Ambient
-  lastModified: 639061461441014056
+  lastModified: 639061474162408053
   FileSizes: []
   Exists: 1
 --- !u!114 &8214135890479273579

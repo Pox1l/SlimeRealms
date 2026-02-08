@@ -280206,7 +280206,7 @@ MonoBehaviour:
       Data2: 1270366757
       Data3: 112042374
       Data4: -1852431741
-    Path: event:/portalSound
+    Path: event:/portalSoundEffect
 --- !u!1001 &1367659837
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -398778,7 +398778,7 @@ MonoBehaviour:
       Data2: 1337967889
       Data3: -729935963
       Data4: -489196086
-    Path: event:/CaveAmbientSound
+    Path: event:/CaveAmbient
   Event: 
   EventPlayTrigger: 1
   EventStopTrigger: 2

@@ -40614,7 +40614,7 @@ MonoBehaviour:
       Data2: 1270366757
       Data3: 112042374
       Data4: -1852431741
-    Path: event:/portalSound
+    Path: event:/portalSoundEffect
 --- !u!1 &1149401723
 GameObject:
   m_ObjectHideFlags: 3

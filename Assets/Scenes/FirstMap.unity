@@ -39846,7 +39846,7 @@ MonoBehaviour:
       Data2: 1270366757
       Data3: 112042374
       Data4: -1852431741
-    Path: event:/portalSound
+    Path: event:/portalSoundEffect
 --- !u!1 &965859749
 GameObject:
   m_ObjectHideFlags: 0
@@ -43450,7 +43450,7 @@ MonoBehaviour:
       Data2: 1270366757
       Data3: 112042374
       Data4: -1852431741
-    Path: event:/portalSound
+    Path: event:/portalSoundEffect
 --- !u!1 &1126159020
 GameObject:
   m_ObjectHideFlags: 0
@@ -243037,6 +243037,69 @@ Transform:
   m_Children: []
   m_Father: {fileID: 1150220735}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &1434257742
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1434257744}
+  - component: {fileID: 1434257743}
+  m_Layer: 0
+  m_Name: SceneAmbient
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1434257743
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1434257742}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9a6610d2e704f1648819acc8d7460285, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  CollisionTag: 
+  EventReference:
+    Guid:
+      Data1: 1008781434
+      Data2: 1313498299
+      Data3: 456350341
+      Data4: -520867659
+    Path: event:/forestAmbient
+  Event: 
+  EventPlayTrigger: 1
+  EventStopTrigger: 2
+  AllowFadeout: 1
+  TriggerOnce: 0
+  Preload: 0
+  NonRigidbodyVelocity: 0
+  Params: []
+  OverrideAttenuation: 0
+  OverrideMinDistance: 1
+  OverrideMaxDistance: 20
+--- !u!4 &1434257744
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1434257742}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &1438387582 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 1981145854991558792, guid: fbbdcb4d6471b924797348ea3b8ddb2a, type: 3}
@@ -408221,7 +408284,7 @@ MonoBehaviour:
       Data2: 1270366757
       Data3: 112042374
       Data4: -1852431741
-    Path: event:/portalSound
+    Path: event:/portalSoundEffect
 --- !u!114 &1856636018 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 8968057584747232848, guid: fbbdcb4d6471b924797348ea3b8ddb2a, type: 3}
@@ -548695,5 +548758,6 @@ SceneRoots:
   - {fileID: 1042120369}
   - {fileID: 1083634408}
   - {fileID: 809911750}
+  - {fileID: 1434257744}
   - {fileID: 1830489151}
   - {fileID: 1052714258}
