@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+// using UnityEngine.EventSystems; // Už není potřeba, smazali jsme tu kontrolu
 
 public class PlayerAttackSystem : MonoBehaviour
 {
@@ -21,17 +22,31 @@ public class PlayerAttackSystem : MonoBehaviour
 
     void Update()
     {
+        // 1. KONTROLA UIMANAGERA (Je otevřené nějaké velké okno?)
+        // Pokud UIManager existuje a některé z jeho menu je otevřené, zakážeme útok.
+        if (UIManager.Instance != null)
+        {
+            if (UIManager.Instance.isGameMenuOpen ||
+                UIManager.Instance.isPaused ||
+                UIManager.Instance.isCrystalUIOpen ||
+                UIManager.Instance.isTutorialOpen ||
+                UIManager.Instance.isDead)
+            {
+                return; // Jsme v menu -> neútočit
+            }
+        }
+
+        // ZDE BYLA KONTROLA MYŠI (EventSystem) - SMAZÁNO.
+        // Teď můžeš útočit i s myší na HP baru.
+
+        // --- Samotný útok ---
         if (currentAttack == null) return;
         if (Time.time < nextAttackTime) return;
 
         if (Input.GetMouseButtonDown(0))
         {
-            // Získáme bonus (nebo 1, pokud chybí stats)
             float multiplier = stats != null ? stats.damageMultiplier : 1f;
-
-            // ⚡ ODESLÁNÍ MULTIPLIERU DO ÚTOKU
             currentAttack.PerformAttack(transform, cam, enemyLayers, multiplier);
-
             nextAttackTime = Time.time + 1f / currentAttack.attackRate;
         }
     }
