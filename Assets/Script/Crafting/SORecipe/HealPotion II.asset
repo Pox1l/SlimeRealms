@@ -18,6 +18,6 @@ MonoBehaviour:
   icon: {fileID: 243313555, guid: 6c769403a5da67642abf3b94d37a7c55, type: 3}
   ingredients:
   - item: {fileID: 11400000, guid: ba8c7c03bcf68c4488ce7e4932b6c44b, type: 2}
-    amount: 5
+    amount: 3
   - item: {fileID: 11400000, guid: b50f4aa7fdbabf343b0fd1eaa39edd73, type: 2}
-    amount: 5
+    amount: 3

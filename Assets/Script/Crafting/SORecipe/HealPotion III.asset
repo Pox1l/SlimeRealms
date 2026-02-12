@@ -17,7 +17,7 @@ MonoBehaviour:
   resultAmount: 1
   icon: {fileID: 1743994027, guid: 6c769403a5da67642abf3b94d37a7c55, type: 3}
   ingredients:
-  - item: {fileID: 11400000, guid: 7d79706d2055af74f9aea9dd46328151, type: 2}
-    amount: 2
   - item: {fileID: 11400000, guid: 2f8a88d31490768468c8cd902796b396, type: 2}
     amount: 2
+  - item: {fileID: 11400000, guid: 7d79706d2055af74f9aea9dd46328151, type: 2}
+    amount: 3

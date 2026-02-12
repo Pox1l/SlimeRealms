@@ -22,11 +22,17 @@ MonoBehaviour:
   currentLevel: 0
   levels:
   - cost:
-    - item: {fileID: 11400000, guid: 8e82602e5a43d9a44abfc264c1de6c2c, type: 2}
-      amount: 1
+    - item: {fileID: 11400000, guid: 7d79706d2055af74f9aea9dd46328151, type: 2}
+      amount: 7
+    - item: {fileID: 11400000, guid: 512f1d49121f3854da5307a13a34cdac, type: 2}
+      amount: 7
   - cost:
-    - item: {fileID: 11400000, guid: 8e82602e5a43d9a44abfc264c1de6c2c, type: 2}
-      amount: 1
+    - item: {fileID: 11400000, guid: 7d79706d2055af74f9aea9dd46328151, type: 2}
+      amount: 8
+    - item: {fileID: 11400000, guid: 512f1d49121f3854da5307a13a34cdac, type: 2}
+      amount: 8
   - cost:
-    - item: {fileID: 11400000, guid: 8e82602e5a43d9a44abfc264c1de6c2c, type: 2}
-      amount: 1
+    - item: {fileID: 11400000, guid: 7d79706d2055af74f9aea9dd46328151, type: 2}
+      amount: 9
+    - item: {fileID: 11400000, guid: 512f1d49121f3854da5307a13a34cdac, type: 2}
+      amount: 9
