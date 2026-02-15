@@ -10,12 +10,12 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 0f935b29232f2bc42ad7d54d3fbb96ca, type: 3}
-  m_Name: BossLiquid
+  m_Name: BlueSlimeBossCrown
   m_EditorClassIdentifier: 
-  itemID: 203
-  itemName: BossLiquid
-  icon: {fileID: -1537402482, guid: 73a0fbb303e65c84981880a4c5e7f1d3, type: 3}
-  description: Boss Liquid...
+  itemID: 202
+  itemName: KingSlimeCrown
+  icon: {fileID: -1617980436, guid: 73a0fbb303e65c84981880a4c5e7f1d3, type: 3}
+  description: Boss Crown...
   maxStack: 25
   isUsable: 0
   cooldown: 1

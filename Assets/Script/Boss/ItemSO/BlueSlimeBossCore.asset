@@ -10,10 +10,10 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 0f935b29232f2bc42ad7d54d3fbb96ca, type: 3}
-  m_Name: BossCore
+  m_Name: BlueSlimeBossCore
   m_EditorClassIdentifier: 
   itemID: 201
-  itemName: BossCore
+  itemName: KingSlimeCore
   icon: {fileID: 1286451806, guid: 73a0fbb303e65c84981880a4c5e7f1d3, type: 3}
   description: Boss Core...
   maxStack: 25

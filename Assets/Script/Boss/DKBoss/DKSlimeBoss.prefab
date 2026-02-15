@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 6201844922603884478}
   - component: {fileID: 3566357575191887581}
   - component: {fileID: 7390786352908880596}
-  - component: {fileID: 7436689611721786593}
+  - component: {fileID: -1768135653197300087}
   - component: {fileID: 2249234615387925807}
   - component: {fileID: 9127668038993353280}
   - component: {fileID: 4281783677729438982}
@@ -159,7 +159,7 @@ MonoBehaviour:
   jumpEffectPrefab: {fileID: 0}
   warningRadius: 0.5
   circleSegments: 20
---- !u!114 &7436689611721786593
+--- !u!114 &-1768135653197300087
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -168,15 +168,16 @@ MonoBehaviour:
   m_GameObject: {fileID: 4075706533552199152}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4c781178db24d0a468e7d3189582d5f5, type: 3}
+  m_Script: {fileID: 11500000, guid: 7c7d01b8f841f5e44be262aa935be108, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  essencePrefab: {fileID: 0}
-  essenceAmount: 1
-  essenceChance: 100
-  energyPrefab: {fileID: 0}
-  energyAmount: 0
-  energyChance: 50
+  drops:
+  - prefab: {fileID: 4280766567422928372, guid: 599d8445df824154b9046ffaa5e3901f, type: 3}
+    amount: 1
+    chance: 80
+  - prefab: {fileID: 1591225388647942326, guid: 302f3bca7ab3e204f87930bfbfc4baf1, type: 3}
+    amount: 1
+    chance: 60
 --- !u!114 &2249234615387925807
 MonoBehaviour:
   m_ObjectHideFlags: 0
