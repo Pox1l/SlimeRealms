@@ -1,5 +1,4 @@
-﻿// [2025-12-11] Upraveno: Přidáno automatické hledání BossEncounter podle tagu
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
 using System.Collections.Generic;
@@ -26,7 +25,7 @@ public class BossEntrance : MonoBehaviour
     public InventoryManager inventoryManager;
 
     [Header("UI Hinty")]
-    public GameObject WorldCanvas; // ZDE můžeš přiřadit ručně
+    public GameObject WorldCanvas;
     public GameObject pressEHint;
     public GameObject requirementsPanel;
     public Transform requirementsParent;
@@ -38,13 +37,11 @@ public class BossEntrance : MonoBehaviour
 
     private void Awake()
     {
-        // 1. Získání WorldCanvasu (Ručně nebo Auto přes Tag)
         if (WorldCanvas == null)
         {
             WorldCanvas = GameObject.FindGameObjectWithTag("WorldUI");
         }
 
-        // 2. Pokud máme Canvas ale chybí Panel, zkusíme ho najít uvnitř
         if (requirementsPanel == null && WorldCanvas != null)
         {
             FindUIReferences();
@@ -54,7 +51,16 @@ public class BossEntrance : MonoBehaviour
             Debug.LogError("BossEntrance: WorldCanvas chybí (není přiřazen ani nalezen tagem 'WorldUI')");
         }
 
-        // 3. Hledání BossEncounter podle tagu (NOVÉ)
+        // 🔍 ÚPRAVA: Hledání hintu "E" přímo pod tímto objektem podle tvého screenu
+        if (pressEHint == null)
+        {
+            Transform foundHint = transform.Find("E");
+            if (foundHint != null)
+            {
+                pressEHint = foundHint.gameObject;
+            }
+        }
+
         if (bossEncounter == null)
         {
             GameObject bossObj = GameObject.FindGameObjectWithTag("BossEncounter");
@@ -68,7 +74,6 @@ public class BossEntrance : MonoBehaviour
             }
         }
 
-        // Zbytek inicializace
         if (inventoryManager == null && InventoryManager.Instance != null)
             inventoryManager = InventoryManager.Instance;
 
@@ -82,14 +87,20 @@ public class BossEntrance : MonoBehaviour
 
     private void FindUIReferences()
     {
-        // Hledáme ReqBossPanel uvnitř WorldCanvasu (i inactive)
         Transform foundPanel = FindDeepChild(WorldCanvas.transform, "ReqBossPanel");
-
         if (foundPanel != null)
         {
             requirementsPanel = foundPanel.gameObject;
-            // Pokud není přiřazen parent pro itemy, použijeme samotný panel
-            if (requirementsParent == null) requirementsParent = foundPanel;
+
+            Transform foundParent = FindDeepChild(foundPanel, "ReqCoinrtainer");
+            if (foundParent != null)
+            {
+                requirementsParent = foundParent;
+            }
+            else
+            {
+                requirementsParent = foundPanel;
+            }
         }
         else
         {

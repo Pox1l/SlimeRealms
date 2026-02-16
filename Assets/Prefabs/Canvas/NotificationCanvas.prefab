@@ -215,3 +215,4 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   container: {fileID: 4827130695891894268}
   entryPrefab: {fileID: 8298813984542418751, guid: a13a981e2cc85454292305a8ec584592, type: 3}
+  inventoryFullIcon: {fileID: 1622811822, guid: 8dd1d2eeccbe9844d8d3c2563e87ff84, type: 3}
