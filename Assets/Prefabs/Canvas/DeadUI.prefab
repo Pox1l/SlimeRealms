@@ -453,6 +453,7 @@ GameObject:
   - component: {fileID: 7985189723134034662}
   - component: {fileID: 7646089543686053913}
   - component: {fileID: 159587272587952981}
+  - component: {fileID: 5604704165547178713}
   m_Layer: 0
   m_Name: DeadUI
   m_TagString: DeadUICanvas
@@ -501,7 +502,7 @@ Canvas:
   m_AdditionalShaderChannelsFlag: 25
   m_UpdateRectTransformForStandalone: 0
   m_SortingLayerID: 0
-  m_SortingOrder: 0
+  m_SortingOrder: 20
   m_TargetDisplay: 0
 --- !u!114 &7985189723134034662
 MonoBehaviour:
@@ -558,6 +559,18 @@ MonoBehaviour:
   deadUICanvas: {fileID: 7871317044669906995}
   uiCanvasGroup: {fileID: 703744209887214642}
   fadeDuration: 1
+--- !u!114 &5604704165547178713
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2731121865256533229}
+  m_Enabled: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 50acb939d81c59c4f9cc239d55578638, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &4450180745977082759
 GameObject:
   m_ObjectHideFlags: 0
