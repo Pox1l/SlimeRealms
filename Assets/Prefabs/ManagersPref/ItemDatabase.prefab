@@ -10,6 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 8310668365715978921}
   - component: {fileID: 5781685332446271641}
+  - component: {fileID: 8421788525459548616}
   m_Layer: 0
   m_Name: ItemDatabase
   m_TagString: Untagged
@@ -69,3 +70,29 @@ MonoBehaviour:
   - {fileID: 11400000, guid: daff3e4570780764994445ff5b96253f, type: 2}
   - {fileID: 11400000, guid: 150e7f978f7106244a15025cc95f0744, type: 2}
   - {fileID: 11400000, guid: 208e1ba229830424c8b78c6168265f63, type: 2}
+  - {fileID: 11400000, guid: b9a253cd8433abb4184da46c8ac307ce, type: 2}
+  - {fileID: 11400000, guid: d47fc3dc088a93b4d859100bbb92cb5a, type: 2}
+  - {fileID: 11400000, guid: 7a8c2d1cc8864014a8682a879d7c7ecc, type: 2}
+  - {fileID: 11400000, guid: 1b3a03cd833aa5649910a3f3d19651e6, type: 2}
+  - {fileID: 11400000, guid: 629c502e62edf0248843f6494df466a7, type: 2}
+  - {fileID: 11400000, guid: eb99658c12977b44398ab1adae3390b8, type: 2}
+--- !u!114 &8421788525459548616
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3384112273431419617}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1326680b8794c7440a5ca2648918c2d4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  text: 'Essence - 0 az 50
+
+    Energie - 0 az 50
+
+    heals - 100 az 107
+
+    boss
+    items - 200 az 300'
