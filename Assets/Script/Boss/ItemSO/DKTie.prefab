@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 1701950302742848304}
   - component: {fileID: 3798565725096723856}
   - component: {fileID: 3621713503502380771}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: DKTie
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -105,7 +105,7 @@ BoxCollider2D:
   m_CallbackLayers:
     serializedVersion: 2
     m_Bits: 4294967295
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_UsedByEffector: 0
   m_UsedByComposite: 0
   m_Offset: {x: 0.00017905235, y: 0.03315273}
@@ -132,7 +132,7 @@ GameObject:
   - component: {fileID: 2711381339781670865}
   - component: {fileID: 1373406032497043894}
   - component: {fileID: 3170430019035463783}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Sprite
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -194,7 +194,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 5
+  m_SortingOrder: 4
   m_Sprite: {fileID: -774859978, guid: 25153d85a09029c4093cb48870023c6b, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0

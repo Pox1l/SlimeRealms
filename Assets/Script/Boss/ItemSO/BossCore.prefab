@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 724959382945811921}
   - component: {fileID: 3216689225027413010}
   - component: {fileID: 1515682379967930772}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: BossCore
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -105,7 +105,7 @@ BoxCollider2D:
   m_CallbackLayers:
     serializedVersion: 2
     m_Bits: 4294967295
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_UsedByEffector: 0
   m_UsedByComposite: 0
   m_Offset: {x: -0.00000023841858, y: 0.005895376}
@@ -132,7 +132,7 @@ GameObject:
   - component: {fileID: 8508985162153478970}
   - component: {fileID: 208858984448664237}
   - component: {fileID: 9185121462452401634}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Sprite
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -194,7 +194,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 5
+  m_SortingOrder: 4
   m_Sprite: {fileID: 1286451806, guid: 73a0fbb303e65c84981880a4c5e7f1d3, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0

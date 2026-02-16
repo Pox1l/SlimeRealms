@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 5384290985790229236}
   - component: {fileID: 4562068391754929793}
   - component: {fileID: 8521043213805520725}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: DKLiquid
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -78,7 +78,7 @@ BoxCollider2D:
   m_CallbackLayers:
     serializedVersion: 2
     m_Bits: 4294967295
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_UsedByEffector: 0
   m_UsedByComposite: 0
   m_Offset: {x: -0.026458502, y: -0.08751702}
@@ -132,7 +132,7 @@ GameObject:
   - component: {fileID: 3776734774842777303}
   - component: {fileID: 5921062122176568763}
   - component: {fileID: 8649998411868257352}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Sprite
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -194,7 +194,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 5
+  m_SortingOrder: 4
   m_Sprite: {fileID: 100576049, guid: 25153d85a09029c4093cb48870023c6b, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
