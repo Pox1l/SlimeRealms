@@ -1,5 +1,4 @@
-﻿// PickupNotificationEntry - Úprava pro Pooling
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
 using System.Collections;
@@ -16,6 +15,10 @@ public class PickupNotificationEntry : MonoBehaviour
 
     private CanvasGroup canvasGroup;
 
+    // 🔍 ÚPRAVA: Proměnné pro uchování základní zprávy a počítadla
+    [HideInInspector] public string baseMessage;
+    private int count = 1;
+
     void Awake()
     {
         canvasGroup = GetComponent<CanvasGroup>();
@@ -25,7 +28,9 @@ public class PickupNotificationEntry : MonoBehaviour
 
     public void Setup(Sprite icon, string message, bool isError = false)
     {
-        // Ujistíme se, že je objekt aktivní a na začátku seznamu
+        baseMessage = message; // Uložíme si původní text bez čísla
+        count = 1; // Reset počítadla
+
         gameObject.SetActive(true);
         transform.SetAsFirstSibling();
 
@@ -35,26 +40,39 @@ public class PickupNotificationEntry : MonoBehaviour
             iconImage.enabled = icon != null;
         }
 
-        if (text != null)
-        {
-            text.text = message;
-            text.color = isError ? Color.red : Color.white;
-        }
+        UpdateText(isError);
 
-        // Reset stavu (důležité při recyklaci)
         canvasGroup.alpha = 1f;
-
-        // Zastavit předchozí coroutiny (pro jistotu) a spustit novou
         StopAllCoroutines();
         StartCoroutine(LifeRoutine());
     }
 
+    // 🔍 ÚPRAVA: Nová funkce, kterou volá Manager pro navýšení počtu
+    public void AddCount(bool isError = false)
+    {
+        count++;
+        UpdateText(isError);
+
+        // Znovu nastartujeme časovač, aby hned nezmizela
+        canvasGroup.alpha = 1f;
+        StopAllCoroutines();
+        StartCoroutine(LifeRoutine());
+    }
+
+    // 🔍 ÚPRAVA: Samostatná funkce pro přepsání textu (přidá "Nx" na začátek, pokud je jich víc)
+    private void UpdateText(bool isError)
+    {
+        if (text != null)
+        {
+            text.text = count > 1 ? $"{count}x {baseMessage}" : baseMessage;
+            text.color = isError ? Color.red : Color.white;
+        }
+    }
+
     IEnumerator LifeRoutine()
     {
-        // 1. Čekání (nezávislé na TimeScale)
         yield return new WaitForSecondsRealtime(lifeTime);
 
-        // 2. Fade out (nezávislé na TimeScale)
         float t = 0f;
         while (t < fadeTime)
         {
@@ -64,7 +82,6 @@ public class PickupNotificationEntry : MonoBehaviour
             yield return null;
         }
 
-        // 3. POOLING: Místo Destroy objekt jen deaktivujeme
         gameObject.SetActive(false);
     }
 }

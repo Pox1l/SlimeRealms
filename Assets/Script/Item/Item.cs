@@ -5,7 +5,8 @@ public class Item : MonoBehaviour
     public ItemSO itemData;
     public int quantity = 1;
 
-    private void OnCollisionEnter2D(Collision2D collision)
+    // Změněno na OnTriggerEnter2D a Collider2D
+    private void OnTriggerEnter2D(Collider2D collision)
     {
         if (!collision.gameObject.CompareTag("Player")) return;
         if (itemData == null) return;
@@ -16,7 +17,7 @@ public class Item : MonoBehaviour
             if (PickupNotificationManager.Instance != null)
             {
                 // čistá textová hláška
-                PickupNotificationManager.Instance.ShowMessage("Inventář je plný!");
+                PickupNotificationManager.Instance.ShowMessage("Inventory is full!");
             }
             return; // nic nebereme, item zůstává ležet
         }
