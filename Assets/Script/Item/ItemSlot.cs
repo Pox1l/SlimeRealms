@@ -104,6 +104,18 @@ public class ItemSlot : MonoBehaviour,
     {
         itemData = null;
         quantity = 0;
+
+        // 🔥 PŘIDÁNO: Zhasnutí pozadí a zrušení výběru
+        if (selectedShader != null)
+            selectedShader.SetActive(false);
+
+        if (currentSelectedSlot == this)
+        {
+            currentSelectedSlot = null;
+            if (InventoryManager.Instance != null)
+                InventoryManager.Instance.ShowItemDescription(null);
+        }
+
         UpdateUI();
     }
 
