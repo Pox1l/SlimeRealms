@@ -22754,6 +22754,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: ItemSlot (54)
       objectReference: {fileID: 0}
+    - target: {fileID: 3890386438643133412, guid: c9dad1dd003c3b94a84402531b84cdb9, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -548963,6 +548967,10 @@ PrefabInstance:
       propertyPath: descriptionText
       value: 
       objectReference: {fileID: 672882346}
+    - target: {fileID: 1645044421406316427, guid: 407f821c9ef3eda408c75d4b5166215d, type: 3}
+      propertyPath: inventoryScroll
+      value: 
+      objectReference: {fileID: 1021029346}
     - target: {fileID: 1645044421406316427, guid: 407f821c9ef3eda408c75d4b5166215d, type: 3}
       propertyPath: itemSlots.Array.size
       value: 56
