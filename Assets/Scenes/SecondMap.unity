@@ -781,14 +781,6 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 7058685942823658197, guid: fbbdcb4d6471b924797348ea3b8ddb2a, type: 3}
-      propertyPath: m_IsActive
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 7289751854428742444, guid: fbbdcb4d6471b924797348ea3b8ddb2a, type: 3}
-      propertyPath: m_IsActive
-      value: 0
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -33964,7 +33956,7 @@ MonoBehaviour:
     requiredAmount: 1
   inventoryManager: {fileID: 0}
   WorldCanvas: {fileID: 1777678810}
-  pressEHint: {fileID: 1523650509}
+  pressEHint: {fileID: 0}
   requirementsPanel: {fileID: 355297118}
   requirementsParent: {fileID: 981707638}
   requirementPrefab: {fileID: 4175007286325436197, guid: 1e679e3d2e6a3444eb1632ad547776ad, type: 3}
@@ -34112,7 +34104,7 @@ BoxCollider2D:
   m_IsTrigger: 1
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: -7.133382, y: 0.086334705}
+  m_Offset: {x: -5.1850786, y: 0.086334705}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0, y: 0}
@@ -34123,7 +34115,7 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 36.543854, y: 13.458533}
+  m_Size: {x: 32.64724, y: 13.458533}
   m_EdgeRadius: 0
 --- !u!4 &326864592
 Transform:
@@ -189843,7 +189835,7 @@ BoxCollider2D:
   m_IsTrigger: 1
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: -7.514289, y: 0.72041893}
+  m_Offset: {x: -5.469098, y: 0.72041893}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0, y: 0}
@@ -189854,7 +189846,7 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 36.80053, y: 13.518925}
+  m_Size: {x: 32.710144, y: 13.518925}
   m_EdgeRadius: 0
 --- !u!1001 &1360787232
 PrefabInstance:
@@ -192449,11 +192441,6 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: af952c8628fa2014d9fc791a41b5096a, type: 3}
---- !u!1 &1523650509 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 7069511017996135798, guid: af952c8628fa2014d9fc791a41b5096a, type: 3}
-  m_PrefabInstance: {fileID: 1523650508}
-  m_PrefabAsset: {fileID: 0}
 --- !u!4 &1523650510 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 2768170267968712791, guid: af952c8628fa2014d9fc791a41b5096a, type: 3}

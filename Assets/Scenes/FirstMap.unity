@@ -26732,11 +26732,6 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 7851764055371270837, guid: d496b56af92fb8748a10cd1aaacee213, type: 3}
   m_PrefabInstance: {fileID: 802371687}
   m_PrefabAsset: {fileID: 0}
---- !u!1 &864653650 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 6555189233422926512, guid: bb6ebc3ccc8810348b84000e311dc221, type: 3}
-  m_PrefabInstance: {fileID: 999941470474455369}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &870825203
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -548769,14 +548764,6 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 192838133}
     m_Modifications:
-    - target: {fileID: 2327255682240400101, guid: c6b016f046b652e47afda38e02f1700f, type: 3}
-      propertyPath: m_AnchorMax.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 2327255682240400101, guid: c6b016f046b652e47afda38e02f1700f, type: 3}
-      propertyPath: m_AnchorMax.y
-      value: 0
-      objectReference: {fileID: 0}
     - target: {fileID: 4286315615548193163, guid: c6b016f046b652e47afda38e02f1700f, type: 3}
       propertyPath: m_Name
       value: HudCanvas
@@ -548859,14 +548846,6 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5520674647008222435, guid: c6b016f046b652e47afda38e02f1700f, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 5810255114399616213, guid: c6b016f046b652e47afda38e02f1700f, type: 3}
-      propertyPath: m_AnchorMax.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 5810255114399616213, guid: c6b016f046b652e47afda38e02f1700f, type: 3}
-      propertyPath: m_AnchorMax.y
       value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
@@ -549227,10 +549206,6 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 192838133}
     m_Modifications:
-    - target: {fileID: 1915339035696127195, guid: 45221fe82bc27f54ba876db44fcc4df5, type: 3}
-      propertyPath: settingsMenuRoot
-      value: 
-      objectReference: {fileID: 864653650}
     - target: {fileID: 3842484494253075331, guid: 45221fe82bc27f54ba876db44fcc4df5, type: 3}
       propertyPath: m_Name
       value: PauseMenuCanvas
