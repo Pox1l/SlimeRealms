@@ -159,6 +159,8 @@ public class ItemSlot : MonoBehaviour,
         // --- Pravé tlačítko (Kontextové Menu) ---
         if (eventData.button == PointerEventData.InputButton.Right && itemData != null)
         {
+            SelectThisSlot(); // 🔥 PŘIDÁNO: Slot se hned vybarví a označí jako vybraný
+
             if (InventoryManager.Instance.contextMenu != null)
             {
                 InventoryManager.Instance.contextMenu.OpenMenu(this, eventData.position);

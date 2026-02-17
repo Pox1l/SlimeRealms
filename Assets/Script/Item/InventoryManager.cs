@@ -158,30 +158,51 @@ public class InventoryManager : MonoBehaviour
             if (saveObj != null) saveSystem = saveObj.GetComponent<InventorySaveSystem>();
         }
 
-        bool itemAdded = false; // Pomocná proměnná pro detekci změny
+        bool itemAdded = false;
 
+        // 🔥 1. KROK: Zkusíme doplnit už existující itemy (aby se stohovaly)
         for (int i = 0; i < itemSlots.Length; i++)
         {
-            if (itemSlots[i].itemData == null || itemSlots[i].itemData == itemData)
+            // Přidáváme jen do slotů, kde UŽ TENTO ITEM JE a NENÍ PLNÝ
+            if (itemSlots[i].itemData == itemData && !itemSlots[i].IsFull)
             {
                 int leftOver = itemSlots[i].AddItem(itemData, quantity);
 
                 if (leftOver < quantity)
                 {
-                    // Něco se přidalo
                     quantity = leftOver;
                     itemAdded = true;
                 }
 
-                if (quantity <= 0) break; // Vyskočíme z cyklu, už máme hotovo
+                if (quantity <= 0) break; // Všechno jsme uložili
             }
         }
 
-        // 🔥 POKUD DOŠLO KE ZMĚNĚ, ULOŽÍME A OZNÁMÍME TO
+        // 🔥 2. KROK: Pokud nám něco zbylo, najdeme první PRÁZDNÝ slot
+        if (quantity > 0)
+        {
+            for (int i = 0; i < itemSlots.Length; i++)
+            {
+                if (itemSlots[i].itemData == null)
+                {
+                    int leftOver = itemSlots[i].AddItem(itemData, quantity);
+
+                    if (leftOver < quantity)
+                    {
+                        quantity = leftOver;
+                        itemAdded = true;
+                    }
+
+                    if (quantity <= 0) break;
+                }
+            }
+        }
+
+        // POKUD DOŠLO KE ZMĚNĚ, ULOŽÍME A OZNÁMÍME TO
         if (itemAdded)
         {
             if (saveSystem != null) saveSystem.SaveInventory();
-            OnInventoryChanged?.Invoke(); // 📢 Oznámíme Quick Slotu, že se změnil počet!
+            OnInventoryChanged?.Invoke();
             return 0;
         }
 

@@ -86,9 +86,15 @@ public class InventoryContextMenu : MonoBehaviour
         if (currentSlot?.itemData != null)
         {
             bool used = currentSlot.itemData.UseItem();
-            if (used && InventoryManager.Instance != null)
+            if (used)
             {
-                InventoryManager.Instance.RemoveItem(currentSlot.itemData, 1);
+                // 🔥 Smaže item PŘÍMO z tohoto slotu
+                currentSlot.RemoveItem(1);
+
+                if (InventoryManager.Instance != null && InventoryManager.Instance.saveSystem != null)
+                {
+                    InventoryManager.Instance.saveSystem.SaveInventory();
+                }
             }
         }
         CloseMenu();
@@ -122,9 +128,15 @@ public class InventoryContextMenu : MonoBehaviour
 
     private void OnDeleteItem()
     {
-        if (currentSlot != null && InventoryManager.Instance != null)
+        if (currentSlot != null)
         {
-            InventoryManager.Instance.RemoveItem(currentSlot.itemData, currentSlot.quantity);
+            // 🔥 Smaže celý obsah PŘÍMO z tohoto slotu
+            currentSlot.RemoveItem(currentSlot.quantity);
+
+            if (InventoryManager.Instance != null && InventoryManager.Instance.saveSystem != null)
+            {
+                InventoryManager.Instance.saveSystem.SaveInventory();
+            }
         }
         CloseMenu();
     }
