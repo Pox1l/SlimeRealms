@@ -1591,23 +1591,23 @@ MonoBehaviour:
           iconNameOrGuid: 
           isIconRecursive: 0
           isColorRecursive: 0
-        - colorIndex: 0
+        - colorIndex: 9
           iconNameOrGuid: Canvas Icon
           isIconRecursive: 0
           isColorRecursive: 0
-        - colorIndex: 0
+        - colorIndex: 3
           iconNameOrGuid: Canvas Icon
           isIconRecursive: 0
           isColorRecursive: 0
-        - colorIndex: 0
+        - colorIndex: 7
           iconNameOrGuid: Canvas Icon
           isIconRecursive: 0
           isColorRecursive: 0
-        - colorIndex: 0
+        - colorIndex: 5
           iconNameOrGuid: Canvas Icon
           isIconRecursive: 0
           isColorRecursive: 0
-        - colorIndex: 0
+        - colorIndex: 5
           iconNameOrGuid: Canvas Icon
           isIconRecursive: 0
           isColorRecursive: 0

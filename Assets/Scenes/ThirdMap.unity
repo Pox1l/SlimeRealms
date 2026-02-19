@@ -252963,11 +252963,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2267699305006906776, guid: 17b64f108563e68428463ed15ecab6f0, type: 3}
       propertyPath: m_AnchorMax.x
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 2267699305006906776, guid: 17b64f108563e68428463ed15ecab6f0, type: 3}
       propertyPath: m_AnchorMax.y
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 7292586735965828989, guid: 17b64f108563e68428463ed15ecab6f0, type: 3}
       propertyPath: m_Pivot.x
@@ -253063,7 +253063,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 9096482049182002217, guid: 17b64f108563e68428463ed15ecab6f0, type: 3}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -397937,11 +397937,11 @@ Transform:
   - {fileID: 559787779}
   - {fileID: 30667680}
   - {fileID: 1055341253}
-  - {fileID: 2011096646}
-  - {fileID: 1562001633}
   - {fileID: 64724512}
   - {fileID: 1722637259}
   - {fileID: 1180453688}
+  - {fileID: 1562001633}
+  - {fileID: 2011096646}
   - {fileID: 1013601219}
   - {fileID: 1307852302}
   m_Father: {fileID: 0}

@@ -28,7 +28,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &7376769576426757717
 Transform:
   m_ObjectHideFlags: 0
@@ -154,13 +154,13 @@ MonoBehaviour:
       Data4: 0
     Path: 
   moveSpeed: 3.5
-  attackRange: 2.5
-  attackCooldown: 1.5
+  attackRange: 2
+  attackCooldown: 2
   jumpDamageRadius: 3
   jumpDamageAmount: 10
   jumpEffectPrefab: {fileID: 4045572480697429423, guid: 2e1f2d1bc6e67814393e632ba8b33e14, type: 3}
-  warningRadius: 0.5
-  circleSegments: 20
+  warningRadius: 1.5
+  circleSegments: 50
 --- !u!114 &-1768135653197300087
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -530,7 +530,7 @@ Transform:
   m_GameObject: {fileID: 6868928561362631796}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 2.5, y: 0, z: 0}
+  m_LocalPosition: {x: 1.5, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
