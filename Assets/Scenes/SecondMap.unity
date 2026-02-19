@@ -990,7 +990,7 @@ MonoBehaviour:
   bossPrefab: {fileID: 4075706533552199152, guid: db868c6db9c2e8646acea8d4258b4ebb, type: 3}
   spawnPoint: {fileID: 2059131694}
   startDelay: 0.5
-  bossName: Slime King
+  bossName: DonkeyKong Slime
   bossDefeated: 0
   barrierObject: {fileID: 2015421895}
   barrierDelay: 1
@@ -34785,7 +34785,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &355297119
 RectTransform:
   m_ObjectHideFlags: 0
@@ -34803,7 +34803,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 143.8, y: 709.8}
+  m_AnchoredPosition: {x: 131.8, y: 715.6}
   m_SizeDelta: {x: 15, y: 20}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &355297120
@@ -34852,8 +34852,8 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 0}
-  m_Type: 0
+  m_Sprite: {fileID: 7312136985605139957, guid: 804dcc253fff44942ad276e1814f7836, type: 3}
+  m_Type: 1
   m_PreserveAspect: 0
   m_FillCenter: 1
   m_FillMethod: 4
@@ -36365,10 +36365,6 @@ PrefabInstance:
     - target: {fileID: 4075706533552199152, guid: db868c6db9c2e8646acea8d4258b4ebb, type: 3}
       propertyPath: m_Name
       value: DKSlimeBoss
-      objectReference: {fileID: 0}
-    - target: {fileID: 4075706533552199152, guid: db868c6db9c2e8646acea8d4258b4ebb, type: 3}
-      propertyPath: m_IsActive
-      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7376769576426757717, guid: db868c6db9c2e8646acea8d4258b4ebb, type: 3}
       propertyPath: m_LocalPosition.x

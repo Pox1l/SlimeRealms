@@ -28,7 +28,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &7376769576426757717
 Transform:
   m_ObjectHideFlags: 0
@@ -130,9 +130,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9a27d1cc877bc634a9b91cde2a520acd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  currentStage: 1
+  currentStage: 0
   bossHealth: {fileID: 2249234615387925807}
-  attackPrefab: {fileID: 7833264089034156682, guid: 4080adcf81be23f429395e8483f99a31, type: 3}
+  attackPrefab1: {fileID: 7833264089034156682, guid: 4080adcf81be23f429395e8483f99a31, type: 3}
+  attackPrefab2: {fileID: 4429755963555908608, guid: 866d47dd7737c7c45a93425c1237b731, type: 3}
   warningLine: {fileID: 8897068011846933232}
   fixedPoint: {fileID: 5395907703456414776}
   firePoint: {fileID: 9033750638644627000}

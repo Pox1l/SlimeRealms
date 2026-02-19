@@ -1,4 +1,4 @@
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.AI;
 using FMODUnity;
 using FMOD.Studio;
@@ -7,14 +7,16 @@ using System;
 [RequireComponent(typeof(NavMeshAgent))]
 public class DKBossController : MonoBehaviour
 {
-    // ... (Prom�nn�) ...
+    // ... (Proměnné) ...
     public enum BossStage { Phase1, Phase2 }
     [Header("Boss Status")]
     public BossStage currentStage = BossStage.Phase1;
     public BossHealth bossHealth;
 
     [Header("References")]
-    public GameObject attackPrefab;
+    // 🔥 ZMĚNA: Dva sloty pro útoky ve fázi 1
+    public GameObject attackPrefab1;
+    public GameObject attackPrefab2;
     public LineRenderer warningLine;
     public Transform fixedPoint;
     public Transform firePoint;
@@ -169,27 +171,40 @@ public class DKBossController : MonoBehaviour
         else if (currentStage == BossStage.Phase2) StartJumpAttack();
     }
 
-    // --- F�ZE 1: MELEE ---
+    // --- FÁZE 1: MELEE ---
     void StartMeleeAttack()
     {
         if (animator != null) animator.SetTrigger("Attack");
         if (warningLine != null) warningLine.enabled = true;
 
-        Invoke("SpawnAttackHitbox", 0.8f);
-        Invoke("FinishAttack", 1.0f);
+        // 🔥 ZMĚNA: Hitbox se už nespanuje přes Invoke, použij Animation Eventy v animátoru!
+        Invoke(nameof(FinishAttack), 1.0f);
     }
 
-    public void SpawnAttackHitbox()
+    // 🔥 NOVÉ: Event pro PRVNÍ útok (nastav v animaci Event: SpawnAttack1)
+    public void SpawnAttack1()
+    {
+        SpawnProjectile(attackPrefab1);
+    }
+
+    // 🔥 NOVÉ: Event pro DRUHÝ útok (nastav v animaci Event: SpawnAttack2)
+    public void SpawnAttack2()
+    {
+        SpawnProjectile(attackPrefab2);
+    }
+
+    // 🔥 NOVÉ: Pomocná metoda pro vytvoření útoku
+    private void SpawnProjectile(GameObject prefabToSpawn)
     {
         if (warningLine != null) warningLine.enabled = false;
-        if (attackPrefab == null || firePoint == null || fixedPoint == null) return;
+        if (prefabToSpawn == null || firePoint == null || fixedPoint == null) return;
 
         RotatePivotToPlayer();
-        Quaternion correction = Quaternion.Euler(0, 0, 0);
-        Instantiate(attackPrefab, firePoint.position, fixedPoint.rotation * correction);
+        Quaternion correction = Quaternion.Euler(0, 0, 0); // Oproti slimovi ponecháno 0 kvůli původní logice bosse
+        Instantiate(prefabToSpawn, firePoint.position, fixedPoint.rotation * correction);
     }
 
-    // --- F�ZE 2: JUMP ---
+    // --- FÁZE 2: JUMP ---
     void StartJumpAttack()
     {
         agent.isStopped = true;
@@ -227,9 +242,10 @@ public class DKBossController : MonoBehaviour
     {
         isAttacking = false;
         if (warningLine != null) warningLine.enabled = false;
+        CancelInvoke(nameof(FinishAttack));
     }
 
-    // --- POMOCN� FUNKCE ---
+    // --- POMOCNÉ FUNKCE ---
     void DrawWarningCircle(float radius)
     {
         if (warningLine == null || firePoint == null) return;
@@ -252,7 +268,7 @@ public class DKBossController : MonoBehaviour
         float angle = Mathf.Atan2(dir.y, dir.x) * Mathf.Rad2Deg;
         fixedPoint.rotation = Quaternion.Euler(0, 0, angle);
     }
-
+ 
     void SetAnimator(Vector2 velocity)
     {
         if (animator == null) return;
