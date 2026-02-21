@@ -15,7 +15,7 @@ MonoBehaviour:
   itemID: 223
   itemName: SpiderLiquid
   icon: {fileID: 616189698, guid: 0e6ec7f224e098449b43902e365d9d46, type: 3}
-  description: Boss Liquid...
+  description: Highly volatile boss extract.
   maxStack: 25
   isUsable: 0
   cooldown: 1

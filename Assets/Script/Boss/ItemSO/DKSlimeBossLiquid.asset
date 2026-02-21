@@ -15,7 +15,7 @@ MonoBehaviour:
   itemID: 213
   itemName: DKSlimeLiquid
   icon: {fileID: 100576049, guid: 25153d85a09029c4093cb48870023c6b, type: 3}
-  description: Boss Liquid...
+  description: Highly volatile boss extract.
   maxStack: 25
   isUsable: 0
   cooldown: 1

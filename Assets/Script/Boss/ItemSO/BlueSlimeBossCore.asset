@@ -15,7 +15,7 @@ MonoBehaviour:
   itemID: 201
   itemName: KingSlimeCore
   icon: {fileID: 1286451806, guid: 73a0fbb303e65c84981880a4c5e7f1d3, type: 3}
-  description: Boss Core...
+  description: A pulsating core of immense energy. Warm to the touch.
   maxStack: 25
   isUsable: 0
   cooldown: 1

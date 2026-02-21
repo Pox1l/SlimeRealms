@@ -15,7 +15,7 @@ MonoBehaviour:
   itemID: 222
   itemName: SpiderBossWeb
   icon: {fileID: -1002252267, guid: 0e6ec7f224e098449b43902e365d9d46, type: 3}
-  description: Boss Web...
+  description: Unbreakable silk from a monstrous arachnid.
   maxStack: 25
   isUsable: 0
   cooldown: 1

@@ -15,7 +15,7 @@ MonoBehaviour:
   itemID: 211
   itemName: DKSlimeCore
   icon: {fileID: 1916447380, guid: 25153d85a09029c4093cb48870023c6b, type: 3}
-  description: Boss Core...
+  description: A pulsating core of immense energy. Warm to the touch.
   maxStack: 25
   isUsable: 0
   cooldown: 1

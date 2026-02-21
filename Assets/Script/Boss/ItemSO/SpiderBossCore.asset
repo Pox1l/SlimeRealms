@@ -15,7 +15,7 @@ MonoBehaviour:
   itemID: 221
   itemName: SpiderCore
   icon: {fileID: -564693130, guid: 0e6ec7f224e098449b43902e365d9d46, type: 3}
-  description: Boss Core...
+  description: A pulsating core of immense energy. Warm to the touch.
   maxStack: 25
   isUsable: 0
   cooldown: 1

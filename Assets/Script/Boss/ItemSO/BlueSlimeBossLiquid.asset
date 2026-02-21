@@ -15,7 +15,7 @@ MonoBehaviour:
   itemID: 203
   itemName: KingSlimeLiquid
   icon: {fileID: -1537402482, guid: 73a0fbb303e65c84981880a4c5e7f1d3, type: 3}
-  description: Boss Liquid...
+  description: Highly volatile boss extract.
   maxStack: 25
   isUsable: 0
   cooldown: 1
