@@ -55,6 +55,7 @@ TagManager:
   - TutorialRoot
   - BossEncounter
   - BossEntrance
+  - PhaseBG
   layers:
   - Default
   - TransparentFX

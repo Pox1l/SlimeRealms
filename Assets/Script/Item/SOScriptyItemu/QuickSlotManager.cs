@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
+using System.Collections;
 
 public class QuickSlotManager : MonoBehaviour
 {
@@ -8,14 +9,21 @@ public class QuickSlotManager : MonoBehaviour
 
     [Header("Settings")]
     public KeyCode useKey = KeyCode.Alpha3;
+    public float warningDisplayTime = 2f; // Čas zobrazení hlášky před tím, než začne mizet
+    public float warningFadeTime = 0.5f;  // Jak dlouho trvá, než text úplně zmizí
 
     [Header("UI Reference")]
     public GameObject quickSlotUI;
     public Image iconImage;
     public TextMeshProUGUI countText;
-    public Image cooldownOverlay;  // 🖼️ Ten tmavý kruh
+    public Image cooldownOverlay;
+
+    [SerializeField]
+    public TextMeshProUGUI warningText;
+    public CanvasGroup warningCanvasGroup; // PŘIDÁNO: Reference na Canvas Group
 
     private ItemSO currentItem;
+    private Coroutine warningCoroutine;
 
     private void Awake()
     {
@@ -28,6 +36,11 @@ public class QuickSlotManager : MonoBehaviour
         {
             InventoryManager.Instance.OnInventoryChanged += UpdateSlotUI;
         }
+
+        // PŘIDÁNO: Na začátku text zneviditelníme
+        if (warningText) warningText.text = "";
+        if (warningCanvasGroup) warningCanvasGroup.alpha = 0f;
+
         UpdateSlotUI();
     }
 
@@ -41,28 +54,21 @@ public class QuickSlotManager : MonoBehaviour
 
     private void Update()
     {
-        // 1. 🔥 VYKRESLOVÁNÍ COOLDOWNU (Inspirováno PlayerCombatUI)
         if (currentItem != null && cooldownOverlay != null)
         {
-            // Kdy bude item znovu připraven? (Jako nextAttackTime)
             float readyTime = currentItem.lastTimeUsed + currentItem.cooldown;
-
-            // Kolik času zbývá do připravenosti?
             float timeLeft = readyTime - Time.time;
 
             if (timeLeft > 0)
             {
-                // Vypočítáme procento (0 až 1)
                 cooldownOverlay.fillAmount = timeLeft / currentItem.cooldown;
             }
             else
             {
-                // Cooldown skončil
                 cooldownOverlay.fillAmount = 0;
             }
         }
 
-        // 2. Použití klávesy
         if (Input.GetKeyDown(useKey))
         {
             if (currentItem != null) UseQuickItem();
@@ -71,6 +77,12 @@ public class QuickSlotManager : MonoBehaviour
 
     public void AssignItemToSlot(ItemSO item)
     {
+        if (!item.isUsable)
+        {
+            ShowWarning("Cannot be placed in Quick Slot.");
+            return;
+        }
+
         currentItem = item;
         UpdateSlotUI();
     }
@@ -79,7 +91,6 @@ public class QuickSlotManager : MonoBehaviour
     {
         if (InventoryManager.Instance == null) return;
 
-        // Kontrola počtu
         int count = InventoryManager.Instance.GetTotalItemCount(currentItem);
         if (count <= 0)
         {
@@ -88,14 +99,52 @@ public class QuickSlotManager : MonoBehaviour
             return;
         }
 
-        // Zkusíme použít item
-        bool used = currentItem.UseItem();
+        string failMessage;
+        bool used = currentItem.UseItem(out failMessage);
 
         if (used)
         {
+            if (warningCanvasGroup) warningCanvasGroup.alpha = 0f; // Schovat při úspěchu
             InventoryManager.Instance.RemoveItem(currentItem, 1);
             UpdateSlotUI();
         }
+        else if (!string.IsNullOrEmpty(failMessage))
+        {
+            ShowWarning(failMessage);
+        }
+    }
+
+    private void ShowWarning(string message)
+    {
+        if (warningText == null || warningCanvasGroup == null) return;
+
+        warningText.text = message;
+
+        if (warningCoroutine != null) StopCoroutine(warningCoroutine);
+        warningCoroutine = StartCoroutine(ShowAndFadeWarningRoutine());
+    }
+
+    // PŘEPRACOVÁNO: Zobrazí text a pak ho plynule skryje přes Canvas Group
+    private IEnumerator ShowAndFadeWarningRoutine()
+    {
+        // 1. Okamžité zobrazení
+        warningCanvasGroup.alpha = 1f;
+
+        // 2. Počkání
+        yield return new WaitForSeconds(warningDisplayTime);
+
+        // 3. Plynulé mizení
+        float elapsedTime = 0f;
+        while (elapsedTime < warningFadeTime)
+        {
+            elapsedTime += Time.deltaTime;
+            warningCanvasGroup.alpha = Mathf.Lerp(1f, 0f, elapsedTime / warningFadeTime);
+            yield return null; // Čeká na další frame
+        }
+
+        // 4. Úplné skrytí na konci
+        warningCanvasGroup.alpha = 0f;
+        warningText.text = "";
     }
 
     private void UpdateSlotUI()

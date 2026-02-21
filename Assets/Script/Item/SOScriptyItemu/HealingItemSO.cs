@@ -6,24 +6,28 @@ public class HealingItemSO : ItemSO
     [Header("Heal Settings")]
     public int healAmount = 20;
 
-    public override bool UseItem()
+    // UPRAVENO: Přidán parametr pro hlášku
+    public override bool UseItem(out string failMessage)
     {
+        failMessage = "";
+
         // 1. POJISTKA PROTI CHYBĚ UNITY EDITORU
         if (lastTimeUsed > Time.time) lastTimeUsed = -999f;
 
         // 2. KONTROLA COOLDOWNU
         if (Time.time < lastTimeUsed + cooldown)
         {
+            failMessage = "Item is on cooldown!"; // UPRAVENO místo Debug.Log
             return false;
         }
 
-        // 2. KONTROLA ZDRAVÍ
+        // 3. KONTROLA ZDRAVÍ
         if (PlayerStats.Instance != null)
         {
             // 🔥 Pokud máš plné životy, vrátíme false -> nic se nestane
             if (PlayerStats.Instance.currentHealth >= PlayerStats.Instance.maxHealth)
             {
-                Debug.Log("Health is full!");
+                failMessage = "HP is full!"; // UPRAVENO místo Debug.Log
                 return false;
             }
 
@@ -35,6 +39,8 @@ public class HealingItemSO : ItemSO
 
             return true; // Item se spotřeboval
         }
+
+        failMessage = "Chyba hráče!"; // Pokud nenajde PlayerStats
         return false;
     }
 }

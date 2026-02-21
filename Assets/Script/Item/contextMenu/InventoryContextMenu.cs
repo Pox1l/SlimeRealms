@@ -85,7 +85,10 @@ public class InventoryContextMenu : MonoBehaviour
     {
         if (currentSlot?.itemData != null)
         {
-            bool used = currentSlot.itemData.UseItem();
+            // OPRAVA ZDE: Přidáno zachycení hlášky failMessage
+            string failMessage;
+            bool used = currentSlot.itemData.UseItem(out failMessage);
+
             if (used)
             {
                 // 🔥 Smaže item PŘÍMO z tohoto slotu
@@ -95,6 +98,11 @@ public class InventoryContextMenu : MonoBehaviour
                 {
                     InventoryManager.Instance.saveSystem.SaveInventory();
                 }
+            }
+            else if (!string.IsNullOrEmpty(failMessage))
+            {
+                // Prozatím vypíše chybovou hlášku do konzole (např. když máš plné HP)
+                Debug.Log(failMessage);
             }
         }
         CloseMenu();

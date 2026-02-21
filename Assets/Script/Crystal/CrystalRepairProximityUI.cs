@@ -6,10 +6,12 @@ public class CrystalRepairProximityUI : MonoBehaviour
     [Header("References")]
     public CrystalUIController crystalController;
     public TextMeshProUGUI progressText;
+    public GameObject phaseBG; // PŘIDÁNO: Reference na pozadí
 
     [Header("Settings")]
     public string playerTag = "Player";
     public string progressTextTag = "PhaseText";
+    public string phaseBGTag = "PhaseBG"; // PŘIDÁNO: Tag pro pozadí
 
     private Collider2D proximityCollider;
     private bool isPlayerInRange = false;
@@ -29,6 +31,17 @@ public class CrystalRepairProximityUI : MonoBehaviour
         else
         {
             Debug.LogError("CrystalRepairProximityUI: Progress Text není nastaven ani nalezen pomocí tagu.");
+        }
+
+        // --- Setup Phase BG --- (PŘIDÁNO)
+        if (phaseBG == null)
+        {
+            phaseBG = GameObject.FindWithTag(phaseBGTag);
+        }
+
+        if (phaseBG != null)
+        {
+            phaseBG.SetActive(false);
         }
 
         // --- Setup Collider ---
@@ -70,6 +83,7 @@ public class CrystalRepairProximityUI : MonoBehaviour
         {
             isPlayerInRange = true;
             if (progressText != null) progressText.gameObject.SetActive(true);
+            if (phaseBG != null) phaseBG.SetActive(true); // PŘIDÁNO
         }
     }
 
@@ -81,6 +95,7 @@ public class CrystalRepairProximityUI : MonoBehaviour
         {
             isPlayerInRange = false;
             if (progressText != null) progressText.gameObject.SetActive(false);
+            if (phaseBG != null) phaseBG.SetActive(false); // PŘIDÁNO
         }
     }
 }
