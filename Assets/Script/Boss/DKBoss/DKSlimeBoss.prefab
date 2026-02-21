@@ -186,6 +186,9 @@ MonoBehaviour:
   - prefab: {fileID: 6123884729271192527, guid: 5a01e77db30f34443bae4cbf4ca92b87, type: 3}
     amount: 1
     chance: 15
+  - prefab: {fileID: 3468827058754511039, guid: 3825b0edfd0bec242ac6d35b65e7db5a, type: 3}
+    amount: 1
+    chance: 15
 --- !u!114 &2249234615387925807
 MonoBehaviour:
   m_ObjectHideFlags: 0
