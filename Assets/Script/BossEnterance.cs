@@ -51,7 +51,6 @@ public class BossEntrance : MonoBehaviour
             Debug.LogError("BossEntrance: WorldCanvas chybí (není přiřazen ani nalezen tagem 'WorldUI')");
         }
 
-        // 🔍 ÚPRAVA: Hledání hintu "E" přímo pod tímto objektem podle tvého screenu
         if (pressEHint == null)
         {
             Transform foundHint = transform.Find("E");
@@ -68,14 +67,7 @@ public class BossEntrance : MonoBehaviour
             {
                 bossEncounter = bossObj.GetComponent<BossEncounter>();
             }
-            else
-            {
-                Debug.LogWarning("BossEntrance: Objekt s tagem 'BossEncounter' nebyl nalezen!");
-            }
         }
-
-        if (inventoryManager == null && InventoryManager.Instance != null)
-            inventoryManager = InventoryManager.Instance;
 
         if (barrierObject == null) barrierObject = gameObject;
 
@@ -85,6 +77,16 @@ public class BossEntrance : MonoBehaviour
         PrepareUIPool();
     }
 
+    // 🔥 OPRAVA 1: Přesunuli jsme hledání InventoryManageru do Start().
+    // Ve funkci Awake() ještě nemusel InventoryManager.Instance vůbec existovat!
+    private void Start()
+    {
+        if (inventoryManager == null && InventoryManager.Instance != null)
+        {
+            inventoryManager = InventoryManager.Instance;
+        }
+    }
+
     private void FindUIReferences()
     {
         Transform foundPanel = FindDeepChild(WorldCanvas.transform, "ReqBossPanel");
@@ -92,6 +94,7 @@ public class BossEntrance : MonoBehaviour
         {
             requirementsPanel = foundPanel.gameObject;
 
+            // Zkontroluj, jestli se tvůj objekt fakt jmenuje "ReqCoinrtainer" a nemáš tam překlep!
             Transform foundParent = FindDeepChild(foundPanel, "ReqCoinrtainer");
             if (foundParent != null)
             {
@@ -101,10 +104,6 @@ public class BossEntrance : MonoBehaviour
             {
                 requirementsParent = foundPanel;
             }
-        }
-        else
-        {
-            Debug.LogError($"BossEntrance: Máme Canvas '{WorldCanvas.name}', ale uvnitř není 'ReqBossPanel'!");
         }
     }
 
@@ -157,6 +156,10 @@ public class BossEntrance : MonoBehaviour
 
     private bool HasAllRequirements()
     {
+        // 🔥 POJISTKA PROTI CHYBĚ: Kdyby se InventoryManager nenačetl
+        if (inventoryManager == null) inventoryManager = InventoryManager.Instance;
+        if (inventoryManager == null) return false;
+
         foreach (var req in requirements)
         {
             if (req.itemSO == null) continue;
@@ -168,13 +171,29 @@ public class BossEntrance : MonoBehaviour
     private void PrepareUIPool()
     {
         if (requirementsParent == null) return;
-        foreach (Transform child in requirementsParent) child.gameObject.SetActive(false);
+
+        uiPool.Clear();
+        // 🔥 OPRAVA 2: Správné naplnění Poolu. Objekty, které už v panelu jsou z Editoru, 
+        // se teď přidají do seznamu a použijí se, místo aby se vytvořily nové duplikáty.
+        foreach (Transform child in requirementsParent)
+        {
+            child.gameObject.SetActive(false);
+            uiPool.Add(child.gameObject);
+        }
     }
 
     private void UpdateRequirementsUI()
     {
         if (requirementsPanel == null) return;
         requirementsPanel.SetActive(true);
+
+        // 🔥 POJISTKA PROTI CHYBĚ
+        if (inventoryManager == null) inventoryManager = InventoryManager.Instance;
+        if (inventoryManager == null)
+        {
+            Debug.LogError("BossEntrance: Nelze načíst data, chybí InventoryManager!");
+            return;
+        }
 
         for (int i = 0; i < uiPool.Count; i++) uiPool[i].SetActive(false);
 
@@ -196,11 +215,19 @@ public class BossEntrance : MonoBehaviour
                 uiPool.Add(row);
             }
 
+            // Tady to předtím padalo a zastavilo skript, protože se nenašel InventoryManager
             int owned = inventoryManager.GetTotalItemCount(req.itemSO);
-            row.transform.Find("Icon").GetComponent<Image>().sprite = req.itemSO.icon;
-            var txt = row.transform.Find("Text").GetComponent<TextMeshProUGUI>();
-            txt.text = $"{owned} / {req.requiredAmount}";
-            txt.color = (owned < req.requiredAmount) ? Color.red : Color.green;
+
+            Transform iconTrans = row.transform.Find("Icon");
+            Transform textTrans = row.transform.Find("Text");
+
+            if (iconTrans != null) iconTrans.GetComponent<Image>().sprite = req.itemSO.icon;
+            if (textTrans != null)
+            {
+                var txt = textTrans.GetComponent<TextMeshProUGUI>();
+                txt.text = $"{owned} / {req.requiredAmount}";
+                txt.color = (owned < req.requiredAmount) ? Color.red : Color.green;
+            }
         }
     }
 

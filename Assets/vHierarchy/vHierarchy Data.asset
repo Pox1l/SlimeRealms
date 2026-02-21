@@ -985,6 +985,7 @@ MonoBehaviour:
         - globalObjectIdString: GlobalObjectId_V1-2-8f94c35e02b6398428e407565a6c5131-7111738428959340125-883253462
         - globalObjectIdString: GlobalObjectId_V1-2-8f94c35e02b6398428e407565a6c5131-4377812140615301959-630178739
         - globalObjectIdString: GlobalObjectId_V1-2-8f94c35e02b6398428e407565a6c5131-7141419887029725286-943467968
+        - globalObjectIdString: GlobalObjectId_V1-2-8f94c35e02b6398428e407565a6c5131-928489971-0
         values:
         - colorIndex: 0
           iconNameOrGuid: Mesh Icon
@@ -1226,8 +1227,8 @@ MonoBehaviour:
           iconNameOrGuid: Camera Icon
           isIconRecursive: 0
           isColorRecursive: 0
-        - colorIndex: 1
-          iconNameOrGuid: Canvas Icon
+        - colorIndex: 2
+          iconNameOrGuid: winbtn_mac_close_a
           isIconRecursive: 0
           isColorRecursive: 0
         - colorIndex: 0
@@ -1272,6 +1273,10 @@ MonoBehaviour:
           isColorRecursive: 0
         - colorIndex: 0
           iconNameOrGuid: cs Script Icon
+          isIconRecursive: 0
+          isColorRecursive: 0
+        - colorIndex: 1
+          iconNameOrGuid: 
           isIconRecursive: 0
           isColorRecursive: 0
     - goDatas_byGlobalId:
@@ -1358,6 +1363,7 @@ MonoBehaviour:
         - globalObjectIdString: GlobalObjectId_V1-2-57a6c14058b882e4e963aa25f2c416f3-4740053107861557798-2011096645
         - globalObjectIdString: GlobalObjectId_V1-2-57a6c14058b882e4e963aa25f2c416f3-4286315615548193163-1055341252
         - globalObjectIdString: GlobalObjectId_V1-2-57a6c14058b882e4e963aa25f2c416f3-793417551981833404-1180453687
+        - globalObjectIdString: GlobalObjectId_V1-2-57a6c14058b882e4e963aa25f2c416f3-82451105-0
         values:
         - colorIndex: 0
           iconNameOrGuid: Mesh Icon
@@ -1612,6 +1618,10 @@ MonoBehaviour:
           isIconRecursive: 0
           isColorRecursive: 0
         - colorIndex: 3
+          iconNameOrGuid: 
+          isIconRecursive: 0
+          isColorRecursive: 0
+        - colorIndex: 1
           iconNameOrGuid: 
           isIconRecursive: 0
           isColorRecursive: 0
