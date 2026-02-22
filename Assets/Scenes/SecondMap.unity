@@ -207497,7 +207497,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4075706533552199152, guid: db868c6db9c2e8646acea8d4258b4ebb, type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 7376769576426757717, guid: db868c6db9c2e8646acea8d4258b4ebb, type: 3}
       propertyPath: m_LocalPosition.x
@@ -207542,6 +207542,14 @@ PrefabInstance:
     - target: {fileID: 7390786352908880596, guid: db868c6db9c2e8646acea8d4258b4ebb, type: 3}
       propertyPath: currentStage
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8897068011846933232, guid: db868c6db9c2e8646acea8d4258b4ebb, type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: 46cbdb6f07174e6459a2ea51ba478f5d, type: 2}
+    - target: {fileID: 8897068011846933232, guid: db868c6db9c2e8646acea8d4258b4ebb, type: 3}
+      propertyPath: m_Parameters.widthCurve.m_Curve.Array.data[0].value
+      value: 0.42166612
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -210239,6 +210247,14 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 176453581}
     m_Modifications:
+    - target: {fileID: 113634020460050641, guid: a6b29e46d1ff20f43b685d6d272bebbc, type: 3}
+      propertyPath: baseMaxHealth
+      value: 10000
+      objectReference: {fileID: 0}
+    - target: {fileID: 113634020460050641, guid: a6b29e46d1ff20f43b685d6d272bebbc, type: 3}
+      propertyPath: baseMaxStamina
+      value: 10000
+      objectReference: {fileID: 0}
     - target: {fileID: 476992415000853087, guid: a6b29e46d1ff20f43b685d6d272bebbc, type: 3}
       propertyPath: m_Name
       value: Player

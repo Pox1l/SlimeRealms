@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 8149601034460565665}
   - component: {fileID: 8363035304454101906}
   - component: {fileID: 7980252267160510665}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: SpikeBullet
   m_TagString: Untagged
   m_Icon: {fileID: 0}
