@@ -207495,6 +207495,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: DKSlimeBoss
       objectReference: {fileID: 0}
+    - target: {fileID: 4075706533552199152, guid: db868c6db9c2e8646acea8d4258b4ebb, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 7376769576426757717, guid: db868c6db9c2e8646acea8d4258b4ebb, type: 3}
       propertyPath: m_LocalPosition.x
       value: 2.1003714

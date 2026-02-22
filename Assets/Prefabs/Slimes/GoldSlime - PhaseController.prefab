@@ -42,7 +42,7 @@ GameObject:
   - component: {fileID: 2359220984899150569}
   - component: {fileID: 4364818562045640559}
   - component: {fileID: 8549257789496589438}
-  - component: {fileID: 5732030691686347922}
+  - component: {fileID: 130002263658525735}
   - component: {fileID: 4370928150011779638}
   - component: {fileID: 4424645965696522062}
   - component: {fileID: 1119523394972811423}
@@ -54,7 +54,7 @@ GameObject:
   - component: {fileID: 4202546159867883124}
   - component: {fileID: 5344337112977027472}
   m_Layer: 6
-  m_Name: GoldSlime
+  m_Name: GoldSlime - PhaseController
   m_TagString: Monster
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -149,7 +149,7 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
---- !u!114 &5732030691686347922
+--- !u!114 &130002263658525735
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -158,13 +158,14 @@ MonoBehaviour:
   m_GameObject: {fileID: 4007247443336924410}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3712d0bb212fc54419db0ae615a10156, type: 3}
+  m_Script: {fileID: 11500000, guid: 45d5c19ed8a37f74cae8ca3bacaf4b06, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  aggroOnSpawn: 1
   moveSpeed: 2
   stopDistance: 0.1
   aggroRange: 5
-  chaseRange: 15
+  loseAggroRange: 15
   movementSound:
     Guid:
       Data1: -1993235619
