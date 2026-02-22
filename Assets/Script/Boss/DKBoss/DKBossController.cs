@@ -3,18 +3,17 @@ using UnityEngine.AI;
 using FMODUnity;
 using FMOD.Studio;
 using System;
+using System.Collections; // 🔥 PŘIDÁNO: Potřebujeme pro Coroutines
 
 [RequireComponent(typeof(NavMeshAgent))]
 public class DKBossController : MonoBehaviour
 {
-    // ... (Proměnné) ...
     public enum BossStage { Phase1, Phase2 }
     [Header("Boss Status")]
     public BossStage currentStage = BossStage.Phase1;
     public BossHealth bossHealth;
 
     [Header("References")]
-    // 🔥 ZMĚNA: Dva sloty pro útoky ve fázi 1
     public GameObject attackPrefab1;
     public GameObject attackPrefab2;
     public LineRenderer warningLine;
@@ -33,6 +32,9 @@ public class DKBossController : MonoBehaviour
     public float moveSpeed = 3.5f;
     public float attackRange = 1.5f;
     public float attackCooldown = 1.5f;
+
+    [Header("Phase 1: Melee Attack")]
+    public float telegraphTime = 0.8f; // 🔥 NOVÉ: Jak dlouho bude lajna svítit PŘED začátkem animace
 
     [Header("Phase 2: Jump Attack")]
     public float jumpDamageRadius = 3f;
@@ -122,11 +124,6 @@ public class DKBossController : MonoBehaviour
             }
             SetAnimator(agent.velocity);
         }
-        else
-        {
-            agent.isStopped = true;
-            UpdateMoveSound(false);
-        }
     }
 
     void UpdateMoveSound(bool isMoving)
@@ -167,40 +164,47 @@ public class DKBossController : MonoBehaviour
         lastAttackTime = Time.time;
         isAttacking = true;
 
-        if (currentStage == BossStage.Phase1) StartMeleeAttack();
-        else if (currentStage == BossStage.Phase2) StartJumpAttack();
+        if (currentStage == BossStage.Phase1)
+            StartCoroutine(MeleeAttackRoutine()); // 🔥 ZMĚNA: Používáme Coroutinu místo přímého volání
+        else if (currentStage == BossStage.Phase2)
+            StartJumpAttack();
     }
 
     // --- FÁZE 1: MELEE ---
-    void StartMeleeAttack()
+
+    // 🔥 ZMĚNA: Coroutina pro zpoždění animace (Telegraphing)
+    private IEnumerator MeleeAttackRoutine()
     {
-        if (animator != null) animator.SetTrigger("Attack");
+        // 1. Zapneme varovnou lajnu
         if (warningLine != null) warningLine.enabled = true;
 
-        // 🔥 ZMĚNA: Hitbox se už nespanuje přes Invoke, použij Animation Eventy v animátoru!
-        Invoke(nameof(FinishAttack), 1.0f);
+        // 2. Počkáme zadaný čas, boss stojí na místě a míří
+        yield return new WaitForSeconds(telegraphTime);
+
+        // 3. Teprve teď pustíme animaci útoku
+        if (animator != null) animator.SetTrigger("Attack");
+
+        // 4. Pojistka pro ukončení (zvednuto z 1.0f na 1.5f, protože útok teď trvá o telegraphTime déle)
+        Invoke(nameof(FinishAttack), 1.5f);
     }
 
-    // 🔥 NOVÉ: Event pro PRVNÍ útok (nastav v animaci Event: SpawnAttack1)
     public void SpawnAttack1()
     {
         SpawnProjectile(attackPrefab1);
     }
 
-    // 🔥 NOVÉ: Event pro DRUHÝ útok (nastav v animaci Event: SpawnAttack2)
     public void SpawnAttack2()
     {
         SpawnProjectile(attackPrefab2);
     }
 
-    // 🔥 NOVÉ: Pomocná metoda pro vytvoření útoku
     private void SpawnProjectile(GameObject prefabToSpawn)
     {
         if (warningLine != null) warningLine.enabled = false;
         if (prefabToSpawn == null || firePoint == null || fixedPoint == null) return;
 
         RotatePivotToPlayer();
-        Quaternion correction = Quaternion.Euler(0, 0, 0); // Oproti slimovi ponecháno 0 kvůli původní logice bosse
+        Quaternion correction = Quaternion.Euler(0, 0, 0);
         Instantiate(prefabToSpawn, firePoint.position, fixedPoint.rotation * correction);
     }
 
@@ -268,7 +272,7 @@ public class DKBossController : MonoBehaviour
         float angle = Mathf.Atan2(dir.y, dir.x) * Mathf.Rad2Deg;
         fixedPoint.rotation = Quaternion.Euler(0, 0, angle);
     }
- 
+
     void SetAnimator(Vector2 velocity)
     {
         if (animator == null) return;

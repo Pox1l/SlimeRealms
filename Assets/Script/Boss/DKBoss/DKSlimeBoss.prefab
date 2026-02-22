@@ -154,8 +154,8 @@ MonoBehaviour:
       Data4: 0
     Path: 
   moveSpeed: 3.5
-  attackRange: 2
-  attackCooldown: 2
+  attackRange: 2.5
+  attackCooldown: 3
   jumpDamageRadius: 3
   jumpDamageAmount: 10
   jumpEffectPrefab: {fileID: 4045572480697429423, guid: 2e1f2d1bc6e67814393e632ba8b33e14, type: 3}
@@ -416,6 +416,8 @@ LineRenderer:
   m_SortingOrder: 4
   m_Positions:
   - {x: 0, y: 0, z: 0}
+  - {x: 0, y: 0, z: 1}
+  - {x: 0, y: 0, z: 1}
   - {x: 0, y: 0, z: 1}
   m_Parameters:
     serializedVersion: 3
