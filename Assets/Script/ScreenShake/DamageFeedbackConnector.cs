@@ -40,14 +40,22 @@ public class DamageFeedbackConnector : MonoBehaviour
         // Přihlášení k Hráčovi
         PlayerStats.OnPlayerHit += DecideShake;
 
-        // 🔥 Přihlášení k Bossovi
+        // 🔥 Přihlášení ke starému bossovi (Slime)
         BossController.OnBossLand += PlayBossShake;
+
+        // 🔥 NOVÉ: Přihlášení k novému bossovi (DKBoss)
+        DKBossController.OnBossLand += PlayBossShake;
     }
 
     void OnDisable()
     {
         PlayerStats.OnPlayerHit -= DecideShake;
+
+        // Odhlášení starého bosse
         BossController.OnBossLand -= PlayBossShake;
+
+        // 🔥 NOVÉ: Odhlášení nového bosse
+        DKBossController.OnBossLand -= PlayBossShake;
     }
 
     // Logika pro hráče (podle damage)
