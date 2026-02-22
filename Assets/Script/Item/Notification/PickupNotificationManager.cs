@@ -22,7 +22,7 @@ public class PickupNotificationManager : MonoBehaviour
             return;
         }
         Instance = this;
-    } 
+    }
 
     private PickupNotificationEntry GetFromPool()
     {
@@ -39,32 +39,47 @@ public class PickupNotificationManager : MonoBehaviour
         return newEntry;
     }
 
+    // 🔍 ÚPRAVA ZDE: Slučování sebraných předmětů
     public void ShowPickup(Sprite icon, string itemName, int amount)
     {
         if (entryPrefab == null || container == null) return;
 
+        // Jméno bez čísla (bude sloužit jako klíč pro hledání)
+        string baseItemName = itemName;
+
+        // 1. Zkusíme najít, jestli už hláška pro tento předmět svítí
+        foreach (var item in pool)
+        {
+            if (item.gameObject.activeSelf && item.baseMessage == baseItemName)
+            {
+                // Pokud ano, přidáme jí sebraný počet a resetujeme časovač
+                item.AddPickupAmount(amount);
+                item.transform.SetAsFirstSibling(); // Hodíme ji navrch seznamu
+                return;
+            }
+        }
+
+        // 2. Pokud se nenašla, vytvoříme novou
         var entry = GetFromPool();
-        string msg = amount > 0 ? $"+{amount} {itemName}" : itemName;
-        entry.Setup(icon, msg);
+        // Setup pro novou hlášku (pošleme počet a výchozí jméno)
+        entry.SetupPickup(icon, baseItemName, amount);
     }
 
     public void ShowMessage(string message)
     {
         if (entryPrefab == null || container == null) return;
 
-        // 🔍 ÚPRAVA: Nejdřív zjistíme, jestli už stejná zpráva nesvítí na obrazovce
         foreach (var item in pool)
         {
             if (item.gameObject.activeSelf && item.baseMessage == message)
             {
-                item.AddCount(true); // Zvýšíme číslo a prodloužíme čas
-                item.transform.SetAsFirstSibling(); // Posuneme ji na začátek
+                item.AddMessageCount(); // Zvýšíme číslo
+                item.transform.SetAsFirstSibling();
                 return;
             }
         }
 
-        // Pokud neexistuje, vyrobíme novou
         var entry = GetFromPool();
-        entry.Setup(inventoryFullIcon, message, true);
+        entry.SetupMessage(inventoryFullIcon, message, true);
     }
 }

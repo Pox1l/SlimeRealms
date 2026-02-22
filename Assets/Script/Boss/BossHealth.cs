@@ -10,7 +10,8 @@ public class BossHealth : MonoBehaviour
     public event Action OnDeath;
     public event Action<int, int> OnHealthChanged;
 
-    private EnemyDrop drop;
+    // 🔥 ZMĚNA: Používáme tvůj nový BossDrop
+    private BossDrop bossDrop;
     private EnemyController controller;
     private DamageFlash damageFlash;
     private EnemyKnockback knockback;
@@ -18,7 +19,8 @@ public class BossHealth : MonoBehaviour
 
     void Awake()
     {
-        drop = GetComponent<EnemyDrop>();
+        // 🔥 ZMĚNA: Načítáme BossDrop
+        bossDrop = GetComponent<BossDrop>();
         controller = GetComponent<EnemyController>();
         damageFlash = GetComponent<DamageFlash>();
         knockback = GetComponent<EnemyKnockback>();
@@ -71,7 +73,8 @@ public class BossHealth : MonoBehaviour
     {
         Debug.Log("💀 Boss defeated!");
 
-        if (drop != null) drop.DropLoot();
+        // 🔥 ZMĚNA: Voláme DropLoot z tvého nového skriptu
+        if (bossDrop != null) bossDrop.DropLoot();
 
         if (bossEncounter != null)
         {

@@ -15,9 +15,10 @@ public class PickupNotificationEntry : MonoBehaviour
 
     private CanvasGroup canvasGroup;
 
-    // 🔍 ÚPRAVA: Proměnné pro uchování základní zprávy a počítadla
     [HideInInspector] public string baseMessage;
-    private int count = 1;
+    private int currentAmount = 0; // Kolik celkem předmětů se sebralo
+    private int messageCount = 1;  // Kolikrát se ukázal error (např. plný inv)
+    private bool isItemPickup = false;
 
     void Awake()
     {
@@ -26,11 +27,43 @@ public class PickupNotificationEntry : MonoBehaviour
             canvasGroup = gameObject.AddComponent<CanvasGroup>();
     }
 
-    public void Setup(Sprite icon, string message, bool isError = false)
+    // --- LOGIKA PRO SEBRÁNÍ PŘEDMĚTU ---
+    public void SetupPickup(Sprite icon, string itemName, int amount)
     {
-        baseMessage = message; // Uložíme si původní text bez čísla
-        count = 1; // Reset počítadla
+        isItemPickup = true;
+        baseMessage = itemName; // Uložíme si čisté jméno (např. "Wood")
+        currentAmount = amount; // První sebraný počet
 
+        InitializeUI(icon, false);
+    }
+
+    public void AddPickupAmount(int amount)
+    {
+        currentAmount += amount; // Přičteme nově sebrané kusy ke starým
+        UpdateText(false);
+        ResetTimer();
+    }
+
+    // --- LOGIKA PRO OBECNÉ ZPRÁVY (Error, Plný batoh) ---
+    public void SetupMessage(Sprite icon, string message, bool isError = false)
+    {
+        isItemPickup = false;
+        baseMessage = message;
+        messageCount = 1;
+
+        InitializeUI(icon, isError);
+    }
+
+    public void AddMessageCount(bool isError = true)
+    {
+        messageCount++;
+        UpdateText(isError);
+        ResetTimer();
+    }
+
+    // --- SPOLEČNÉ METODY ---
+    private void InitializeUI(Sprite icon, bool isError)
+    {
         gameObject.SetActive(true);
         transform.SetAsFirstSibling();
 
@@ -41,32 +74,32 @@ public class PickupNotificationEntry : MonoBehaviour
         }
 
         UpdateText(isError);
-
-        canvasGroup.alpha = 1f;
-        StopAllCoroutines();
-        StartCoroutine(LifeRoutine());
+        ResetTimer();
     }
 
-    // 🔍 ÚPRAVA: Nová funkce, kterou volá Manager pro navýšení počtu
-    public void AddCount(bool isError = false)
-    {
-        count++;
-        UpdateText(isError);
-
-        // Znovu nastartujeme časovač, aby hned nezmizela
-        canvasGroup.alpha = 1f;
-        StopAllCoroutines();
-        StartCoroutine(LifeRoutine());
-    }
-
-    // 🔍 ÚPRAVA: Samostatná funkce pro přepsání textu (přidá "Nx" na začátek, pokud je jich víc)
     private void UpdateText(bool isError)
     {
-        if (text != null)
+        if (text == null) return;
+
+        if (isItemPickup)
         {
-            text.text = count > 1 ? $"{count}x {baseMessage}" : baseMessage;
-            text.color = isError ? Color.red : Color.white;
+            // Píše např.: "+5 Wood"
+            text.text = currentAmount > 0 ? $"+{currentAmount} {baseMessage}" : baseMessage;
         }
+        else
+        {
+            // Píše např.: "3x Inventory Full!"
+            text.text = messageCount > 1 ? $"{messageCount}x {baseMessage}" : baseMessage;
+        }
+
+        text.color = isError ? Color.red : Color.white;
+    }
+
+    private void ResetTimer()
+    {
+        canvasGroup.alpha = 1f;
+        StopAllCoroutines();
+        StartCoroutine(LifeRoutine());
     }
 
     IEnumerator LifeRoutine()

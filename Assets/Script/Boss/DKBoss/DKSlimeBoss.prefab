@@ -156,6 +156,7 @@ MonoBehaviour:
   moveSpeed: 3.5
   attackRange: 2.5
   attackCooldown: 3
+  telegraphTime: 0.5
   jumpDamageRadius: 3
   jumpDamageAmount: 10
   jumpEffectPrefab: {fileID: 4045572480697429423, guid: 2e1f2d1bc6e67814393e632ba8b33e14, type: 3}
