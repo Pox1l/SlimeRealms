@@ -175,14 +175,16 @@ public class Boss3Controller : MonoBehaviour
     {
         if (animator != null) animator.SetTrigger("Attack");
         if (warningLine != null) warningLine.enabled = true;
-        // Čeká na AnimEvent_MeleeHit
+        // ZMĚNA: Okamžité volání metody místo čekání na animaci
+        AnimEvent_MeleeHit();
     }
 
     void StartRangedAttack()
     {
         if (animator != null) animator.SetTrigger("AttackRanged");
         if (warningLine != null) warningLine.enabled = true;
-        // Čeká na AnimEvent_RangedHit
+        // ZMĚNA: Okamžité volání metody místo čekání na animaci
+        AnimEvent_RangedHit();
     }
 
     // 🔥 TUTO FUNKCI PŘIDEJ DO ANIMACE "Attack"

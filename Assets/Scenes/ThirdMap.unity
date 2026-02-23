@@ -9977,9 +9977,9 @@ PrefabInstance:
       propertyPath: m_Name
       value: SpiderBoss
       objectReference: {fileID: 0}
-    - target: {fileID: 3222688068087597085, guid: fe687aab8e2b19d4ebf494827ca8576b, type: 3}
-      propertyPath: m_IsActive
-      value: 1
+    - target: {fileID: 5177221705498665228, guid: fe687aab8e2b19d4ebf494827ca8576b, type: 3}
+      propertyPath: currentStage
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -11852,67 +11852,6 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 6915d513251a0af49b1c38c90f8a005f, type: 3}
---- !u!1001 &1115632879
-PrefabInstance:
-  m_ObjectHideFlags: 0
-  serializedVersion: 2
-  m_Modification:
-    serializedVersion: 3
-    m_TransformParent: {fileID: 0}
-    m_Modifications:
-    - target: {fileID: 279834249153522685, guid: 573b62628d477b44793c6450e2a54ff6, type: 3}
-      propertyPath: m_Name
-      value: SlimeBoss
-      objectReference: {fileID: 0}
-    - target: {fileID: 279834249153522685, guid: 573b62628d477b44793c6450e2a54ff6, type: 3}
-      propertyPath: m_IsActive
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 5181823065040882232, guid: 573b62628d477b44793c6450e2a54ff6, type: 3}
-      propertyPath: m_LocalPosition.x
-      value: -5.269154
-      objectReference: {fileID: 0}
-    - target: {fileID: 5181823065040882232, guid: 573b62628d477b44793c6450e2a54ff6, type: 3}
-      propertyPath: m_LocalPosition.y
-      value: 94.8721
-      objectReference: {fileID: 0}
-    - target: {fileID: 5181823065040882232, guid: 573b62628d477b44793c6450e2a54ff6, type: 3}
-      propertyPath: m_LocalPosition.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 5181823065040882232, guid: 573b62628d477b44793c6450e2a54ff6, type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 5181823065040882232, guid: 573b62628d477b44793c6450e2a54ff6, type: 3}
-      propertyPath: m_LocalRotation.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 5181823065040882232, guid: 573b62628d477b44793c6450e2a54ff6, type: 3}
-      propertyPath: m_LocalRotation.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 5181823065040882232, guid: 573b62628d477b44793c6450e2a54ff6, type: 3}
-      propertyPath: m_LocalRotation.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 5181823065040882232, guid: 573b62628d477b44793c6450e2a54ff6, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 5181823065040882232, guid: 573b62628d477b44793c6450e2a54ff6, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 5181823065040882232, guid: 573b62628d477b44793c6450e2a54ff6, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.z
-      value: 0
-      objectReference: {fileID: 0}
-    m_RemovedComponents: []
-    m_RemovedGameObjects: []
-    m_AddedGameObjects: []
-    m_AddedComponents: []
-  m_SourcePrefab: {fileID: 100100000, guid: 573b62628d477b44793c6450e2a54ff6, type: 3}
 --- !u!1001 &1119972670
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -253763,7 +253702,7 @@ GameObject:
   - component: {fileID: 1276551951}
   - component: {fileID: 1276551956}
   m_Layer: 9
-  m_Name: Wall - 2
+  m_Name: Wall - 5
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -258288,7 +258227,7 @@ TilemapRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 2
+  m_SortingOrder: 5
   m_ChunkSize: {x: 32, y: 32, z: 32}
   m_ChunkCullingBounds: {x: 0, y: 0, z: 0}
   m_MaxChunkCount: 16
@@ -400801,5 +400740,4 @@ SceneRoots:
   - {fileID: 306110884}
   - {fileID: 1913077502}
   - {fileID: 1627493386}
-  - {fileID: 1115632879}
   - {fileID: 769689778}
