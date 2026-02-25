@@ -4175,7 +4175,7 @@ MonoBehaviour:
   m_HandleRect: {fileID: 916995610}
   m_Direction: 2
   m_Value: 0
-  m_Size: 1
+  m_Size: 0.73956215
   m_NumberOfSteps: 0
   m_OnValueChanged:
     m_PersistentCalls:
@@ -4930,6 +4930,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 1210090627}
     m_Modifications:
+    - target: {fileID: 6555189233422926512, guid: bb6ebc3ccc8810348b84000e311dc221, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 8606612656009860138, guid: bb6ebc3ccc8810348b84000e311dc221, type: 3}
       propertyPath: m_Name
       value: SettingsCanvas

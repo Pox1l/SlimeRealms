@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using FMODUnity;
+using UnityEngine;
 
 [CreateAssetMenu(menuName = "Inventory/Item")]
 public class ItemSO : ScriptableObject
@@ -14,6 +15,9 @@ public class ItemSO : ScriptableObject
     public float cooldown = 1f;
 
     [HideInInspector] public float lastTimeUsed = -999f;
+
+    [Header("Audio")]
+    public EventReference pickupSound;
 
     private void OnEnable()
     {

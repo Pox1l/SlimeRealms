@@ -1,99 +1,95 @@
 using UnityEngine;
-using System.Collections; // <--- TOTO MUSÍŠ PØIDAT
 using FMODUnity;
 using FMOD.Studio;
 
 public class AudioManager : MonoBehaviour
 {
-    public static AudioManager instance;
+    public static AudioManager instance { get; private set; }
 
-    [Header("FMOD Events")]
+    [Header("Nastavení FMOD Eventù")]
+    [Tooltip("Sem pøetáhni event s hudbou")]
     public EventReference musicEvent;
-    public EventReference uiClickSound;
+
+    [Tooltip("Sem pøetáhni event s ambientem")]
+    public EventReference ambientEvent;
+
+    [Header("Default Sounds")]
+    [Tooltip("Zvuk, který se pøehraje, když item nemá svùj vlastní")]
+    public EventReference defaultPickupSound;
 
     private EventInstance musicInstance;
-
-    public const string MASTER_KEY = "MasterVolume";
-    public const string MUSIC_KEY = "MusicVolume";
-    public const string SFX_KEY = "SFXVolume";
+    private EventInstance ambientInstance;
 
     private void Awake()
     {
-        if (instance == null)
-        {
-            instance = this;
-            transform.parent = null;
-            DontDestroyOnLoad(gameObject);
-        }
-        else
+        if (instance != null)
         {
             Destroy(gameObject);
+            return;
         }
+        instance = this;
+        DontDestroyOnLoad(gameObject);
     }
 
-    // ZMÌNA ZDE: void -> IEnumerator
-    private IEnumerator Start()
+    private void Start()
     {
-        // 1. Èekáme, dokud FMOD nenaète banky (Master a Strings)
-        // Bez tohohle to spadne, protože GetBus nenajde cestu
-        while (!RuntimeManager.HaveMasterBanksLoaded)
-        {
-            yield return null;
-        }
-
-        // 2. Teï už je bezpeèné naèítat a nastavovat hlasitost
-        SetMasterVolume(PlayerPrefs.GetFloat(MASTER_KEY, 1f));
-        SetMusicVolume(PlayerPrefs.GetFloat(MUSIC_KEY, 1f));
-        SetSFXVolume(PlayerPrefs.GetFloat(SFX_KEY, 1f));
-
-        // 3. Spustíme hudbu
-        PlayMusic();
-    }
-
-    public void PlayMusic()
-    {
-        PLAYBACK_STATE playbackState;
-        musicInstance.getPlaybackState(out playbackState);
-        if (playbackState != PLAYBACK_STATE.PLAYING)
+        if (!musicEvent.IsNull)
         {
             musicInstance = RuntimeManager.CreateInstance(musicEvent);
             musicInstance.start();
         }
+
+        if (!ambientEvent.IsNull)
+        {
+            ambientInstance = RuntimeManager.CreateInstance(ambientEvent);
+            ambientInstance.start();
+        }
     }
+
+    public void SetZone(float zoneID)
+    {
+        if (musicInstance.isValid()) musicInstance.setParameterByName("Zone", zoneID);
+        if (ambientInstance.isValid()) ambientInstance.setParameterByName("Zone", zoneID);
+    }
+
+    // --- TOTO JE TA NOVÁ FUNKCE ---
+    // Voláš ji z itemu a jen pošleš zvuk z ItemSO. Manager rozhodne zbytek.
+    public void PlayPickupSound(EventReference specificSound)
+    {
+        // 1. Má item svùj vlastní zvuk? (není Null)
+        if (!specificSound.IsNull)
+        {
+            RuntimeManager.PlayOneShot(specificSound);
+        }
+        // 2. Nemá? Tak pøehrajeme defaultní zvuk z Manageru
+        else if (!defaultPickupSound.IsNull)
+        {
+            RuntimeManager.PlayOneShot(defaultPickupSound);
+        }
+        // 3. Pokud není ani defaultní, nestane se nic (ticho)
+    }
+    // -----------------------------
 
     public void PlayOneShot(EventReference sound)
     {
         if (!sound.IsNull)
         {
-            RuntimeManager.PlayOneShot(sound, transform.position);
+            RuntimeManager.PlayOneShot(sound);
         }
     }
 
-    public void SetMasterVolume(float value)
+    private void OnDestroy()
     {
-        // Zde mùžeš pøidat pojistku, kdyby to nìkdo volal moc brzy zvenèí
-        if (RuntimeManager.HaveMasterBanksLoaded)
+        if (musicInstance.isValid())
         {
-            RuntimeManager.GetBus("bus:/").setVolume(value);
+            musicInstance.stop(FMOD.Studio.STOP_MODE.IMMEDIATE);
+            musicInstance.release();
         }
-        PlayerPrefs.SetFloat(MASTER_KEY, value);
-    }
 
-    public void SetMusicVolume(float value)
-    {
-        if (RuntimeManager.HaveMasterBanksLoaded)
+        if (ambientInstance.isValid())
         {
-            RuntimeManager.GetBus("bus:/Music").setVolume(value);
+            ambientInstance.stop(FMOD.Studio.STOP_MODE.IMMEDIATE);
+            ambientInstance.release();
         }
-        PlayerPrefs.SetFloat(MUSIC_KEY, value);
-    }
-
-    public void SetSFXVolume(float value)
-    {
-        if (RuntimeManager.HaveMasterBanksLoaded)
-        {
-            RuntimeManager.GetBus("bus:/SFX").setVolume(value);
-        }
-        PlayerPrefs.SetFloat(SFX_KEY, value);
     }
 }

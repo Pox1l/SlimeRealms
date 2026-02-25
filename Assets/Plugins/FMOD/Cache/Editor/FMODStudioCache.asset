@@ -24,6 +24,30 @@ MonoBehaviour:
   IsGlobal: 0
   Labels: []
   Exists: 1
+--- !u!114 &-6241611887955318317
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fecb8ef7f94ca804a8ab72049b86782e, type: 3}
+  m_Name: parameter:/MusicWorld3/Zone
+  m_EditorClassIdentifier: 
+  Name: Zone
+  StudioPath: 
+  Min: 0
+  Max: 5
+  Default: 0
+  ID:
+    data1: 2975555882
+    data2: 2538120142
+  Type: 1
+  IsGlobal: 0
+  Labels: []
+  Exists: 1
 --- !u!114 &-5942233356881046981
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -105,6 +129,33 @@ MonoBehaviour:
   MinDistance: 1
   MaxDistance: 20
   Length: 4018625
+--- !u!114 &-5232140914609181113
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: event:/ShootEffect
+  m_EditorClassIdentifier: 
+  Path: event:/ShootEffect
+  Guid:
+    Data1: -1650614000
+    Data2: 1223265073
+    Data3: -12164182
+    Data4: -1475094578
+  Banks:
+  - {fileID: 3136255313656384484}
+  IsStream: 0
+  Is3D: 1
+  IsOneShot: 1
+  Parameters: []
+  MinDistance: 1
+  MaxDistance: 20
+  Length: 760
 --- !u!114 &-4742569641018478201
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -159,6 +210,62 @@ MonoBehaviour:
   MinDistance: 1
   MaxDistance: 20
   Length: 8045
+--- !u!114 &-2433244551201031102
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: event:/MusicWorld2
+  m_EditorClassIdentifier: 
+  Path: event:/MusicWorld2
+  Guid:
+    Data1: -197110313
+    Data2: 1280977942
+    Data3: -1807201354
+    Data4: 1305682548
+  Banks:
+  - {fileID: 4273880664184461481}
+  IsStream: 1
+  Is3D: 0
+  IsOneShot: 0
+  Parameters:
+  - {fileID: 2512121461394214400}
+  MinDistance: 1
+  MaxDistance: 20
+  Length: 178637
+--- !u!114 &-1950788178273077432
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: event:/MusicWorld3
+  m_EditorClassIdentifier: 
+  Path: event:/MusicWorld3
+  Guid:
+    Data1: 366232393
+    Data2: 1328381508
+    Data3: -1506206575
+    Data4: 1812912694
+  Banks:
+  - {fileID: 4273880664184461481}
+  IsStream: 1
+  Is3D: 0
+  IsOneShot: 0
+  Parameters:
+  - {fileID: -6241611887955318317}
+  MinDistance: 1
+  MaxDistance: 20
+  Length: 397895
 --- !u!114 &-691621656350647908
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -216,13 +323,21 @@ MonoBehaviour:
   - {fileID: -4190485107148606819}
   - {fileID: -4742569641018478201}
   - {fileID: 8318915050541401862}
+  - {fileID: -5232140914609181113}
+  - {fileID: 2793057626451169044}
+  - {fileID: 2548515694316719639}
+  - {fileID: 214214004630967415}
+  - {fileID: 1401320772930025434}
+  - {fileID: -1950788178273077432}
+  - {fileID: -2433244551201031102}
+  - {fileID: 352706147594291880}
   EditorParameters: []
   MasterBanks:
   - {fileID: 2535322858333945084}
   StringsBanks:
   - {fileID: 950478269963886210}
   cacheVersion: 131857
-  cacheTime: 639061486940501446
+  cacheTime: 639076304934632815
   SerializableEventsDict:
   - key: event:/SlimeWalk3DS
     index: 0
@@ -244,6 +359,76 @@ MonoBehaviour:
     index: 8
   - key: event:/CloseAttackSoundEffect
     index: 9
+  - key: event:/ShootEffect
+    index: 10
+  - key: event:/MusicWorld1
+    index: 11
+  - key: event:/AmbientWorld1
+    index: 12
+  - key: event:/AmbientWorld3
+    index: 13
+  - key: event:/AmbientWorld2
+    index: 14
+  - key: event:/MusicWorld3
+    index: 15
+  - key: event:/MusicWorld2
+    index: 16
+  - key: event:/pickUpItemSoundEffect
+    index: 17
+--- !u!114 &214214004630967415
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: event:/AmbientWorld3
+  m_EditorClassIdentifier: 
+  Path: event:/AmbientWorld3
+  Guid:
+    Data1: 973621818
+    Data2: 1111655036
+    Data3: -1441842771
+    Data4: 1616615447
+  Banks:
+  - {fileID: 8147198445935787367}
+  IsStream: 1
+  Is3D: 0
+  IsOneShot: 0
+  Parameters: []
+  MinDistance: 1
+  MaxDistance: 20
+  Length: 446616
+--- !u!114 &352706147594291880
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: event:/pickUpItemSoundEffect
+  m_EditorClassIdentifier: 
+  Path: event:/pickUpItemSoundEffect
+  Guid:
+    Data1: -752192634
+    Data2: 1122102576
+    Data3: -1165916774
+    Data4: 1069694486
+  Banks:
+  - {fileID: 3136255313656384484}
+  IsStream: 0
+  Is3D: 0
+  IsOneShot: 1
+  Parameters: []
+  MinDistance: 1
+  MaxDistance: 20
+  Length: 2000
 --- !u!114 &950478269963886210
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -259,10 +444,61 @@ MonoBehaviour:
   Path: FMOD/Desktop/Master.strings.bank
   Name: Master.strings
   StudioPath: bank:/Master.strings
-  lastModified: 639061478100113748
+  lastModified: 639076293376877393
   FileSizes:
   - Name: 
-    Value: 1566
+    Value: 1978
+  Exists: 1
+--- !u!114 &1401320772930025434
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: event:/AmbientWorld2
+  m_EditorClassIdentifier: 
+  Path: event:/AmbientWorld2
+  Guid:
+    Data1: 1786734474
+    Data2: 1233946054
+    Data3: -1506646347
+    Data4: 432548661
+  Banks:
+  - {fileID: 8147198445935787367}
+  IsStream: 0
+  Is3D: 0
+  IsOneShot: 1
+  Parameters: []
+  MinDistance: 1
+  MaxDistance: 20
+  Length: 0
+--- !u!114 &2512121461394214400
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fecb8ef7f94ca804a8ab72049b86782e, type: 3}
+  m_Name: parameter:/MusicWorld2/Zone
+  m_EditorClassIdentifier: 
+  Name: Zone
+  StudioPath: 
+  Min: 0
+  Max: 5
+  Default: 0
+  ID:
+    data1: 2975555882
+    data2: 2538120142
+  Type: 1
+  IsGlobal: 0
+  Labels: []
   Exists: 1
 --- !u!114 &2535322858333945084
 MonoBehaviour:
@@ -279,9 +515,64 @@ MonoBehaviour:
   Path: FMOD/Desktop/Master.bank
   Name: Master
   StudioPath: bank:/Master
-  lastModified: 639061478100093659
+  lastModified: 639076293376857420
   FileSizes: []
   Exists: 1
+--- !u!114 &2548515694316719639
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: event:/AmbientWorld1
+  m_EditorClassIdentifier: 
+  Path: event:/AmbientWorld1
+  Guid:
+    Data1: -688534476
+    Data2: 1207465779
+    Data3: -1710288459
+    Data4: 259178358
+  Banks:
+  - {fileID: 8147198445935787367}
+  IsStream: 1
+  Is3D: 0
+  IsOneShot: 0
+  Parameters: []
+  MinDistance: 1
+  MaxDistance: 20
+  Length: 210834
+--- !u!114 &2793057626451169044
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: event:/MusicWorld1
+  m_EditorClassIdentifier: 
+  Path: event:/MusicWorld1
+  Guid:
+    Data1: 1346415409
+    Data2: 1122603891
+    Data3: 418829223
+    Data4: -1484583401
+  Banks:
+  - {fileID: 4273880664184461481}
+  IsStream: 1
+  Is3D: 0
+  IsOneShot: 0
+  Parameters:
+  - {fileID: 8300359663288592327}
+  MinDistance: 1
+  MaxDistance: 20
+  Length: 519837
 --- !u!114 &3136255313656384484
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -297,7 +588,7 @@ MonoBehaviour:
   Path: FMOD/Desktop/SFX.bank
   Name: SFX
   StudioPath: bank:/SFX
-  lastModified: 639061486940501446
+  lastModified: 639076304934632815
   FileSizes: []
   Exists: 1
 --- !u!114 &3930003198878368396
@@ -343,7 +634,7 @@ MonoBehaviour:
   Path: FMOD/Desktop/Music.bank
   Name: Music
   StudioPath: bank:/Music
-  lastModified: 639061461442162531
+  lastModified: 639076276514744540
   FileSizes: []
   Exists: 1
 --- !u!114 &5678546537837848210
@@ -379,7 +670,7 @@ MonoBehaviour:
   Path: FMOD/Desktop/Ambient.bank
   Name: Ambient
   StudioPath: bank:/Ambient
-  lastModified: 639061474162408053
+  lastModified: 639076303488342779
   FileSizes: []
   Exists: 1
 --- !u!114 &8214135890479273579
@@ -436,6 +727,30 @@ MonoBehaviour:
   MinDistance: 1
   MaxDistance: 20
   Length: 446616
+--- !u!114 &8300359663288592327
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fecb8ef7f94ca804a8ab72049b86782e, type: 3}
+  m_Name: parameter:/MusicWorld1/Zone
+  m_EditorClassIdentifier: 
+  Name: Zone
+  StudioPath: 
+  Min: 0
+  Max: 5
+  Default: 0
+  ID:
+    data1: 2975555882
+    data2: 2538120142
+  Type: 1
+  IsGlobal: 0
+  Labels: []
+  Exists: 1
 --- !u!114 &8318915050541401862
 MonoBehaviour:
   m_ObjectHideFlags: 0
