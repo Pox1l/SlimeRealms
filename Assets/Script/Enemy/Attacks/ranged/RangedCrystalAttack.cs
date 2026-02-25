@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using UnityEngine.AI;
 using System.Collections;
+using FMODUnity; // 🔥 1. Nutné pro FMOD
 
 public class RangedCrystalAttack : MonoBehaviour
 {
@@ -24,7 +25,10 @@ public class RangedCrystalAttack : MonoBehaviour
     public int shotCount = 4;
     public float timeBetweenShots = 1f;
     public float recoveryTime = 1f;
-    // public float shootAnimDelay = 0.2f; // 🔥 ZRUŠENO: Časování řídí animace
+
+    [Header("Audio")] // 🔥 2. Nová sekce pro Zvuk
+    [Tooltip("Zvuk výstřelu krystalu (Magic shot / Laser).")]
+    public EventReference shootSound;
 
     [Header("2D Settings & Clearance")]
     public LayerMask whatIsTarget;
@@ -155,10 +159,6 @@ public class RangedCrystalAttack : MonoBehaviour
                 UpdateAimLinePosition();
             }
 
-            // 🔥 ZMĚNA: Už nečekáme na delay a nestřílíme zde.
-            // Čekáme pouze na další 'takt' v burstu. 
-            // Výstřel (Shoot) musí zavolat Animation Event v Unity!
-
             yield return new WaitForSeconds(timeBetweenShots);
         }
 
@@ -173,13 +173,21 @@ public class RangedCrystalAttack : MonoBehaviour
         lastAttackTime = Time.time;
     }
 
-    // 🔥 Tuto metodu musíš nastavit v Animation Eventu!
+    // 🔥 Tuto metodu volá Animation Event!
     public void Shoot()
     {
         if (aimLine != null) aimLine.enabled = false;
 
         if (projectilePrefab != null && firePoint != null && fixedPoint != null)
         {
+            // --- AUDIO START ---
+            if (AudioManager.instance != null)
+            {
+                // Hrajeme zvuk na pozici krystalu (firePoint)
+                AudioManager.instance.PlayRangedAttack(shootSound, firePoint.position);
+            }
+            // --- AUDIO END ---
+
             RotateGunToPlayer();
             Instantiate(projectilePrefab, firePoint.position, fixedPoint.rotation);
         }

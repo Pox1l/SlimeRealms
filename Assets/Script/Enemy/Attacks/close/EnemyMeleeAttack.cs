@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using UnityEngine.AI;
+using FMODUnity; // 🔥 1. Přidána knihovna pro FMOD
 
 public class EnemyMeleeAttack : MonoBehaviour
 {
@@ -18,6 +19,10 @@ public class EnemyMeleeAttack : MonoBehaviour
     public float attackRange = 1.5f;
     public float attackCooldown = 1.5f;
     public bool enableSpriteFlip = false;
+
+    [Header("Audio")] // 🔥 2. Nová sekce pro Zvuk
+    [Tooltip("Zvuk útoku. Pokud necháš prázdné, zahraje se Default Melee z Manageru.")]
+    public EventReference attackSound;
 
     [Header("Range Offset")]
     public Vector2 centerOffset = Vector2.zero;
@@ -141,10 +146,20 @@ public class EnemyMeleeAttack : MonoBehaviour
         CancelInvoke("FinishAttack");
     }
 
+    // 🔥 TADY SE DĚJE ÚTOK
     public void SpawnAttackHitbox()
     {
         // 🔥 Vypneme varování, protože teď přichází damage
         if (warningLine != null) warningLine.enabled = false;
+
+        // --- AUDIO START: PŘEHRÁT ZVUK MELEE ÚTOKU ---
+        if (AudioManager.instance != null)
+        {
+            // Zavoláme Manager, ať zahraje buď tento custom zvuk, nebo ten defaultní "švih"
+            // Najdi řádek, kde voláš PlayMeleeAttack a přidej transform.position:
+            AudioManager.instance.PlayMeleeAttack(attackSound, transform.position);
+        }
+        // --- AUDIO END ---
 
         if (attackPrefab == null || firePoint == null || fixedPoint == null) return;
 

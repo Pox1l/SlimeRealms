@@ -210,6 +210,33 @@ MonoBehaviour:
   MinDistance: 1
   MaxDistance: 20
   Length: 8045
+--- !u!114 &-2654200670665416019
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: event:/enemyRangedAtk
+  m_EditorClassIdentifier: 
+  Path: event:/enemyRangedAtk
+  Guid:
+    Data1: -1062319299
+    Data2: 1191553875
+    Data3: -1258927480
+    Data4: -663912477
+  Banks:
+  - {fileID: 3136255313656384484}
+  IsStream: 0
+  Is3D: 1
+  IsOneShot: 1
+  Parameters: []
+  MinDistance: 1
+  MaxDistance: 20
+  Length: 0
 --- !u!114 &-2433244551201031102
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -331,13 +358,17 @@ MonoBehaviour:
   - {fileID: -1950788178273077432}
   - {fileID: -2433244551201031102}
   - {fileID: 352706147594291880}
+  - {fileID: 5907704190713710115}
+  - {fileID: 2963095285814184194}
+  - {fileID: -2654200670665416019}
+  - {fileID: 609793240527090807}
   EditorParameters: []
   MasterBanks:
   - {fileID: 2535322858333945084}
   StringsBanks:
   - {fileID: 950478269963886210}
   cacheVersion: 131857
-  cacheTime: 639076304934632815
+  cacheTime: 639076355043657753
   SerializableEventsDict:
   - key: event:/SlimeWalk3DS
     index: 0
@@ -375,6 +406,14 @@ MonoBehaviour:
     index: 16
   - key: event:/pickUpItemSoundEffect
     index: 17
+  - key: event:/enemyHurt8bit
+    index: 18
+  - key: event:/enemyHurtNormal
+    index: 19
+  - key: event:/enemyRangedAtk
+    index: 20
+  - key: event:/enemyCloseAtk
+    index: 21
 --- !u!114 &214214004630967415
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -429,6 +468,33 @@ MonoBehaviour:
   MinDistance: 1
   MaxDistance: 20
   Length: 2000
+--- !u!114 &609793240527090807
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: event:/enemyCloseAtk
+  m_EditorClassIdentifier: 
+  Path: event:/enemyCloseAtk
+  Guid:
+    Data1: -17122731
+    Data2: 1075325860
+    Data3: 21541289
+    Data4: -535146489
+  Banks:
+  - {fileID: 3136255313656384484}
+  IsStream: 0
+  Is3D: 1
+  IsOneShot: 1
+  Parameters: []
+  MinDistance: 1
+  MaxDistance: 20
+  Length: 1100
 --- !u!114 &950478269963886210
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -444,10 +510,10 @@ MonoBehaviour:
   Path: FMOD/Desktop/Master.strings.bank
   Name: Master.strings
   StudioPath: bank:/Master.strings
-  lastModified: 639076293376877393
+  lastModified: 639076342603497903
   FileSizes:
   - Name: 
-    Value: 1978
+    Value: 2162
   Exists: 1
 --- !u!114 &1401320772930025434
 MonoBehaviour:
@@ -515,7 +581,7 @@ MonoBehaviour:
   Path: FMOD/Desktop/Master.bank
   Name: Master
   StudioPath: bank:/Master
-  lastModified: 639076293376857420
+  lastModified: 639076342603477902
   FileSizes: []
   Exists: 1
 --- !u!114 &2548515694316719639
@@ -573,6 +639,33 @@ MonoBehaviour:
   MinDistance: 1
   MaxDistance: 20
   Length: 519837
+--- !u!114 &2963095285814184194
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: event:/enemyHurtNormal
+  m_EditorClassIdentifier: 
+  Path: event:/enemyHurtNormal
+  Guid:
+    Data1: 1340364811
+    Data2: 1092718980
+    Data3: -1310265705
+    Data4: 691238766
+  Banks:
+  - {fileID: 3136255313656384484}
+  IsStream: 0
+  Is3D: 1
+  IsOneShot: 1
+  Parameters: []
+  MinDistance: 1
+  MaxDistance: 20
+  Length: 1200
 --- !u!114 &3136255313656384484
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -588,7 +681,7 @@ MonoBehaviour:
   Path: FMOD/Desktop/SFX.bank
   Name: SFX
   StudioPath: bank:/SFX
-  lastModified: 639076304934632815
+  lastModified: 639076355043657753
   FileSizes: []
   Exists: 1
 --- !u!114 &3930003198878368396
@@ -655,6 +748,33 @@ MonoBehaviour:
   lastModified: 639061474164884903
   FileSizes: []
   Exists: 1
+--- !u!114 &5907704190713710115
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: event:/enemyHurt8bit
+  m_EditorClassIdentifier: 
+  Path: event:/enemyHurt8bit
+  Guid:
+    Data1: -523842733
+    Data2: 1313131493
+    Data3: 1668928941
+    Data4: 1639513584
+  Banks:
+  - {fileID: 3136255313656384484}
+  IsStream: 0
+  Is3D: 1
+  IsOneShot: 1
+  Parameters: []
+  MinDistance: 1
+  MaxDistance: 20
+  Length: 2000
 --- !u!114 &8147198445935787367
 MonoBehaviour:
   m_ObjectHideFlags: 0

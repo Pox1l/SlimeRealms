@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using UnityEngine.AI;
+using FMODUnity; // 🔥 1. Přidána knihovna
 
 public class MeleeAreaAttack : MonoBehaviour
 {
@@ -9,7 +10,7 @@ public class MeleeAreaAttack : MonoBehaviour
     public LineRenderer warningLine;
 
     public Transform fixedPoint; // 🔥 ZDE se kreslí kruh i spawnuje útok
-    public Transform firePoint;  // (Teď už se prakticky nepoužívá, můžeš tam nechat střed slima)
+    public Transform firePoint;
     public Animator animator;
     public SpriteRenderer spriteRenderer;
 
@@ -18,8 +19,12 @@ public class MeleeAreaAttack : MonoBehaviour
     public float attackCooldown = 1.5f;
     public bool enableSpriteFlip = false;
 
+    [Header("Audio")] // 🔥 2. Nová sekce pro Zvuk
+    [Tooltip("Zvuk plošného útoku (např. Slime Jump). Pokud prázdné, hraje default.")]
+    public EventReference attackSound;
+
     [Header("Timing")]
-    public float attackDelay = 0.5f; // Zpoždění útoku, když nemáš animaci
+    public float attackDelay = 0.5f;
 
     [Header("Range Offset")]
     public Vector2 centerOffset = Vector2.zero;
@@ -99,7 +104,6 @@ public class MeleeAreaAttack : MonoBehaviour
 
     void DrawWarningCircle()
     {
-        // 🔥 ZMĚNA: Kontrolujeme fixedPoint místo firePoint
         if (warningLine == null || fixedPoint == null) return;
 
         warningLine.positionCount = circleSegments;
@@ -112,7 +116,6 @@ public class MeleeAreaAttack : MonoBehaviour
             float x = Mathf.Cos(currentAngle) * warningRadius;
             float y = Mathf.Sin(currentAngle) * warningRadius;
 
-            // 🔥 ZMĚNA: Kruh se kreslí kolem fixedPointu
             Vector3 pointPosition = fixedPoint.position + new Vector3(x, y, 0);
             warningLine.SetPosition(i, pointPosition);
         }
@@ -123,7 +126,7 @@ public class MeleeAreaAttack : MonoBehaviour
         isAttacking = true;
         lastAttackTime = Time.time;
 
-        if (animator != null) animator.SetTrigger("Attack"); // Tohle spouští animaci
+        if (animator != null) animator.SetTrigger("Attack");
 
         if (warningLine != null)
         {
@@ -131,11 +134,7 @@ public class MeleeAreaAttack : MonoBehaviour
             DrawWarningCircle();
         }
 
-        // ❌ SMAZAT TOTO (Spouští to teď Animation Event):
-        // Invoke("SpawnAttackHitbox", attackDelay); 
-
-        // Tohle tu nech, aby se útok ukončil a slime se mohl zase hýbat
-        Invoke("FinishAttack", 1.0f); // Čas uprav podle délky animace
+        Invoke("FinishAttack", 1.0f);
     }
 
     public void FinishAttack()
@@ -145,9 +144,19 @@ public class MeleeAreaAttack : MonoBehaviour
         CancelInvoke("FinishAttack");
     }
 
+    // 🔥 TADY SE DĚJE ÚTOK (Volá to Animation Event nebo Invoke)
     public void SpawnAttackHitbox()
     {
         if (warningLine != null) warningLine.enabled = false;
+
+        // --- AUDIO START ---
+        if (AudioManager.instance != null)
+        {
+            // Zahraje custom zvuk (např. výbuch slizu), nebo default melee
+            // Najdi řádek, kde voláš PlayMeleeAttack a přidej transform.position:
+            AudioManager.instance.PlayMeleeAttack(attackSound, transform.position);
+        }
+        // --- AUDIO END ---
 
         if (attackPrefab == null || fixedPoint == null) return;
 
@@ -170,7 +179,6 @@ public class MeleeAreaAttack : MonoBehaviour
         Vector3 rangeCenter = transform.position + (Vector3)centerOffset;
         Gizmos.DrawWireSphere(rangeCenter, attackRange);
 
-        // 🔥 ZMĚNA: Gizmos (modrý kruh) se teď ukazuje kolem fixedPointu
         if (fixedPoint != null)
         {
             Gizmos.color = Color.blue;

@@ -224,7 +224,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cefa7376abde36348a032c2eafd9aa94, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxHealth: 20
+  maxHealth: 30
+  hitSound:
+    Guid:
+      Data1: 1340364811
+      Data2: 1092718980
+      Data3: -1310265705
+      Data4: 691238766
+    Path: event:/enemyHurtNormal
 --- !u!114 &7157873963281999722
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -264,6 +271,13 @@ MonoBehaviour:
   attackRange: 1.6
   attackCooldown: 1.5
   enableSpriteFlip: 0
+  attackSound:
+    Guid:
+      Data1: 0
+      Data2: 0
+      Data3: 0
+      Data4: 0
+    Path: 
   centerOffset: {x: 0.04, y: -0.52}
   warningRadius: 0.5
   circleSegments: 15

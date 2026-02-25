@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using UnityEngine.AI;
+using FMODUnity; // <--- Důležité: Přidat knihovnu
 
 public class EnemyRangedAttack : MonoBehaviour
 {
@@ -12,17 +13,18 @@ public class EnemyRangedAttack : MonoBehaviour
 
     [Header("Combat Ranges")]
     public float attackRange = 7f;
-    // Stopping distance v inspektoru na NavMeshAgentovi dej na 0!
-    // Tuhle proměnnou používáme jen pro logiku, kdyby byl moc blízko.
     public float keepDistance = 3f;
 
     [Header("Combat Settings")]
     public float attackCooldown = 2f;
     public float aimLineLength = 10f;
 
+    [Header("Audio")] // <--- NOVÁ SEKCE
+    [Tooltip("Zvuk výstřelu. Pokud je prázdný, použije se Default Ranged z AudioManageru.")]
+    public EventReference shootSound;
+
     [Header("2D Settings & Clearance")]
     public LayerMask whatIsTarget;
-    // 🔥 NOVÉ: Jak dlouho (v sekundách) má ještě jít poté, co uvidí hráče, aby si "nadběhl" roh.
     public float clearanceDuration = 0.4f;
 
     private Transform playerTransform;
@@ -30,7 +32,7 @@ public class EnemyRangedAttack : MonoBehaviour
     private NavMeshAgent agent;
     private bool isAttacking = false;
 
-    // 🔥 NOVÉ: Proměnné pro logiku "nadběhnutí"
+    // Clearance variables
     private float clearanceTimer = 0f;
     private bool wasBlocked = false;
 
@@ -39,12 +41,10 @@ public class EnemyRangedAttack : MonoBehaviour
         if (animator == null) animator = GetComponent<Animator>();
         agent = GetComponent<NavMeshAgent>();
 
-        // FIX PRO 2D
         if (agent != null)
         {
             agent.updateRotation = false;
             agent.updateUpAxis = false;
-            // Důležité: Vypneme automatické brždění, aby reagoval svižněji
             agent.autoBraking = false;
         }
 
@@ -65,24 +65,17 @@ public class EnemyRangedAttack : MonoBehaviour
         // --- 1. KONTROLA VIDITELNOSTI ---
         bool hasLineOfSight = CheckLineOfSight();
 
-        // 🔥 LOGIKA "NADBĚHNUTÍ" (CLEARANCE)
         if (!hasLineOfSight)
         {
-            // Pokud ho nevidíme, poznačíme si, že jsme zablokovaní
             wasBlocked = true;
         }
         else if (hasLineOfSight && wasBlocked)
         {
-            // PRÁVĚ JSME VYKOUKLI ZPOZA ROHU (Vidíme ho, ale před chvílí jsme ho neviděli)
-            // Nastavíme časovač, do kdy se musíme ještě hýbat
             clearanceTimer = Time.time + clearanceDuration;
-            // Resetujeme flag, už nejsme zablokovaní
             wasBlocked = false;
         }
 
-        // Zjistíme, jestli ještě běží čas na nadběhnutí
         bool isClearingCorner = Time.time < clearanceTimer;
-
 
         // --- 2. OTOČENÍ ZBRANĚ ---
         if (isAttacking || hasLineOfSight)
@@ -98,19 +91,14 @@ public class EnemyRangedAttack : MonoBehaviour
         {
             shouldMove = false;
         }
-        // 🔥 UPRAVENÁ PODMÍNKA ZASTAVENÍ:
-        // Zastaví jen pokud: Vidí hráče A je v dostřelu A UŽ DOBĚHL clearance časovač.
         else if (hasLineOfSight && distanceToPlayer <= attackRange && !isClearingCorner)
         {
-            // Pokud je moc blízko, ať radši couve nebo stojí (volitelné, teď ho necháme stát)
             if (distanceToPlayer > keepDistance)
             {
-                shouldMove = false; // STŮJ A STŘÍLEJ
+                shouldMove = false;
             }
             else
             {
-                // Je moc blízko, ale vidí ho -> asi by měl stát a střílet, 
-                // nebo přidej logiku pro ústup. Zatím necháme stát.
                 shouldMove = false;
             }
 
@@ -119,13 +107,11 @@ public class EnemyRangedAttack : MonoBehaviour
                 StartAttackSequence();
             }
         }
-        // V ostatních případech (nevidí ho, nebo ho právě uviděl a ještě si nadbíhá) -> shouldMove zůstane true
 
         // --- 4. APLIKACE POHYBU ---
         if (shouldMove)
         {
             agent.isStopped = false;
-            // Stále aktualizujeme cíl na hráče, aby šel správným směrem i při nadbíhání
             agent.SetDestination(playerTransform.position);
         }
         else
@@ -135,9 +121,6 @@ public class EnemyRangedAttack : MonoBehaviour
             agent.ResetPath();
         }
     }
-
-    // ... ZBYTEK KÓDU (CheckLineOfSight, RotateGun, atd.) ZŮSTÁVÁ STEJNÝ JAKO V PŘEDCHOZÍ VERZI ...
-    // Pro jistotu ho sem dávám znovu, abys to mohl celé zkopírovat.
 
     bool CheckLineOfSight()
     {
@@ -176,6 +159,9 @@ public class EnemyRangedAttack : MonoBehaviour
         isAttacking = true;
         lastAttackTime = Time.time;
         if (animator != null) animator.SetTrigger("Attack");
+
+        // Poznámka: Pokud bys chtěl zvuk nabíjení laseru, dal bys ho sem.
+
         if (aimLine != null)
         {
             aimLine.enabled = true;
@@ -192,9 +178,20 @@ public class EnemyRangedAttack : MonoBehaviour
         CancelInvoke("FinishAttack");
     }
 
+    // 🔥 TADY SE DĚJE VÝSTŘEL
     public void Shoot()
     {
         if (aimLine != null) aimLine.enabled = false;
+
+        // --- AUDIO: ZVUK VÝSTŘELU ---
+        if (AudioManager.instance != null)
+        {
+            // Voláme speciální funkci pro Ranged útoky
+            // U střelby je lepší dát pozici firePointu (hlaveň):
+            AudioManager.instance.PlayRangedAttack(shootSound, firePoint.position);
+        }
+        // -----------------------------
+
         if (projectilePrefab == null || firePoint == null || fixedPoint == null) return;
         RotateGunToPlayer();
         Instantiate(projectilePrefab, firePoint.position, fixedPoint.rotation);

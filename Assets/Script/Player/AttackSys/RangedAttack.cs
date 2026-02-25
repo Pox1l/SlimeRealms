@@ -1,10 +1,15 @@
 ﻿using UnityEngine;
+using FMODUnity; // 🔥 1. Nutné přidat knihovnu
 
 [CreateAssetMenu(menuName = "Attacks/Ranged Attack")]
 public class RangedAttack : AttackBase
 {
+    [Header("Visual Settings")]
     public GameObject projectilePrefab;
     public float projectileSpeed = 8f;
+
+    [Header("Audio (FMOD)")]
+    public EventReference shootSound; // 🔥 2. Zvuk výstřelu (Bow release, Gunshot...)
 
     // ⚡ UPRAVENO: Přijímáme damageMultiplier
     public override void PerformAttack(Transform attacker, Camera cam, LayerMask enemyLayers, float damageMultiplier)
@@ -12,6 +17,12 @@ public class RangedAttack : AttackBase
         if (projectilePrefab == null) return;
         var cameraToUse = cam != null ? cam : Camera.main;
         if (cameraToUse == null) return;
+
+        // 🔥 3. Přehrát zvuk výstřelu (Hned na začátku)
+        if (!shootSound.IsNull)
+        {
+            RuntimeManager.PlayOneShot(shootSound, attacker.position);
+        }
 
         // Pozice myši
         Vector3 mouseWorld = cameraToUse.ScreenToWorldPoint(Input.mousePosition);
@@ -44,8 +55,8 @@ public class RangedAttack : AttackBase
             int bonusDamage = Mathf.RoundToInt(damageMultiplier);
             int finalDamage = baseDamage + bonusDamage;
 
-            dealer.damage = finalDamage;       
-            dealer.enemyLayers = enemyLayers; 
+            dealer.damage = finalDamage;
+            dealer.enemyLayers = enemyLayers;
         }
         else
         {

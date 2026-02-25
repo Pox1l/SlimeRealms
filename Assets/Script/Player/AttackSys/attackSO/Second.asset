@@ -18,3 +18,10 @@ MonoBehaviour:
   baseDamage: 5
   projectilePrefab: {fileID: 6456194704895711400, guid: 667862e28fdfa014da8946bf09ba34e9, type: 3}
   projectileSpeed: 12
+  shootSound:
+    Guid:
+      Data1: -1650614000
+      Data2: 1223265073
+      Data3: -12164182
+      Data4: -1475094578
+    Path: event:/ShootEffect

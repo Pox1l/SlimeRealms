@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System;
+using FMODUnity; // <--- Důležité: Přidat knihovnu
 
 public class EnemyHealth : MonoBehaviour
 {
@@ -7,17 +8,21 @@ public class EnemyHealth : MonoBehaviour
     public int maxHealth = 20;
     private int currentHealth;
 
+    [Header("Audio")]
+    [Tooltip("Pokud necháš prázdné, zahraje se Default Hit z Manageru")]
+    public EventReference hitSound; // <--- Políčko pro custom zvuk
+
     public event Action OnDeath;
 
     private EnemyDrop drop;
-    private EnemyController controller; 
+    private EnemyController controller;
     private DamageFlash damageFlash;
     private EnemyKnockback knockback;
 
     void Awake()
     {
         drop = GetComponent<EnemyDrop>();
-        controller = GetComponent<EnemyController>(); 
+        controller = GetComponent<EnemyController>();
         damageFlash = GetComponent<DamageFlash>();
         knockback = GetComponent<EnemyKnockback>();
     }
@@ -33,7 +38,13 @@ public class EnemyHealth : MonoBehaviour
 
         currentHealth -= damage;
 
-        
+        if (AudioManager.instance != null)
+        {
+            // 🔥 ZMĚNA: Posíláme i transform.position
+            AudioManager.instance.PlayHitSound(hitSound, transform.position);
+        }
+        // -------------------------------
+
         if (damageFlash != null)
         {
             damageFlash.Flash();
@@ -43,14 +54,11 @@ public class EnemyHealth : MonoBehaviour
         {
             knockback.PlayKnockback();
         }
-            
 
-       
         if (currentHealth <= 0)
         {
             if (drop != null) drop.DropLoot();
-            OnDeath?.Invoke(); 
-            // OnDeath.Invoke(); 
+            OnDeath?.Invoke();
         }
         else
         {
@@ -60,4 +68,4 @@ public class EnemyHealth : MonoBehaviour
             }
         }
     }
-    }
+}

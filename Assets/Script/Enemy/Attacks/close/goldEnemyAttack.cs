@@ -1,10 +1,10 @@
 ﻿using UnityEngine;
 using UnityEngine.AI;
+using FMODUnity; // 🔥 Nutné pro FMOD
 
 public class goldEnemyAttack : MonoBehaviour
 {
     [Header("References")]
-    // 🔥 ZMĚNA: Dva sloty pro různé útoky
     public GameObject attackPrefab1;
     public GameObject attackPrefab2;
 
@@ -19,6 +19,10 @@ public class goldEnemyAttack : MonoBehaviour
     public float attackRange = 1.5f;
     public float attackCooldown = 1.5f;
     public bool enableSpriteFlip = false;
+
+    [Header("Audio")] // 🔥 ZMĚNA: Jen jeden slot pro zvuk
+    [Tooltip("Hlavní zvuk útoku. (FMOD Event může obsahovat více variant a náhodně je střídat)")]
+    public EventReference attackSound;
 
     [Header("Range Offset")]
     public Vector2 centerOffset = Vector2.zero;
@@ -133,22 +137,33 @@ public class goldEnemyAttack : MonoBehaviour
         CancelInvoke(nameof(FinishAttack));
     }
 
-    // 🔥 NOVÉ: Event pro PRVNÍ útok (nastav v animaci Event: SpawnAttack1)
+    // 🔥 Spustí se při prvním útoku
     public void SpawnAttack1()
     {
+        PlayAttackSound(); // Zavoláme společnou funkci pro zvuk
         SpawnProjectile(attackPrefab1);
     }
 
-    // 🔥 NOVÉ: Event pro DRUHÝ útok (nastav v animaci Event: SpawnAttack2)
+    // 🔥 Spustí se při druhém útoku
     public void SpawnAttack2()
     {
+        PlayAttackSound(); // Zavoláme tu samou funkci (FMOD vybere variantu)
         SpawnProjectile(attackPrefab2);
     }
 
-    // Pomocná metoda pro vytvoření útoku (aby se neopakoval kód)
+    // Pomocná metoda pro zvuk (aby se neopakoval kód)
+    private void PlayAttackSound()
+    {
+        if (AudioManager.instance != null)
+        {
+            // Najdi řádek, kde voláš PlayMeleeAttack a přidej transform.position:
+            AudioManager.instance.PlayMeleeAttack(attackSound, transform.position);
+        }
+    }
+
+    // Pomocná metoda pro vytvoření prefabu
     private void SpawnProjectile(GameObject prefabToSpawn)
     {
-        // Vypneme varování při úderu
         if (warningLine != null) warningLine.enabled = false;
 
         if (prefabToSpawn == null || firePoint == null || fixedPoint == null) return;
@@ -158,6 +173,7 @@ public class goldEnemyAttack : MonoBehaviour
         Quaternion correction = Quaternion.Euler(0, 0, -90);
         Instantiate(prefabToSpawn, firePoint.position, fixedPoint.rotation * correction);
     }
+
     void FacePlayer()
     {
         if (spriteRenderer == null || playerTransform == null) return;

@@ -56069,6 +56069,13 @@ MonoBehaviour:
       Data3: -1165916774
       Data4: 1069694486
     Path: event:/pickUpItemSoundEffect
+  enemyHitSound:
+    Guid:
+      Data1: -523842733
+      Data2: 1313131493
+      Data3: 1668928941
+      Data4: 1639513584
+    Path: event:/enemyHurt8bit
 --- !u!1001 &1128336014
 PrefabInstance:
   m_ObjectHideFlags: 0

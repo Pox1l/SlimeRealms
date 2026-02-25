@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using UnityEngine.AI;
 using System.Collections;
+using FMODUnity; // 🔥 1. Nutné pro FMOD
 
 public class EnemyTripleShot : MonoBehaviour
 {
@@ -19,6 +20,10 @@ public class EnemyTripleShot : MonoBehaviour
     [Header("Combat Settings")]
     public float attackCooldown = 2f;
     public float aimLineLength = 10f;
+
+    [Header("Audio")] // 🔥 2. Nová sekce pro Zvuk
+    [Tooltip("Zvuk výstřelu. Hraje při každém náboji v dávce.")]
+    public EventReference shootSound;
 
     [Header("Timing (No Animation)")]
     public float shootDelay = 0.5f;
@@ -136,6 +141,15 @@ public class EnemyTripleShot : MonoBehaviour
 
             if (projectilePrefab != null && firePoint != null && fixedPoint != null)
             {
+                // --- AUDIO START ---
+                // Přehráváme zvuk při KAŽDÉM výstřelu v dávce
+                if (AudioManager.instance != null)
+                {
+                    // U střelby je lepší dát pozici firePointu (hlaveň):
+                    AudioManager.instance.PlayRangedAttack(shootSound, firePoint.position);
+                }
+                // --- AUDIO END ---
+
                 RotateGunToPlayer();
                 Instantiate(projectilePrefab, firePoint.position, fixedPoint.rotation);
             }
