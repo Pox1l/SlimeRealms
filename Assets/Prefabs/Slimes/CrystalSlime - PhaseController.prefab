@@ -202,9 +202,16 @@ MonoBehaviour:
   chaseRange: 15
   attackCooldown: 2
   aimLineLength: 10
-  shotCount: 4
+  shotCount: 6
   timeBetweenShots: 0.5
   recoveryTime: 1
+  shootSound:
+    Guid:
+      Data1: 0
+      Data2: 0
+      Data3: 0
+      Data4: 0
+    Path: 
   whatIsTarget:
     serializedVersion: 2
     m_Bits: 8
@@ -222,6 +229,13 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   maxHealth: 150
+  hitSound:
+    Guid:
+      Data1: 0
+      Data2: 0
+      Data3: 0
+      Data4: 0
+    Path: 
 --- !u!114 &1015148322724249119
 MonoBehaviour:
   m_ObjectHideFlags: 0
