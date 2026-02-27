@@ -14838,11 +14838,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6968649160233870610, guid: ca1682959c3e45d4a9fffd5b5fc005a8, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 7.1
+      value: -5.62
       objectReference: {fileID: 0}
     - target: {fileID: 6968649160233870610, guid: ca1682959c3e45d4a9fffd5b5fc005a8, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0.61
+      value: 0.91
       objectReference: {fileID: 0}
     - target: {fileID: 6968649160233870610, guid: ca1682959c3e45d4a9fffd5b5fc005a8, type: 3}
       propertyPath: m_LocalPosition.z
@@ -390035,7 +390035,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!199 &1516880425
 ParticleSystemRenderer:
   serializedVersion: 6
@@ -417133,26 +417133,6 @@ PrefabInstance:
     - target: {fileID: 476992415000853087, guid: a6b29e46d1ff20f43b685d6d272bebbc, type: 3}
       propertyPath: m_Name
       value: Player
-      objectReference: {fileID: 0}
-    - target: {fileID: 1738376100676958485, guid: a6b29e46d1ff20f43b685d6d272bebbc, type: 3}
-      propertyPath: dashSound.Path
-      value: event:/playerDash
-      objectReference: {fileID: 0}
-    - target: {fileID: 1738376100676958485, guid: a6b29e46d1ff20f43b685d6d272bebbc, type: 3}
-      propertyPath: dashSound.Guid.Data1
-      value: -1083086758
-      objectReference: {fileID: 0}
-    - target: {fileID: 1738376100676958485, guid: a6b29e46d1ff20f43b685d6d272bebbc, type: 3}
-      propertyPath: dashSound.Guid.Data2
-      value: 1162444176
-      objectReference: {fileID: 0}
-    - target: {fileID: 1738376100676958485, guid: a6b29e46d1ff20f43b685d6d272bebbc, type: 3}
-      propertyPath: dashSound.Guid.Data3
-      value: -1425434960
-      objectReference: {fileID: 0}
-    - target: {fileID: 1738376100676958485, guid: a6b29e46d1ff20f43b685d6d272bebbc, type: 3}
-      propertyPath: dashSound.Guid.Data4
-      value: 393278912
       objectReference: {fileID: 0}
     - target: {fileID: 4953538714074341452, guid: a6b29e46d1ff20f43b685d6d272bebbc, type: 3}
       propertyPath: m_LocalPosition.x

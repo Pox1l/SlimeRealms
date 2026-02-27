@@ -263,7 +263,7 @@ MonoBehaviour:
   Parameters: []
   MinDistance: 1
   MaxDistance: 20
-  Length: 0
+  Length: 2000
 --- !u!114 &-2433244551201031102
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -396,7 +396,7 @@ MonoBehaviour:
   StringsBanks:
   - {fileID: 950478269963886210}
   cacheVersion: 131857
-  cacheTime: 639078046133541315
+  cacheTime: 639078050936199421
   SerializableEventsDict:
   - key: event:/SlimeWalk3DS
     index: 0
@@ -711,7 +711,7 @@ MonoBehaviour:
   Path: FMOD/Desktop/SFX.bank
   Name: SFX
   StudioPath: bank:/SFX
-  lastModified: 639078046133541315
+  lastModified: 639078050936199421
   FileSizes: []
   Exists: 1
 --- !u!114 &3930003198878368396

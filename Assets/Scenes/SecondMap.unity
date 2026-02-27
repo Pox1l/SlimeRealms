@@ -56076,6 +56076,20 @@ MonoBehaviour:
       Data3: 1668928941
       Data4: 1639513584
     Path: event:/enemyHurt8bit
+  defaultMeleeAttackSound:
+    Guid:
+      Data1: -17122731
+      Data2: 1075325860
+      Data3: 21541289
+      Data4: -535146489
+    Path: event:/enemyCloseAtk
+  defaultRangedAttackSound:
+    Guid:
+      Data1: -1062319299
+      Data2: 1191553875
+      Data3: -1258927480
+      Data4: -663912477
+    Path: event:/enemyRangedAtk
 --- !u!1001 &1128336014
 PrefabInstance:
   m_ObjectHideFlags: 0

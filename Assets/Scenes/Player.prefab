@@ -175,6 +175,13 @@ MonoBehaviour:
   dashDuration: 0.05
   dashEnergyCost: 25
   startDashParticle: {fileID: 112303070898836107}
+  dashSound:
+    Guid:
+      Data1: -1083086758
+      Data2: 1162444176
+      Data3: -1425434960
+      Data4: 393278912
+    Path: event:/playerDash
   dashFeedback: {fileID: 2613256912368071455}
   animator: {fileID: 6639401451793332536}
 --- !u!114 &113634020460050641
