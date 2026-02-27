@@ -11,6 +11,7 @@ public class PlayerMovement : MonoBehaviour
     public float dashSpeed = 20f;
     public float dashDuration = 0.2f;
     public float dashEnergyCost = 25f;
+    public ParticleSystem startDashParticle; // PŘIDÁNO: Particle pro start dashe
 
     private Rigidbody2D rb;
     private Vector2 movement;
@@ -63,6 +64,30 @@ public class PlayerMovement : MonoBehaviour
     {
         isDashing = true;
 
+        // --- PŘIDANÁ ČÁST PRO ROTACI PARTIKLŮ ZDE ---
+        if (startDashParticle != null && movement != Vector2.zero)
+        {
+            // 1. Vypočítáme úhel na základě vektoru 'movement' v radiánech
+            float angle = Mathf.Atan2(movement.y, movement.x);
+
+            // 2. Převod radiánů na stupně
+            angle = angle * Mathf.Rad2Deg;
+
+            // 3. (VOLITELNÉ ALE PRAVDĚPODOBNÉ): Kompenzace počátečního směru partiklů.
+            //    Podle vašeho obrázku letí partikly nahoru (osa Y). V matematice ale 0 stupňů začíná doprava (osa X).
+            //    Proto musíme otočit o -90 stupňů, aby se začátek směru partiklů (osa Y) srovnal s osou X.
+            //    Tento offset se může lišit podle toho, jak máte nastaven Shape modul.
+            startDashParticle.transform.rotation = Quaternion.Euler(angle - 0f, -90f, 90f);
+        }
+        // ---------------------------------------------
+
+        // Spuštění particle efektu
+        if (startDashParticle != null)
+        {
+            startDashParticle.Play();
+        }
+
+        // ... zbytek vaší funkce Dash ...
         // 🔥 Utratíme staminu
         if (PlayerStats.Instance != null)
         {
