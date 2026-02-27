@@ -203,7 +203,7 @@ MonoBehaviour:
   attackCooldown: 2
   aimLineLength: 10
   shotCount: 6
-  timeBetweenShots: 0.5
+  timeBetweenShots: 0.3
   recoveryTime: 1
   shootSound:
     Guid:
