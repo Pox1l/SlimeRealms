@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 using MoreMountains.Feedbacks;
+using FMODUnity; // 🔥 PŘIDÁNO: Knihovna pro FMOD
 
 public class PlayerMovement : MonoBehaviour
 {
@@ -11,7 +12,11 @@ public class PlayerMovement : MonoBehaviour
     public float dashSpeed = 20f;
     public float dashDuration = 0.2f;
     public float dashEnergyCost = 25f;
-    public ParticleSystem startDashParticle; // PŘIDÁNO: Particle pro start dashe
+    public ParticleSystem startDashParticle;
+
+    [Header("Audio (FMOD)")] // 🔥 PŘIDÁNO: Sekce pro zvuky
+    [Tooltip("Zvuk, který se přehraje při startu dashe (např. Whoosh)")]
+    public EventReference dashSound;
 
     private Rigidbody2D rb;
     private Vector2 movement;
@@ -38,7 +43,7 @@ public class PlayerMovement : MonoBehaviour
         movement.y = Input.GetAxisRaw("Vertical");
         movement.Normalize();
 
-        // 🔥 Kontrola staminy a spuštění Dashe
+        // Kontrola staminy a spuštění Dashe
         if (Input.GetKeyDown(KeyCode.Space) && movement != Vector2.zero)
         {
             // Zeptáme se Banky (PlayerStats), jestli máme dost energie
@@ -64,22 +69,21 @@ public class PlayerMovement : MonoBehaviour
     {
         isDashing = true;
 
-        // --- PŘIDANÁ ČÁST PRO ROTACI PARTIKLŮ ZDE ---
+        // --- 🔥 AUDIO START: Přehrajeme zvuk dashe ---
+        if (!dashSound.IsNull)
+        {
+            // Hrajeme zvuk na pozici hráče (pro případný 3D efekt)
+            RuntimeManager.PlayOneShot(dashSound, transform.position);
+        }
+        // --- AUDIO END ---
+
+        // Vypočítáme rotaci partiklů
         if (startDashParticle != null && movement != Vector2.zero)
         {
-            // 1. Vypočítáme úhel na základě vektoru 'movement' v radiánech
             float angle = Mathf.Atan2(movement.y, movement.x);
-
-            // 2. Převod radiánů na stupně
             angle = angle * Mathf.Rad2Deg;
-
-            // 3. (VOLITELNÉ ALE PRAVDĚPODOBNÉ): Kompenzace počátečního směru partiklů.
-            //    Podle vašeho obrázku letí partikly nahoru (osa Y). V matematice ale 0 stupňů začíná doprava (osa X).
-            //    Proto musíme otočit o -90 stupňů, aby se začátek směru partiklů (osa Y) srovnal s osou X.
-            //    Tento offset se může lišit podle toho, jak máte nastaven Shape modul.
             startDashParticle.transform.rotation = Quaternion.Euler(angle - 0f, -90f, 90f);
         }
-        // ---------------------------------------------
 
         // Spuštění particle efektu
         if (startDashParticle != null)
@@ -87,8 +91,7 @@ public class PlayerMovement : MonoBehaviour
             startDashParticle.Play();
         }
 
-        // ... zbytek vaší funkce Dash ...
-        // 🔥 Utratíme staminu
+        // Utratíme staminu
         if (PlayerStats.Instance != null)
         {
             PlayerStats.Instance.UseStamina(dashEnergyCost);
@@ -119,8 +122,7 @@ public class PlayerMovement : MonoBehaviour
         animator.SetFloat("Speed", movement.sqrMagnitude);
     }
 
-    // 🔥 DŮLEŽITÁ OPRAVA PRO KNOCKBACK 🔥
-    // Tato funkce se zavolá automaticky, když PlayerKnockback vypne tento skript (enabled = false).
+    // DŮLEŽITÁ OPRAVA PRO KNOCKBACK
     private void OnDisable()
     {
         // 1. Okamžitě zastavíme Dash coroutinu, aby nepřepsala fyziku odhození
@@ -128,7 +130,5 @@ public class PlayerMovement : MonoBehaviour
 
         // 2. Resetujeme stav, abychom po zapnutí nebyly zaseklí v "isDashing"
         isDashing = false;
-
-        // Poznámka: Nenastavujeme velocity na nulu, protože chceme, aby nás síla knockbacku odhodila.
     }
 }

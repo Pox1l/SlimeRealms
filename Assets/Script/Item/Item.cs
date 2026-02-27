@@ -6,9 +6,6 @@ public class Item : MonoBehaviour
     public ItemSO itemData;
     public int quantity = 1;
 
-    [Header("Effects")]
-    public ParticleSystem pickupParticlePrefab; // PŘIDÁNO: Prefab pro partikly po sebrání
-
     private void OnTriggerEnter2D(Collider2D collision)
     {
         // Kontrola, zda do itemu narazil hráč
@@ -51,14 +48,6 @@ public class Item : MonoBehaviour
                     pickedAmount
                 );
             }
-
-            // --- PŘIDÁNO: PARTIKLY ---
-            if (pickupParticlePrefab != null)
-            {
-                // Vytvoříme partikly na pozici itemu
-                Instantiate(pickupParticlePrefab, transform.position, Quaternion.identity);
-            }
-            // -------------------------
         }
 
         // 4. Úklid objektu ze scény
