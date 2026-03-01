@@ -111,8 +111,6 @@ public class SimpleTutorialManager : MonoBehaviour
         if (prevButton) { prevButton.onClick.RemoveAllListeners(); prevButton.onClick.AddListener(PrevSlide); }
         if (closeButton) { closeButton.onClick.RemoveAllListeners(); closeButton.onClick.AddListener(CloseTutorial); }
 
-        if (closeButton) closeButton.gameObject.SetActive(true);
-
         UpdateUI();
     }
 
@@ -140,6 +138,12 @@ public class SimpleTutorialManager : MonoBehaviour
         {
             nextButton.gameObject.SetActive(true);
             nextButton.interactable = (currentIndex < slides.Count - 1);
+        }
+
+        // Přidáno: Tlačítko na zavření se ukáže až na posledním slajdu
+        if (closeButton)
+        {
+            closeButton.gameObject.SetActive(currentIndex == slides.Count - 1);
         }
     }
 

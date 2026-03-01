@@ -484,7 +484,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: adsfasdfasdfasdfadsfasdfasdfasdfadsfasdfasdfasdfadsfasdfasdfasdfadsfasdfasdfasdfadsfasdfasdfasdfadsfasdfasdfasdfadsfasdfasdfasdfadsfasdfasdfasdfadsfasdfasdfasdfadsfasdfasdfasdfadsfasdfasdfasdfadsfasdfasdfasdfadsfasdfasdfasdfadsfasdfasdfadsfasdfasdfasdfadsfasdfasdfasdfadsfasdfasdfasdfadsfasdfasdfasdfadsfasdfasdfasdfadsfasdfasdfasdfadsfasdfasdfasdfadsfasdfasdfasdfadsfasdfasdfasdfadsfasdfasdfasdfadsfasdfasdfasdfadsfasdfasdfasdfadsfasdfasdfasdfadsfasdfasdfasdfadsfasdfasdfasdfadsfasdfasdfasdfadsfasdfasdfasdfadsfasdfasdfasdfadsfasdfasdfasdfadsfasdfasdfasdfadsfasdfasdfasdfadsfasdfasdfasdfadsfasdfasdfasdfadsfasdfasdfasdfadsfasdfasdfasdfadsfasdfasdfasdfadsfasdfasdfasdfadsfasdfasdfasdfadsfasdfasdfasdfadsfasdfasdfasdfadsfasdfasdfasdfadsfasdfasdfasdfadsfasdfasdfasdfadsfasdfasdfasdfadsfasdfasdfasdfadsfasdfasdfasdf
+  m_text: adsfasdfasdfasdfasdfasdfadsfasdfasdfasdfadsfasdfasdfasdfadsfasdfasdfasdfadsfasdfasdfasdfadsfasdfasdfasdfadsfasdfasdfasdfadsfasdfasdfasdfadsfasdfasdfasdfadsfasdfasdfasdfadsfasdfasdfasdfadsfasdfasdfasdfadsfasdfasdfasdfadsfasdfasdfasdfadsfasdfasdfasdfadsfasdfasdfasdfadsfasdfasdfasdfadsfasdfasdfasdfadsfasdfasdfasdfadsfasdfasdfasdfadsfasdfasdfasdfadsfasdfasdfasdfadsfasdfasdfasdfadsfasdfasdfasdfadsfasdfasdfasdfadsfasdfasdfasdfadsfasdfasdfasdfadsfasdfasdfasdf
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 7c954dac1de116b478a8154de93b2b6c, type: 2}
   m_sharedMaterial: {fileID: 9199864149694275698, guid: 7c954dac1de116b478a8154de93b2b6c, type: 2}
@@ -511,8 +511,8 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 25
-  m_fontSizeBase: 25
+  m_fontSize: 35
+  m_fontSizeBase: 35
   m_fontWeight: 400
   m_enableAutoSizing: 0
   m_fontSizeMin: 18
@@ -244758,7 +244758,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &1452864335
 RectTransform:
   m_ObjectHideFlags: 0
@@ -244797,7 +244797,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 0.4509804, g: 0.4509804, b: 0.4509804, a: 0.78431374}
+  m_Color: {r: 0.4509804, g: 0.4509804, b: 0.4509804, a: 0.9019608}
   m_RaycastTarget: 0
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -414102,21 +414102,19 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   saveSystem: {fileID: 1844834207}
   slides:
-  - description: "Welcome to Slime Realms! You are no ordinary blob of slime \u2013
-      you are the Exceptional Slime, the last hope for these lands. Your destiny
-      is to journey through three forgotten worlds, defeat monsters, and use their
-      energies to repair the Ancient Crystals that hold reality together!"
-    image: {fileID: 21300000, guid: 1c41c95caa6a18448a2c7c3fc195e750, type: 3}
-  - description: "Jako V\xFDjime\u010Dn\xFD Sliz dok\xE1\u017Ee\u0161 m\u011Bnit
-      svou formu. Stiskni 1 pro formu na bl\xEDzko nebo 2 pro formu na d\xE1lku.
-      Jakmile m\xE1\u0161 vybr\xE1no, \xFAto\u010D pomoc\xED LMB (lev\xE9 tla\u010D\xEDtko
-      my\u0161i). Ka\u017Ed\xE1 forma vy\u017Eaduje jinou strategii!"
-    image: {fileID: 21300000, guid: 2c835a8adcef61e49b4e0c8d853afcd2, type: 3}
-  - description: "Tv\xE9 t\u011Blo je pru\u017En\xE9! Stiskni Mezern\xEDk a prove\u010F
-      bleskov\xFD Dash. Tento pohyb t\u011B zachr\xE1n\xED p\u0159ed \xFAtoky nep\u0159\xE1tel,
-      ale pozor \u2013 spot\u0159ebov\xE1v\xE1 tvou Energii. Sleduj sv\u016Fj bar,
-      a\u0165 nez\u016Fstane\u0161 bez dechu v tu nejhor\u0161\xED chv\xEDli."
-    image: {fileID: 21300000, guid: 2c835a8adcef61e49b4e0c8d853afcd2, type: 3}
+  - description: Welcome to Slime Realms! You are the Exceptional Slime, the last
+      hope for these lands. Your destiny is to journey through three forgotten worlds,
+      defeat monsters, and use their energies to repair the Ancient Crystals that
+      holds reality together!
+    image: {fileID: 21300000, guid: 7ea65d1dbf1c9124ca48a1b8eebffb88, type: 3}
+  - description: As an Exceptional Slime, you can switch your combat style. Press
+      1 for Melee or 2 for Ranged. Once selected, attack using LMB (Left Mouse Button).
+      Each style requires a different strategy!
+    image: {fileID: 21300000, guid: 15ed846d3c81e1741bf50bbf0944bdb7, type: 3}
+  - description: Stay agile! Hold a movement key (WASD) and press SPACE to perform
+      a quick Dodge. Dodging consumes Energy, so time your moves carefully to avoid
+      enemy attacks!
+    image: {fileID: 21300000, guid: 809530963bc218345b0409a37c195bbc, type: 3}
   - description: "V menu craftingu uva\u0159 ze sesb\xEDran\xFDch surovin Heal Potion.
       Nezapome\u0148 ho v invent\xE1\u0159i equiptnout do slotu, abys ho mohl v \u017E\xE1ru
       bitvy okam\u017Eit\u011B vyp\xEDt kl\xE1vesou Q."
@@ -554234,6 +554232,30 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 192838133}
     m_Modifications:
+    - target: {fileID: 331617257142039273, guid: fbbdcb4d6471b924797348ea3b8ddb2a, type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 331617257142039273, guid: fbbdcb4d6471b924797348ea3b8ddb2a, type: 3}
+      propertyPath: m_AnchorMin.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 331617257142039273, guid: fbbdcb4d6471b924797348ea3b8ddb2a, type: 3}
+      propertyPath: m_SizeDelta.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 331617257142039273, guid: fbbdcb4d6471b924797348ea3b8ddb2a, type: 3}
+      propertyPath: m_SizeDelta.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 331617257142039273, guid: fbbdcb4d6471b924797348ea3b8ddb2a, type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 331617257142039273, guid: fbbdcb4d6471b924797348ea3b8ddb2a, type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 632781511885760876, guid: fbbdcb4d6471b924797348ea3b8ddb2a, type: 3}
       propertyPath: m_Name
       value: CentralMenuCanvas
@@ -554322,6 +554344,26 @@ PrefabInstance:
       propertyPath: m_SizeDelta.y
       value: -210
       objectReference: {fileID: 0}
+    - target: {fileID: 3481968450462751955, guid: fbbdcb4d6471b924797348ea3b8ddb2a, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4024113751481584773, guid: fbbdcb4d6471b924797348ea3b8ddb2a, type: 3}
+      propertyPath: m_SizeDelta.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4200538149139315835, guid: fbbdcb4d6471b924797348ea3b8ddb2a, type: 3}
+      propertyPath: m_AnchorMax.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4200538149139315835, guid: fbbdcb4d6471b924797348ea3b8ddb2a, type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4364625524112090696, guid: fbbdcb4d6471b924797348ea3b8ddb2a, type: 3}
+      propertyPath: m_SizeDelta.y
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 6057161090797682786, guid: fbbdcb4d6471b924797348ea3b8ddb2a, type: 3}
       propertyPath: m_AnchorMax.x
       value: 1
@@ -554336,6 +554378,14 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7289751854428742444, guid: fbbdcb4d6471b924797348ea3b8ddb2a, type: 3}
       propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8918688572964604546, guid: fbbdcb4d6471b924797348ea3b8ddb2a, type: 3}
+      propertyPath: m_AnchorMax.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8918688572964604546, guid: fbbdcb4d6471b924797348ea3b8ddb2a, type: 3}
+      propertyPath: m_AnchorMax.y
       value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
