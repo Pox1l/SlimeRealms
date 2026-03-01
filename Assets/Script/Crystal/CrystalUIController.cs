@@ -3,6 +3,7 @@ using UnityEngine.UI;
 using TMPro;
 using System.Collections.Generic;
 using System.IO;
+using FMODUnity; // 🔥 PŘIDÁNO: Knihovna pro FMOD
 
 public class CrystalUIController : MonoBehaviour
 {
@@ -38,6 +39,9 @@ public class CrystalUIController : MonoBehaviour
     public GameObject requirementPrefab;
     public Button repairButton;
 
+    [Header("Audio")] // 🔥 PŘIDÁNO: Sekce pro zvuk
+    public EventReference spawnWorldSound;
+
     [Header("Stages")]
     public List<CrystalStage> stages = new List<CrystalStage>();
 
@@ -65,14 +69,36 @@ public class CrystalUIController : MonoBehaviour
         // Aktualizace hned na začátku
         RefreshStageUI();
 
-        // 🔥 PŘIDÁNO: Automatická aktualizace, když se změní inventář
+        // Automatická aktualizace, když se změní inventář
         if (inventoryManager != null)
         {
             inventoryManager.OnInventoryChanged += RefreshStageUI;
         }
+
+        // --- 🔥 PŘIDÁNO: Přiřazení zvuku na všechna tlačítka světů ---
+        foreach (var stage in stages)
+        {
+            foreach (var btn in stage.worldButtonsToEnable)
+            {
+                if (btn != null)
+                {
+                    btn.onClick.AddListener(PlaySpawnWorldSound);
+                }
+            }
+        }
+        // -------------------------------------------------------------
     }
 
-    // 🔥 PŘIDÁNO: Důležité pro čištění paměti
+    // 🔥 PŘIDÁNO: Metoda pro přehrání zvuku
+    private void PlaySpawnWorldSound()
+    {
+        if (!spawnWorldSound.IsNull)
+        {
+            RuntimeManager.PlayOneShot(spawnWorldSound);
+        }
+    }
+
+    // Důležité pro čištění paměti
     private void OnDestroy()
     {
         if (inventoryManager != null)
@@ -87,7 +113,7 @@ public class CrystalUIController : MonoBehaviour
         mainPanel.SetActive(true);
         Time.timeScale = 0;
 
-        // 🔥 Tohle zajistí, že se zkontrolují itemy hned při otevření
+        // Tohle zajistí, že se zkontrolují itemy hned při otevření
         RefreshStageUI();
     }
 
@@ -278,7 +304,6 @@ public class CrystalUIController : MonoBehaviour
         return $"{currentStage} / {stages.Count}";
     }
 
-   
     public int GetCurrentStageInt()
     {
         return currentStage;

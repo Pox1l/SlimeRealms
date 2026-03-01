@@ -419,13 +419,14 @@ MonoBehaviour:
   - {fileID: -2934293311954680171}
   - {fileID: -3710295519928738415}
   - {fileID: 1724877496729844818}
+  - {fileID: 2138686059306615158}
   EditorParameters: []
   MasterBanks:
   - {fileID: 2535322858333945084}
   StringsBanks:
   - {fileID: 950478269963886210}
   cacheVersion: 131857
-  cacheTime: 639079645660667711
+  cacheTime: 639079650265146274
   SerializableEventsDict:
   - key: event:/SlimeWalk3DS
     index: 0
@@ -477,6 +478,8 @@ MonoBehaviour:
     index: 23
   - key: event:/btnSkillUpgrade
     index: 24
+  - key: event:/portalOpenSound
+    index: 25
 --- !u!114 &214214004630967415
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -573,10 +576,10 @@ MonoBehaviour:
   Path: FMOD/Desktop/Master.strings.bank
   Name: Master.strings
   StudioPath: bank:/Master.strings
-  lastModified: 639079645659697656
+  lastModified: 639079650263121021
   FileSizes:
   - Name: 
-    Value: 2288
+    Value: 2340
   Exists: 1
 --- !u!114 &1401320772930025434
 MonoBehaviour:
@@ -632,6 +635,33 @@ MonoBehaviour:
   MinDistance: 1
   MaxDistance: 20
   Length: 2000
+--- !u!114 &2138686059306615158
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: event:/portalOpenSound
+  m_EditorClassIdentifier: 
+  Path: event:/portalOpenSound
+  Guid:
+    Data1: 864867466
+    Data2: 1162685534
+    Data3: -684416893
+    Data4: 1512178998
+  Banks:
+  - {fileID: 5678546537837848210}
+  IsStream: 0
+  Is3D: 0
+  IsOneShot: 1
+  Parameters: []
+  MinDistance: 1
+  MaxDistance: 20
+  Length: 2000
 --- !u!114 &2512121461394214400
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -671,7 +701,7 @@ MonoBehaviour:
   Path: FMOD/Desktop/Master.bank
   Name: Master
   StudioPath: bank:/Master
-  lastModified: 639079645659667617
+  lastModified: 639079650263091007
   FileSizes: []
   Exists: 1
 --- !u!114 &2548515694316719639
@@ -835,7 +865,7 @@ MonoBehaviour:
   Path: FMOD/Desktop/UI.bank
   Name: UI
   StudioPath: bank:/UI
-  lastModified: 639079645660667711
+  lastModified: 639079650265146274
   FileSizes: []
   Exists: 1
 --- !u!114 &5907704190713710115

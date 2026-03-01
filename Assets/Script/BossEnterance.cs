@@ -37,73 +37,58 @@ public class BossEntrance : MonoBehaviour
 
     private void Awake()
     {
+        // 1. Zajištění WorldCanvasu
         if (WorldCanvas == null)
         {
             WorldCanvas = GameObject.FindGameObjectWithTag("WorldUI");
         }
 
-        if (requirementsPanel == null && WorldCanvas != null)
+        // 2. Chytřejší dohledání UI: Hledáme parenta i v případě, že panel už byl přiřazen ručně!
+        if (WorldCanvas != null)
         {
-            FindUIReferences();
+            if (requirementsPanel == null)
+            {
+                Transform foundPanel = FindDeepChild(WorldCanvas.transform, "ReqBossPanel");
+                if (foundPanel != null) requirementsPanel = foundPanel.gameObject;
+            }
+
+            if (requirementsPanel != null && requirementsParent == null)
+            {
+                Transform foundParent = FindDeepChild(requirementsPanel.transform, "ReqCoinrtainer");
+                requirementsParent = foundParent != null ? foundParent : requirementsPanel.transform;
+            }
         }
-        else if (requirementsPanel == null && WorldCanvas == null)
+        else
         {
             Debug.LogError("BossEntrance: WorldCanvas chybí (není přiřazen ani nalezen tagem 'WorldUI')");
         }
 
+        // 3. Hint
         if (pressEHint == null)
         {
             Transform foundHint = transform.Find("E");
-            if (foundHint != null)
-            {
-                pressEHint = foundHint.gameObject;
-            }
+            if (foundHint != null) pressEHint = foundHint.gameObject;
         }
 
+        // 4. Boss
         if (bossEncounter == null)
         {
             GameObject bossObj = GameObject.FindGameObjectWithTag("BossEncounter");
-            if (bossObj != null)
-            {
-                bossEncounter = bossObj.GetComponent<BossEncounter>();
-            }
+            if (bossObj != null) bossEncounter = bossObj.GetComponent<BossEncounter>();
         }
 
         if (barrierObject == null) barrierObject = gameObject;
-
         if (collidersToDisable == null || collidersToDisable.Length == 0)
             collidersToDisable = barrierObject.GetComponents<Collider2D>();
 
         PrepareUIPool();
     }
 
-    // 🔥 OPRAVA 1: Přesunuli jsme hledání InventoryManageru do Start().
-    // Ve funkci Awake() ještě nemusel InventoryManager.Instance vůbec existovat!
     private void Start()
     {
         if (inventoryManager == null && InventoryManager.Instance != null)
         {
             inventoryManager = InventoryManager.Instance;
-        }
-    }
-
-    private void FindUIReferences()
-    {
-        Transform foundPanel = FindDeepChild(WorldCanvas.transform, "ReqBossPanel");
-        if (foundPanel != null)
-        {
-            requirementsPanel = foundPanel.gameObject;
-
-            // Zkontroluj, jestli se tvůj objekt fakt jmenuje "ReqCoinrtainer" a nemáš tam překlep!
-            Transform foundParent = FindDeepChild(foundPanel, "ReqCoinrtainer");
-            if (foundParent != null)
-            {
-                requirementsParent = foundParent;
-            }
-            else
-            {
-                requirementsParent = foundPanel;
-            }
         }
     }
 
@@ -156,7 +141,6 @@ public class BossEntrance : MonoBehaviour
 
     private bool HasAllRequirements()
     {
-        // 🔥 POJISTKA PROTI CHYBĚ: Kdyby se InventoryManager nenačetl
         if (inventoryManager == null) inventoryManager = InventoryManager.Instance;
         if (inventoryManager == null) return false;
 
@@ -173,8 +157,6 @@ public class BossEntrance : MonoBehaviour
         if (requirementsParent == null) return;
 
         uiPool.Clear();
-        // 🔥 OPRAVA 2: Správné naplnění Poolu. Objekty, které už v panelu jsou z Editoru, 
-        // se teď přidají do seznamu a použijí se, místo aby se vytvořily nové duplikáty.
         foreach (Transform child in requirementsParent)
         {
             child.gameObject.SetActive(false);
@@ -184,10 +166,17 @@ public class BossEntrance : MonoBehaviour
 
     private void UpdateRequirementsUI()
     {
-        if (requirementsPanel == null) return;
+        if (requirementsPanel == null)
+        {
+            Debug.LogError("BossEntrance: Nemohu zobrazit panel, requirementsPanel je NULL!");
+            return;
+        }
+
+        // Pokud je náhodou celý hlavní Canvas vypnutý, zapneme ho
+        if (WorldCanvas != null && !WorldCanvas.activeSelf) WorldCanvas.SetActive(true);
+
         requirementsPanel.SetActive(true);
 
-        // 🔥 POJISTKA PROTI CHYBĚ
         if (inventoryManager == null) inventoryManager = InventoryManager.Instance;
         if (inventoryManager == null)
         {
@@ -210,14 +199,18 @@ public class BossEntrance : MonoBehaviour
             }
             else
             {
-                if (requirementsParent == null) return;
+                if (requirementsParent == null)
+                {
+                    Debug.LogError("BossEntrance: Chybí requirementsParent! Nemohu přidat položky.");
+                    return;
+                }
                 row = Instantiate(requirementPrefab, requirementsParent);
                 uiPool.Add(row);
             }
 
-            // Tady to předtím padalo a zastavilo skript, protože se nenašel InventoryManager
             int owned = inventoryManager.GetTotalItemCount(req.itemSO);
 
+            // DŮLEŽITÉ: Názvy musí přesně odpovídat dětem v Prefabu!
             Transform iconTrans = row.transform.Find("Icon");
             Transform textTrans = row.transform.Find("Text");
 
