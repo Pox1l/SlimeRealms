@@ -2,6 +2,7 @@
 using UnityEngine.UI;
 using TMPro;
 using System.Collections;
+using FMODUnity; // PŘIDÁNO: Knihovna pro FMOD
 
 public class QuickSlotManager : MonoBehaviour
 {
@@ -9,8 +10,8 @@ public class QuickSlotManager : MonoBehaviour
 
     [Header("Settings")]
     public KeyCode useKey = KeyCode.Alpha3;
-    public float warningDisplayTime = 2f; // Čas zobrazení hlášky před tím, než začne mizet
-    public float warningFadeTime = 0.5f;  // Jak dlouho trvá, než text úplně zmizí
+    public float warningDisplayTime = 2f;
+    public float warningFadeTime = 0.5f;
 
     [Header("UI Reference")]
     public GameObject quickSlotUI;
@@ -20,7 +21,13 @@ public class QuickSlotManager : MonoBehaviour
 
     [SerializeField]
     public TextMeshProUGUI warningText;
-    public CanvasGroup warningCanvasGroup; // PŘIDÁNO: Reference na Canvas Group
+    public CanvasGroup warningCanvasGroup;
+
+    [Header("Effects")]
+    public GameObject healParticleObject;
+
+    [Header("Audio (FMOD)")] // PŘIDÁNO: Sekce pro zvuky
+    public EventReference useItemSound;
 
     private ItemSO currentItem;
     private Coroutine warningCoroutine;
@@ -37,9 +44,21 @@ public class QuickSlotManager : MonoBehaviour
             InventoryManager.Instance.OnInventoryChanged += UpdateSlotUI;
         }
 
-        // PŘIDÁNO: Na začátku text zneviditelníme
         if (warningText) warningText.text = "";
         if (warningCanvasGroup) warningCanvasGroup.alpha = 0f;
+
+        if (healParticleObject == null)
+        {
+            GameObject player = GameObject.FindGameObjectWithTag("Player");
+            if (player != null)
+            {
+                Transform healTransform = player.transform.Find("HealParticle");
+                if (healTransform != null)
+                {
+                    healParticleObject = healTransform.gameObject;
+                }
+            }
+        }
 
         UpdateSlotUI();
     }
@@ -104,8 +123,25 @@ public class QuickSlotManager : MonoBehaviour
 
         if (used)
         {
-            if (warningCanvasGroup) warningCanvasGroup.alpha = 0f; // Schovat při úspěchu
+            if (warningCanvasGroup) warningCanvasGroup.alpha = 0f;
             InventoryManager.Instance.RemoveItem(currentItem, 1);
+
+            // --- PŘIDÁNO: Zvuk při použití ---
+            if (!useItemSound.IsNull)
+            {
+                RuntimeManager.PlayOneShot(useItemSound, transform.position);
+            }
+            // --------------------------------
+
+            if (healParticleObject != null)
+            {
+                ParticleSystem healPS = healParticleObject.GetComponent<ParticleSystem>();
+                if (healPS != null)
+                {
+                    healPS.Play();
+                }
+            }
+
             UpdateSlotUI();
         }
         else if (!string.IsNullOrEmpty(failMessage))
@@ -124,25 +160,19 @@ public class QuickSlotManager : MonoBehaviour
         warningCoroutine = StartCoroutine(ShowAndFadeWarningRoutine());
     }
 
-    // PŘEPRACOVÁNO: Zobrazí text a pak ho plynule skryje přes Canvas Group
     private IEnumerator ShowAndFadeWarningRoutine()
     {
-        // 1. Okamžité zobrazení
         warningCanvasGroup.alpha = 1f;
-
-        // 2. Počkání
         yield return new WaitForSeconds(warningDisplayTime);
 
-        // 3. Plynulé mizení
         float elapsedTime = 0f;
         while (elapsedTime < warningFadeTime)
         {
             elapsedTime += Time.deltaTime;
             warningCanvasGroup.alpha = Mathf.Lerp(1f, 0f, elapsedTime / warningFadeTime);
-            yield return null; // Čeká na další frame
+            yield return null;
         }
 
-        // 4. Úplné skrytí na konci
         warningCanvasGroup.alpha = 0f;
         warningText.text = "";
     }
