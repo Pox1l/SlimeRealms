@@ -6,7 +6,11 @@ using UnityEngine;
 public class InventorySlotData { public int itemID; public int quantity; }
 
 [System.Serializable]
-public class InventorySaveData { public List<InventorySlotData> slots = new List<InventorySlotData>(); }
+public class InventorySaveData
+{
+    public List<InventorySlotData> slots = new List<InventorySlotData>();
+    public int quickSlotItemID = -1; // 🔥 PŘIDÁNO: Proměnná pro Quick Slot
+}
 
 public class InventorySaveSystem : MonoBehaviour
 {
@@ -14,7 +18,6 @@ public class InventorySaveSystem : MonoBehaviour
 
     private void Awake()
     {
-        // ZMĚNA ZDE:
         savePath = ProfileManager.GetSavePath("inventory_save.json");
     }
 
@@ -49,6 +52,17 @@ public class InventorySaveSystem : MonoBehaviour
                 data.slots.Add(new InventorySlotData { itemID = -1, quantity = 0 });
             }
         }
+
+        // --- 🔥 PŘIDÁNO: Uložení Quick Slotu ---
+        if (QuickSlotManager.Instance != null && QuickSlotManager.Instance.GetCurrentItem() != null)
+        {
+            data.quickSlotItemID = QuickSlotManager.Instance.GetCurrentItem().itemID;
+        }
+        else
+        {
+            data.quickSlotItemID = -1;
+        }
+        // ---------------------------------------
 
         string json = JsonUtility.ToJson(data, true);
         File.WriteAllText(savePath, json);
@@ -102,9 +116,27 @@ public class InventorySaveSystem : MonoBehaviour
                 slots[i].quantity = 0;
             }
 
-            //slots[i].SendMessage("UpdateUI", SendMessageOptions.DontRequireReceiver);
             slots[i].UpdateUI();
         }
+
+        // --- 🔥 PŘIDÁNO: Načtení Quick Slotu ---
+        if (QuickSlotManager.Instance != null)
+        {
+            if (data.quickSlotItemID >= 0)
+            {
+                ItemSO quickItem = ItemDatabase.Instance.GetItemByID(data.quickSlotItemID);
+                if (quickItem != null)
+                {
+                    QuickSlotManager.Instance.AssignItemToSlot(quickItem);
+                }
+            }
+            else
+            {
+                QuickSlotManager.Instance.ClearSlot(); // Ujistí se, že je prázdný, pokud v savu nic nebylo
+            }
+        }
+        // ---------------------------------------
+
         Debug.Log("📦 Inventory loaded!");
     }
 

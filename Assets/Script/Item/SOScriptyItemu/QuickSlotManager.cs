@@ -2,7 +2,7 @@
 using UnityEngine.UI;
 using TMPro;
 using System.Collections;
-using FMODUnity; // PŘIDÁNO: Knihovna pro FMOD
+using FMODUnity;
 
 public class QuickSlotManager : MonoBehaviour
 {
@@ -26,7 +26,7 @@ public class QuickSlotManager : MonoBehaviour
     [Header("Effects")]
     public GameObject healParticleObject;
 
-    [Header("Audio (FMOD)")] // PŘIDÁNO: Sekce pro zvuky
+    [Header("Audio (FMOD)")]
     public EventReference useItemSound;
 
     private ItemSO currentItem;
@@ -94,6 +94,19 @@ public class QuickSlotManager : MonoBehaviour
         }
     }
 
+    // 🔥 PŘIDÁNO: Pomocné metody pro Save System
+    public ItemSO GetCurrentItem()
+    {
+        return currentItem;
+    }
+
+    public void ClearSlot()
+    {
+        currentItem = null;
+        UpdateSlotUI();
+    }
+    // ----------------------------------------
+
     public void AssignItemToSlot(ItemSO item)
     {
         if (!item.isUsable)
@@ -104,6 +117,12 @@ public class QuickSlotManager : MonoBehaviour
 
         currentItem = item;
         UpdateSlotUI();
+
+        // 🔥 PŘIDÁNO: Uložení při přiřazení
+        if (InventoryManager.Instance != null && InventoryManager.Instance.saveSystem != null)
+        {
+            InventoryManager.Instance.saveSystem.SaveInventory();
+        }
     }
 
     private void UseQuickItem()
@@ -113,8 +132,8 @@ public class QuickSlotManager : MonoBehaviour
         int count = InventoryManager.Instance.GetTotalItemCount(currentItem);
         if (count <= 0)
         {
-            currentItem = null;
-            UpdateSlotUI();
+            ClearSlot(); // 🔥 VYČIŠTĚNÍ
+            if (InventoryManager.Instance.saveSystem != null) InventoryManager.Instance.saveSystem.SaveInventory();
             return;
         }
 
@@ -126,12 +145,10 @@ public class QuickSlotManager : MonoBehaviour
             if (warningCanvasGroup) warningCanvasGroup.alpha = 0f;
             InventoryManager.Instance.RemoveItem(currentItem, 1);
 
-            // --- PŘIDÁNO: Zvuk při použití ---
             if (!useItemSound.IsNull)
             {
                 RuntimeManager.PlayOneShot(useItemSound, transform.position);
             }
-            // --------------------------------
 
             if (healParticleObject != null)
             {
@@ -140,6 +157,12 @@ public class QuickSlotManager : MonoBehaviour
                 {
                     healPS.Play();
                 }
+            }
+
+            if (InventoryManager.Instance.GetTotalItemCount(currentItem) <= 0)
+            {
+                ClearSlot();
+                if (InventoryManager.Instance.saveSystem != null) InventoryManager.Instance.saveSystem.SaveInventory();
             }
 
             UpdateSlotUI();
@@ -199,8 +222,9 @@ public class QuickSlotManager : MonoBehaviour
 
             if (count <= 0)
             {
-                currentItem = null;
-                UpdateSlotUI();
+                ClearSlot();
+                if (InventoryManager.Instance != null && InventoryManager.Instance.saveSystem != null)
+                    InventoryManager.Instance.saveSystem.SaveInventory();
             }
         }
     }
