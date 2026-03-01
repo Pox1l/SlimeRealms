@@ -20,4 +20,18 @@ MonoBehaviour:
   isUsable: 1
   cooldown: 1
   lastTimeUsed: -999
+  pickupSound:
+    Guid:
+      Data1: 0
+      Data2: 0
+      Data3: 0
+      Data4: 0
+    Path: 
+  useSound:
+    Guid:
+      Data1: 998582011
+      Data2: 1106238338
+      Data3: -273353038
+      Data4: 611503226
+    Path: event:/healSound
   healAmount: 80

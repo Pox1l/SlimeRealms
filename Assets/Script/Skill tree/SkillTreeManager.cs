@@ -2,6 +2,7 @@
 using UnityEngine.UI;
 using TMPro;
 using System.Collections.Generic;
+using FMODUnity; // 🔥 PŘIDÁNO: Knihovna pro FMOD
 
 public class SkillTreeManager : MonoBehaviour
 {
@@ -17,6 +18,9 @@ public class SkillTreeManager : MonoBehaviour
     [Header("Resources Grid")]
     public Transform requirementsContainer;
     public GameObject requirementPrefab;
+
+    [Header("Audio (FMOD)")] // 🔥 PŘIDÁNO: Sekce pro zvuk
+    public EventReference upgradeSound; // Zvuk při úspěšném zakoupení/upgradu skillu
 
     private SkillSlot selectedSlot;
     private SkillSO selectedSkill => selectedSlot != null ? selectedSlot.skillData : null;
@@ -40,7 +44,7 @@ public class SkillTreeManager : MonoBehaviour
         // 2. Zobrazení hodnot (Value Text)
         if (valueText != null)
         {
-            // 🔥 Nyní pracujeme s INT (celá čísla)
+            // Nyní pracujeme s INT (celá čísla)
             int currentVal = selectedSkill.GetTotalBonus();
             int nextVal = (selectedSkill.currentLevel + 1) * selectedSkill.valuePerLevel;
 
@@ -56,7 +60,7 @@ public class SkillTreeManager : MonoBehaviour
                 default: unit = ""; break;
             }
 
-            // 🔥 Odstraněna logika pro procenta, vypisujeme přímo číslo
+            // Odstraněna logika pro procenta, vypisujeme přímo číslo
             string curStr = $"{currentVal}";
             string nextStr = $"{nextVal}";
 
@@ -115,6 +119,13 @@ public class SkillTreeManager : MonoBehaviour
 
         if (success)
         {
+            // --- 🔥 PŘIDÁNO: Přehrání zvuku při úspěšném nákupu ---
+            if (!upgradeSound.IsNull)
+            {
+                RuntimeManager.PlayOneShot(upgradeSound);
+            }
+            // -------------------------------------------------------
+
             selectedSlot.UpdateSlotVisuals();
             UpdateUI();
         }
