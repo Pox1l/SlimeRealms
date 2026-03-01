@@ -18,6 +18,7 @@ public class ItemSO : ScriptableObject
 
     [Header("Audio")]
     public EventReference pickupSound;
+    public EventReference useSound; // 🔥 Přidáno pro zvuk použití
 
     private void OnEnable()
     {

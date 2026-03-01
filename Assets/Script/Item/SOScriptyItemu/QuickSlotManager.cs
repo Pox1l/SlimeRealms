@@ -2,7 +2,6 @@
 using UnityEngine.UI;
 using TMPro;
 using System.Collections;
-using FMODUnity;
 
 public class QuickSlotManager : MonoBehaviour
 {
@@ -25,9 +24,6 @@ public class QuickSlotManager : MonoBehaviour
 
     [Header("Effects")]
     public GameObject healParticleObject;
-
-    [Header("Audio (FMOD)")]
-    public EventReference useItemSound;
 
     private ItemSO currentItem;
     private Coroutine warningCoroutine;
@@ -94,7 +90,6 @@ public class QuickSlotManager : MonoBehaviour
         }
     }
 
-    // 🔥 PŘIDÁNO: Pomocné metody pro Save System
     public ItemSO GetCurrentItem()
     {
         return currentItem;
@@ -105,7 +100,6 @@ public class QuickSlotManager : MonoBehaviour
         currentItem = null;
         UpdateSlotUI();
     }
-    // ----------------------------------------
 
     public void AssignItemToSlot(ItemSO item)
     {
@@ -118,7 +112,6 @@ public class QuickSlotManager : MonoBehaviour
         currentItem = item;
         UpdateSlotUI();
 
-        // 🔥 PŘIDÁNO: Uložení při přiřazení
         if (InventoryManager.Instance != null && InventoryManager.Instance.saveSystem != null)
         {
             InventoryManager.Instance.saveSystem.SaveInventory();
@@ -132,7 +125,7 @@ public class QuickSlotManager : MonoBehaviour
         int count = InventoryManager.Instance.GetTotalItemCount(currentItem);
         if (count <= 0)
         {
-            ClearSlot(); // 🔥 VYČIŠTĚNÍ
+            ClearSlot();
             if (InventoryManager.Instance.saveSystem != null) InventoryManager.Instance.saveSystem.SaveInventory();
             return;
         }
@@ -144,11 +137,6 @@ public class QuickSlotManager : MonoBehaviour
         {
             if (warningCanvasGroup) warningCanvasGroup.alpha = 0f;
             InventoryManager.Instance.RemoveItem(currentItem, 1);
-
-            if (!useItemSound.IsNull)
-            {
-                RuntimeManager.PlayOneShot(useItemSound, transform.position);
-            }
 
             if (healParticleObject != null)
             {

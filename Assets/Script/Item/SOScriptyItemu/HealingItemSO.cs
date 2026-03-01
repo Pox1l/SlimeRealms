@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using FMODUnity; // 🔥 PŘIDÁNO: Knihovna pro FMOD
 
 [CreateAssetMenu(menuName = "Inventory/Healing Item")]
 public class HealingItemSO : ItemSO
@@ -36,6 +37,13 @@ public class HealingItemSO : ItemSO
 
             // Nastavíme čas použití pro cooldown
             lastTimeUsed = Time.time;
+
+            // --- 🔥 PŘIDÁNO: Přehrání zvuku při úspěšném použití ---
+            if (!useSound.IsNull)
+            {
+                RuntimeManager.PlayOneShot(useSound);
+            }
+            // -------------------------------------------------------
 
             return true; // Item se spotřeboval
         }
