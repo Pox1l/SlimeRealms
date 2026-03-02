@@ -426,7 +426,7 @@ MonoBehaviour:
   StringsBanks:
   - {fileID: 950478269963886210}
   cacheVersion: 131857
-  cacheTime: 639079650265146274
+  cacheTime: 639079670722655298
   SerializableEventsDict:
   - key: event:/SlimeWalk3DS
     index: 0
@@ -801,7 +801,7 @@ MonoBehaviour:
   Path: FMOD/Desktop/SFX.bank
   Name: SFX
   StudioPath: bank:/SFX
-  lastModified: 639079614190304839
+  lastModified: 639079670722655298
   FileSizes: []
   Exists: 1
 --- !u!114 &3930003198878368396

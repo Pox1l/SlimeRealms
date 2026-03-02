@@ -10,6 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1030751278827886356}
   - component: {fileID: 7927910990808094844}
+  - component: {fileID: 5917775460431107585}
   m_Layer: 0
   m_Name: AudioManager
   m_TagString: Untagged
@@ -55,3 +56,64 @@ MonoBehaviour:
   - Ambient
   CollisionTag: 
   PreloadSamples: 0
+--- !u!114 &5917775460431107585
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5540334271003903805}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5b24249dc5139de40ac2b7b100bae8f8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  menuMusicEvent:
+    Guid:
+      Data1: 1268773383
+      Data2: 1252181064
+      Data3: 2127161494
+      Data4: -845503949
+    Path: event:/MenuMusic
+  musicEvent:
+    Guid:
+      Data1: 1346415409
+      Data2: 1122603891
+      Data3: 418829223
+      Data4: -1484583401
+    Path: event:/MusicWorld1
+  ambientEvent:
+    Guid:
+      Data1: -688534476
+      Data2: 1207465779
+      Data3: -1710288459
+      Data4: 259178358
+    Path: event:/AmbientWorld1
+  defaultPickupSound:
+    Guid:
+      Data1: -752192634
+      Data2: 1122102576
+      Data3: -1165916774
+      Data4: 1069694486
+    Path: event:/pickUpItemSoundEffect
+  enemyHitSound:
+    Guid:
+      Data1: 1340364811
+      Data2: 1092718980
+      Data3: -1310265705
+      Data4: 691238766
+    Path: event:/enemyHurtNormal
+  defaultMeleeAttackSound:
+    Guid:
+      Data1: -17122731
+      Data2: 1075325860
+      Data3: 21541289
+      Data4: -535146489
+    Path: event:/enemyCloseAtk
+  defaultRangedAttackSound:
+    Guid:
+      Data1: -1062319299
+      Data2: 1191553875
+      Data3: -1258927480
+      Data4: -663912477
+    Path: event:/enemyRangedAtk

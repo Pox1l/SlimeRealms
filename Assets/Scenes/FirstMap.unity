@@ -249595,7 +249595,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &1452864335
 RectTransform:
   m_ObjectHideFlags: 0
@@ -414121,7 +414121,7 @@ MonoBehaviour:
   - description: Stay agile! Hold a movement key (WASD) and press SPACE to perform
       a quick Dodge. Dodging consumes Energy, so time your moves carefully to avoid
       enemy attacks!
-    image: {fileID: 21300000, guid: 809530963bc218345b0409a37c195bbc, type: 3}
+    image: {fileID: 21300000, guid: 059f066bd77cd294e8970aabbea82ee8, type: 3}
   - description: "V menu craftingu uva\u0159 ze sesb\xEDran\xFDch surovin Heal Potion.
       Nezapome\u0148 ho v invent\xE1\u0159i equiptnout do slotu, abys ho mohl v \u017E\xE1ru
       bitvy okam\u017Eit\u011B vyp\xEDt kl\xE1vesou Q."
@@ -414130,11 +414130,11 @@ MonoBehaviour:
       Pouze z n\u011Bj padaj\xED unik\xE1tn\xED artefakty nutn\xE9 k oprav\u011B
       Krystalu. Bez nich br\xE1nu/port\xE1l do dal\u0161\xEDho sv\u011Bta neotev\u0159e\u0161!"
     image: {fileID: 21300000, guid: 2c835a8adcef61e49b4e0c8d853afcd2, type: 3}
-  - description: "Ka\u017Ed\xE9 pora\u017Een\xE9 monstrum zanech\xE1 vz\xE1cn\xE9
-      dropy. Tyto suroviny nejsou jen odpad \u2013 pou\u017Eij je ve sv\xE9m Skill
-      Tree k trval\xE9mu vylep\u0161en\xED HP, DEF, Energie a ATK. \u010C\xEDm siln\u011Bj\u0161\xED
-      nep\u0159\xEDtel, t\xEDm vz\xE1cn\u011Bj\u0161\xED drop!"
-    image: {fileID: 21300000, guid: 2c835a8adcef61e49b4e0c8d853afcd2, type: 3}
+  - description: "Every defeated monster leaves behind rare drops. These materials
+      are more than just loot \u2013 use them in your Skill Tree to permanently upgrade
+      your Health, Defense, Energy, and Attack. The stronger the enemy, the rarer
+      the drop!"
+    image: {fileID: 21300000, guid: a8fd5ff43efa90140ad38ac211f7352c, type: 3}
   tutorialPanel: {fileID: 1452864334}
   displayImage: {fileID: 1499805187}
   displayText: {fileID: 41089918}
@@ -418420,75 +418420,13 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents:
-    - targetCorrespondingSourceObject: {fileID: 5540334271003903805, guid: ed107a0392734d34aaada6a4bb92709c, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 1975971066}
+    m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: ed107a0392734d34aaada6a4bb92709c, type: 3}
 --- !u!4 &1975971064 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 1030751278827886356, guid: ed107a0392734d34aaada6a4bb92709c, type: 3}
   m_PrefabInstance: {fileID: 1975971063}
   m_PrefabAsset: {fileID: 0}
---- !u!1 &1975971065 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 5540334271003903805, guid: ed107a0392734d34aaada6a4bb92709c, type: 3}
-  m_PrefabInstance: {fileID: 1975971063}
-  m_PrefabAsset: {fileID: 0}
---- !u!114 &1975971066
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1975971065}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5b24249dc5139de40ac2b7b100bae8f8, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  musicEvent:
-    Guid:
-      Data1: 1346415409
-      Data2: 1122603891
-      Data3: 418829223
-      Data4: -1484583401
-    Path: event:/MusicWorld1
-  ambientEvent:
-    Guid:
-      Data1: -688534476
-      Data2: 1207465779
-      Data3: -1710288459
-      Data4: 259178358
-    Path: event:/AmbientWorld1
-  defaultPickupSound:
-    Guid:
-      Data1: -752192634
-      Data2: 1122102576
-      Data3: -1165916774
-      Data4: 1069694486
-    Path: event:/pickUpItemSoundEffect
-  enemyHitSound:
-    Guid:
-      Data1: 1340364811
-      Data2: 1092718980
-      Data3: -1310265705
-      Data4: 691238766
-    Path: event:/enemyHurtNormal
-  defaultMeleeAttackSound:
-    Guid:
-      Data1: -17122731
-      Data2: 1075325860
-      Data3: 21541289
-      Data4: -535146489
-    Path: event:/enemyCloseAtk
-  defaultRangedAttackSound:
-    Guid:
-      Data1: -1062319299
-      Data2: 1191553875
-      Data3: -1258927480
-      Data4: -663912477
-    Path: event:/enemyRangedAtk
 --- !u!1 &1976944530
 GameObject:
   m_ObjectHideFlags: 0
