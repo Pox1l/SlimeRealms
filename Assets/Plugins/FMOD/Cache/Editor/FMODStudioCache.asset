@@ -426,7 +426,7 @@ MonoBehaviour:
   StringsBanks:
   - {fileID: 950478269963886210}
   cacheVersion: 131857
-  cacheTime: 639079670722655298
+  cacheTime: 639081201040048253
   SerializableEventsDict:
   - key: event:/SlimeWalk3DS
     index: 0
@@ -801,7 +801,7 @@ MonoBehaviour:
   Path: FMOD/Desktop/SFX.bank
   Name: SFX
   StudioPath: bank:/SFX
-  lastModified: 639079670722655298
+  lastModified: 639081201040048253
   FileSizes: []
   Exists: 1
 --- !u!114 &3930003198878368396
@@ -847,7 +847,7 @@ MonoBehaviour:
   Path: FMOD/Desktop/Music.bank
   Name: Music
   StudioPath: bank:/Music
-  lastModified: 639076276514744540
+  lastModified: 639081198043871495
   FileSizes: []
   Exists: 1
 --- !u!114 &5678546537837848210
@@ -894,7 +894,7 @@ MonoBehaviour:
   Parameters: []
   MinDistance: 1
   MaxDistance: 20
-  Length: 2000
+  Length: 400
 --- !u!114 &8147198445935787367
 MonoBehaviour:
   m_ObjectHideFlags: 0
