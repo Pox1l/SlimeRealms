@@ -414218,15 +414218,16 @@ MonoBehaviour:
       Don't forget to equip them in your Inventory slot so you can instantly restore
       health during battle by pressing Q!
     image: {fileID: 21300000, guid: 57e430cf32f430746ab0d0415649a293, type: 3}
-  - description: "Na konci ka\u017Ed\xE9 mapy t\u011B \u010Dek\xE1 mocn\xFD Boss.
-      Pouze z n\u011Bj padaj\xED unik\xE1tn\xED artefakty nutn\xE9 k oprav\u011B
-      Krystalu. Bez nich br\xE1nu/port\xE1l do dal\u0161\xEDho sv\u011Bta neotev\u0159e\u0161!"
-    image: {fileID: 21300000, guid: 2c835a8adcef61e49b4e0c8d853afcd2, type: 3}
   - description: "Every defeated monster leaves behind rare drops. These materials
       are more than just loot \u2013 use them in your Skill Tree to permanently upgrade
       your Health, Defense, Energy, and Attack. The stronger the enemy, the rarer
       the drop!"
     image: {fileID: 21300000, guid: a8fd5ff43efa90140ad38ac211f7352c, type: 3}
+  - description: The path to the world ruler isn't free! At the end of each map,
+      you will encounter a barricade that can only be unlocked by sacrificing collected
+      resources (press E). Defeat the Boss to claim their unique drop and repair
+      the Crystal to advance to the next world!
+    image: {fileID: 21300000, guid: fb32bee277942d04db280936ec024bc8, type: 3}
   tutorialPanel: {fileID: 1452864334}
   displayImage: {fileID: 1499805187}
   displayText: {fileID: 41089918}

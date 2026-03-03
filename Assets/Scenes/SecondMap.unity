@@ -33966,9 +33966,9 @@ MonoBehaviour:
   interactKey: 101
   requirements:
   - itemSO: {fileID: 11400000, guid: 436a1af8f1135e04b8b1853ae5dbe08c, type: 2}
-    requiredAmount: 2
+    requiredAmount: 8
   - itemSO: {fileID: 11400000, guid: cae7bc92898e5274383ba5db8f5c1700, type: 2}
-    requiredAmount: 1
+    requiredAmount: 8
   inventoryManager: {fileID: 0}
   WorldCanvas: {fileID: 0}
   pressEHint: {fileID: 0}
@@ -52091,7 +52091,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4075706533552199152, guid: db868c6db9c2e8646acea8d4258b4ebb, type: 3}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7376769576426757717, guid: db868c6db9c2e8646acea8d4258b4ebb, type: 3}
       propertyPath: m_LocalPosition.x

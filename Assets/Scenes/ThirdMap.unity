@@ -253378,10 +253378,10 @@ MonoBehaviour:
   - {fileID: 431157749}
   interactKey: 101
   requirements:
-  - itemSO: {fileID: 11400000, guid: cb0838a3d4fea904eb0cf918dba9a5e2, type: 2}
-    requiredAmount: 1
-  - itemSO: {fileID: 11400000, guid: 9afbd67cfc2bfa14795521a67e301288, type: 2}
-    requiredAmount: 1
+  - itemSO: {fileID: 11400000, guid: 87ec953c27aa7de48a7033f0fa5d175d, type: 2}
+    requiredAmount: 8
+  - itemSO: {fileID: 11400000, guid: 1617a9619e20a9d498d08a6ff70987e2, type: 2}
+    requiredAmount: 8
   inventoryManager: {fileID: 0}
   WorldCanvas: {fileID: 0}
   pressEHint: {fileID: 819256188}
