@@ -414209,15 +414209,15 @@ MonoBehaviour:
   - description: As an Exceptional Slime, you can switch your combat style. Press
       1 for Melee or 2 for Ranged. Once selected, attack using LMB (Left Mouse Button).
       Each style requires a different strategy!
-    image: {fileID: 21300000, guid: 15ed846d3c81e1741bf50bbf0944bdb7, type: 3}
+    image: {fileID: 21300000, guid: 01f665ad61a679645b73fd04975a0856, type: 3}
   - description: Stay agile! Hold a movement key (WASD) and press SPACE to perform
       a quick Dodge. Dodging consumes Energy, so time your moves carefully to avoid
       enemy attacks!
-    image: {fileID: 21300000, guid: 059f066bd77cd294e8970aabbea82ee8, type: 3}
-  - description: "V menu craftingu uva\u0159 ze sesb\xEDran\xFDch surovin Heal Potion.
-      Nezapome\u0148 ho v invent\xE1\u0159i equiptnout do slotu, abys ho mohl v \u017E\xE1ru
-      bitvy okam\u017Eit\u011B vyp\xEDt kl\xE1vesou Q."
-    image: {fileID: 21300000, guid: 2c835a8adcef61e49b4e0c8d853afcd2, type: 3}
+    image: {fileID: 21300000, guid: a49139d415763224a8c20d929252480f, type: 3}
+  - description: Craft Heal Potions from collected resources in the Crafting menu.
+      Don't forget to equip them in your Inventory slot so you can instantly restore
+      health during battle by pressing Q!
+    image: {fileID: 21300000, guid: 57e430cf32f430746ab0d0415649a293, type: 3}
   - description: "Na konci ka\u017Ed\xE9 mapy t\u011B \u010Dek\xE1 mocn\xFD Boss.
       Pouze z n\u011Bj padaj\xED unik\xE1tn\xED artefakty nutn\xE9 k oprav\u011B
       Krystalu. Bez nich br\xE1nu/port\xE1l do dal\u0161\xEDho sv\u011Bta neotev\u0159e\u0161!"
