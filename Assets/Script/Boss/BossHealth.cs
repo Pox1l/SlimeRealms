@@ -1,11 +1,16 @@
 ﻿using UnityEngine;
 using System;
+using FMODUnity; // <--- Přidána knihovna
 
 public class BossHealth : MonoBehaviour
 {
     [Header("Boss Stats")]
     public int maxHealth = 500;
     public int currentHealth;
+
+    [Header("Audio")]
+    [Tooltip("Pokud necháš prázdné, zahraje se Default Hit z Manageru")]
+    public EventReference hitSound; // <--- Políčko pro custom zvuk
 
     public event Action OnDeath;
     public event Action<int, int> OnHealthChanged;
@@ -49,6 +54,12 @@ public class BossHealth : MonoBehaviour
 
         currentHealth -= damage;
         OnHealthChanged?.Invoke(currentHealth, maxHealth);
+
+        // 🔥 PŘIDÁNO: Přehrání zvuku
+        if (AudioManager.instance != null)
+        {
+            AudioManager.instance.PlayHitSound(hitSound, transform.position);
+        }
 
         // 🔥 AKTUALIZACE UI PŘES MANAGERA
         if (UIManager.Instance != null)

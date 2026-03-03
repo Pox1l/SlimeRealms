@@ -40,6 +40,9 @@ public class UIManager : MonoBehaviour
     public GameObject pauseMenuCanvas;
     public GameObject pauseMenuRoot;
 
+    // --- PŘIDÁNO: Proměnná pro tlačítko resetu pozice ---
+    private Button resetPositionBtn;
+
     [Header("--- SETTINGS MENU ---")]
     public GameObject settingsMenuCanvas;
     public GameObject settingsMenuRoot;
@@ -186,6 +189,9 @@ public class UIManager : MonoBehaviour
         bossMenuCanvas = null; bossScript = null;
         settingsScript = null;
 
+        // --- PŘIDÁNO: Reset reference na tlačítko ---
+        resetPositionBtn = null;
+
         isGameMenuOpen = false;
         isPaused = false;
         isDead = false;
@@ -296,6 +302,10 @@ public class UIManager : MonoBehaviour
         else if (tutorialCanvas != null) tutorialCanvas.SetActive(true);
         else return;
         isTutorialOpen = true;
+
+        // --- PŘIDÁNO: Deaktivace tlačítka ---
+        if (resetPositionBtn != null) resetPositionBtn.interactable = false;
+
         Time.timeScale = 0f;
         if (hudUI != null) hudUI.SetActive(true);
         Cursor.visible = true; Cursor.lockState = CursorLockMode.None;
@@ -304,6 +314,10 @@ public class UIManager : MonoBehaviour
     public void CloseTutorial()
     {
         isTutorialOpen = false;
+
+        // --- PŘIDÁNO: Aktivace tlačítka ---
+        if (resetPositionBtn != null) resetPositionBtn.interactable = true;
+
         if (tutorialRoot != null) tutorialRoot.SetActive(false);
         else if (tutorialCanvas != null) tutorialCanvas.SetActive(false);
         Time.timeScale = 1f;
@@ -328,7 +342,12 @@ public class UIManager : MonoBehaviour
             if (t.CompareTag("ResumeBTN") || t.name == "ReturnBTN") SetupButton(t, ResumeGame);
             else if (t.CompareTag("SettingsBTN") || t.name == "OptionBTN") SetupButton(t, OpenSettings);
             else if (t.CompareTag("QuitBTN") || t.name.Contains("Quit")) SetupButton(t, QuitGame);
-            else if (t.CompareTag("ResetBTN") || t.name == "ResetPozBTN") SetupButton(t, ResetPlayerPosition);
+            // --- PŘIDÁNO: Uložení reference na tlačítko a jeho nastavení ---
+            else if (t.CompareTag("ResetBTN") || t.name == "ResetPozBTN")
+            {
+                resetPositionBtn = t.GetComponent<Button>();
+                SetupButton(t, ResetPlayerPosition);
+            }
         }
     }
 

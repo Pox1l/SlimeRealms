@@ -280172,13 +280172,50 @@ PrefabInstance:
       propertyPath: m_Name
       value: AudioManager
       objectReference: {fileID: 0}
+    - target: {fileID: 5917775460431107585, guid: ed107a0392734d34aaada6a4bb92709c, type: 3}
+      propertyPath: musicEvent.Path
+      value: event:/MusicWorld3
+      objectReference: {fileID: 0}
+    - target: {fileID: 5917775460431107585, guid: ed107a0392734d34aaada6a4bb92709c, type: 3}
+      propertyPath: ambientEvent.Path
+      value: event:/AmbientWorld3
+      objectReference: {fileID: 0}
+    - target: {fileID: 5917775460431107585, guid: ed107a0392734d34aaada6a4bb92709c, type: 3}
+      propertyPath: musicEvent.Guid.Data1
+      value: 366232393
+      objectReference: {fileID: 0}
+    - target: {fileID: 5917775460431107585, guid: ed107a0392734d34aaada6a4bb92709c, type: 3}
+      propertyPath: musicEvent.Guid.Data2
+      value: 1328381508
+      objectReference: {fileID: 0}
+    - target: {fileID: 5917775460431107585, guid: ed107a0392734d34aaada6a4bb92709c, type: 3}
+      propertyPath: musicEvent.Guid.Data3
+      value: -1506206575
+      objectReference: {fileID: 0}
+    - target: {fileID: 5917775460431107585, guid: ed107a0392734d34aaada6a4bb92709c, type: 3}
+      propertyPath: musicEvent.Guid.Data4
+      value: 1812912694
+      objectReference: {fileID: 0}
+    - target: {fileID: 5917775460431107585, guid: ed107a0392734d34aaada6a4bb92709c, type: 3}
+      propertyPath: ambientEvent.Guid.Data1
+      value: 973621818
+      objectReference: {fileID: 0}
+    - target: {fileID: 5917775460431107585, guid: ed107a0392734d34aaada6a4bb92709c, type: 3}
+      propertyPath: ambientEvent.Guid.Data2
+      value: 1111655036
+      objectReference: {fileID: 0}
+    - target: {fileID: 5917775460431107585, guid: ed107a0392734d34aaada6a4bb92709c, type: 3}
+      propertyPath: ambientEvent.Guid.Data3
+      value: -1441842771
+      objectReference: {fileID: 0}
+    - target: {fileID: 5917775460431107585, guid: ed107a0392734d34aaada6a4bb92709c, type: 3}
+      propertyPath: ambientEvent.Guid.Data4
+      value: 1616615447
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents:
-    - targetCorrespondingSourceObject: {fileID: 5540334271003903805, guid: ed107a0392734d34aaada6a4bb92709c, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 2065624693}
+    m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: ed107a0392734d34aaada6a4bb92709c, type: 3}
 --- !u!1 &1304950361
 GameObject:
@@ -399756,70 +399793,11 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 2322767205265120745, guid: 01ccab3c4a0fc7b48b19a4d25997efd9, type: 3}
   m_PrefabInstance: {fileID: 2063805822}
   m_PrefabAsset: {fileID: 0}
---- !u!1 &2065624691 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 5540334271003903805, guid: ed107a0392734d34aaada6a4bb92709c, type: 3}
-  m_PrefabInstance: {fileID: 1292413893}
-  m_PrefabAsset: {fileID: 0}
 --- !u!4 &2065624692 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 1030751278827886356, guid: ed107a0392734d34aaada6a4bb92709c, type: 3}
   m_PrefabInstance: {fileID: 1292413893}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &2065624693
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2065624691}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5b24249dc5139de40ac2b7b100bae8f8, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  musicEvent:
-    Guid:
-      Data1: 366232393
-      Data2: 1328381508
-      Data3: -1506206575
-      Data4: 1812912694
-    Path: event:/MusicWorld3
-  ambientEvent:
-    Guid:
-      Data1: 973621818
-      Data2: 1111655036
-      Data3: -1441842771
-      Data4: 1616615447
-    Path: event:/AmbientWorld3
-  defaultPickupSound:
-    Guid:
-      Data1: -752192634
-      Data2: 1122102576
-      Data3: -1165916774
-      Data4: 1069694486
-    Path: event:/pickUpItemSoundEffect
-  enemyHitSound:
-    Guid:
-      Data1: 0
-      Data2: 0
-      Data3: 0
-      Data4: 0
-    Path: 
-  defaultMeleeAttackSound:
-    Guid:
-      Data1: 0
-      Data2: 0
-      Data3: 0
-      Data4: 0
-    Path: 
-  defaultRangedAttackSound:
-    Guid:
-      Data1: 0
-      Data2: 0
-      Data3: 0
-      Data4: 0
-    Path: 
 --- !u!4 &2066746385 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 7925151026946581737, guid: 78dfd4577e6df7b45ae3cee989c06449, type: 3}

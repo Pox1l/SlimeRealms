@@ -52089,6 +52089,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: DKSlimeBoss (1)
       objectReference: {fileID: 0}
+    - target: {fileID: 4075706533552199152, guid: db868c6db9c2e8646acea8d4258b4ebb, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 7376769576426757717, guid: db868c6db9c2e8646acea8d4258b4ebb, type: 3}
       propertyPath: m_LocalPosition.x
       value: 12.01627
@@ -56083,77 +56087,6 @@ MonoBehaviour:
   m_OnValueChanged:
     m_PersistentCalls:
       m_Calls: []
---- !u!1 &1122990131 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 5540334271003903805, guid: ed107a0392734d34aaada6a4bb92709c, type: 3}
-  m_PrefabInstance: {fileID: 1265661642}
-  m_PrefabAsset: {fileID: 0}
---- !u!4 &1122990132 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 1030751278827886356, guid: ed107a0392734d34aaada6a4bb92709c, type: 3}
-  m_PrefabInstance: {fileID: 1265661642}
-  m_PrefabAsset: {fileID: 0}
---- !u!114 &1122990133
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1122990131}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5b24249dc5139de40ac2b7b100bae8f8, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  menuMusicEvent:
-    Guid:
-      Data1: 0
-      Data2: 0
-      Data3: 0
-      Data4: 0
-    Path: 
-  musicEvent:
-    Guid:
-      Data1: -197110313
-      Data2: 1280977942
-      Data3: -1807201354
-      Data4: 1305682548
-    Path: event:/MusicWorld2
-  ambientEvent:
-    Guid:
-      Data1: 1786734474
-      Data2: 1233946054
-      Data3: -1506646347
-      Data4: 432548661
-    Path: event:/AmbientWorld2
-  defaultPickupSound:
-    Guid:
-      Data1: -752192634
-      Data2: 1122102576
-      Data3: -1165916774
-      Data4: 1069694486
-    Path: event:/pickUpItemSoundEffect
-  enemyHitSound:
-    Guid:
-      Data1: -523842733
-      Data2: 1313131493
-      Data3: 1668928941
-      Data4: 1639513584
-    Path: event:/enemyHurt8bit
-  defaultMeleeAttackSound:
-    Guid:
-      Data1: -17122731
-      Data2: 1075325860
-      Data3: 21541289
-      Data4: -535146489
-    Path: event:/enemyCloseAtk
-  defaultRangedAttackSound:
-    Guid:
-      Data1: -1062319299
-      Data2: 1191553875
-      Data3: -1258927480
-      Data4: -663912477
-    Path: event:/enemyRangedAtk
 --- !u!1001 &1128336014
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -61208,70 +61141,6 @@ RectTransform:
   m_CorrespondingSourceObject: {fileID: 9043167839816448031, guid: 7299f73cdb12f864c80751551cb44323, type: 3}
   m_PrefabInstance: {fileID: 1265594217}
   m_PrefabAsset: {fileID: 0}
---- !u!1001 &1265661642
-PrefabInstance:
-  m_ObjectHideFlags: 0
-  serializedVersion: 2
-  m_Modification:
-    serializedVersion: 3
-    m_TransformParent: {fileID: 2079895977}
-    m_Modifications:
-    - target: {fileID: 1030751278827886356, guid: ed107a0392734d34aaada6a4bb92709c, type: 3}
-      propertyPath: m_LocalPosition.x
-      value: -17.585701
-      objectReference: {fileID: 0}
-    - target: {fileID: 1030751278827886356, guid: ed107a0392734d34aaada6a4bb92709c, type: 3}
-      propertyPath: m_LocalPosition.y
-      value: -2.1008718
-      objectReference: {fileID: 0}
-    - target: {fileID: 1030751278827886356, guid: ed107a0392734d34aaada6a4bb92709c, type: 3}
-      propertyPath: m_LocalPosition.z
-      value: -5.7106786
-      objectReference: {fileID: 0}
-    - target: {fileID: 1030751278827886356, guid: ed107a0392734d34aaada6a4bb92709c, type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 1030751278827886356, guid: ed107a0392734d34aaada6a4bb92709c, type: 3}
-      propertyPath: m_LocalRotation.x
-      value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1030751278827886356, guid: ed107a0392734d34aaada6a4bb92709c, type: 3}
-      propertyPath: m_LocalRotation.y
-      value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1030751278827886356, guid: ed107a0392734d34aaada6a4bb92709c, type: 3}
-      propertyPath: m_LocalRotation.z
-      value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1030751278827886356, guid: ed107a0392734d34aaada6a4bb92709c, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1030751278827886356, guid: ed107a0392734d34aaada6a4bb92709c, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1030751278827886356, guid: ed107a0392734d34aaada6a4bb92709c, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 5540334271003903805, guid: ed107a0392734d34aaada6a4bb92709c, type: 3}
-      propertyPath: m_Name
-      value: AudioManager
-      objectReference: {fileID: 0}
-    - target: {fileID: 5540334271003903805, guid: ed107a0392734d34aaada6a4bb92709c, type: 3}
-      propertyPath: m_IsActive
-      value: 0
-      objectReference: {fileID: 0}
-    m_RemovedComponents: []
-    m_RemovedGameObjects: []
-    m_AddedGameObjects: []
-    m_AddedComponents:
-    - targetCorrespondingSourceObject: {fileID: 5540334271003903805, guid: ed107a0392734d34aaada6a4bb92709c, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 1122990133}
-  m_SourcePrefab: {fileID: 100100000, guid: ed107a0392734d34aaada6a4bb92709c, type: 3}
 --- !u!1001 &1281554879
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -210512,7 +210381,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5540334271003903805, guid: ed107a0392734d34aaada6a4bb92709c, type: 3}
       propertyPath: m_Name
-      value: AudioManager (1)
+      value: AudioManager
       objectReference: {fileID: 0}
     - target: {fileID: 5917775460431107585, guid: ed107a0392734d34aaada6a4bb92709c, type: 3}
       propertyPath: musicEvent.Path
@@ -210618,7 +210487,6 @@ Transform:
   - {fileID: 1265594218}
   - {fileID: 943467969}
   - {fileID: 1893458616}
-  - {fileID: 1122990132}
   - {fileID: 1065040450}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
