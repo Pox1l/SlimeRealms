@@ -234,6 +234,13 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   maxHealth: 500
   currentHealth: 500
+  hitSound:
+    Guid:
+      Data1: 0
+      Data2: 0
+      Data3: 0
+      Data4: 0
+    Path: 
 --- !u!114 &4553901625398530503
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -333,7 +340,7 @@ BoxCollider2D:
   m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: -0.12347865, y: -0.16052246}
+  m_Offset: {x: -0.13323867, y: 0.093233585}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
@@ -344,7 +351,7 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 2.023632, y: 2.9867706}
+  m_Size: {x: 3.0191357, y: 3.4942827}
   m_EdgeRadius: 0
 --- !u!70 &2291411581972821199
 CapsuleCollider2D:

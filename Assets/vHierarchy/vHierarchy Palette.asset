@@ -90,6 +90,8 @@ MonoBehaviour:
     - PrefabVariant On Icon
     - CharacterJoint Icon
     - AudioClip Icon
+    - AudioSpatializerMicrosoft Icon
+    - AudioSource Icon
     enabled: 1
   - builtinIcons: []
     customIcons: []

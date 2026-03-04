@@ -1,5 +1,5 @@
 using UnityEngine;
-using UnityEngine.SceneManagement; // PØIDÁNO: Pro detekci aktuální scény
+using UnityEngine.SceneManagement;
 using FMODUnity;
 using FMOD.Studio;
 
@@ -9,7 +9,7 @@ public class AudioManager : MonoBehaviour
 
     [Header("Nastavení FMOD Eventù")]
     [Tooltip("Sem pøetáhni event s hudbou PRO MENU")]
-    public EventReference menuMusicEvent; // PØIDÁNO: Oddìlená hudba pro menu
+    public EventReference menuMusicEvent;
 
     [Tooltip("Sem pøetáhni event s hlavní hudbou PRO HRU")]
     public EventReference musicEvent;
@@ -31,6 +31,11 @@ public class AudioManager : MonoBehaviour
     [Tooltip("Univerzální výstøel (pro Ranged enemy)")]
     public EventReference defaultRangedAttackSound;
 
+    // --- PØIDÁNO PRO MANAGEMENT ZÓN A BOJE ---
+    [HideInInspector] public bool isBossDead = false;
+    private float currentBaseZone = 0f; // Pamatuje si, kde hráè je, když zrovna nebojuje
+    private int enemiesInCombat = 0; // Kolik nepøátel hráèe aktuálnì vidí
+
     private EventInstance musicInstance;
     private EventInstance ambientInstance;
 
@@ -45,13 +50,11 @@ public class AudioManager : MonoBehaviour
         DontDestroyOnLoad(gameObject);
     }
 
-    // PØIDÁNO: Pøihlášení k eventu naètení scény
     private void OnEnable()
     {
         SceneManager.sceneLoaded += OnSceneLoaded;
     }
 
-    // PØIDÁNO: Odhlášení z eventu (prevence errorù)
     private void OnDisable()
     {
         SceneManager.sceneLoaded -= OnSceneLoaded;
@@ -59,31 +62,26 @@ public class AudioManager : MonoBehaviour
 
     private void Start()
     {
-        // Ambient se spustí normálnì
         if (!ambientEvent.IsNull)
         {
             ambientInstance = RuntimeManager.CreateInstance(ambientEvent);
             ambientInstance.start();
         }
 
-        // PØIDÁNO: První spuštìní hudby podle aktuální scény
         PlayCorrectMusicForScene(SceneManager.GetActiveScene().buildIndex);
     }
 
-    // PØIDÁNO: Automatické pøepnutí pøi zmìnì scény
     private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
     {
         PlayCorrectMusicForScene(scene.buildIndex);
     }
 
-    // PØIDÁNO: Logika pro správný výbìr hudby
     private void PlayCorrectMusicForScene(int sceneIndex)
     {
         EventReference correctEvent = (sceneIndex == 0) ? menuMusicEvent : musicEvent;
 
         if (correctEvent.IsNull) return;
 
-        // Pokud už hraje správná hudba, nic nemìò
         if (musicInstance.isValid())
         {
             musicInstance.getDescription(out EventDescription currentDesc);
@@ -91,20 +89,46 @@ public class AudioManager : MonoBehaviour
 
             if (currentID == correctEvent.Guid) return;
 
-            // Zastav pøedchozí hudbu s fadem
             musicInstance.stop(FMOD.Studio.STOP_MODE.ALLOWFADEOUT);
             musicInstance.release();
         }
 
-        // Spus novou hudbu
         musicInstance = RuntimeManager.CreateInstance(correctEvent);
         musicInstance.start();
     }
 
+    // --- UPRAVENO: Ukládání aktuální zóny ---
     public void SetZone(float zoneID)
     {
+        currentBaseZone = zoneID; // Uložíme si zónu
+
+        // Pokud jsme zrovna v combatu, nepøepisujeme hudbu zpìt na chill
+        if (enemiesInCombat > 0 && zoneID < 2f) return;
+
         if (musicInstance.isValid()) musicInstance.setParameterByName("Zone", zoneID);
         if (ambientInstance.isValid()) ambientInstance.setParameterByName("Zone", zoneID);
+    }
+
+    // --- PØIDÁNO: Dynamický combat systém ---
+    public void SetCombatState(bool inCombat)
+    {
+        if (inCombat) enemiesInCombat++;
+        else enemiesInCombat--;
+
+        enemiesInCombat = Mathf.Max(0, enemiesInCombat); // Nesmí jít do mínusu
+
+        if (enemiesInCombat > 0)
+        {
+            // Pøepne na Battle (Zone 2)
+            if (musicInstance.isValid()) musicInstance.setParameterByName("Zone", 2f);
+            if (ambientInstance.isValid()) ambientInstance.setParameterByName("Zone", 2f);
+        }
+        else
+        {
+            // Vrátí se do normální zóny, kde hráè zrovna stojí
+            if (musicInstance.isValid()) musicInstance.setParameterByName("Zone", currentBaseZone);
+            if (ambientInstance.isValid()) ambientInstance.setParameterByName("Zone", currentBaseZone);
+        }
     }
 
     public void PlayPickupSound(EventReference specificSound)
@@ -119,32 +143,26 @@ public class AudioManager : MonoBehaviour
         }
     }
 
-    // --- UPRAVENO PRO 3D ZVUK (MELEE) ---
     public void PlayMeleeAttack(EventReference specificSound, Vector3 worldPos)
     {
         if (!specificSound.IsNull)
         {
-            // Hrajeme custom zvuk na pozici nepøítele
             RuntimeManager.PlayOneShot(specificSound, worldPos);
         }
         else if (!defaultMeleeAttackSound.IsNull)
         {
-            // Hrajeme defaultní zvuk na pozici nepøítele
             RuntimeManager.PlayOneShot(defaultMeleeAttackSound, worldPos);
         }
     }
 
-    // --- UPRAVENO PRO 3D ZVUK (RANGED) ---
     public void PlayRangedAttack(EventReference specificSound, Vector3 worldPos)
     {
         if (!specificSound.IsNull)
         {
-            // Hrajeme custom výstøel na pozici zbranì/nepøítele
             RuntimeManager.PlayOneShot(specificSound, worldPos);
         }
         else if (!defaultRangedAttackSound.IsNull)
         {
-            // Hrajeme default výstøel na pozici
             RuntimeManager.PlayOneShot(defaultRangedAttackSound, worldPos);
         }
     }

@@ -4,6 +4,7 @@ using FMODUnity;
 using FMOD.Studio;
 using System;
 
+// Téma: Boss3Controller - Phase 3 návrat k Jump attacku a zrychlení
 [RequireComponent(typeof(NavMeshAgent))]
 public class Boss3Controller : MonoBehaviour
 {
@@ -14,12 +15,16 @@ public class Boss3Controller : MonoBehaviour
     public BossHealth bossHealth;
 
     [Header("References")]
-    public GameObject attackPrefab;     // Melee hitbox (Stomp)
+    public GameObject attackPrefab;     // Melee hitbox (Stomp/Jump)
     public GameObject projectilePrefab; // Ranged (Web/Poison)
     public LineRenderer warningLine;
     public Transform fixedPoint;
     public Transform firePoint;
     public Animator animator;
+
+    [Header("Phase 1 & 3 (Jump)")]
+    public float jumpWarningRadius = 2.0f;
+    public GameObject jumpEffectPrefab;
 
     [Header("Audio")]
     public EventReference movementSound;
@@ -37,6 +42,7 @@ public class Boss3Controller : MonoBehaviour
     [Header("Stats - Phase 3 (Enraged)")]
     public float fastMoveSpeed = 5.5f;
     public float fastAttackCooldown = 0.8f;
+    public float fastAnimationSpeed = 1.5f; // Nové: Zrychlí animace (chůzi i skok)
 
     [Header("Visuals")]
     public float warningRadius = 0.5f;
@@ -48,7 +54,6 @@ public class Boss3Controller : MonoBehaviour
     private bool isAttacking = false;
     private bool phase3BuffApplied = false;
 
-    // Eventy pro případnou další logiku (jako u BossController)
     public static event Action OnMeleeAttack;
     public static event Action OnRangedAttack;
 
@@ -80,7 +85,11 @@ public class Boss3Controller : MonoBehaviour
         RotatePivotToPlayer();
 
         if (isAttacking && warningLine != null && warningLine.enabled)
-            DrawWarningCircle(warningRadius);
+        {
+            if (currentStage == BossStage.Phase2) DrawWarningLine(rangedRange);
+            else if (currentStage == BossStage.Phase1 || currentStage == BossStage.Phase3) DrawWarningCircle(jumpWarningRadius);
+            else DrawWarningCircle(warningRadius);
+        }
 
         float distance = Vector2.Distance(transform.position, playerTransform.position);
         float stopDistance = (currentStage == BossStage.Phase2) ? rangedRange : attackRange;
@@ -92,18 +101,16 @@ public class Boss3Controller : MonoBehaviour
 
             if (distance <= stopDistance)
             {
-                // --- BOSS ZASTAVUJE ---
                 agent.isStopped = true;
                 agent.velocity = Vector3.zero;
                 UpdateMoveSound(false);
 
-                // 🔥 OPRAVA: Vypočítáme směr k hráči ručně, aby Animator věděl, kam se dívat
                 Vector2 dirToPlayer = (playerTransform.position - transform.position).normalized;
                 if (animator != null)
                 {
                     animator.SetFloat("Horizontal", dirToPlayer.x);
                     animator.SetFloat("Vertical", dirToPlayer.y);
-                    animator.SetFloat("Speed", 0); // Rychlost 0 = Idle směrem k hráči
+                    animator.SetFloat("Speed", 0);
                 }
 
                 float currentCooldown = (currentStage == BossStage.Phase3) ? fastAttackCooldown : attackCooldown;
@@ -111,12 +118,9 @@ public class Boss3Controller : MonoBehaviour
             }
             else
             {
-                // --- BOSS SE HÝBE ---
                 agent.isStopped = false;
                 agent.SetDestination(playerTransform.position);
                 UpdateMoveSound(true);
-
-                // Animace pohybu se nastavuje jen když se hýbeme
                 SetAnimator(agent.velocity);
             }
         }
@@ -138,8 +142,12 @@ public class Boss3Controller : MonoBehaviour
             if (!phase3BuffApplied)
             {
                 agent.speed = fastMoveSpeed;
+                if (animator != null)
+                {
+                    animator.speed = fastAnimationSpeed; // Zrychlí přehrávání animací
+                    animator.SetTrigger("Enrage");
+                }
                 phase3BuffApplied = true;
-                if (animator != null) animator.SetTrigger("Enrage");
             }
         }
         else if (hpPercent <= 0.66f) currentStage = BossStage.Phase2;
@@ -151,43 +159,60 @@ public class Boss3Controller : MonoBehaviour
         lastAttackTime = Time.time;
         isAttacking = true;
 
-        // Reset Speed pro animator aby při útoku neběžela animace chůze
         if (animator != null) animator.SetFloat("Speed", 0);
 
         switch (currentStage)
         {
             case BossStage.Phase1:
-                StartMeleeAttack();
+                StartJumpAttack();
                 break;
             case BossStage.Phase2:
                 if (distance <= attackRange) StartMeleeAttack();
                 else StartRangedAttack();
                 break;
             case BossStage.Phase3:
-                StartMeleeAttack();
+                StartJumpAttack(); // ZMĚNA: Fáze 3 nyní používá Jump attack
                 break;
         }
     }
 
-    // --- ÚTOKY ---
+    void StartJumpAttack()
+    {
+        if (animator != null) animator.SetTrigger("Jump");
+        if (warningLine != null) warningLine.enabled = true;
+    }
 
     void StartMeleeAttack()
     {
         if (animator != null) animator.SetTrigger("Attack");
         if (warningLine != null) warningLine.enabled = true;
-        // ZMĚNA: Okamžité volání metody místo čekání na animaci
-        AnimEvent_MeleeHit();
     }
 
     void StartRangedAttack()
     {
         if (animator != null) animator.SetTrigger("AttackRanged");
         if (warningLine != null) warningLine.enabled = true;
-        // ZMĚNA: Okamžité volání metody místo čekání na animaci
-        AnimEvent_RangedHit();
     }
 
-    // 🔥 TUTO FUNKCI PŘIDEJ DO ANIMACE "Attack"
+    public void AnimEvent_JumpHit()
+    {
+        if (warningLine != null) warningLine.enabled = false;
+
+        if (fixedPoint != null)
+        {
+            if (jumpEffectPrefab != null) Instantiate(jumpEffectPrefab, fixedPoint.position, Quaternion.identity);
+
+            if (attackPrefab != null)
+            {
+                RotatePivotToPlayer();
+                Instantiate(attackPrefab, fixedPoint.position, fixedPoint.rotation);
+            }
+        }
+
+        OnMeleeAttack?.Invoke();
+        FinishAttack();
+    }
+
     public void AnimEvent_MeleeHit()
     {
         if (warningLine != null) warningLine.enabled = false;
@@ -200,7 +225,6 @@ public class Boss3Controller : MonoBehaviour
         FinishAttack();
     }
 
-    // 🔥 TUTO FUNKCI PŘIDEJ DO ANIMACE "AttackRanged"
     public void AnimEvent_RangedHit()
     {
         if (warningLine != null) warningLine.enabled = false;
@@ -221,7 +245,6 @@ public class Boss3Controller : MonoBehaviour
         if (warningLine != null) warningLine.enabled = false;
     }
 
-    // --- AUDIO & UTILS ---
     void UpdateMoveSound(bool isMoving) { if (moveInstance.isValid()) { moveInstance.getPlaybackState(out PLAYBACK_STATE state); if (isMoving && state != PLAYBACK_STATE.PLAYING) moveInstance.start(); else if (!isMoving && state == PLAYBACK_STATE.PLAYING) moveInstance.stop(FMOD.Studio.STOP_MODE.ALLOWFADEOUT); } }
     void StopMoveSound() { if (moveInstance.isValid()) moveInstance.stop(FMOD.Studio.STOP_MODE.ALLOWFADEOUT); }
     void PlayAggroSound() { if (!aggroSound.IsNull) RuntimeManager.PlayOneShot(aggroSound, transform.position); }
@@ -236,7 +259,25 @@ public class Boss3Controller : MonoBehaviour
         animator.SetFloat("Speed", velocity.magnitude);
     }
 
-    void DrawWarningCircle(float radius) { if (warningLine == null || firePoint == null) return; warningLine.positionCount = circleSegments; float angleStep = 360f / circleSegments; for (int i = 0; i < circleSegments; i++) { float currentAngle = i * angleStep * Mathf.Deg2Rad; float x = Mathf.Cos(currentAngle) * radius; float y = Mathf.Sin(currentAngle) * radius; warningLine.SetPosition(i, firePoint.position + new Vector3(x, y, 0)); } }
+    void DrawWarningCircle(float radius)
+    {
+        if (warningLine == null) return;
+        warningLine.positionCount = circleSegments;
+        float angleStep = 360f / circleSegments;
+        for (int i = 0; i < circleSegments; i++)
+        {
+            float currentAngle = i * angleStep * Mathf.Deg2Rad;
+            float x = Mathf.Cos(currentAngle) * radius;
+            float y = Mathf.Sin(currentAngle) * radius;
+
+            // ZMĚNA: Přidána Phase3 pro centrování na fixedPoint
+            Vector3 centerPos = ((currentStage == BossStage.Phase1 || currentStage == BossStage.Phase3) && fixedPoint != null) ? fixedPoint.position : firePoint.position;
+            warningLine.SetPosition(i, centerPos + new Vector3(x, y, 0));
+        }
+    }
+
+    void DrawWarningLine(float length) { if (warningLine == null || firePoint == null) return; warningLine.positionCount = 2; warningLine.SetPosition(0, firePoint.position); warningLine.SetPosition(1, firePoint.position + (fixedPoint.right * length)); }
+
     void OnDisable() => StopMoveSound();
     void OnDestroy() { StopMoveSound(); moveInstance.release(); }
 
@@ -245,5 +286,6 @@ public class Boss3Controller : MonoBehaviour
         Gizmos.color = Color.red; Gizmos.DrawWireSphere(transform.position, attackRange);
         Gizmos.color = Color.cyan; Gizmos.DrawWireSphere(transform.position, rangedRange);
         Gizmos.color = Color.yellow; Gizmos.DrawWireSphere(transform.position, aggroRange);
+        Gizmos.color = Color.magenta; Gizmos.DrawWireSphere(transform.position, jumpWarningRadius);
     }
 }

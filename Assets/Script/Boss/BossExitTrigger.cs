@@ -6,6 +6,22 @@ public class BossExitTrigger : MonoBehaviour
     public BossEntrance entranceScript; // Odkaz na barikádu (tu co zavíráš)
     public BossEncounter bossEncounter; // Odkaz na logiku bosse
 
+    private void Start()
+    {
+        // Najdeme objekty podle tagù a pøiøadíme z nich komponenty
+        GameObject entranceObj = GameObject.FindGameObjectWithTag("BossEntrance");
+        if (entranceObj != null)
+        {
+            entranceScript = entranceObj.GetComponent<BossEntrance>();
+        }
+
+        GameObject encounterObj = GameObject.FindGameObjectWithTag("BossEncounter");
+        if (encounterObj != null)
+        {
+            bossEncounter = encounterObj.GetComponent<BossEncounter>();
+        }
+    }
+
     private void OnTriggerEnter2D(Collider2D other)
     {
         // Reagujeme jen na hráèe

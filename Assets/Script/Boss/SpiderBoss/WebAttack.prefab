@@ -99,7 +99,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   speed: 8
-  damage: 80
+  damage: 1
   lifeTime: 2
   whatIsObstacle:
     serializedVersion: 2

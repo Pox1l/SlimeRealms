@@ -399084,9 +399084,9 @@ GameObject:
   - component: {fileID: 1738601987}
   - component: {fileID: 1738601986}
   m_Layer: 0
-  m_Name: Zone1
+  m_Name: Zone1 preBoss
   m_TagString: Untagged
-  m_Icon: {fileID: 0}
+  m_Icon: {fileID: 419385456094870383, guid: 0000000000000000d000000000000000, type: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
@@ -399163,6 +399163,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   zoneID: 2
+  disableAfterBossDeath: 1
 --- !u!1 &1738706905
 GameObject:
   m_ObjectHideFlags: 0
@@ -413857,9 +413858,9 @@ GameObject:
   - component: {fileID: 1844115804}
   - component: {fileID: 1844115803}
   m_Layer: 0
-  m_Name: Zone2
+  m_Name: Zone2 bossFight
   m_TagString: Untagged
-  m_Icon: {fileID: 0}
+  m_Icon: {fileID: 419385456094870383, guid: 0000000000000000d000000000000000, type: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
@@ -413872,7 +413873,7 @@ Transform:
   m_GameObject: {fileID: 1844115801}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -90.6, y: 29.5, z: 0}
+  m_LocalPosition: {x: -90.7, y: 25.6, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -413910,7 +413911,7 @@ BoxCollider2D:
   m_IsTrigger: 1
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 2.3609238, y: 0.27748013}
+  m_Offset: {x: 2.3609238, y: 3.0079808}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0, y: 0}
@@ -413921,7 +413922,7 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 46.408203, y: 29.840815}
+  m_Size: {x: 46.408203, y: 30.615498}
   m_EdgeRadius: 0
 --- !u!114 &1844115804
 MonoBehaviour:
@@ -413936,6 +413937,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   zoneID: 3
+  disableAfterBossDeath: 1
 --- !u!1 &1844454795
 GameObject:
   m_ObjectHideFlags: 0
@@ -422928,9 +422930,9 @@ MonoBehaviour:
   interactKey: 101
   requirements:
   - itemSO: {fileID: 11400000, guid: cb0838a3d4fea904eb0cf918dba9a5e2, type: 2}
-    requiredAmount: 8
+    requiredAmount: 1
   - itemSO: {fileID: 11400000, guid: 9afbd67cfc2bfa14795521a67e301288, type: 2}
-    requiredAmount: 8
+    requiredAmount: 1
   inventoryManager: {fileID: 0}
   WorldCanvas: {fileID: 0}
   pressEHint: {fileID: 2111517053}
