@@ -167,11 +167,12 @@ public class Boss3Controller : MonoBehaviour
                 StartJumpAttack();
                 break;
             case BossStage.Phase2:
-                if (distance <= attackRange) StartMeleeAttack();
+                // ZMĚNA: Používá StartJumpAttack i pro blízký útok ve Fázi 2
+                if (distance <= attackRange) StartJumpAttack();
                 else StartRangedAttack();
                 break;
             case BossStage.Phase3:
-                StartJumpAttack(); // ZMĚNA: Fáze 3 nyní používá Jump attack
+                StartJumpAttack();
                 break;
         }
     }
@@ -182,11 +183,7 @@ public class Boss3Controller : MonoBehaviour
         if (warningLine != null) warningLine.enabled = true;
     }
 
-    void StartMeleeAttack()
-    {
-        if (animator != null) animator.SetTrigger("Attack");
-        if (warningLine != null) warningLine.enabled = true;
-    }
+    // SMAZÁNO: void StartMeleeAttack() ...
 
     void StartRangedAttack()
     {
@@ -249,7 +246,17 @@ public class Boss3Controller : MonoBehaviour
     void StopMoveSound() { if (moveInstance.isValid()) moveInstance.stop(FMOD.Studio.STOP_MODE.ALLOWFADEOUT); }
     void PlayAggroSound() { if (!aggroSound.IsNull) RuntimeManager.PlayOneShot(aggroSound, transform.position); }
 
-    void RotatePivotToPlayer() { if (fixedPoint == null || playerTransform == null) return; Vector2 dir = playerTransform.position - fixedPoint.position; float angle = Mathf.Atan2(dir.y, dir.x) * Mathf.Rad2Deg; fixedPoint.rotation = Quaternion.Euler(0, 0, angle); }
+    void RotatePivotToPlayer()
+    {
+        if (fixedPoint == null || playerTransform == null) return;
+        Vector2 dir = playerTransform.position - fixedPoint.position;
+
+        // Zabrání zbláznění rotace, když je hráč přímo ve středu bosse
+        if (dir.sqrMagnitude < 0.1f) return;
+
+        float angle = Mathf.Atan2(dir.y, dir.x) * Mathf.Rad2Deg;
+        fixedPoint.rotation = Quaternion.Euler(0, 0, angle);
+    }
 
     void SetAnimator(Vector2 velocity)
     {

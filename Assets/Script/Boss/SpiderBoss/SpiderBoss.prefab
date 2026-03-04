@@ -169,6 +169,8 @@ MonoBehaviour:
   fixedPoint: {fileID: 7775163454633887268}
   firePoint: {fileID: 7062593288513337855}
   animator: {fileID: 3653938116896816762}
+  jumpWarningRadius: 3.5
+  jumpEffectPrefab: {fileID: 3574930870843707821, guid: 46c5114c644c86c44a874e35a30ffd7b, type: 3}
   movementSound:
     Guid:
       Data1: 0
@@ -190,8 +192,9 @@ MonoBehaviour:
   aggroRange: 15
   fastMoveSpeed: 5.5
   fastAttackCooldown: 0.8
+  fastAnimationSpeed: 1.5
   warningRadius: 0.5
-  circleSegments: 30
+  circleSegments: 50
 --- !u!114 &-8060984292667471043
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -463,7 +466,7 @@ LineRenderer:
       m_Curve:
       - serializedVersion: 3
         time: 0
-        value: 0.4623661
+        value: 0.2436161
         inSlope: 0
         outSlope: 0
         tangentMode: 0
