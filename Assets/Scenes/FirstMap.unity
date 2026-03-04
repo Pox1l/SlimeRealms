@@ -249596,7 +249596,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &1452864335
 RectTransform:
   m_ObjectHideFlags: 0
@@ -554524,26 +554524,6 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 192838133}
     m_Modifications:
-    - target: {fileID: 2072292077307646958, guid: c6b016f046b652e47afda38e02f1700f, type: 3}
-      propertyPath: useItemSound.Path
-      value: event:/healSound
-      objectReference: {fileID: 0}
-    - target: {fileID: 2072292077307646958, guid: c6b016f046b652e47afda38e02f1700f, type: 3}
-      propertyPath: useItemSound.Guid.Data1
-      value: 998582011
-      objectReference: {fileID: 0}
-    - target: {fileID: 2072292077307646958, guid: c6b016f046b652e47afda38e02f1700f, type: 3}
-      propertyPath: useItemSound.Guid.Data2
-      value: 1106238338
-      objectReference: {fileID: 0}
-    - target: {fileID: 2072292077307646958, guid: c6b016f046b652e47afda38e02f1700f, type: 3}
-      propertyPath: useItemSound.Guid.Data3
-      value: -273353038
-      objectReference: {fileID: 0}
-    - target: {fileID: 2072292077307646958, guid: c6b016f046b652e47afda38e02f1700f, type: 3}
-      propertyPath: useItemSound.Guid.Data4
-      value: 611503226
-      objectReference: {fileID: 0}
     - target: {fileID: 2327255682240400101, guid: c6b016f046b652e47afda38e02f1700f, type: 3}
       propertyPath: m_AnchorMax.x
       value: 0
