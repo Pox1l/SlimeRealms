@@ -467,7 +467,20 @@ public class UIManager : MonoBehaviour
     }
 
     public void QuitGame() => Application.Quit();
-    public void ResetPlayerPosition() { }
+    public void ResetPlayerPosition()
+    {
+        if (player != null)
+        {
+            // Tady doplň svou logiku pro pozici, kam se má hráč portnout
+            // Např: player.position = new Vector3(0, 5, 0);
+
+            Debug.Log("Hráč resetován na startovní pozici.");
+        }
+
+        // KLÍČOVÁ ČÁST: Musíš zavolat ResumeGame, aby se vypnula pauza, 
+        // pustil se čas, skrylo se UI a zamkl se kurzor.
+        ResumeGame();
+    }
     void SetupButton(Transform t, UnityEngine.Events.UnityAction action) { Button btn = t.GetComponent<Button>(); if (btn != null) { btn.onClick.RemoveAllListeners(); btn.onClick.AddListener(action); } }
     void HandleShortcuts() { if (isGameMenuOpen) { if (Input.GetKeyDown(KeyCode.P)) OpenPanel(profilePanel); if (Input.GetKeyDown(KeyCode.I)) OpenPanel(inventoryPanel); if (Input.GetKeyDown(KeyCode.L)) OpenPanel(skillTreePanel); if (Input.GetKeyDown(KeyCode.C)) OpenPanel(craftingPanel); } else { if (Input.GetKeyDown(KeyCode.P)) { ToggleGameMenu(); OpenPanel(profilePanel); } if (Input.GetKeyDown(KeyCode.I)) { ToggleGameMenu(); OpenPanel(inventoryPanel); } if (Input.GetKeyDown(KeyCode.L)) { ToggleGameMenu(); OpenPanel(skillTreePanel); } if (Input.GetKeyDown(KeyCode.C)) { ToggleGameMenu(); OpenPanel(craftingPanel); } } }
 }
