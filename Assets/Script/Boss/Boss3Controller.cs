@@ -4,7 +4,6 @@ using FMODUnity;
 using FMOD.Studio;
 using System;
 
-// Téma: Boss3Controller - Phase 3 návrat k Jump attacku a zrychlení
 [RequireComponent(typeof(NavMeshAgent))]
 public class Boss3Controller : MonoBehaviour
 {
@@ -15,8 +14,8 @@ public class Boss3Controller : MonoBehaviour
     public BossHealth bossHealth;
 
     [Header("References")]
-    public GameObject attackPrefab;     // Melee hitbox (Stomp/Jump)
-    public GameObject projectilePrefab; // Ranged (Web/Poison)
+    public GameObject attackPrefab;
+    public GameObject projectilePrefab;
     public LineRenderer warningLine;
     public Transform fixedPoint;
     public Transform firePoint;
@@ -42,7 +41,7 @@ public class Boss3Controller : MonoBehaviour
     [Header("Stats - Phase 3 (Enraged)")]
     public float fastMoveSpeed = 5.5f;
     public float fastAttackCooldown = 0.8f;
-    public float fastAnimationSpeed = 1.5f; // Nové: Zrychlí animace (chůzi i skok)
+    public float fastAnimationSpeed = 1.5f;
 
     [Header("Visuals")]
     public float warningRadius = 0.5f;
@@ -72,8 +71,31 @@ public class Boss3Controller : MonoBehaviour
         if (!movementSound.IsNull) { moveInstance = RuntimeManager.CreateInstance(movementSound); RuntimeManager.AttachInstanceToGameObject(moveInstance, gameObject, GetComponent<Rigidbody2D>()); }
         if (warningLine == null && firePoint != null) warningLine = firePoint.GetComponent<LineRenderer>();
         if (warningLine != null) warningLine.enabled = false;
+    }
+
+    // 🔥 PŘIDÁNO: Reset všech hodnot při spawnu z poolu, včetně Phase 3 Buffů
+    void OnEnable()
+    {
+        currentStage = BossStage.Phase1;
+        phase3BuffApplied = false;
+        isAttacking = false;
+        hasAggroed = false;
+        lastAttackTime = -999f;
+
+        // Reset rychlostí zpět na Phase 1
+        if (agent != null) agent.speed = moveSpeed;
+        if (animator != null) animator.speed = 1.0f;
+
+        if (warningLine != null) warningLine.enabled = false;
+
         GameObject player = GameObject.FindGameObjectWithTag("Player");
         if (player != null) playerTransform = player.transform;
+
+        if (agent != null && agent.isOnNavMesh)
+        {
+            agent.isStopped = false;
+            agent.ResetPath();
+        }
     }
 
     void Update()
@@ -144,7 +166,7 @@ public class Boss3Controller : MonoBehaviour
                 agent.speed = fastMoveSpeed;
                 if (animator != null)
                 {
-                    animator.speed = fastAnimationSpeed; // Zrychlí přehrávání animací
+                    animator.speed = fastAnimationSpeed;
                     animator.SetTrigger("Enrage");
                 }
                 phase3BuffApplied = true;
@@ -167,7 +189,6 @@ public class Boss3Controller : MonoBehaviour
                 StartJumpAttack();
                 break;
             case BossStage.Phase2:
-                // ZMĚNA: Používá StartJumpAttack i pro blízký útok ve Fázi 2
                 if (distance <= attackRange) StartJumpAttack();
                 else StartRangedAttack();
                 break;
@@ -182,8 +203,6 @@ public class Boss3Controller : MonoBehaviour
         if (animator != null) animator.SetTrigger("Jump");
         if (warningLine != null) warningLine.enabled = true;
     }
-
-    // SMAZÁNO: void StartMeleeAttack() ...
 
     void StartRangedAttack()
     {
@@ -251,7 +270,6 @@ public class Boss3Controller : MonoBehaviour
         if (fixedPoint == null || playerTransform == null) return;
         Vector2 dir = playerTransform.position - fixedPoint.position;
 
-        // Zabrání zbláznění rotace, když je hráč přímo ve středu bosse
         if (dir.sqrMagnitude < 0.1f) return;
 
         float angle = Mathf.Atan2(dir.y, dir.x) * Mathf.Rad2Deg;
@@ -277,7 +295,6 @@ public class Boss3Controller : MonoBehaviour
             float x = Mathf.Cos(currentAngle) * radius;
             float y = Mathf.Sin(currentAngle) * radius;
 
-            // ZMĚNA: Přidána Phase3 pro centrování na fixedPoint
             Vector3 centerPos = ((currentStage == BossStage.Phase1 || currentStage == BossStage.Phase3) && fixedPoint != null) ? fixedPoint.position : firePoint.position;
             warningLine.SetPosition(i, centerPos + new Vector3(x, y, 0));
         }
@@ -285,7 +302,7 @@ public class Boss3Controller : MonoBehaviour
 
     void DrawWarningLine(float length) { if (warningLine == null || firePoint == null) return; warningLine.positionCount = 2; warningLine.SetPosition(0, firePoint.position); warningLine.SetPosition(1, firePoint.position + (fixedPoint.right * length)); }
 
-    void OnDisable() => StopMoveSound();
+    void OnDisable() { StopMoveSound(); }
     void OnDestroy() { StopMoveSound(); moveInstance.release(); }
 
     void OnDrawGizmosSelected()

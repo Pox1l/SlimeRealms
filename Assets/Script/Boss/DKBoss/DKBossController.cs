@@ -3,7 +3,7 @@ using UnityEngine.AI;
 using FMODUnity;
 using FMOD.Studio;
 using System;
-using System.Collections; // 🔥 PŘIDÁNO: Potřebujeme pro Coroutines
+using System.Collections;
 
 [RequireComponent(typeof(NavMeshAgent))]
 public class DKBossController : MonoBehaviour
@@ -34,7 +34,7 @@ public class DKBossController : MonoBehaviour
     public float attackCooldown = 1.5f;
 
     [Header("Phase 1: Melee Attack")]
-    public float telegraphTime = 0.8f; // 🔥 NOVÉ: Jak dlouho bude lajna svítit PŘED začátkem animace
+    public float telegraphTime = 0.8f;
 
     [Header("Phase 2: Jump Attack")]
     public float jumpDamageRadius = 3f;
@@ -76,9 +76,27 @@ public class DKBossController : MonoBehaviour
 
         if (warningLine == null && firePoint != null) warningLine = firePoint.GetComponent<LineRenderer>();
         if (warningLine != null) warningLine.enabled = false;
+    }
+
+    // 🔥 PŘIDÁNO: Reset všech hodnot při spawnu z poolu
+    void OnEnable()
+    {
+        currentStage = BossStage.Phase1;
+        phase2SignalSent = false;
+        isAttacking = false;
+        hasAggroed = false;
+        lastAttackTime = -999f;
+
+        if (warningLine != null) warningLine.enabled = false;
 
         GameObject player = GameObject.FindGameObjectWithTag("Player");
         if (player != null) playerTransform = player.transform;
+
+        if (agent != null && agent.isOnNavMesh)
+        {
+            agent.isStopped = false;
+            agent.ResetPath();
+        }
     }
 
     void Update()
@@ -138,7 +156,7 @@ public class DKBossController : MonoBehaviour
 
     void StopMoveSound() { if (moveInstance.isValid()) moveInstance.stop(FMOD.Studio.STOP_MODE.ALLOWFADEOUT); }
     void PlayAggroSound() { if (!aggroSound.IsNull) RuntimeManager.PlayOneShot(aggroSound, transform.position); }
-    void OnDisable() => StopMoveSound();
+    void OnDisable() { StopMoveSound(); }
     void OnDestroy() { StopMoveSound(); moveInstance.release(); }
 
     void CheckBossPhase()
@@ -165,38 +183,21 @@ public class DKBossController : MonoBehaviour
         isAttacking = true;
 
         if (currentStage == BossStage.Phase1)
-            StartCoroutine(MeleeAttackRoutine()); // 🔥 ZMĚNA: Používáme Coroutinu místo přímého volání
+            StartCoroutine(MeleeAttackRoutine());
         else if (currentStage == BossStage.Phase2)
             StartJumpAttack();
     }
 
-    // --- FÁZE 1: MELEE ---
-
-    // 🔥 ZMĚNA: Coroutina pro zpoždění animace (Telegraphing)
     private IEnumerator MeleeAttackRoutine()
     {
-        // 1. Zapneme varovnou lajnu
         if (warningLine != null) warningLine.enabled = true;
-
-        // 2. Počkáme zadaný čas, boss stojí na místě a míří
         yield return new WaitForSeconds(telegraphTime);
-
-        // 3. Teprve teď pustíme animaci útoku
         if (animator != null) animator.SetTrigger("Attack");
-
-        // 4. Pojistka pro ukončení (zvednuto z 1.0f na 1.5f, protože útok teď trvá o telegraphTime déle)
         Invoke(nameof(FinishAttack), 1.5f);
     }
 
-    public void SpawnAttack1()
-    {
-        SpawnProjectile(attackPrefab1);
-    }
-
-    public void SpawnAttack2()
-    {
-        SpawnProjectile(attackPrefab2);
-    }
+    public void SpawnAttack1() { SpawnProjectile(attackPrefab1); }
+    public void SpawnAttack2() { SpawnProjectile(attackPrefab2); }
 
     private void SpawnProjectile(GameObject prefabToSpawn)
     {
@@ -208,7 +209,6 @@ public class DKBossController : MonoBehaviour
         Instantiate(prefabToSpawn, firePoint.position, fixedPoint.rotation * correction);
     }
 
-    // --- FÁZE 2: JUMP ---
     void StartJumpAttack()
     {
         agent.isStopped = true;
@@ -249,7 +249,6 @@ public class DKBossController : MonoBehaviour
         CancelInvoke(nameof(FinishAttack));
     }
 
-    // --- POMOCNÉ FUNKCE ---
     void DrawWarningCircle(float radius)
     {
         if (warningLine == null || firePoint == null) return;

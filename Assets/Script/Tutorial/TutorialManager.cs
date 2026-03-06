@@ -1,5 +1,4 @@
 ﻿using UnityEngine;
-using UnityEngine.UI;
 using TMPro;
 using System.Collections.Generic;
 
@@ -7,45 +6,37 @@ public class TutorialManager : MonoBehaviour
 {
     public static TutorialManager Instance;
 
-    [Header("Systémové Reference")]
+    [Header("Systém a UI")]
     public TutorialSaveSystem saveSystem;
+    public GameObject tutorialPanel;
+    public TextMeshProUGUI instructionTextUI;
 
-    [Header("World UI (HUD - Roh obrazovky)")]
-    public GameObject tutorialPanel;          // Panel s úkolem v rohu
-    public TextMeshProUGUI instructionTextUI; // Text v tom panelu
-
-    [Header("Menu UI (Bublina & Blocker)")]
-    public GameObject uiBlocker;              // Černé poloprůhledné pozadí
-    public GameObject bubblePanel;            // Bublina s textem
-    public TextMeshProUGUI bubbleTextUI;      // Text v bublině
-    public Button bubbleNextButton;           // Tlačítko "Pokračovat" v bublině
-    public Vector3 bubbleOffset = new Vector3(0, -100, 0); // Odsazení bubliny od cíle
+    [Header("Nastavení Šipky (Pointer)")]
+    public Transform playerTransform;      // Hráč, kolem kterého se točí šipka
+    public Transform pointerTransform;     // Objekt šipky ve světě
+    public SpriteRenderer pointerRenderer; // SpriteRenderer šipky pro změnu obrázku
+    public float pointerOffset = 1.5f;     // Jak daleko od hráče šipka krouží
 
     [System.Serializable]
     public class TutorialStep
     {
-        [TextArea] public string instructionText; // Text úkolu
-        public GameObject objectToEnable;         // Volitelné: 3D šipka ve světě
+        [TextArea] public string instructionText;
 
-        [Header("UI Interakce")]
-        public List<RectTransform> uiTargets;     // Seznam UI prvků k vysvícení (Highlight)
+        [Header("Zóny a Ukazatel")]
+        public Sprite customPointerSprite;     // Sprite, který se má ukázat (např. zelená šipka)
+        public List<Transform> targetZones;    // Seznam zón (ukáže na nejbližší)
+        public float hideArrowDistance = 3f;   // Vzdálenost, kdy šipka zmizí (Range)
 
-        public bool requireMenuOpen;              // Máme čekat, dokud nebude UIManager.isGameMenuOpen?
-        public bool waitForClickOnItem;           // TRUE = Hráč musí kliknout na vysvícený item. FALSE = Hráč kliká na bublinu "Pokračovat".
+        [Header("Podmínky pro splnění")]
+        public string requiredEventName;       // Např. "ZabitGreenSlime"
+        public int requiredEventCount = 1;     // Kolikrát se to musí stát (např. 4)
     }
 
-    [Header("Nastavení Kroků")]
+    [Header("Kroky tutoriálu")]
     public List<TutorialStep> steps;
 
-    // Lokální data
     private TutorialData currentData;
-
-    // Pomocné pro WASD
-    private bool wDone, aDone, sDone, dDone;
-
-    // Seznamy pro čištění Highlightu
-    private List<Canvas> tempCanvases = new List<Canvas>();
-    private List<GraphicRaycaster> tempRaycasters = new List<GraphicRaycaster>();
+    private int currentEventProgress = 0;      // Počítá, kolik slimů už hráč zabil v aktuálním kroku
 
     private void Awake()
     {
@@ -54,252 +45,137 @@ public class TutorialManager : MonoBehaviour
 
     private void Start()
     {
-        // 1. Načtení dat
         if (saveSystem != null) currentData = saveSystem.Load();
         else currentData = new TutorialData();
 
-        // 2. Reset UI na startu
-        if (uiBlocker != null) uiBlocker.SetActive(false);
-        if (bubblePanel != null) bubblePanel.SetActive(false);
-
-        // Listener pro tlačítko v bublině ("Pokračovat")
-        if (bubbleNextButton != null)
+        if (!currentData.isCompleted && steps.Count > 0)
         {
-            bubbleNextButton.onClick.RemoveAllListeners();
-            bubbleNextButton.onClick.AddListener(OnBubbleNextClicked);
-        }
-
-        // 3. Spuštění kroku nebo skrytí tutoriálu
-        if (!currentData.isCompleted)
-        {
-            InitializeStep(currentData.currentStepIndex);
+            ShowCurrentStep();
         }
         else
         {
-            tutorialPanel.SetActive(false);
-            if (bubblePanel != null) bubblePanel.SetActive(false);
+            if (tutorialPanel != null) tutorialPanel.SetActive(false);
+            if (pointerTransform != null) pointerTransform.gameObject.SetActive(false);
         }
     }
 
     private void Update()
     {
-        if (currentData.isCompleted) return;
-        if (UIManager.Instance == null) return; // Pojistka
+        if (currentData.isCompleted || currentData.currentStepIndex >= steps.Count) return;
 
-        int index = currentData.currentStepIndex;
-        if (index >= steps.Count) return;
+        UpdatePointer();
+    }
 
-        TutorialStep step = steps[index];
+    // Tuto funkci zavoláš např. po zabití slima
+    public void TriggerEvent(string eventName)
+    {
+        if (currentData.isCompleted || currentData.currentStepIndex >= steps.Count) return;
 
-        // --- A) KROK 0: WASD POHYB ---
-        if (index == 0)
+        TutorialStep currentStep = steps[currentData.currentStepIndex];
+
+        if (currentStep.requiredEventName == eventName)
         {
-            CheckWASDInput();
-        }
+            currentEventProgress++;
+            UpdateInstructionText(); // Aktualizuje text (např. 1/4)
 
-        // --- B) ČEKÁNÍ NA MENU ---
-
-        // 1. Pokud krok vyžaduje menu, ale to je ZAVŘENÉ -> Čekáme na TAB/I...
-        if (step.requireMenuOpen && !UIManager.Instance.isGameMenuOpen)
-        {
-            // Nic neděláme, HUD panel ukazuje "Otevři menu".
-        }
-
-        // 2. Pokud krok vyžaduje menu a to JE OTEVŘENÉ
-        else if (step.requireMenuOpen && UIManager.Instance.isGameMenuOpen)
-        {
-            // Pokud krok nemá žádné UI cíle k vysvícení (jen úkol "Otevři menu"), rovnou ho splníme.
-            if (step.uiTargets.Count == 0)
+            if (currentEventProgress >= currentStep.requiredEventCount)
             {
                 AdvanceStep();
             }
-            // Pokud má UI cíle, už jsou vysvícené (InitializeStep to udělal) a čekáme na kliknutí.
         }
     }
 
-    // --- LOGIKA POSUNU KROKŮ ---
-
-    // Volá se tlačítkem v bublině "Pokračovat"
-    private void OnBubbleNextClicked()
+    private void AdvanceStep()
     {
-        AdvanceStep();
-    }
-
-    // Volá se, když hráč klikne na vysvícený předmět (pokud je waitForClickOnItem = true)
-    private void OnHighlightedItemClicked()
-    {
-        AdvanceStep();
-    }
-
-    public void AdvanceStep()
-    {
-        CleanupHighlight(); // Úklid po starém kroku
-
-        // Vypnout 3D objekt z minulého kroku
-        if (currentData.currentStepIndex < steps.Count)
-        {
-            var prevObj = steps[currentData.currentStepIndex].objectToEnable;
-            if (prevObj != null) prevObj.SetActive(false);
-        }
-
-        // Zvýšit index a uložit
+        currentEventProgress = 0;
         currentData.currentStepIndex++;
+
         if (saveSystem != null) saveSystem.Save(currentData);
 
-        // Spustit nový krok
-        InitializeStep(currentData.currentStepIndex);
-    }
-
-    private void InitializeStep(int index)
-    {
-        if (index >= steps.Count)
+        if (currentData.currentStepIndex < steps.Count)
         {
-            CompleteTutorial();
-            return;
-        }
-
-        TutorialStep currentStep = steps[index];
-
-        // Zapnout 3D objekt (pokud existuje)
-        if (currentStep.objectToEnable != null) currentStep.objectToEnable.SetActive(true);
-
-        // --- ROZHODOVÁNÍ: HUD vs. BUBLINA ---
-
-        // Pokud máme UI cíle k vysvícení -> Režim Bublina + Highlight
-        if (currentStep.uiTargets != null && currentStep.uiTargets.Count > 0)
-        {
-            // HUD skryjeme
-            if (tutorialPanel != null) tutorialPanel.SetActive(false);
-
-            // Aktivujeme Highlight
-            HighlightMultipleElements(currentStep);
+            ShowCurrentStep();
         }
         else
         {
-            // Nemáme cíle -> Režim HUD (Svět / WASD / Obyčejný úkol)
-            if (bubblePanel != null) bubblePanel.SetActive(false);
-            if (uiBlocker != null) uiBlocker.SetActive(false);
-            if (tutorialPanel != null) tutorialPanel.SetActive(true);
+            CompleteTutorial();
+        }
+    }
 
-            // WASD má speciální text, ostatní berou text z Inspectoru
-            if (index == 0)
+    private void ShowCurrentStep()
+    {
+        tutorialPanel.SetActive(true);
+        TutorialStep step = steps[currentData.currentStepIndex];
+
+        UpdateInstructionText();
+
+        // Nastavení vzhledu šipky
+        if (pointerRenderer != null && step.customPointerSprite != null)
+        {
+            pointerRenderer.sprite = step.customPointerSprite;
+        }
+    }
+
+    private void UpdateInstructionText()
+    {
+        TutorialStep step = steps[currentData.currentStepIndex];
+        if (instructionTextUI != null)
+        {
+            // Pokud je potřeba víc eventů (např. zabít 4 slimy), ukáže to progres "Zabij slimy: 1/4"
+            if (step.requiredEventCount > 1)
             {
-                wDone = false; aDone = false; sDone = false; dDone = false;
-                UpdateWASDText();
+                instructionTextUI.text = $"{step.instructionText} ({currentEventProgress}/{step.requiredEventCount})";
             }
             else
             {
-                if (instructionTextUI != null) instructionTextUI.text = currentStep.instructionText;
+                instructionTextUI.text = step.instructionText;
             }
         }
     }
 
-    // --- HIGHLIGHT & BUBLINA ---
-    private void HighlightMultipleElements(TutorialStep step)
+    private void UpdatePointer()
     {
-        if (uiBlocker != null) uiBlocker.SetActive(true); // Tma
+        TutorialStep step = steps[currentData.currentStepIndex];
 
-        // 1. Vysvícení všech cílů
-        foreach (RectTransform target in step.uiTargets)
+        if (playerTransform == null || pointerTransform == null || step.targetZones.Count == 0)
         {
-            if (target == null) continue;
+            if (pointerTransform != null) pointerTransform.gameObject.SetActive(false);
+            return;
+        }
 
-            // Přidáme Canvas (aby to bylo nad tmou)
-            Canvas cv = target.GetComponent<Canvas>();
-            if (cv == null) cv = target.gameObject.AddComponent<Canvas>();
-            cv.overrideSorting = true;
-            cv.sortingOrder = 30000;
-            tempCanvases.Add(cv);
+        // Najít nejbližší zónu ze seznamu
+        Transform closestZone = null;
+        float minDistance = float.MaxValue;
 
-            // Přidáme Raycaster (aby šlo klikat)
-            GraphicRaycaster gr = target.GetComponent<GraphicRaycaster>();
-            if (gr == null) gr = target.gameObject.AddComponent<GraphicRaycaster>();
-            tempRaycasters.Add(gr);
-
-            // Pokud čekáme na kliknutí přímo na item, přidáme Listener
-            if (step.waitForClickOnItem)
+        foreach (Transform zone in step.targetZones)
+        {
+            if (zone == null) continue;
+            float dist = Vector2.Distance(playerTransform.position, zone.position);
+            if (dist < minDistance)
             {
-                Button btn = target.GetComponent<Button>();
-                if (btn != null) btn.onClick.AddListener(OnHighlightedItemClicked);
+                minDistance = dist;
+                closestZone = zone;
             }
         }
 
-        // 2. Nastavení Bubliny
-        if (bubblePanel != null)
+        if (closestZone == null) return;
+
+        // Skrytí šipky, pokud je hráč dost blízko k nejbližší zóně
+        if (minDistance <= step.hideArrowDistance)
         {
-            bubblePanel.SetActive(true);
-            if (bubbleTextUI != null) bubbleTextUI.text = step.instructionText;
-
-            // Pozice: Pod prvním elementem v seznamu
-            if (step.uiTargets.Count > 0 && step.uiTargets[0] != null)
-            {
-                bubblePanel.transform.position = step.uiTargets[0].position + bubbleOffset;
-            }
-
-            // Viditelnost tlačítka "Pokračovat":
-            // Pokud čekáme na item (např. Profil), tlačítko skryjeme.
-            // Pokud jen vysvětlujeme (např. HUD), tlačítko ukážeme.
-            if (bubbleNextButton != null)
-            {
-                bubbleNextButton.gameObject.SetActive(!step.waitForClickOnItem);
-            }
+            pointerTransform.gameObject.SetActive(false);
         }
-    }
-
-    private void CleanupHighlight()
-    {
-        if (uiBlocker != null) uiBlocker.SetActive(false);
-        if (bubblePanel != null) bubblePanel.SetActive(false);
-
-        // Odstranit listenery z tlačítek v aktuálním kroku
-        if (currentData.currentStepIndex < steps.Count)
+        else
         {
-            var step = steps[currentData.currentStepIndex];
-            if (step.uiTargets != null)
-            {
-                foreach (var target in step.uiTargets)
-                {
-                    if (target == null) continue;
-                    Button btn = target.GetComponent<Button>();
-                    if (btn != null) btn.onClick.RemoveListener(OnHighlightedItemClicked);
-                }
-            }
+            pointerTransform.gameObject.SetActive(true);
+
+            // Výpočet úhlu a pozice pro 2D šipku
+            Vector3 dir = (closestZone.position - playerTransform.position).normalized;
+            float angle = Mathf.Atan2(dir.y, dir.x) * Mathf.Rad2Deg;
+
+            pointerTransform.rotation = Quaternion.AngleAxis(angle, Vector3.forward);
+            pointerTransform.position = playerTransform.position + dir * pointerOffset;
         }
-
-        // Zničit dočasné komponenty
-        foreach (var gr in tempRaycasters) if (gr != null) Destroy(gr);
-        foreach (var cv in tempCanvases) if (cv != null) Destroy(cv);
-
-        tempRaycasters.Clear();
-        tempCanvases.Clear();
-    }
-
-    // --- WASD LOGIKA ---
-    void CheckWASDInput()
-    {
-        bool changed = false;
-        if (Input.GetKey(KeyCode.W) && !wDone) { wDone = true; changed = true; }
-        if (Input.GetKey(KeyCode.A) && !aDone) { aDone = true; changed = true; }
-        if (Input.GetKey(KeyCode.S) && !sDone) { sDone = true; changed = true; }
-        if (Input.GetKey(KeyCode.D) && !dDone) { dDone = true; changed = true; }
-
-        if (changed) UpdateWASDText();
-
-        if (wDone && aDone && sDone && dDone)
-        {
-            AdvanceStep();
-        }
-    }
-
-    void UpdateWASDText()
-    {
-        string w = wDone ? "<color=green>W</color>" : "W";
-        string a = aDone ? "<color=green>A</color>" : "A";
-        string s = sDone ? "<color=green>S</color>" : "S";
-        string d = dDone ? "<color=green>D</color>" : "D";
-
-        if (instructionTextUI != null)
-            instructionTextUI.text = $"Pohyb: {w} {a} {s} {d}";
     }
 
     private void CompleteTutorial()
@@ -307,8 +183,7 @@ public class TutorialManager : MonoBehaviour
         currentData.isCompleted = true;
         if (saveSystem != null) saveSystem.Save(currentData);
 
-        CleanupHighlight();
         if (tutorialPanel != null) tutorialPanel.SetActive(false);
-        Debug.Log("🎓 Tutoriál kompletně dokončen!");
+        if (pointerTransform != null) pointerTransform.gameObject.SetActive(false);
     }
 }

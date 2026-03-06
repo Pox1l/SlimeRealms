@@ -156,6 +156,14 @@ MonoBehaviour:
         - globalObjectIdString: GlobalObjectId_V1-2-2a782948c291d074e9d58001ff8c6a4c-5151868-0
         - globalObjectIdString: GlobalObjectId_V1-2-2a782948c291d074e9d58001ff8c6a4c-1738601984-0
         - globalObjectIdString: GlobalObjectId_V1-2-2a782948c291d074e9d58001ff8c6a4c-1844115801-0
+        - globalObjectIdString: GlobalObjectId_V1-2-2a782948c291d074e9d58001ff8c6a4c-2076173315-0
+        - globalObjectIdString: GlobalObjectId_V1-2-2a782948c291d074e9d58001ff8c6a4c-1717077553-0
+        - globalObjectIdString: GlobalObjectId_V1-2-2a782948c291d074e9d58001ff8c6a4c-665854626-0
+        - globalObjectIdString: GlobalObjectId_V1-2-2a782948c291d074e9d58001ff8c6a4c-1989726777-0
+        - globalObjectIdString: GlobalObjectId_V1-2-2a782948c291d074e9d58001ff8c6a4c-1267136599-0
+        - globalObjectIdString: GlobalObjectId_V1-2-2a782948c291d074e9d58001ff8c6a4c-894844333-0
+        - globalObjectIdString: GlobalObjectId_V1-2-2a782948c291d074e9d58001ff8c6a4c-113003012-0
+        - globalObjectIdString: GlobalObjectId_V1-2-2a782948c291d074e9d58001ff8c6a4c-902647615-0
         values:
         - colorIndex: 0
           iconNameOrGuid: Folder Icon
@@ -693,6 +701,38 @@ MonoBehaviour:
           iconNameOrGuid: AudioSource Icon
           isIconRecursive: 0
           isColorRecursive: 0
+        - colorIndex: 5
+          iconNameOrGuid: 
+          isIconRecursive: 0
+          isColorRecursive: 0
+        - colorIndex: 5
+          iconNameOrGuid: 
+          isIconRecursive: 0
+          isColorRecursive: 0
+        - colorIndex: 2
+          iconNameOrGuid: 
+          isIconRecursive: 0
+          isColorRecursive: 0
+        - colorIndex: 2
+          iconNameOrGuid: 
+          isIconRecursive: 0
+          isColorRecursive: 0
+        - colorIndex: 7
+          iconNameOrGuid: Folder Icon
+          isIconRecursive: 0
+          isColorRecursive: 0
+        - colorIndex: 0
+          iconNameOrGuid: Canvas Icon
+          isIconRecursive: 0
+          isColorRecursive: 0
+        - colorIndex: 0
+          iconNameOrGuid: Canvas Icon
+          isIconRecursive: 0
+          isColorRecursive: 0
+        - colorIndex: 0
+          iconNameOrGuid: AudioSource Icon
+          isIconRecursive: 0
+          isColorRecursive: 0
     - goDatas_byGlobalId:
         keys:
         - globalObjectIdString: GlobalObjectId_V1-2-6de1a7d931f01ef4abebbf15f7e0502c-127101540-0
@@ -1003,6 +1043,9 @@ MonoBehaviour:
         - globalObjectIdString: GlobalObjectId_V1-2-8f94c35e02b6398428e407565a6c5131-928489971-0
         - globalObjectIdString: GlobalObjectId_V1-2-8f94c35e02b6398428e407565a6c5131-5540334271003903805-1265661642
         - globalObjectIdString: GlobalObjectId_V1-2-8f94c35e02b6398428e407565a6c5131-5540334271003903805-2064715402
+        - globalObjectIdString: GlobalObjectId_V1-2-8f94c35e02b6398428e407565a6c5131-291053489-0
+        - globalObjectIdString: GlobalObjectId_V1-2-8f94c35e02b6398428e407565a6c5131-193109085-0
+        - globalObjectIdString: GlobalObjectId_V1-2-8f94c35e02b6398428e407565a6c5131-1369819472-0
         values:
         - colorIndex: 0
           iconNameOrGuid: Mesh Icon
@@ -1304,6 +1347,18 @@ MonoBehaviour:
           iconNameOrGuid: 
           isIconRecursive: 0
           isColorRecursive: 0
+        - colorIndex: 0
+          iconNameOrGuid: AudioSpatializerMicrosoft Icon
+          isIconRecursive: 0
+          isColorRecursive: 0
+        - colorIndex: 0
+          iconNameOrGuid: AudioSource Icon
+          isIconRecursive: 0
+          isColorRecursive: 0
+        - colorIndex: 0
+          iconNameOrGuid: AudioSource Icon
+          isIconRecursive: 0
+          isColorRecursive: 0
     - goDatas_byGlobalId:
         keys:
         - globalObjectIdString: GlobalObjectId_V1-2-103c331bb13690d488c43ac75191101a-60151847-0
@@ -1392,6 +1447,11 @@ MonoBehaviour:
         - globalObjectIdString: GlobalObjectId_V1-2-57a6c14058b882e4e963aa25f2c416f3-125903810-0
         - globalObjectIdString: GlobalObjectId_V1-2-57a6c14058b882e4e963aa25f2c416f3-1124516591-0
         - globalObjectIdString: GlobalObjectId_V1-2-57a6c14058b882e4e963aa25f2c416f3-2079687256-0
+        - globalObjectIdString: GlobalObjectId_V1-2-57a6c14058b882e4e963aa25f2c416f3-10119519-0
+        - globalObjectIdString: GlobalObjectId_V1-2-57a6c14058b882e4e963aa25f2c416f3-691770666-0
+        - globalObjectIdString: GlobalObjectId_V1-2-57a6c14058b882e4e963aa25f2c416f3-441258067-0
+        - globalObjectIdString: GlobalObjectId_V1-2-57a6c14058b882e4e963aa25f2c416f3-5540334271003903805-1292413893
+        - globalObjectIdString: GlobalObjectId_V1-2-57a6c14058b882e4e963aa25f2c416f3-1510352668-0
         values:
         - colorIndex: 0
           iconNameOrGuid: Mesh Icon
@@ -1663,6 +1723,26 @@ MonoBehaviour:
           isColorRecursive: 0
         - colorIndex: 0
           iconNameOrGuid: AvatarMask On Icon
+          isIconRecursive: 0
+          isColorRecursive: 0
+        - colorIndex: 0
+          iconNameOrGuid: AudioSpatializerMicrosoft Icon
+          isIconRecursive: 0
+          isColorRecursive: 0
+        - colorIndex: 0
+          iconNameOrGuid: AudioSource Icon
+          isIconRecursive: 0
+          isColorRecursive: 0
+        - colorIndex: 0
+          iconNameOrGuid: AudioSource Icon
+          isIconRecursive: 0
+          isColorRecursive: 0
+        - colorIndex: 2
+          iconNameOrGuid: 
+          isIconRecursive: 0
+          isColorRecursive: 0
+        - colorIndex: 0
+          iconNameOrGuid: AudioSource Icon
           isIconRecursive: 0
           isColorRecursive: 0
   bookmarks: []

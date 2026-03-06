@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 using System;
-using FMODUnity; // <--- Přidána knihovna
+using FMODUnity;
 
 public class BossHealth : MonoBehaviour
 {
@@ -10,12 +10,11 @@ public class BossHealth : MonoBehaviour
 
     [Header("Audio")]
     [Tooltip("Pokud necháš prázdné, zahraje se Default Hit z Manageru")]
-    public EventReference hitSound; // <--- Políčko pro custom zvuk
+    public EventReference hitSound;
 
     public event Action OnDeath;
     public event Action<int, int> OnHealthChanged;
 
-    // 🔥 ZMĚNA: Používáme tvůj nový BossDrop
     private BossDrop bossDrop;
     private EnemyController controller;
     private DamageFlash damageFlash;
@@ -24,7 +23,6 @@ public class BossHealth : MonoBehaviour
 
     void Awake()
     {
-        // 🔥 ZMĚNA: Načítáme BossDrop
         bossDrop = GetComponent<BossDrop>();
         controller = GetComponent<EnemyController>();
         damageFlash = GetComponent<DamageFlash>();
@@ -35,7 +33,6 @@ public class BossHealth : MonoBehaviour
     {
         bossEncounter = FindObjectOfType<BossEncounter>();
 
-        // Init UI přes Managera
         if (UIManager.Instance != null)
         {
             UIManager.Instance.UpdateBossHP(currentHealth, maxHealth);
@@ -55,13 +52,11 @@ public class BossHealth : MonoBehaviour
         currentHealth -= damage;
         OnHealthChanged?.Invoke(currentHealth, maxHealth);
 
-        // 🔥 PŘIDÁNO: Přehrání zvuku
         if (AudioManager.instance != null)
         {
             AudioManager.instance.PlayHitSound(hitSound, transform.position);
         }
 
-        // 🔥 AKTUALIZACE UI PŘES MANAGERA
         if (UIManager.Instance != null)
         {
             UIManager.Instance.UpdateBossHP(currentHealth, maxHealth);
@@ -84,7 +79,6 @@ public class BossHealth : MonoBehaviour
     {
         Debug.Log("💀 Boss defeated!");
 
-        // 🔥 ZMĚNA: Voláme DropLoot z tvého nového skriptu
         if (bossDrop != null) bossDrop.DropLoot();
 
         if (bossEncounter != null)

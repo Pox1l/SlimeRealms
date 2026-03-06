@@ -8,7 +8,6 @@ using System;
 [RequireComponent(typeof(NavMeshAgent))]
 public class BossController : MonoBehaviour
 {
-    // ... (Všechny proměnné zůstávají stejné) ...
     public enum BossStage { Phase1, Phase2 }
     [Header("Boss Status")]
     public BossStage currentStage = BossStage.Phase1;
@@ -36,7 +35,6 @@ public class BossController : MonoBehaviour
     [Header("Phase 2: Jump Attack")]
     public float jumpDamageRadius = 3f;
     public int jumpDamageAmount = 10;
-    // public float jumpDuration = 1.0f; // ❌ UŽ NENÍ POTŘEBA (řídí to animace)
     public GameObject jumpEffectPrefab;
 
     [Header("Warning Settings")]
@@ -54,11 +52,43 @@ public class BossController : MonoBehaviour
 
 
     void Awake() { agent = GetComponent<NavMeshAgent>(); if (animator == null) animator = GetComponent<Animator>(); if (spriteRenderer == null) spriteRenderer = GetComponent<SpriteRenderer>(); if (bossHealth == null) bossHealth = GetComponent<BossHealth>(); agent.updateRotation = false; agent.updateUpAxis = false; agent.speed = moveSpeed; }
-    void Start() { if (!movementSound.IsNull) { moveInstance = RuntimeManager.CreateInstance(movementSound); RuntimeManager.AttachInstanceToGameObject(moveInstance, gameObject, GetComponent<Rigidbody2D>()); } if (warningLine == null && firePoint != null) warningLine = firePoint.GetComponent<LineRenderer>(); if (warningLine != null) warningLine.enabled = false; GameObject player = GameObject.FindGameObjectWithTag("Player"); if (player != null) playerTransform = player.transform; }
+
+    void Start()
+    {
+        if (!movementSound.IsNull)
+        {
+            moveInstance = RuntimeManager.CreateInstance(movementSound);
+            RuntimeManager.AttachInstanceToGameObject(moveInstance, gameObject, GetComponent<Rigidbody2D>());
+        }
+        if (warningLine == null && firePoint != null) warningLine = firePoint.GetComponent<LineRenderer>();
+        if (warningLine != null) warningLine.enabled = false;
+    }
+
+    // 🔥 PŘIDÁNO: Reset všech hodnot při spawnu z poolu
+    void OnEnable()
+    {
+        currentStage = BossStage.Phase1;
+        phase2SignalSent = false;
+        isAttacking = false;
+        hasAggroed = false;
+        lastAttackTime = -999f;
+
+        if (warningLine != null) warningLine.enabled = false;
+
+        // Znovu najde hráče
+        GameObject player = GameObject.FindGameObjectWithTag("Player");
+        if (player != null) playerTransform = player.transform;
+
+        // Reset agenta, pokud už je na NavMeshi
+        if (agent != null && agent.isOnNavMesh)
+        {
+            agent.isStopped = false;
+            agent.ResetPath();
+        }
+    }
 
     void Update()
     {
-        // ... (Celý Update zůstává stejný) ...
         if (playerTransform == null) return;
         if (agent == null || !agent.isOnNavMesh || !agent.isActiveAndEnabled) { StopMoveSound(); return; }
 
@@ -99,12 +129,18 @@ public class BossController : MonoBehaviour
         }
     }
 
-    // ... (Audio metody a CheckBossPhase jsou stejné) ...
     void UpdateMoveSound(bool isMoving) { if (moveInstance.isValid()) { moveInstance.getPlaybackState(out PLAYBACK_STATE state); if (isMoving && state != PLAYBACK_STATE.PLAYING) moveInstance.start(); else if (!isMoving && state == PLAYBACK_STATE.PLAYING) moveInstance.stop(FMOD.Studio.STOP_MODE.ALLOWFADEOUT); } }
     void StopMoveSound() { if (moveInstance.isValid()) moveInstance.stop(FMOD.Studio.STOP_MODE.ALLOWFADEOUT); }
     void PlayAggroSound() { if (!aggroSound.IsNull) RuntimeManager.PlayOneShot(aggroSound, transform.position); }
-    void OnDisable() => StopMoveSound();
+
+    // ZMĚNĚNO: Původní OnDisable bylo zapsáno lambdou, raději jsem ho rozepsal kvůli přehlednosti
+    void OnDisable()
+    {
+        StopMoveSound();
+    }
+
     void OnDestroy() { StopMoveSound(); moveInstance.release(); }
+
     void CheckBossPhase()
     {
         if (bossHealth != null && bossHealth.maxHealth > 0)
@@ -115,10 +151,9 @@ public class BossController : MonoBehaviour
             {
                 currentStage = BossStage.Phase2;
 
-                // 🔥 NOVÉ: Pokud jsme ještě neposlali signál, pošleme ho teď
                 if (!phase2SignalSent)
                 {
-                    OnPhase2Start?.Invoke(); // "Haló, fáze 2 začala!"
+                    OnPhase2Start?.Invoke();
                     phase2SignalSent = true;
                 }
             }
@@ -134,20 +169,14 @@ public class BossController : MonoBehaviour
         else if (currentStage == BossStage.Phase2) StartJumpAttack();
     }
 
-    // --- FÁZE 1: MELEE (UPRAVENO PRO ANIMATION EVENT) ---
     void StartMeleeAttack()
     {
         if (animator != null) animator.SetTrigger("Attack");
         if (warningLine != null) warningLine.enabled = true;
-
-        // POJISTKA: Pokud by selhal Animation Event, tohle to ukončí natvrdo po 1.5 vteřině
-       // Invoke("FinishAttack", 1.5f);
     }
 
-    // 🔥 TUTO FUNKCI VYBER V ANIMATION EVENTU PRO SLASH
     public void SpawnAttackHitbox()
     {
-        // Vypneme warning line, protože útok právě vyšel
         if (warningLine != null) warningLine.enabled = false;
 
         if (attackPrefab == null || firePoint == null || fixedPoint == null) return;
@@ -156,37 +185,28 @@ public class BossController : MonoBehaviour
         Instantiate(attackPrefab, firePoint.position, fixedPoint.rotation * correction);
     }
 
-    // --- FÁZE 2: JUMP (S ANIMATION EVENTEM) ---
     void StartJumpAttack()
     {
-        // 1. Zastavit agenta
         agent.isStopped = true;
-        agent.velocity = Vector3.zero; // Fyzické zastavení
+        agent.velocity = Vector3.zero;
 
-        // 2. 🔥 NOVÉ: Resetovat parametry v Animatoru, aby nehrála chůze
         if (animator != null)
         {
             animator.SetFloat("Speed", 0);
             animator.SetTrigger("Jump");
         }
 
-        // 3. Zapnout warning kruh
         if (warningLine != null) warningLine.enabled = true;
-
-        // Čekáme na Animation Event "AnimEvent_LandHit"
     }
 
-    // 🔥 TUTO FUNKCI VYBER V ANIMATION EVENTU (v okně Animation)
     public void AnimEvent_LandHit()
     {
         if (warningLine != null) warningLine.enabled = false;
 
         if (jumpEffectPrefab != null) Instantiate(jumpEffectPrefab, transform.position, Quaternion.identity);
 
-        // 🔥 MÍSTO PŘÍMÉHO PŘEHRÁNÍ POŠLEME SIGNÁL
         OnBossLand?.Invoke();
 
-        // ... zbytek damage logiky (Physics2D.OverlapCircleAll atd.) ...
         Collider2D[] hits = Physics2D.OverlapCircleAll(transform.position, jumpDamageRadius);
         foreach (Collider2D hit in hits)
         {
@@ -200,14 +220,12 @@ public class BossController : MonoBehaviour
         FinishAttack();
     }
 
-    // 🔥 TUTO FUNKCI MŮŽEŠ TAKY ZAVOLAT EVENTEM NA KONCI ANIMACE
     public void FinishAttack()
     {
         isAttacking = false;
         if (warningLine != null) warningLine.enabled = false;
     }
 
-    // --- POMOCNÉ FUNKCE (Zůstávají) ---
     void DrawWarningCircle(float radius) { if (warningLine == null || firePoint == null) return; warningLine.positionCount = circleSegments; float angleStep = 360f / circleSegments; for (int i = 0; i < circleSegments; i++) { float currentAngle = i * angleStep * Mathf.Deg2Rad; float x = Mathf.Cos(currentAngle) * radius; float y = Mathf.Sin(currentAngle) * radius; Vector3 centerPos = (currentStage == BossStage.Phase2) ? transform.position : firePoint.position; warningLine.SetPosition(i, centerPos + new Vector3(x, y, 0)); } }
     void RotatePivotToPlayer() { if (fixedPoint == null || playerTransform == null) return; Vector2 dir = playerTransform.position - fixedPoint.position; float angle = Mathf.Atan2(dir.y, dir.x) * Mathf.Rad2Deg; fixedPoint.rotation = Quaternion.Euler(0, 0, angle); }
     void SetAnimator(Vector2 velocity) { if (animator == null) return; animator.SetFloat("Horizontal", velocity.x); animator.SetFloat("Vertical", velocity.y); animator.SetFloat("Speed", velocity.magnitude); }

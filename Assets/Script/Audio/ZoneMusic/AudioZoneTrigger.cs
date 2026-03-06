@@ -3,24 +3,23 @@
 public class AudioZoneTrigger : MonoBehaviour
 {
     [Header("Nastavení Zóny")]
-    [Tooltip("0 = Chill, 1 = PreBoss, 2 = Battle, 3 = Victory")]
+    [Tooltip("0 = Chill, 1 = PreBoss, 2 = Battle, 3 = Victory/Jiné")]
     public float zoneID;
 
-    // --- PŘIDÁNO: Vypnutí zóny po boss fightu ---
-    [Tooltip("Zaškrtni, pokud se má zóna trvale vypnout, jakmile boss zemře.")]
+    [Tooltip("Zaškrtni, pokud se má zóna ignorovat, dokud je boss mrtvý.")]
     public bool disableAfterBossDeath = false;
 
     private void OnTriggerEnter2D(Collider2D other)
     {
         if (other.CompareTag("Player") && AudioManager.instance != null)
         {
-            // PŘIDÁNO: Zkontroluje, jestli už není po bossovi
+            // POKUD JE BOSS MRTVÝ, IGNORUJ HRÁČE (nic se nepřehraje)
             if (disableAfterBossDeath && AudioManager.instance.isBossDead)
             {
-                gameObject.SetActive(false); // Vypne trigger navždy (v této instanci)
-                return;
+                return; // 💥 ZMĚNA: Objekt se už nevypíná, jen přeruší kód.
             }
 
+            // Pokud boss žije (nebo zóna nemá check), změň hudbu
             AudioManager.instance.SetZone(zoneID);
         }
     }

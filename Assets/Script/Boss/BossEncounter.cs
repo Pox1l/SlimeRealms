@@ -59,6 +59,13 @@ public class BossEncounter : MonoBehaviour
     public void PrepareBoss()
     {
         bossDefeated = false;
+
+        // 🔥 PŘIDÁNO: Řekneme AudioManageru, že boss žije (pro případ opakovaného pokusu)
+        if (AudioManager.instance != null)
+        {
+            AudioManager.instance.isBossDead = false;
+        }
+
         if (playerInside && activeBoss == null)
         {
             if (spawnCoroutine != null) StopCoroutine(spawnCoroutine);
@@ -125,6 +132,13 @@ public class BossEncounter : MonoBehaviour
     public void SetBossDefeated()
     {
         bossDefeated = true;
+
+        if (AudioManager.instance != null)
+        {
+            AudioManager.instance.isBossDead = true;
+            AudioManager.instance.SetCombatState(false); // Ukončí stav boje
+            AudioManager.instance.SetZone(4f); // 🔥 TÍMTO ZAPNEŠ VICTORY HUDBU
+        }
 
         if (barrierCoroutine != null) StopCoroutine(barrierCoroutine);
         if (barrierObject != null) barrierObject.SetActive(false);
