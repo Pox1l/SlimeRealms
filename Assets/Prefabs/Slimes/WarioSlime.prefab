@@ -163,10 +163,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3712d0bb212fc54419db0ae615a10156, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  moveSpeed: 2
+  moveSpeed: 1.5
   stopDistance: 0.1
-  aggroRange: 5
-  chaseRange: 10
+  aggroRange: 4
+  chaseRange: 7
   movementSound:
     Guid:
       Data1: -1993235619
@@ -236,8 +236,8 @@ MonoBehaviour:
   firePoint: {fileID: 7520335606527939517}
   animator: {fileID: 3197922868861464618}
   aimLine: {fileID: 6169822026943178690}
-  attackRange: 7
-  stoppingDistance: 4
+  attackRange: 4.5
+  stoppingDistance: 3.5
   attackCooldown: 2
   aimLineLength: 10
   shootSound:

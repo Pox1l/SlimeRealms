@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using TMPro;
 using System.Collections.Generic;
-using UnityEngine.AI; // PŘIDÁNO: Knihovna pro NavMesh
+using UnityEngine.AI;
 
 public class TutorialManager : MonoBehaviour
 {
@@ -16,31 +16,46 @@ public class TutorialManager : MonoBehaviour
     [Tooltip("Hráč se najde automaticky podle tagu 'Player'")]
     public Transform playerTransform;
 
-    public GameObject pathPrefab;
+    public GameObject pathPrefab; // Defaultní prefab
     public float pathSpacing = 1f;
-    private List<GameObject> pathPool;
+    [Tooltip("Maximální vzdálenost, na kterou se šipky vykreslí (šetří výkon)")]
+    public float maxPathDistance = 15f;
 
-    private NavMeshPath navPath; // PŘIDÁNO: Proměnná pro uchování vypočítané cesty
+    // ZMĚNA: Používáme Dictionary pro podporu více různých prefabů najednou
+    private Dictionary<GameObject, List<GameObject>> pathPools;
+    private Dictionary<GameObject, int> poolUsage;
+
+    private NavMeshPath navPath;
+
+    [System.Serializable]
+    public class TutorialRequirement
+    {
+        public string eventName;
+        public string displayName;
+        public int requiredCount = 1;
+
+        [Header("Zóny a Ukazatel pro tento úkol")]
+        public GameObject customPathPrefab; // PŘIDÁNO: Volitelný custom ukazatel pro tento specifický cíl
+        public List<Transform> targetPoints;
+    }
 
     [System.Serializable]
     public class TutorialStep
     {
         [TextArea] public string instructionText;
 
-        [Header("Zóny")]
-        public List<Transform> targetPoints;
         public float hideDistance = 3f;
 
         [Header("Podmínky pro splnění")]
-        public string requiredEventName;
-        public int requiredEventCount = 1;
+        public List<TutorialRequirement> requirements;
     }
 
     [Header("Kroky tutoriálu")]
     public List<TutorialStep> steps;
 
     private TutorialData currentData;
-    private int currentEventProgress = 0;
+
+    private Dictionary<string, int> eventProgress = new Dictionary<string, int>();
 
     private void Awake()
     {
@@ -56,8 +71,9 @@ public class TutorialManager : MonoBehaviour
             Debug.LogWarning("Objekt s tagem 'Player' nebyl v této scéně nalezen!");
         }
 
-        pathPool = new List<GameObject>();
-        navPath = new NavMeshPath(); // PŘIDÁNO: Inicializace NavMeshPath
+        pathPools = new Dictionary<GameObject, List<GameObject>>();
+        poolUsage = new Dictionary<GameObject, int>();
+        navPath = new NavMeshPath();
     }
 
     private void Start()
@@ -67,6 +83,7 @@ public class TutorialManager : MonoBehaviour
 
         if (!currentData.isCompleted && steps.Count > 0)
         {
+            ResetStepProgress();
             ShowCurrentStep();
         }
         else
@@ -83,28 +100,70 @@ public class TutorialManager : MonoBehaviour
         UpdateCustomPath();
     }
 
+    private void ResetStepProgress()
+    {
+        eventProgress.Clear();
+        if (currentData.isCompleted || currentData.currentStepIndex >= steps.Count) return;
+
+        foreach (var req in steps[currentData.currentStepIndex].requirements)
+        {
+            if (!eventProgress.ContainsKey(req.eventName))
+            {
+                eventProgress[req.eventName] = 0;
+            }
+        }
+    }
+
     public void TriggerEvent(string eventName)
     {
         if (currentData.isCompleted || currentData.currentStepIndex >= steps.Count) return;
 
         TutorialStep currentStep = steps[currentData.currentStepIndex];
 
-        if (currentStep.requiredEventName == eventName)
+        bool isEventRequired = false;
+        foreach (var req in currentStep.requirements)
         {
-            currentEventProgress++;
-            UpdateInstructionText();
-
-            if (currentEventProgress >= currentStep.requiredEventCount)
+            if (req.eventName == eventName)
             {
-                AdvanceStep();
+                isEventRequired = true;
+                break;
             }
+        }
+
+        if (!isEventRequired) return;
+
+        if (eventProgress.ContainsKey(eventName))
+        {
+            eventProgress[eventName]++;
+        }
+        else
+        {
+            eventProgress[eventName] = 1;
+        }
+
+        UpdateInstructionText();
+
+        bool allCompleted = true;
+        foreach (var req in currentStep.requirements)
+        {
+            int current = eventProgress.ContainsKey(req.eventName) ? eventProgress[req.eventName] : 0;
+            if (current < req.requiredCount)
+            {
+                allCompleted = false;
+                break;
+            }
+        }
+
+        if (allCompleted)
+        {
+            AdvanceStep();
         }
     }
 
     private void AdvanceStep()
     {
-        currentEventProgress = 0;
         currentData.currentStepIndex++;
+        ResetStepProgress();
 
         if (saveSystem != null) saveSystem.Save(currentData);
 
@@ -129,14 +188,30 @@ public class TutorialManager : MonoBehaviour
         TutorialStep step = steps[currentData.currentStepIndex];
         if (instructionTextUI != null)
         {
-            if (step.requiredEventCount > 1)
+            string finalText = step.instructionText;
+
+            if (step.requirements != null && step.requirements.Count > 0)
             {
-                instructionTextUI.text = $"{step.instructionText} ({currentEventProgress}/{step.requiredEventCount})";
+                finalText += "\n";
+                foreach (var req in step.requirements)
+                {
+                    int current = eventProgress.ContainsKey(req.eventName) ? eventProgress[req.eventName] : 0;
+                    current = Mathf.Min(current, req.requiredCount);
+
+                    string nameToDisplay = string.IsNullOrEmpty(req.displayName) ? req.eventName : req.displayName;
+
+                    if (current >= req.requiredCount)
+                    {
+                        finalText += $"\n<color=green><s>{nameToDisplay}: DONE</s></color>";
+                    }
+                    else
+                    {
+                        finalText += $"\n{nameToDisplay}: {current}/{req.requiredCount}";
+                    }
+                }
             }
-            else
-            {
-                instructionTextUI.text = step.instructionText;
-            }
+
+            instructionTextUI.text = finalText;
         }
     }
 
@@ -144,20 +219,31 @@ public class TutorialManager : MonoBehaviour
     {
         TutorialStep step = steps[currentData.currentStepIndex];
 
-        if (playerTransform == null || step.targetPoints == null || step.targetPoints.Count == 0 || pathPrefab == null)
+        // ZMĚNA: Kontrolujeme i defaultní prefab, pokud není nastavený, cesty se vůbec nebudou řešit
+        if (playerTransform == null || step.requirements == null || pathPrefab == null)
         {
             DeactivatePath();
             return;
         }
 
         bool isPlayerInAnyZone = false;
-        foreach (Transform target in step.targetPoints)
+
+        foreach (var req in step.requirements)
         {
-            if (target != null && Vector3.Distance(playerTransform.position, target.position) <= step.hideDistance)
+            int current = eventProgress.ContainsKey(req.eventName) ? eventProgress[req.eventName] : 0;
+            if (current >= req.requiredCount) continue;
+
+            if (req.targetPoints == null) continue;
+
+            foreach (Transform target in req.targetPoints)
             {
-                isPlayerInAnyZone = true;
-                break;
+                if (target != null && Vector3.Distance(playerTransform.position, target.position) <= step.hideDistance)
+                {
+                    isPlayerInAnyZone = true;
+                    break;
+                }
             }
+            if (isPlayerInAnyZone) break;
         }
 
         if (isPlayerInAnyZone)
@@ -166,60 +252,106 @@ public class TutorialManager : MonoBehaviour
             return;
         }
 
-        int poolIndex = 0;
-        foreach (Transform target in step.targetPoints)
+        // ZMĚNA: Resetování počítadla použití pro všechny pooly
+        poolUsage.Clear();
+        foreach (var key in pathPools.Keys)
         {
-            if (target == null) continue;
+            poolUsage[key] = 0;
+        }
 
-            // ZMĚNA: Výpočet cesty pomocí NavMesh
-            if (NavMesh.CalculatePath(playerTransform.position, target.position, NavMesh.AllAreas, navPath))
+        foreach (var req in step.requirements)
+        {
+            int current = eventProgress.ContainsKey(req.eventName) ? eventProgress[req.eventName] : 0;
+            if (current >= req.requiredCount) continue;
+
+            if (req.targetPoints == null) continue;
+
+            // ZMĚNA: Určení, který prefab se má pro tento úkol použít
+            GameObject currentPrefab = req.customPathPrefab != null ? req.customPathPrefab : pathPrefab;
+
+            // Inicializace poolu pro tento prefab, pokud ještě neexistuje
+            if (!pathPools.ContainsKey(currentPrefab))
             {
-                float distanceToNextPrefab = pathSpacing;
+                pathPools[currentPrefab] = new List<GameObject>();
+                poolUsage[currentPrefab] = 0;
+            }
 
-                // ZMĚNA: Průchod jednotlivými úseky NavMesh cesty
-                for (int j = 0; j < navPath.corners.Length - 1; j++)
+            foreach (Transform target in req.targetPoints)
+            {
+                if (target == null) continue;
+
+                if (NavMesh.CalculatePath(playerTransform.position, target.position, NavMesh.AllAreas, navPath))
                 {
-                    Vector3 currentCorner = navPath.corners[j];
-                    Vector3 nextCorner = navPath.corners[j + 1];
-                    Vector3 direction = (nextCorner - currentCorner).normalized;
-                    float segmentDist = Vector3.Distance(currentCorner, nextCorner);
-                    float angle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;
+                    float distanceToNextPrefab = pathSpacing;
+                    float totalDistanceRendered = 0f;
 
-                    while (segmentDist >= distanceToNextPrefab)
+                    for (int j = 0; j < navPath.corners.Length - 1; j++)
                     {
-                        currentCorner += direction * distanceToNextPrefab;
-                        segmentDist -= distanceToNextPrefab;
+                        Vector3 currentCorner = navPath.corners[j];
+                        Vector3 nextCorner = navPath.corners[j + 1];
+                        Vector3 direction = (nextCorner - currentCorner).normalized;
+                        float segmentDist = Vector3.Distance(currentCorner, nextCorner);
+                        float angle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;
 
-                        if (poolIndex >= pathPool.Count)
+                        while (segmentDist >= distanceToNextPrefab && totalDistanceRendered < maxPathDistance)
                         {
-                            GameObject newObj = Instantiate(pathPrefab, transform);
-                            newObj.SetActive(false);
-                            pathPool.Add(newObj);
+                            currentCorner += direction * distanceToNextPrefab;
+                            segmentDist -= distanceToNextPrefab;
+                            totalDistanceRendered += pathSpacing;
+
+                            int usageIndex = poolUsage[currentPrefab];
+
+                            if (usageIndex >= pathPools[currentPrefab].Count)
+                            {
+                                GameObject newObj = Instantiate(currentPrefab, transform);
+                                newObj.SetActive(false);
+                                pathPools[currentPrefab].Add(newObj);
+                            }
+
+                            GameObject objToPlace = pathPools[currentPrefab][usageIndex];
+                            objToPlace.SetActive(true);
+                            objToPlace.transform.position = currentCorner;
+                            objToPlace.transform.rotation = Quaternion.Euler(0, 0, angle);
+
+                            poolUsage[currentPrefab]++;
+                            distanceToNextPrefab = pathSpacing;
                         }
 
-                        pathPool[poolIndex].SetActive(true);
-                        pathPool[poolIndex].transform.position = currentCorner;
-                        pathPool[poolIndex].transform.rotation = Quaternion.Euler(0, 0, angle);
-                        poolIndex++;
+                        if (totalDistanceRendered >= maxPathDistance)
+                        {
+                            break;
+                        }
 
-                        distanceToNextPrefab = pathSpacing;
+                        distanceToNextPrefab -= segmentDist;
                     }
-                    distanceToNextPrefab -= segmentDist; // Zbytek vzdálenosti do dalšího úseku
                 }
             }
         }
 
-        for (int i = poolIndex; i < pathPool.Count; i++)
+        // ZMĚNA: Vypnutí všech aktuálně nepoužitých prefabů ve všech poolech
+        foreach (var kvp in pathPools)
         {
-            pathPool[i].SetActive(false);
+            GameObject prefabKey = kvp.Key;
+            List<GameObject> pool = kvp.Value;
+            int usedCount = poolUsage.ContainsKey(prefabKey) ? poolUsage[prefabKey] : 0;
+
+            for (int i = usedCount; i < pool.Count; i++)
+            {
+                pool[i].SetActive(false);
+            }
         }
     }
 
     private void DeactivatePath()
     {
-        foreach (var obj in pathPool)
+        if (pathPools == null) return;
+
+        foreach (var pool in pathPools.Values)
         {
-            obj.SetActive(false);
+            foreach (var obj in pool)
+            {
+                obj.SetActive(false);
+            }
         }
     }
 
@@ -240,13 +372,19 @@ public class TutorialManager : MonoBehaviour
 
         foreach (var step in steps)
         {
-            if (step.targetPoints != null)
+            if (step.requirements != null)
             {
-                foreach (var target in step.targetPoints)
+                foreach (var req in step.requirements)
                 {
-                    if (target != null)
+                    if (req.targetPoints != null)
                     {
-                        Gizmos.DrawWireSphere(target.position, step.hideDistance);
+                        foreach (var target in req.targetPoints)
+                        {
+                            if (target != null)
+                            {
+                                Gizmos.DrawWireSphere(target.position, step.hideDistance);
+                            }
+                        }
                     }
                 }
             }
