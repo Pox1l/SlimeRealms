@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using TMPro;
 using System.Collections.Generic;
+using UnityEngine.AI; // PŘIDÁNO: Knihovna pro NavMesh
 
 public class TutorialManager : MonoBehaviour
 {
@@ -11,39 +12,40 @@ public class TutorialManager : MonoBehaviour
     public GameObject tutorialPanel;
     public TextMeshProUGUI instructionTextUI;
 
-    [Header("Nastavení Šipky (Pointer)")]
+    [Header("Hráč a Vlastní Cesta")]
     [Tooltip("Hráč se najde automaticky podle tagu 'Player'")]
-    public Transform playerTransform;      // Hráč, kolem kterého se točí šipka
-    public Transform pointerTransform;     // Objekt šipky ve světě
-    public SpriteRenderer pointerRenderer; // SpriteRenderer šipky pro změnu obrázku
-    public float pointerOffset = 1.5f;     // Jak daleko od hráče šipka krouží
+    public Transform playerTransform;
+
+    public GameObject pathPrefab;
+    public float pathSpacing = 1f;
+    private List<GameObject> pathPool;
+
+    private NavMeshPath navPath; // PŘIDÁNO: Proměnná pro uchování vypočítané cesty
 
     [System.Serializable]
     public class TutorialStep
     {
         [TextArea] public string instructionText;
 
-        [Header("Zóny a Ukazatel")]
-        public Sprite customPointerSprite;     // Sprite, který se má ukázat (např. zelená šipka)
-        public List<Transform> targetZones;    // Seznam zón (ukáže na nejbližší)
-        public float hideArrowDistance = 3f;   // Vzdálenost, kdy šipka zmizí (Range)
+        [Header("Zóny")]
+        public List<Transform> targetPoints;
+        public float hideDistance = 3f;
 
         [Header("Podmínky pro splnění")]
-        public string requiredEventName;       // Např. "ZabitGreenSlime"
-        public int requiredEventCount = 1;     // Kolikrát se to musí stát (např. 4)
+        public string requiredEventName;
+        public int requiredEventCount = 1;
     }
 
     [Header("Kroky tutoriálu")]
     public List<TutorialStep> steps;
 
     private TutorialData currentData;
-    private int currentEventProgress = 0;      // Počítá, kolik slimů už hráč zabil v aktuálním kroku
+    private int currentEventProgress = 0;
 
     private void Awake()
     {
         Instance = this;
 
-        // PŘIDÁNO: Automatické hledání hráče podle tagu "Player"
         GameObject player = GameObject.FindGameObjectWithTag("Player");
         if (player != null)
         {
@@ -53,6 +55,9 @@ public class TutorialManager : MonoBehaviour
         {
             Debug.LogWarning("Objekt s tagem 'Player' nebyl v této scéně nalezen!");
         }
+
+        pathPool = new List<GameObject>();
+        navPath = new NavMeshPath(); // PŘIDÁNO: Inicializace NavMeshPath
     }
 
     private void Start()
@@ -67,7 +72,7 @@ public class TutorialManager : MonoBehaviour
         else
         {
             if (tutorialPanel != null) tutorialPanel.SetActive(false);
-            if (pointerTransform != null) pointerTransform.gameObject.SetActive(false);
+            DeactivatePath();
         }
     }
 
@@ -75,10 +80,9 @@ public class TutorialManager : MonoBehaviour
     {
         if (currentData.isCompleted || currentData.currentStepIndex >= steps.Count) return;
 
-        UpdatePointer();
+        UpdateCustomPath();
     }
 
-    // Tuto funkci zavoláš např. po zabití slima
     public void TriggerEvent(string eventName)
     {
         if (currentData.isCompleted || currentData.currentStepIndex >= steps.Count) return;
@@ -88,7 +92,7 @@ public class TutorialManager : MonoBehaviour
         if (currentStep.requiredEventName == eventName)
         {
             currentEventProgress++;
-            UpdateInstructionText(); // Aktualizuje text (např. 1/4)
+            UpdateInstructionText();
 
             if (currentEventProgress >= currentStep.requiredEventCount)
             {
@@ -117,15 +121,7 @@ public class TutorialManager : MonoBehaviour
     private void ShowCurrentStep()
     {
         tutorialPanel.SetActive(true);
-        TutorialStep step = steps[currentData.currentStepIndex];
-
         UpdateInstructionText();
-
-        // Nastavení vzhledu šipky
-        if (pointerRenderer != null && step.customPointerSprite != null)
-        {
-            pointerRenderer.sprite = step.customPointerSprite;
-        }
     }
 
     private void UpdateInstructionText()
@@ -133,7 +129,6 @@ public class TutorialManager : MonoBehaviour
         TutorialStep step = steps[currentData.currentStepIndex];
         if (instructionTextUI != null)
         {
-            // Pokud je potřeba víc eventů (např. zabít 4 slimy), ukáže to progres "Zabij slimy: 1/4"
             if (step.requiredEventCount > 1)
             {
                 instructionTextUI.text = $"{step.instructionText} ({currentEventProgress}/{step.requiredEventCount})";
@@ -145,48 +140,86 @@ public class TutorialManager : MonoBehaviour
         }
     }
 
-    private void UpdatePointer()
+    private void UpdateCustomPath()
     {
         TutorialStep step = steps[currentData.currentStepIndex];
 
-        if (playerTransform == null || pointerTransform == null || step.targetZones.Count == 0)
+        if (playerTransform == null || step.targetPoints == null || step.targetPoints.Count == 0 || pathPrefab == null)
         {
-            if (pointerTransform != null) pointerTransform.gameObject.SetActive(false);
+            DeactivatePath();
             return;
         }
 
-        // Najít nejbližší zónu ze seznamu
-        Transform closestZone = null;
-        float minDistance = float.MaxValue;
-
-        foreach (Transform zone in step.targetZones)
+        bool isPlayerInAnyZone = false;
+        foreach (Transform target in step.targetPoints)
         {
-            if (zone == null) continue;
-            float dist = Vector2.Distance(playerTransform.position, zone.position);
-            if (dist < minDistance)
+            if (target != null && Vector3.Distance(playerTransform.position, target.position) <= step.hideDistance)
             {
-                minDistance = dist;
-                closestZone = zone;
+                isPlayerInAnyZone = true;
+                break;
             }
         }
 
-        if (closestZone == null) return;
-
-        // Skrytí šipky, pokud je hráč dost blízko k nejbližší zóně
-        if (minDistance <= step.hideArrowDistance)
+        if (isPlayerInAnyZone)
         {
-            pointerTransform.gameObject.SetActive(false);
+            DeactivatePath();
+            return;
         }
-        else
+
+        int poolIndex = 0;
+        foreach (Transform target in step.targetPoints)
         {
-            pointerTransform.gameObject.SetActive(true);
+            if (target == null) continue;
 
-            // Výpočet úhlu a pozice pro 2D šipku
-            Vector3 dir = (closestZone.position - playerTransform.position).normalized;
-            float angle = Mathf.Atan2(dir.y, dir.x) * Mathf.Rad2Deg;
+            // ZMĚNA: Výpočet cesty pomocí NavMesh
+            if (NavMesh.CalculatePath(playerTransform.position, target.position, NavMesh.AllAreas, navPath))
+            {
+                float distanceToNextPrefab = pathSpacing;
 
-            pointerTransform.rotation = Quaternion.AngleAxis(angle, Vector3.forward);
-            pointerTransform.position = playerTransform.position + dir * pointerOffset;
+                // ZMĚNA: Průchod jednotlivými úseky NavMesh cesty
+                for (int j = 0; j < navPath.corners.Length - 1; j++)
+                {
+                    Vector3 currentCorner = navPath.corners[j];
+                    Vector3 nextCorner = navPath.corners[j + 1];
+                    Vector3 direction = (nextCorner - currentCorner).normalized;
+                    float segmentDist = Vector3.Distance(currentCorner, nextCorner);
+                    float angle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;
+
+                    while (segmentDist >= distanceToNextPrefab)
+                    {
+                        currentCorner += direction * distanceToNextPrefab;
+                        segmentDist -= distanceToNextPrefab;
+
+                        if (poolIndex >= pathPool.Count)
+                        {
+                            GameObject newObj = Instantiate(pathPrefab, transform);
+                            newObj.SetActive(false);
+                            pathPool.Add(newObj);
+                        }
+
+                        pathPool[poolIndex].SetActive(true);
+                        pathPool[poolIndex].transform.position = currentCorner;
+                        pathPool[poolIndex].transform.rotation = Quaternion.Euler(0, 0, angle);
+                        poolIndex++;
+
+                        distanceToNextPrefab = pathSpacing;
+                    }
+                    distanceToNextPrefab -= segmentDist; // Zbytek vzdálenosti do dalšího úseku
+                }
+            }
+        }
+
+        for (int i = poolIndex; i < pathPool.Count; i++)
+        {
+            pathPool[i].SetActive(false);
+        }
+    }
+
+    private void DeactivatePath()
+    {
+        foreach (var obj in pathPool)
+        {
+            obj.SetActive(false);
         }
     }
 
@@ -196,6 +229,27 @@ public class TutorialManager : MonoBehaviour
         if (saveSystem != null) saveSystem.Save(currentData);
 
         if (tutorialPanel != null) tutorialPanel.SetActive(false);
-        if (pointerTransform != null) pointerTransform.gameObject.SetActive(false);
+        DeactivatePath();
+    }
+
+    private void OnDrawGizmosSelected()
+    {
+        if (steps == null) return;
+
+        Gizmos.color = Color.yellow;
+
+        foreach (var step in steps)
+        {
+            if (step.targetPoints != null)
+            {
+                foreach (var target in step.targetPoints)
+                {
+                    if (target != null)
+                    {
+                        Gizmos.DrawWireSphere(target.position, step.hideDistance);
+                    }
+                }
+            }
+        }
     }
 }
