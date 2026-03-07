@@ -76,6 +76,7 @@ GameObject:
   - component: {fileID: 2052632965778886753}
   - component: {fileID: 2257313909771805999}
   - component: {fileID: 8478594423381151928}
+  - component: {fileID: -3914635879557805548}
   - component: {fileID: 7157873963281999722}
   - component: {fileID: 5259525760176765320}
   - component: {fileID: 8644168039013196587}
@@ -232,6 +233,19 @@ MonoBehaviour:
       Data3: -1310265705
       Data4: 691238766
     Path: event:/enemyHurtNormal
+--- !u!114 &-3914635879557805548
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4817493094607594389}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d1018e7059fb1bc42a2c4a0f9f0fb1ae, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  tutorialEventName: greenSlime
 --- !u!114 &7157873963281999722
 MonoBehaviour:
   m_ObjectHideFlags: 0

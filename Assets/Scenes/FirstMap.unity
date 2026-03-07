@@ -47615,7 +47615,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &1042120369
 Transform:
   m_ObjectHideFlags: 0
@@ -50291,6 +50291,55 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 335516383251008997, guid: 815c9d1a79168334ea095e614d134d3f, type: 3}
   m_PrefabInstance: {fileID: 1850948346}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &1164177721
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1164177722}
+  - component: {fileID: 1164177723}
+  m_Layer: 0
+  m_Name: simpleSave
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &1164177722
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1164177721}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1844834203}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0.5, y: 0.5}
+  m_AnchorMax: {x: 0.5, y: 0.5}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 100, y: 100}
+  m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &1164177723
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1164177721}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8dbef8444aa6e9d43ba7d184d82bb8ab, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  saveFileName: simpleTutorial.json
 --- !u!1 &1175144458
 GameObject:
   m_ObjectHideFlags: 0
@@ -52097,7 +52146,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &1249337001
 RectTransform:
   m_ObjectHideFlags: 0
@@ -52378,7 +52427,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &1267136600
 Transform:
   m_ObjectHideFlags: 0
@@ -414060,7 +414109,6 @@ GameObject:
   - component: {fileID: 1844834205}
   - component: {fileID: 1844834204}
   - component: {fileID: 1844834208}
-  - component: {fileID: 1844834207}
   - component: {fileID: 1844834209}
   m_Layer: 0
   m_Name: TutorialCanvas
@@ -414083,6 +414131,8 @@ RectTransform:
   m_Children:
   - {fileID: 1249337001}
   - {fileID: 1452864335}
+  - {fileID: 1164177722}
+  - {fileID: 2083308158}
   m_Father: {fileID: 192838133}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
@@ -414153,18 +414203,6 @@ Canvas:
   m_SortingLayerID: 0
   m_SortingOrder: 15
   m_TargetDisplay: 0
---- !u!114 &1844834207
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1844834202}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8dbef8444aa6e9d43ba7d184d82bb8ab, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!114 &1844834208
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -414177,7 +414215,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b2b624de0b1c4b84694b956c959fc901, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  saveSystem: {fileID: 1844834207}
+  saveSystem: {fileID: 1164177723}
   slides:
   - description: Welcome to Slime Realms! You are the Exceptional Slime, the last
       hope for these lands. Your destiny is to journey through three forgotten worlds,
@@ -414220,25 +414258,27 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1844834202}
-  m_Enabled: 0
+  m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: dc9cc516ccae91b4b90a64746adf5beb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  saveSystem: {fileID: 1844834207}
+  saveSystem: {fileID: 2083308159}
   tutorialPanel: {fileID: 1249337000}
   instructionTextUI: {fileID: 894844335}
   playerTransform: {fileID: 0}
-  pointerTransform: {fileID: 0}
-  pointerRenderer: {fileID: 0}
+  pointerTransform: {fileID: 3367841343392066764, guid: 43366adc5480ce74aa0b1cdbfeb3676d, type: 3}
+  pointerRenderer: {fileID: 8986188354065737418, guid: 43366adc5480ce74aa0b1cdbfeb3676d, type: 3}
   pointerOffset: 1.5
   steps:
-  - instructionText: 'follow the line to enemy zone '
+  - instructionText: follow the line to enemy zone, and kill green and red slimes
     customPointerSprite: {fileID: 21300000, guid: 5091e1ee2c25cdc4e854fb919053257f, type: 3}
-    targetZones: []
-    hideArrowDistance: 3
-    requiredEventName: lineFollow
-    requiredEventCount: 1
+    targetZones:
+    - {fileID: 2076173316}
+    - {fileID: 665854627}
+    hideArrowDistance: 2
+    requiredEventName: greenSlime
+    requiredEventCount: 4
   - instructionText: 'follow the line to enemy zone '
     customPointerSprite: {fileID: 0}
     targetZones: []
@@ -422813,6 +422853,55 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: d496b56af92fb8748a10cd1aaacee213, type: 3}
+--- !u!1 &2083308157
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 2083308158}
+  - component: {fileID: 2083308159}
+  m_Layer: 0
+  m_Name: mainSave
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &2083308158
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2083308157}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1844834203}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0.5, y: 0.5}
+  m_AnchorMax: {x: 0.5, y: 0.5}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 100, y: 100}
+  m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &2083308159
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2083308157}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8dbef8444aa6e9d43ba7d184d82bb8ab, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  saveFileName: mainTutorial.json
 --- !u!1 &2087627747
 GameObject:
   m_ObjectHideFlags: 0

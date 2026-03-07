@@ -12,6 +12,7 @@ public class TutorialManager : MonoBehaviour
     public TextMeshProUGUI instructionTextUI;
 
     [Header("Nastavení Šipky (Pointer)")]
+    [Tooltip("Hráč se najde automaticky podle tagu 'Player'")]
     public Transform playerTransform;      // Hráč, kolem kterého se točí šipka
     public Transform pointerTransform;     // Objekt šipky ve světě
     public SpriteRenderer pointerRenderer; // SpriteRenderer šipky pro změnu obrázku
@@ -41,6 +42,17 @@ public class TutorialManager : MonoBehaviour
     private void Awake()
     {
         Instance = this;
+
+        // PŘIDÁNO: Automatické hledání hráče podle tagu "Player"
+        GameObject player = GameObject.FindGameObjectWithTag("Player");
+        if (player != null)
+        {
+            playerTransform = player.transform;
+        }
+        else
+        {
+            Debug.LogWarning("Objekt s tagem 'Player' nebyl v této scéně nalezen!");
+        }
     }
 
     private void Start()

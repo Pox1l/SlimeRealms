@@ -13,6 +13,7 @@ GameObject:
   - component: {fileID: 3272120863718602785}
   - component: {fileID: 5235432153554954610}
   - component: {fileID: 8361880990279726757}
+  - component: {fileID: -1289704560320341953}
   - component: {fileID: 7496295527222973402}
   - component: {fileID: 3834556490854062084}
   - component: {fileID: 3471562253165774309}
@@ -162,6 +163,26 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   maxHealth: 20
+  hitSound:
+    Guid:
+      Data1: 0
+      Data2: 0
+      Data3: 0
+      Data4: 0
+    Path: 
+--- !u!114 &-1289704560320341953
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6118897555543749394}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d1018e7059fb1bc42a2c4a0f9f0fb1ae, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  tutorialEventName: redSlime
 --- !u!114 &7496295527222973402
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -201,6 +222,13 @@ MonoBehaviour:
   keepDistance: 3
   attackCooldown: 2
   aimLineLength: 10
+  shootSound:
+    Guid:
+      Data1: 0
+      Data2: 0
+      Data3: 0
+      Data4: 0
+    Path: 
   whatIsTarget:
     serializedVersion: 2
     m_Bits: 520
