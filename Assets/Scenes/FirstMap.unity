@@ -657,6 +657,8 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 45618890}
+  - component: {fileID: 45618892}
+  - component: {fileID: 45618891}
   m_Layer: 0
   m_Name: gateZone
   m_TagString: Untagged
@@ -679,6 +681,54 @@ Transform:
   m_Children: []
   m_Father: {fileID: 1267136600}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &45618891
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 45618889}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7642337364ed20b4191b5a2ad63974e6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  tutorialEventName: barrZone
+--- !u!58 &45618892
+CircleCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 45618889}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_ForceSendLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ForceReceiveLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ContactCaptureLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_CallbackLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_IsTrigger: 1
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 0, y: 0}
+  serializedVersion: 2
+  m_Radius: 1.22
 --- !u!224 &46878057 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 6887161942820759630, guid: fdf2ba860b9e63d47a28f706d34d5880, type: 3}
@@ -1795,14 +1845,14 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
   m_Color: {r: 0.34901962, g: 0.34901962, b: 0.34901962, a: 0.33333334}
-  m_RaycastTarget: 1
+  m_RaycastTarget: 0
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 0}
-  m_Type: 0
+  m_Sprite: {fileID: 7312136985605139957, guid: 804dcc253fff44942ad276e1814f7836, type: 3}
+  m_Type: 1
   m_PreserveAspect: 0
   m_FillCenter: 1
   m_FillMethod: 4
@@ -1810,7 +1860,7 @@ MonoBehaviour:
   m_FillClockwise: 1
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
-  m_PixelsPerUnitMultiplier: 1
+  m_PixelsPerUnitMultiplier: 0.1
 --- !u!222 &113003015
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -399978,6 +400028,8 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1782918647}
+  - component: {fileID: 1782918649}
+  - component: {fileID: 1782918648}
   m_Layer: 0
   m_Name: crystalZone
   m_TagString: Untagged
@@ -399994,12 +400046,60 @@ Transform:
   m_GameObject: {fileID: 1782918646}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 9.61, y: -1.29, z: 0}
+  m_LocalPosition: {x: 9.54, y: -1.22, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 1267136600}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1782918648
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1782918646}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7642337364ed20b4191b5a2ad63974e6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  tutorialEventName: crystalZone
+--- !u!58 &1782918649
+CircleCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1782918646}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_ForceSendLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ForceReceiveLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ContactCaptureLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_CallbackLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_IsTrigger: 1
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 0, y: 0}
+  serializedVersion: 2
+  m_Radius: 1.73
 --- !u!1 &1785565808
 GameObject:
   m_ObjectHideFlags: 0
@@ -414360,6 +414460,7 @@ MonoBehaviour:
     requirements:
     - eventName: greenSlime
       displayName: Grass Slime
+      showProgressText: 1
       requiredCount: 4
       customPathPrefab: {fileID: 0}
       targetPoints:
@@ -414367,26 +414468,29 @@ MonoBehaviour:
       - {fileID: 1717077554}
     - eventName: redSlime
       displayName: Rose Slime
+      showProgressText: 1
       requiredCount: 4
       customPathPrefab: {fileID: 8648625669234347515, guid: b10337903c769754482f53609b0946d4, type: 3}
       targetPoints:
       - {fileID: 665854627}
       - {fileID: 1989726778}
-  - instructionText: 'show crystal '
-    hideDistance: 3.17
+  - instructionText: follow the line to crystal & then open it.
+    hideDistance: 1.57
     requirements:
-    - eventName: 
-      displayName: 
-      requiredCount: 0
+    - eventName: crystalZone
+      displayName: Go to crystal
+      showProgressText: 0
+      requiredCount: 1
       customPathPrefab: {fileID: 8648625669234347515, guid: 36234397c81a7584e84c0c19df68c08a, type: 3}
       targetPoints:
       - {fileID: 1782918647}
   - instructionText: 'show gate to boss fight '
     hideDistance: 2.58
     requirements:
-    - eventName: 
-      displayName: 
-      requiredCount: 0
+    - eventName: barrZone
+      displayName: Barricade
+      showProgressText: 0
+      requiredCount: 1
       customPathPrefab: {fileID: 0}
       targetPoints:
       - {fileID: 45618890}

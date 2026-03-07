@@ -21,7 +21,6 @@ public class TutorialManager : MonoBehaviour
     [Tooltip("Maximální vzdálenost, na kterou se šipky vykreslí (šetří výkon)")]
     public float maxPathDistance = 15f;
 
-    // ZMĚNA: Používáme Dictionary pro podporu více různých prefabů najednou
     private Dictionary<GameObject, List<GameObject>> pathPools;
     private Dictionary<GameObject, int> poolUsage;
 
@@ -32,10 +31,14 @@ public class TutorialManager : MonoBehaviour
     {
         public string eventName;
         public string displayName;
+
+        [Header("Nastavení počítadla")]
+        [Tooltip("Odškrtni, pokud nechceš ukazovat čísla jako 0/1 (např. u dojdi do zóny)")]
+        public bool showProgressText = true; // PŘIDÁNO: Toggle
         public int requiredCount = 1;
 
         [Header("Zóny a Ukazatel pro tento úkol")]
-        public GameObject customPathPrefab; // PŘIDÁNO: Volitelný custom ukazatel pro tento specifický cíl
+        public GameObject customPathPrefab;
         public List<Transform> targetPoints;
     }
 
@@ -202,11 +205,19 @@ public class TutorialManager : MonoBehaviour
 
                     if (current >= req.requiredCount)
                     {
+                        // ZMĚNA: Přidán text "DONE" zpět
                         finalText += $"\n<color=green><s>{nameToDisplay}: DONE</s></color>";
                     }
                     else
                     {
-                        finalText += $"\n{nameToDisplay}: {current}/{req.requiredCount}";
+                        if (req.showProgressText)
+                        {
+                            finalText += $"\n{nameToDisplay}: {current}/{req.requiredCount}";
+                        }
+                        else
+                        {
+                            finalText += $"\n{nameToDisplay}";
+                        }
                     }
                 }
             }
@@ -219,7 +230,6 @@ public class TutorialManager : MonoBehaviour
     {
         TutorialStep step = steps[currentData.currentStepIndex];
 
-        // ZMĚNA: Kontrolujeme i defaultní prefab, pokud není nastavený, cesty se vůbec nebudou řešit
         if (playerTransform == null || step.requirements == null || pathPrefab == null)
         {
             DeactivatePath();
@@ -252,7 +262,6 @@ public class TutorialManager : MonoBehaviour
             return;
         }
 
-        // ZMĚNA: Resetování počítadla použití pro všechny pooly
         poolUsage.Clear();
         foreach (var key in pathPools.Keys)
         {
@@ -266,10 +275,8 @@ public class TutorialManager : MonoBehaviour
 
             if (req.targetPoints == null) continue;
 
-            // ZMĚNA: Určení, který prefab se má pro tento úkol použít
             GameObject currentPrefab = req.customPathPrefab != null ? req.customPathPrefab : pathPrefab;
 
-            // Inicializace poolu pro tento prefab, pokud ještě neexistuje
             if (!pathPools.ContainsKey(currentPrefab))
             {
                 pathPools[currentPrefab] = new List<GameObject>();
@@ -328,7 +335,6 @@ public class TutorialManager : MonoBehaviour
             }
         }
 
-        // ZMĚNA: Vypnutí všech aktuálně nepoužitých prefabů ve všech poolech
         foreach (var kvp in pathPools)
         {
             GameObject prefabKey = kvp.Key;
