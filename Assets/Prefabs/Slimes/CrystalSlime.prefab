@@ -164,7 +164,7 @@ MonoBehaviour:
   moveSpeed: 1.5
   stopDistance: 0.1
   aggroRange: 6
-  chaseRange: 8
+  chaseRange: 10
   movementSound:
     Guid:
       Data1: -1993235619
@@ -198,7 +198,7 @@ MonoBehaviour:
   aimLine: {fileID: 8289472638285987817}
   attackRange: 5.5
   keepDistance: 4.5
-  chaseRange: 8
+  chaseRange: 10
   attackCooldown: 2
   aimLineLength: 10
   shotCount: 6
@@ -235,6 +235,8 @@ MonoBehaviour:
       Data3: 0
       Data4: 0
     Path: 
+  deathEffectPrefab: {fileID: 1047422294777983092, guid: f62fa86307f8d0f4bab1c359a5931294, type: 3}
+  deathEffectSpawnRotation: {x: 90, y: 0, z: 0}
 --- !u!114 &1015148322724249119
 MonoBehaviour:
   m_ObjectHideFlags: 0

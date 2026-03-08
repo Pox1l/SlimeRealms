@@ -233,6 +233,8 @@ MonoBehaviour:
       Data3: -1310265705
       Data4: 691238766
     Path: event:/enemyHurtNormal
+  deathEffectPrefab: {fileID: 8003602411015613023, guid: 2101f9a3e3ab5fb478f0b1ab77d65a09, type: 3}
+  deathEffectSpawnRotation: {x: 90, y: 0, z: 0}
 --- !u!114 &-3914635879557805548
 MonoBehaviour:
   m_ObjectHideFlags: 0
