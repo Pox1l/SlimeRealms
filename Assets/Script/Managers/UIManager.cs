@@ -24,6 +24,9 @@ public class UIManager : MonoBehaviour
     public GameObject tutorialRoot;
     public bool isTutorialOpen { get; private set; } = false;
 
+    [Header("--- TUTORIAL GAME UI ---")]
+    public GameObject tutorialPanelGame;
+
     [Header("--- GAME MENU (Inventář) ---")]
     public GameObject centralMenuCanvas;
     public GameObject centralMenuRoot;
@@ -40,7 +43,6 @@ public class UIManager : MonoBehaviour
     public GameObject pauseMenuCanvas;
     public GameObject pauseMenuRoot;
 
-    // --- PŘIDÁNO: Proměnná pro tlačítko resetu pozice ---
     private Button resetPositionBtn;
 
     [Header("--- SETTINGS MENU ---")]
@@ -179,6 +181,7 @@ public class UIManager : MonoBehaviour
     void ResetReferences()
     {
         tutorialCanvas = null; tutorialRoot = null;
+        tutorialPanelGame = null;
         isTutorialOpen = false;
 
         centralMenuCanvas = null; centralMenuRoot = null;
@@ -189,7 +192,6 @@ public class UIManager : MonoBehaviour
         bossMenuCanvas = null; bossScript = null;
         settingsScript = null;
 
-        // --- PŘIDÁNO: Reset reference na tlačítko ---
         resetPositionBtn = null;
 
         isGameMenuOpen = false;
@@ -271,11 +273,18 @@ public class UIManager : MonoBehaviour
             foreach (Transform t in tutorialCanvas.GetComponentsInChildren<Transform>(true))
             {
                 if (t.CompareTag("TutorialRoot")) tutorialRoot = t.gameObject;
+                else if (t.CompareTag("TutorialPanel"))
+                {
+                    tutorialPanelGame = t.gameObject;
+                    if (tutorialPanelGame.activeSelf)
+                    {
+                        tutorialPanelGame.SetActive(false);
+                    }
+                }
                 else if (t.CompareTag("CloseBTN")) SetupButton(t, CloseTutorial);
             }
         }
 
-        // ... zbytek hledání Canvasů zůstává stejný ...
         GameObject cCanvas = GameObject.FindGameObjectWithTag("CentralMenuCanvas");
         if (cCanvas != null) { centralMenuCanvas = cCanvas; FindGameMenuElements(centralMenuCanvas.transform); }
         GameObject pCanvas = GameObject.FindGameObjectWithTag("PauseMenuCanvas");
@@ -303,7 +312,6 @@ public class UIManager : MonoBehaviour
         else return;
         isTutorialOpen = true;
 
-        // --- PŘIDÁNO: Deaktivace tlačítka ---
         if (resetPositionBtn != null) resetPositionBtn.interactable = false;
 
         Time.timeScale = 0f;
@@ -315,14 +323,25 @@ public class UIManager : MonoBehaviour
     {
         isTutorialOpen = false;
 
-        // --- PŘIDÁNO: Aktivace tlačítka ---
         if (resetPositionBtn != null) resetPositionBtn.interactable = true;
 
         if (tutorialRoot != null) tutorialRoot.SetActive(false);
         else if (tutorialCanvas != null) tutorialCanvas.SetActive(false);
+
+        // Zobrazení panelu jen pokud tutoriál reálně probíhá a neskončil
+        if (tutorialPanelGame != null && TutorialManager.Instance != null && !TutorialManager.Instance.IsCompleted)
+        {
+            tutorialPanelGame.SetActive(true);
+        }
+
         Time.timeScale = 1f;
         if (hudUI != null) hudUI.SetActive(true);
         RefreshBossVisibility();
+    }
+
+    public void HideTutorialPanelGame()
+    {
+        if (tutorialPanelGame != null) tutorialPanelGame.SetActive(false);
     }
 
     void FindSettingsElements(Transform root)
@@ -342,7 +361,6 @@ public class UIManager : MonoBehaviour
             if (t.CompareTag("ResumeBTN") || t.name == "ReturnBTN") SetupButton(t, ResumeGame);
             else if (t.CompareTag("SettingsBTN") || t.name == "OptionBTN") SetupButton(t, OpenSettings);
             else if (t.CompareTag("QuitBTN") || t.name.Contains("Quit")) SetupButton(t, QuitGame);
-            // --- PŘIDÁNO: Uložení reference na tlačítko a jeho nastavení ---
             else if (t.CompareTag("ResetBTN") || t.name == "ResetPozBTN")
             {
                 resetPositionBtn = t.GetComponent<Button>();
@@ -414,6 +432,10 @@ public class UIManager : MonoBehaviour
         isPaused = true; Time.timeScale = 0;
         if (hudUI != null) hudUI.SetActive(false);
         if (centralMenuRoot != null) centralMenuRoot.SetActive(false);
+
+        // Skrýt tutorial panel při pauze
+        if (tutorialPanelGame != null) tutorialPanelGame.SetActive(false);
+
         isGameMenuOpen = false;
         if (isTutorialOpen) { if (tutorialRoot != null) tutorialRoot.SetActive(false); else if (tutorialCanvas != null) tutorialCanvas.SetActive(false); }
         pauseMenuRoot.SetActive(true); if (settingsMenuRoot != null) settingsMenuRoot.SetActive(false); RefreshBossVisibility();
@@ -426,6 +448,13 @@ public class UIManager : MonoBehaviour
         if (settingsMenuRoot != null) settingsMenuRoot.SetActive(false);
         if (centralMenuRoot != null) centralMenuRoot.SetActive(false);
         if (crystalMenuRoot != null) crystalMenuRoot.SetActive(false);
+
+        // Zobrazit tutorial panel zpět, pokud má běžet
+        if (tutorialPanelGame != null && TutorialManager.Instance != null && !TutorialManager.Instance.IsCompleted && !isTutorialOpen)
+        {
+            tutorialPanelGame.SetActive(true);
+        }
+
         if (isTutorialOpen) { if (tutorialRoot != null) tutorialRoot.SetActive(true); else if (tutorialCanvas != null) tutorialCanvas.SetActive(true); Time.timeScale = 0f; if (hudUI != null) hudUI.SetActive(true); }
         else { Time.timeScale = 1; if (hudUI != null) hudUI.SetActive(true); }
         RefreshBossVisibility();
@@ -434,10 +463,68 @@ public class UIManager : MonoBehaviour
     public void OpenSettings() { if (pauseMenuRoot) pauseMenuRoot.SetActive(false); if (settingsMenuRoot) settingsMenuRoot.SetActive(true); if (settingsScript) settingsScript.ResetTabs(); }
     public void OpenPauseMenu() { if (pauseMenuRoot) pauseMenuRoot.SetActive(true); if (settingsMenuRoot) settingsMenuRoot.SetActive(false); }
     public void ToggleCrystalUI() { if (isCrystalUIOpen) CloseCrystalMenu(); else OpenCrystalMenu(); }
-    public void OpenCrystalMenu() { if (crystalMenuRoot == null) return; isCrystalUIOpen = true; crystalMenuRoot.SetActive(true); Time.timeScale = 0f; if (hudUI != null) hudUI.SetActive(false); if (isGameMenuOpen) CloseGameMenu(); RefreshBossVisibility(); }
-    public void CloseCrystalMenu() { isCrystalUIOpen = false; if (crystalMenuRoot != null) crystalMenuRoot.SetActive(false); Time.timeScale = 1f; if (hudUI != null) hudUI.SetActive(true); RefreshBossVisibility(); }
-    public void ToggleGameMenu() { if (centralMenuRoot == null) return; isGameMenuOpen = !isGameMenuOpen; if (isGameMenuOpen) { centralMenuRoot.SetActive(true); Time.timeScale = 0; if (hudUI != null) hudUI.SetActive(false); OpenPanel(inventoryPanel); } else CloseGameMenu(); RefreshBossVisibility(); }
-    public void CloseGameMenu() { isGameMenuOpen = false; Time.timeScale = 1; if (hudUI != null) hudUI.SetActive(true); if (centralMenuRoot != null) centralMenuRoot.SetActive(false); RefreshBossVisibility(); }
+    public void OpenCrystalMenu()
+    {
+        if (crystalMenuRoot == null) return;
+        isCrystalUIOpen = true;
+        crystalMenuRoot.SetActive(true);
+        Time.timeScale = 0f;
+        if (hudUI != null) hudUI.SetActive(false);
+
+        // Skrýt tutorial panel
+        if (tutorialPanelGame != null) tutorialPanelGame.SetActive(false);
+
+        if (isGameMenuOpen) CloseGameMenu();
+        RefreshBossVisibility();
+    }
+    public void CloseCrystalMenu()
+    {
+        isCrystalUIOpen = false;
+        if (crystalMenuRoot != null) crystalMenuRoot.SetActive(false);
+        Time.timeScale = 1f;
+        if (hudUI != null) hudUI.SetActive(true);
+
+        // Zobrazit tutorial panel
+        if (tutorialPanelGame != null && TutorialManager.Instance != null && !TutorialManager.Instance.IsCompleted)
+        {
+            tutorialPanelGame.SetActive(true);
+        }
+
+        RefreshBossVisibility();
+    }
+    public void ToggleGameMenu()
+    {
+        if (centralMenuRoot == null) return;
+        isGameMenuOpen = !isGameMenuOpen;
+        if (isGameMenuOpen)
+        {
+            centralMenuRoot.SetActive(true);
+            Time.timeScale = 0;
+            if (hudUI != null) hudUI.SetActive(false);
+
+            // Skrýt tutorial panel
+            if (tutorialPanelGame != null) tutorialPanelGame.SetActive(false);
+
+            OpenPanel(inventoryPanel);
+        }
+        else CloseGameMenu();
+        RefreshBossVisibility();
+    }
+    public void CloseGameMenu()
+    {
+        isGameMenuOpen = false;
+        Time.timeScale = 1;
+        if (hudUI != null) hudUI.SetActive(true);
+        if (centralMenuRoot != null) centralMenuRoot.SetActive(false);
+
+        // Zobrazit tutorial panel
+        if (tutorialPanelGame != null && TutorialManager.Instance != null && !TutorialManager.Instance.IsCompleted)
+        {
+            tutorialPanelGame.SetActive(true);
+        }
+
+        RefreshBossVisibility();
+    }
     public void OpenPanel(GameObject panel) { if (profilePanel) profilePanel.SetActive(false); if (inventoryPanel) inventoryPanel.SetActive(false); if (skillTreePanel) skillTreePanel.SetActive(false); if (craftingPanel) craftingPanel.SetActive(false); if (panel != null) panel.SetActive(true); }
 
     public void ShowDeathScreen()
@@ -446,6 +533,10 @@ public class UIManager : MonoBehaviour
         isDead = true;
         if (isGameMenuOpen) CloseGameMenu(); if (isCrystalUIOpen) CloseCrystalMenu(); if (isPaused) ResumeGame(); if (isTutorialOpen) CloseTutorial();
         if (hudUI != null) hudUI.SetActive(false);
+
+        // Skrýt tutorial panel
+        if (tutorialPanelGame != null) tutorialPanelGame.SetActive(false);
+
         deadMenuRoot.SetActive(true);
         Time.timeScale = 0f;
         RefreshBossVisibility();
@@ -465,7 +556,7 @@ public class UIManager : MonoBehaviour
         Time.timeScale = 1f;
         SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
     }
-
+    
     public void QuitGame() => Application.Quit();
     public void ResetPlayerPosition()
     {

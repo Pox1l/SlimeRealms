@@ -9,7 +9,6 @@ public class TutorialManager : MonoBehaviour
 
     [Header("Systém a UI")]
     public TutorialSaveSystem saveSystem;
-    public GameObject tutorialPanel;
     public TextMeshProUGUI instructionTextUI;
 
     [Header("Hráč a Vlastní Cesta")]
@@ -34,7 +33,7 @@ public class TutorialManager : MonoBehaviour
 
         [Header("Nastavení počítadla")]
         [Tooltip("Odškrtni, pokud nechceš ukazovat čísla jako 0/1 (např. u dojdi do zóny)")]
-        public bool showProgressText = true; // PŘIDÁNO: Toggle
+        public bool showProgressText = true;
         public int requiredCount = 1;
 
         [Header("Zóny a Ukazatel pro tento úkol")]
@@ -60,6 +59,9 @@ public class TutorialManager : MonoBehaviour
 
     private Dictionary<string, int> eventProgress = new Dictionary<string, int>();
 
+    // Vlastnost pro UIManager k ověření, zda je tutoriál již hotový
+    public bool IsCompleted => currentData == null || currentData.isCompleted || currentData.currentStepIndex >= steps.Count;
+
     private void Awake()
     {
         Instance = this;
@@ -84,21 +86,20 @@ public class TutorialManager : MonoBehaviour
         if (saveSystem != null) currentData = saveSystem.Load();
         else currentData = new TutorialData();
 
-        if (!currentData.isCompleted && steps.Count > 0)
+        if (!IsCompleted)
         {
             ResetStepProgress();
             ShowCurrentStep();
         }
         else
         {
-            if (tutorialPanel != null) tutorialPanel.SetActive(false);
             DeactivatePath();
         }
     }
 
     private void Update()
     {
-        if (currentData.isCompleted || currentData.currentStepIndex >= steps.Count) return;
+        if (IsCompleted) return;
 
         UpdateCustomPath();
     }
@@ -106,7 +107,7 @@ public class TutorialManager : MonoBehaviour
     private void ResetStepProgress()
     {
         eventProgress.Clear();
-        if (currentData.isCompleted || currentData.currentStepIndex >= steps.Count) return;
+        if (IsCompleted) return;
 
         foreach (var req in steps[currentData.currentStepIndex].requirements)
         {
@@ -119,7 +120,7 @@ public class TutorialManager : MonoBehaviour
 
     public void TriggerEvent(string eventName)
     {
-        if (currentData.isCompleted || currentData.currentStepIndex >= steps.Count) return;
+        if (IsCompleted) return;
 
         TutorialStep currentStep = steps[currentData.currentStepIndex];
 
@@ -182,7 +183,6 @@ public class TutorialManager : MonoBehaviour
 
     private void ShowCurrentStep()
     {
-        tutorialPanel.SetActive(true);
         UpdateInstructionText();
     }
 
@@ -205,7 +205,6 @@ public class TutorialManager : MonoBehaviour
 
                     if (current >= req.requiredCount)
                     {
-                        // ZMĚNA: Přidán text "DONE" zpět
                         finalText += $"\n<color=green><s>{nameToDisplay}: DONE</s></color>";
                     }
                     else
@@ -366,7 +365,10 @@ public class TutorialManager : MonoBehaviour
         currentData.isCompleted = true;
         if (saveSystem != null) saveSystem.Save(currentData);
 
-        if (tutorialPanel != null) tutorialPanel.SetActive(false);
+        if (UIManager.Instance != null)
+        {
+            UIManager.Instance.HideTutorialPanelGame();
+        }
         DeactivatePath();
     }
 

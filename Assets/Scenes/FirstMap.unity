@@ -52243,11 +52243,11 @@ GameObject:
   - component: {fileID: 1249337001}
   m_Layer: 0
   m_Name: tutorialPanel
-  m_TagString: Untagged
+  m_TagString: TutorialPanel
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &1249337001
 RectTransform:
   m_ObjectHideFlags: 0
@@ -414455,7 +414455,7 @@ MonoBehaviour:
   pathSpacing: 2.3
   maxPathDistance: 15
   steps:
-  - instructionText: follow the line to enemy zone, and kill green slimes
+  - instructionText: follow the line to enemy zone, and kill green and red slimes
     hideDistance: 10.5
     requirements:
     - eventName: greenSlime
@@ -414474,7 +414474,7 @@ MonoBehaviour:
       targetPoints:
       - {fileID: 665854627}
       - {fileID: 1989726778}
-  - instructionText: follow the line to crystal & then open it.
+  - instructionText: follow the line to crystal.
     hideDistance: 1.57
     requirements:
     - eventName: crystalZone
