@@ -12,6 +12,14 @@ public class BossHealth : MonoBehaviour
     [Tooltip("Pokud necháš prázdné, zahraje se Default Hit z Manageru")]
     public EventReference hitSound;
 
+    [Header("VFX")]
+    [Tooltip("Vlož prefab efektu, který se spawnne při smrti")]
+    public GameObject deathEffectPrefab;
+
+    [Header("VFX Rotation")]
+    [Tooltip("Rotace (Eulerovy úhly X, Y, Z) pro efekt při spawnu. Nastav X na 90.")]
+    public Vector3 deathEffectSpawnRotation = new Vector3(90f, 0f, 0f);
+
     public event Action OnDeath;
     public event Action<int, int> OnHealthChanged;
 
@@ -78,6 +86,13 @@ public class BossHealth : MonoBehaviour
     void Die()
     {
         Debug.Log("💀 Boss defeated!");
+
+        // Spawnnutí efektu na pozici bosse se specifickou rotací
+        if (deathEffectPrefab != null)
+        {
+            Quaternion spawnRotation = Quaternion.Euler(deathEffectSpawnRotation);
+            Instantiate(deathEffectPrefab, transform.position, spawnRotation);
+        }
 
         if (bossDrop != null) bossDrop.DropLoot();
 

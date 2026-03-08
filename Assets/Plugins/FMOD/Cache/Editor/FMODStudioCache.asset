@@ -183,6 +183,33 @@ MonoBehaviour:
   MinDistance: 1
   MaxDistance: 20
   Length: 16150
+--- !u!114 &-4420059769541424923
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: event:/SpiderWalk3D
+  m_EditorClassIdentifier: 
+  Path: event:/SpiderWalk3D
+  Guid:
+    Data1: 881403331
+    Data2: 1155047240
+    Data3: -20934746
+    Data4: -651954462
+  Banks:
+  - {fileID: 3136255313656384484}
+  IsStream: 0
+  Is3D: 1
+  IsOneShot: 1
+  Parameters: []
+  MinDistance: 1
+  MaxDistance: 20
+  Length: 550
 --- !u!114 &-4190485107148606819
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -420,13 +447,14 @@ MonoBehaviour:
   - {fileID: -3710295519928738415}
   - {fileID: 1724877496729844818}
   - {fileID: 2138686059306615158}
+  - {fileID: -4420059769541424923}
   EditorParameters: []
   MasterBanks:
   - {fileID: 2535322858333945084}
   StringsBanks:
   - {fileID: 950478269963886210}
   cacheVersion: 131857
-  cacheTime: 639084223543932801
+  cacheTime: 639085962153447589
   SerializableEventsDict:
   - key: event:/SlimeWalk3DS
     index: 0
@@ -480,6 +508,8 @@ MonoBehaviour:
     index: 24
   - key: event:/portalOpenSound
     index: 25
+  - key: event:/SpiderWalk3D
+    index: 26
 --- !u!114 &214214004630967415
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -576,10 +606,10 @@ MonoBehaviour:
   Path: FMOD/Desktop/Master.strings.bank
   Name: Master.strings
   StudioPath: bank:/Master.strings
-  lastModified: 639079650263121021
+  lastModified: 639085962150420219
   FileSizes:
   - Name: 
-    Value: 2340
+    Value: 2382
   Exists: 1
 --- !u!114 &1401320772930025434
 MonoBehaviour:
@@ -701,7 +731,7 @@ MonoBehaviour:
   Path: FMOD/Desktop/Master.bank
   Name: Master
   StudioPath: bank:/Master
-  lastModified: 639079650263091007
+  lastModified: 639085962150390210
   FileSizes: []
   Exists: 1
 --- !u!114 &2548515694316719639
@@ -801,7 +831,7 @@ MonoBehaviour:
   Path: FMOD/Desktop/SFX.bank
   Name: SFX
   StudioPath: bank:/SFX
-  lastModified: 639081201040048253
+  lastModified: 639085962153447589
   FileSizes: []
   Exists: 1
 --- !u!114 &3930003198878368396

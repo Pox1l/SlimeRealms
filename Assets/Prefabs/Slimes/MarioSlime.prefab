@@ -168,6 +168,8 @@ MonoBehaviour:
       Data3: 0
       Data4: 0
     Path: 
+  deathEffectPrefab: {fileID: 8496966135192236962, guid: 7ba811474e414cd4ba802d3784c1afd7, type: 3}
+  deathEffectSpawnRotation: {x: 90, y: 0, z: 0}
 --- !u!114 &3152583416949736382
 MonoBehaviour:
   m_ObjectHideFlags: 0

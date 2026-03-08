@@ -165,8 +165,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   moveSpeed: 1.5
   stopDistance: 0.1
-  aggroRange: 4
-  chaseRange: 7
+  aggroRange: 5.5
+  chaseRange: 9
   movementSound:
     Guid:
       Data1: -1993235619
@@ -201,6 +201,8 @@ MonoBehaviour:
       Data3: 0
       Data4: 0
     Path: 
+  deathEffectPrefab: {fileID: 148163710996773739, guid: 570123e6831f0094b9acbfc9df8bd245, type: 3}
+  deathEffectSpawnRotation: {x: 90, y: 0, z: 0}
 --- !u!114 &2117876449479366022
 MonoBehaviour:
   m_ObjectHideFlags: 0
