@@ -13031,10 +13031,6 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 6041279138392753872, guid: 573b62628d477b44793c6450e2a54ff6, type: 3}
-      propertyPath: deathEffectPrefab
-      value: 
-      objectReference: {fileID: 5094902176451924927, guid: cdfee29c71174ba4489dd93b1fe18426, type: 3}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -30066,7 +30062,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &750644303
 Transform:
   m_ObjectHideFlags: 0
@@ -51829,49 +51825,25 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 1696891222669847215, guid: fe687aab8e2b19d4ebf494827ca8576b, type: 3}
-      propertyPath: maxHealth
-      value: 700
-      objectReference: {fileID: 0}
-    - target: {fileID: 1696891222669847215, guid: fe687aab8e2b19d4ebf494827ca8576b, type: 3}
-      propertyPath: currentHealth
-      value: 700
-      objectReference: {fileID: 0}
-    - target: {fileID: 1696891222669847215, guid: fe687aab8e2b19d4ebf494827ca8576b, type: 3}
-      propertyPath: deathEffectPrefab
-      value: 
-      objectReference: {fileID: 84532194369736139, guid: 121f0aa43dfa01d428a6c1e1c19a2e78, type: 3}
     - target: {fileID: 3222688068087597085, guid: fe687aab8e2b19d4ebf494827ca8576b, type: 3}
       propertyPath: m_Name
       value: SpiderBoss
       objectReference: {fileID: 0}
     - target: {fileID: 3222688068087597085, guid: fe687aab8e2b19d4ebf494827ca8576b, type: 3}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5177221705498665228, guid: fe687aab8e2b19d4ebf494827ca8576b, type: 3}
-      propertyPath: circleSegments
-      value: 30
+      propertyPath: currentStage
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5177221705498665228, guid: fe687aab8e2b19d4ebf494827ca8576b, type: 3}
-      propertyPath: movementSound.Path
-      value: event:/SpiderWalk3D
+      propertyPath: onScreenShake.m_PersistentCalls.m_Calls.Array.size
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5177221705498665228, guid: fe687aab8e2b19d4ebf494827ca8576b, type: 3}
-      propertyPath: movementSound.Guid.Data1
-      value: 881403331
-      objectReference: {fileID: 0}
-    - target: {fileID: 5177221705498665228, guid: fe687aab8e2b19d4ebf494827ca8576b, type: 3}
-      propertyPath: movementSound.Guid.Data2
-      value: 1155047240
-      objectReference: {fileID: 0}
-    - target: {fileID: 5177221705498665228, guid: fe687aab8e2b19d4ebf494827ca8576b, type: 3}
-      propertyPath: movementSound.Guid.Data3
-      value: -20934746
-      objectReference: {fileID: 0}
-    - target: {fileID: 5177221705498665228, guid: fe687aab8e2b19d4ebf494827ca8576b, type: 3}
-      propertyPath: movementSound.Guid.Data4
-      value: -651954462
+      propertyPath: onScreenShake.m_PersistentCalls.m_Calls.Array.data[0].m_CallState
+      value: 2
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -395058,10 +395030,6 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 750644303}
     m_Modifications:
-    - target: {fileID: 2249234615387925807, guid: db868c6db9c2e8646acea8d4258b4ebb, type: 3}
-      propertyPath: deathEffectPrefab
-      value: 
-      objectReference: {fileID: 9079740435953631491, guid: b2e14c3e70e1dfc4ca1bd48f764d1a90, type: 3}
     - target: {fileID: 4075706533552199152, guid: db868c6db9c2e8646acea8d4258b4ebb, type: 3}
       propertyPath: m_Name
       value: DKSlimeBoss
@@ -395109,10 +395077,6 @@ PrefabInstance:
     - target: {fileID: 7376769576426757717, guid: db868c6db9c2e8646acea8d4258b4ebb, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 7390786352908880596, guid: db868c6db9c2e8646acea8d4258b4ebb, type: 3}
-      propertyPath: circleSegments
-      value: 30
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -419034,7 +418998,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &1955793202
 Transform:
   m_ObjectHideFlags: 0

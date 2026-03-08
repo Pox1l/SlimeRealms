@@ -161,7 +161,7 @@ MonoBehaviour:
   jumpDamageAmount: 10
   jumpEffectPrefab: {fileID: 4045572480697429423, guid: 2e1f2d1bc6e67814393e632ba8b33e14, type: 3}
   warningRadius: 1.5
-  circleSegments: 50
+  circleSegments: 30
 --- !u!114 &-1768135653197300087
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -204,6 +204,15 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   maxHealth: 500
   currentHealth: 500
+  hitSound:
+    Guid:
+      Data1: 0
+      Data2: 0
+      Data3: 0
+      Data4: 0
+    Path: 
+  deathEffectPrefab: {fileID: 9079740435953631491, guid: b2e14c3e70e1dfc4ca1bd48f764d1a90, type: 3}
+  deathEffectSpawnRotation: {x: 90, y: 0, z: 0}
 --- !u!114 &9127668038993353280
 MonoBehaviour:
   m_ObjectHideFlags: 0

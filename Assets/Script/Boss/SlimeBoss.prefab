@@ -201,6 +201,15 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   maxHealth: 350
   currentHealth: 350
+  hitSound:
+    Guid:
+      Data1: 0
+      Data2: 0
+      Data3: 0
+      Data4: 0
+    Path: 
+  deathEffectPrefab: {fileID: 5094902176451924927, guid: cdfee29c71174ba4489dd93b1fe18426, type: 3}
+  deathEffectSpawnRotation: {x: 90, y: 0, z: 0}
 --- !u!114 &5808073907585181944
 MonoBehaviour:
   m_ObjectHideFlags: 0

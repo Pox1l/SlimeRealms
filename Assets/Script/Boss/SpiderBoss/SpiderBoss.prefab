@@ -173,11 +173,11 @@ MonoBehaviour:
   jumpEffectPrefab: {fileID: 3574930870843707821, guid: 46c5114c644c86c44a874e35a30ffd7b, type: 3}
   movementSound:
     Guid:
-      Data1: 0
-      Data2: 0
-      Data3: 0
-      Data4: 0
-    Path: 
+      Data1: 881403331
+      Data2: 1155047240
+      Data3: -20934746
+      Data4: -651954462
+    Path: event:/SpiderWalk3D
   aggroSound:
     Guid:
       Data1: 0
@@ -194,7 +194,7 @@ MonoBehaviour:
   fastAttackCooldown: 0.8
   fastAnimationSpeed: 1.5
   warningRadius: 0.5
-  circleSegments: 50
+  circleSegments: 30
 --- !u!114 &-8060984292667471043
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -235,8 +235,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 144719ea3d6d25a4da50b3348e1d4ab3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxHealth: 500
-  currentHealth: 500
+  maxHealth: 700
+  currentHealth: 700
   hitSound:
     Guid:
       Data1: 0
@@ -244,6 +244,8 @@ MonoBehaviour:
       Data3: 0
       Data4: 0
     Path: 
+  deathEffectPrefab: {fileID: 84532194369736139, guid: 121f0aa43dfa01d428a6c1e1c19a2e78, type: 3}
+  deathEffectSpawnRotation: {x: 90, y: 0, z: 0}
 --- !u!114 &4553901625398530503
 MonoBehaviour:
   m_ObjectHideFlags: 0

@@ -55,6 +55,7 @@ public class Boss3Controller : MonoBehaviour
 
     public static event Action OnMeleeAttack;
     public static event Action OnRangedAttack;
+    public static event Action OnBossLand;
 
     void Awake()
     {
@@ -73,7 +74,6 @@ public class Boss3Controller : MonoBehaviour
         if (warningLine != null) warningLine.enabled = false;
     }
 
-    // 🔥 PŘIDÁNO: Reset všech hodnot při spawnu z poolu, včetně Phase 3 Buffů
     void OnEnable()
     {
         currentStage = BossStage.Phase1;
@@ -82,7 +82,6 @@ public class Boss3Controller : MonoBehaviour
         hasAggroed = false;
         lastAttackTime = -999f;
 
-        // Reset rychlostí zpět na Phase 1
         if (agent != null) agent.speed = moveSpeed;
         if (animator != null) animator.speed = 1.0f;
 
@@ -210,7 +209,7 @@ public class Boss3Controller : MonoBehaviour
         if (warningLine != null) warningLine.enabled = true;
     }
 
-    public void AnimEvent_JumpHit()
+    public void AnimEvent_LandHit()
     {
         if (warningLine != null) warningLine.enabled = false;
 
@@ -225,6 +224,7 @@ public class Boss3Controller : MonoBehaviour
             }
         }
 
+        OnBossLand?.Invoke();
         OnMeleeAttack?.Invoke();
         FinishAttack();
     }

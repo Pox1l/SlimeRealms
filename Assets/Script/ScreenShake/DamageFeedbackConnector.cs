@@ -45,6 +45,8 @@ public class DamageFeedbackConnector : MonoBehaviour
 
         // 🔥 NOVÉ: Přihlášení k novému bossovi (DKBoss)
         DKBossController.OnBossLand += PlayBossShake;
+
+        Boss3Controller.OnBossLand += PlayBossShake;
     }
 
     void OnDisable()
@@ -56,6 +58,8 @@ public class DamageFeedbackConnector : MonoBehaviour
 
         // 🔥 NOVÉ: Odhlášení nového bosse
         DKBossController.OnBossLand -= PlayBossShake;
+
+        Boss3Controller.OnBossLand -= PlayBossShake;
     }
 
     // Logika pro hráče (podle damage)
