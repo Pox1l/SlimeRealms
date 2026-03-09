@@ -1399,6 +1399,7 @@ MonoBehaviour:
         - globalObjectIdString: GlobalObjectId_V1-2-103c331bb13690d488c43ac75191101a-60151847-0
         - globalObjectIdString: GlobalObjectId_V1-2-103c331bb13690d488c43ac75191101a-552149126-0
         - globalObjectIdString: GlobalObjectId_V1-2-103c331bb13690d488c43ac75191101a-1192424209-0
+        - globalObjectIdString: GlobalObjectId_V1-2-103c331bb13690d488c43ac75191101a-2033136471-0
         values:
         - colorIndex: 0
           iconNameOrGuid: EventSystem Icon
@@ -1410,6 +1411,10 @@ MonoBehaviour:
           isColorRecursive: 0
         - colorIndex: 0
           iconNameOrGuid: Camera Icon
+          isIconRecursive: 0
+          isColorRecursive: 0
+        - colorIndex: 0
+          iconNameOrGuid: AudioClip Icon
           isIconRecursive: 0
           isColorRecursive: 0
     - goDatas_byGlobalId:

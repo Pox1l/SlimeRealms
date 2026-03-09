@@ -424412,9 +424412,9 @@ MonoBehaviour:
   interactKey: 101
   requirements:
   - itemSO: {fileID: 11400000, guid: cb0838a3d4fea904eb0cf918dba9a5e2, type: 2}
-    requiredAmount: 1
+    requiredAmount: 8
   - itemSO: {fileID: 11400000, guid: 9afbd67cfc2bfa14795521a67e301288, type: 2}
-    requiredAmount: 1
+    requiredAmount: 8
   inventoryManager: {fileID: 0}
   WorldCanvas: {fileID: 0}
   pressEHint: {fileID: 2111517053}
