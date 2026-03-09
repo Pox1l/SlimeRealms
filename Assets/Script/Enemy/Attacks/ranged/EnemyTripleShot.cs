@@ -108,28 +108,27 @@ public class EnemyTripleShot : MonoBehaviour
         isAttacking = true;
         lastAttackTime = Time.time;
 
-        if (animator != null) animator.SetTrigger("Attack");
-
-        if (aimLine != null)
+        // 🔥 PŘIDÁNO: Okamžité zastavení agenta při začátku útoku
+        if (agent != null && agent.isActiveAndEnabled)
         {
-            aimLine.enabled = true;
-            RotateGunToPlayer();
-            UpdateAimLinePosition();
+            agent.isStopped = true;
+            agent.velocity = Vector3.zero;
         }
 
-        Invoke("Shoot", shootDelay);
+        if (animator != null) animator.SetTrigger("Attack");
+
+        // Spustíme Coroutine rovnou, časování si řeší ona
+        Shoot();
     }
 
     public void FinishAttack()
     {
         isAttacking = false;
         if (aimLine != null) aimLine.enabled = false;
-        CancelInvoke();
     }
 
     public void Shoot()
     {
-        if (aimLine != null) aimLine.enabled = false;
         StartCoroutine(BurstFireRoutine());
     }
 
@@ -139,13 +138,27 @@ public class EnemyTripleShot : MonoBehaviour
         {
             if (this == null || !gameObject.activeInHierarchy) yield break;
 
+            // 1. Ukázat čáru a začít mířit
+            if (aimLine != null)
+            {
+                aimLine.enabled = true;
+                RotateGunToPlayer();
+                UpdateAimLinePosition();
+            }
+
+            // 2. Počkat před výstřelem (první rána čeká shootDelay, další timeBetweenShots)
+            float waitTime = (i == 0) ? shootDelay : timeBetweenShots;
+            yield return new WaitForSeconds(waitTime);
+
+            // 3. Skrýt čáru těsně při výstřelu
+            if (aimLine != null) aimLine.enabled = false;
+
+            // 4. Samotný výstřel
             if (projectilePrefab != null && firePoint != null && fixedPoint != null)
             {
                 // --- AUDIO START ---
-                // Přehráváme zvuk při KAŽDÉM výstřelu v dávce
                 if (AudioManager.instance != null)
                 {
-                    // U střelby je lepší dát pozici firePointu (hlaveň):
                     AudioManager.instance.PlayRangedAttack(shootSound, firePoint.position);
                 }
                 // --- AUDIO END ---
@@ -153,8 +166,6 @@ public class EnemyTripleShot : MonoBehaviour
                 RotateGunToPlayer();
                 Instantiate(projectilePrefab, firePoint.position, fixedPoint.rotation);
             }
-
-            yield return new WaitForSeconds(timeBetweenShots);
         }
 
         FinishAttack();
@@ -162,7 +173,6 @@ public class EnemyTripleShot : MonoBehaviour
 
     void OnDisable()
     {
-        CancelInvoke();
         StopAllCoroutines();
         isAttacking = false;
         if (aimLine != null) aimLine.enabled = false;
@@ -171,7 +181,6 @@ public class EnemyTripleShot : MonoBehaviour
     // 🔥 ZMĚNA: Gizmos se nyní kreslí kolem fixedPointu
     void OnDrawGizmosSelected()
     {
-        // Pokud fixedPoint ještě není přiřazený, použijeme střed objektu jako záložní řešení pro zobrazení
         Vector3 rangeOrigin = fixedPoint != null ? fixedPoint.position : transform.position;
 
         Gizmos.color = Color.red;
