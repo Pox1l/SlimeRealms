@@ -694,6 +694,14 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   tutorialEventName: barrZone
+  requireKeyPress: 0
+  interactKey: 101
+  onZoneEnter:
+    m_PersistentCalls:
+      m_Calls: []
+  onZoneExit:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!58 &45618892
 CircleCollider2D:
   m_ObjectHideFlags: 0
@@ -48277,6 +48285,95 @@ Transform:
   - {fileID: 1925268889}
   m_Father: {fileID: 1042120369}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &1055939199
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1055939200}
+  - component: {fileID: 1055939202}
+  - component: {fileID: 1055939201}
+  m_Layer: 0
+  m_Name: crystalZoneClick
+  m_TagString: Untagged
+  m_Icon: {fileID: 7422848464349959988, guid: 0000000000000000d000000000000000, type: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1055939200
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1055939199}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 9.54, y: -1.22, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1267136600}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1055939201
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1055939199}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7642337364ed20b4191b5a2ad63974e6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  tutorialEventName: crystalZoneClick
+  requireKeyPress: 1
+  interactKey: 101
+  onZoneEnter:
+    m_PersistentCalls:
+      m_Calls: []
+  onZoneExit:
+    m_PersistentCalls:
+      m_Calls: []
+--- !u!58 &1055939202
+CircleCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1055939199}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_ForceSendLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ForceReceiveLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ContactCaptureLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_CallbackLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_IsTrigger: 1
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 0, y: 0}
+  serializedVersion: 2
+  m_Radius: 1.25
 --- !u!1 &1060794530
 GameObject:
   m_ObjectHideFlags: 0
@@ -53088,7 +53185,9 @@ Transform:
   - {fileID: 665854627}
   - {fileID: 1989726778}
   - {fileID: 1782918647}
+  - {fileID: 1055939200}
   - {fileID: 45618890}
+  - {fileID: 1605214967}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1267684472
@@ -397627,6 +397726,95 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 815c9d1a79168334ea095e614d134d3f, type: 3}
+--- !u!1 &1605214966
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1605214967}
+  - component: {fileID: 1605214969}
+  - component: {fileID: 1605214968}
+  m_Layer: 0
+  m_Name: gateZoneClick
+  m_TagString: Untagged
+  m_Icon: {fileID: 3443629218296621865, guid: 0000000000000000d000000000000000, type: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1605214967
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1605214966}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -25.86, y: -1.29, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1267136600}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1605214968
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1605214966}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7642337364ed20b4191b5a2ad63974e6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  tutorialEventName: barrZoneClick
+  requireKeyPress: 1
+  interactKey: 101
+  onZoneEnter:
+    m_PersistentCalls:
+      m_Calls: []
+  onZoneExit:
+    m_PersistentCalls:
+      m_Calls: []
+--- !u!58 &1605214969
+CircleCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1605214966}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_ForceSendLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ForceReceiveLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ContactCaptureLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_CallbackLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_IsTrigger: 1
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 0, y: 0}
+  serializedVersion: 2
+  m_Radius: 1
 --- !u!114 &1607259731 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 2770258399930233856, guid: fbbdcb4d6471b924797348ea3b8ddb2a, type: 3}
@@ -400777,6 +400965,14 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   tutorialEventName: crystalZone
+  requireKeyPress: 0
+  interactKey: 101
+  onZoneEnter:
+    m_PersistentCalls:
+      m_Calls: []
+  onZoneExit:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!58 &1782918649
 CircleCollider2D:
   m_ObjectHideFlags: 0
@@ -415189,22 +415385,44 @@ MonoBehaviour:
     hideDistance: 1.57
     requirements:
     - eventName: crystalZone
-      displayName: Go to crystal
+      displayName: Follow line to Crystal
       showProgressText: 0
       requiredCount: 1
       customPathPrefab: {fileID: 8648625669234347515, guid: 36234397c81a7584e84c0c19df68c08a, type: 3}
       targetPoints:
       - {fileID: 1782918647}
-  - instructionText: 'show gate to boss fight '
+  - instructionText: 'look at the crystal ui by pressing E
+
+'
+    hideDistance: 1.24
+    requirements:
+    - eventName: crystalZoneClick
+      displayName: Press E to open Crystal menu
+      showProgressText: 0
+      requiredCount: 1
+      customPathPrefab: {fileID: 8648625669234347515, guid: 36234397c81a7584e84c0c19df68c08a, type: 3}
+      targetPoints:
+      - {fileID: 1055939200}
+  - instructionText: Follow the line to boss Barricade.
     hideDistance: 2.58
     requirements:
     - eventName: barrZone
-      displayName: Barricade
+      displayName: ' Follow line to Barricade'
       showProgressText: 0
       requiredCount: 1
       customPathPrefab: {fileID: 0}
       targetPoints:
       - {fileID: 45618890}
+  - instructionText: You could only open it when you have enough materials
+    hideDistance: 1
+    requirements:
+    - eventName: barrZoneClick
+      displayName: Press E to close tutorial
+      showProgressText: 0
+      requiredCount: 1
+      customPathPrefab: {fileID: 0}
+      targetPoints:
+      - {fileID: 1605214967}
 --- !u!4 &1846116921 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 335516383251008997, guid: 815c9d1a79168334ea095e614d134d3f, type: 3}
