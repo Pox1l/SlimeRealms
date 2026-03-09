@@ -15,7 +15,7 @@ public class TutorialManager : MonoBehaviour
     [Tooltip("Hráč se najde automaticky podle tagu 'Player'")]
     public Transform playerTransform;
 
-    public GameObject pathPrefab; // Defaultní prefab
+    public GameObject pathPrefab;
     public float pathSpacing = 1f;
     [Tooltip("Maximální vzdálenost, na kterou se šipky vykreslí (šetří výkon)")]
     public float maxPathDistance = 15f;
@@ -32,7 +32,6 @@ public class TutorialManager : MonoBehaviour
         public string displayName;
 
         [Header("Nastavení počítadla")]
-        [Tooltip("Odškrtni, pokud nechceš ukazovat čísla jako 0/1 (např. u dojdi do zóny)")]
         public bool showProgressText = true;
         public int requiredCount = 1;
 
@@ -45,7 +44,6 @@ public class TutorialManager : MonoBehaviour
     public class TutorialStep
     {
         [TextArea] public string instructionText;
-
         public float hideDistance = 3f;
 
         [Header("Podmínky pro splnění")]
@@ -56,10 +54,8 @@ public class TutorialManager : MonoBehaviour
     public List<TutorialStep> steps;
 
     private TutorialData currentData;
-
     private Dictionary<string, int> eventProgress = new Dictionary<string, int>();
 
-    // Vlastnost pro UIManager k ověření, zda je tutoriál již hotový
     public bool IsCompleted => currentData == null || currentData.isCompleted || currentData.currentStepIndex >= steps.Count;
 
     private void Awake()
@@ -86,35 +82,62 @@ public class TutorialManager : MonoBehaviour
         if (saveSystem != null) currentData = saveSystem.Load();
         else currentData = new TutorialData();
 
+        eventProgress.Clear();
+        if (currentData.savedEventNames != null)
+        {
+            for (int i = 0; i < currentData.savedEventNames.Count; i++)
+            {
+                eventProgress[currentData.savedEventNames[i]] = currentData.savedEventCounts[i];
+            }
+        }
+
+        if (saveSystem != null) saveSystem.Save(currentData);
+
         if (!IsCompleted)
         {
-            ResetStepProgress();
+            foreach (var req in steps[currentData.currentStepIndex].requirements)
+            {
+                if (!eventProgress.ContainsKey(req.eventName))
+                {
+                    eventProgress[req.eventName] = 0;
+                }
+            }
             ShowCurrentStep();
+
+            if (UIManager.Instance != null && UIManager.Instance.tutorialPanelGame != null)
+            {
+                UIManager.Instance.tutorialPanelGame.SetActive(true);
+            }
         }
         else
         {
             DeactivatePath();
+
+            if (UIManager.Instance != null)
+            {
+                UIManager.Instance.HideTutorialPanelGame();
+            }
         }
     }
 
     private void Update()
     {
         if (IsCompleted) return;
-
         UpdateCustomPath();
     }
 
-    private void ResetStepProgress()
+    private void SyncDataForSave()
     {
-        eventProgress.Clear();
-        if (IsCompleted) return;
+        if (currentData.savedEventNames == null) currentData.savedEventNames = new List<string>();
+        if (currentData.savedEventCounts == null) currentData.savedEventCounts = new List<int>();
 
-        foreach (var req in steps[currentData.currentStepIndex].requirements)
+        currentData.savedEventNames.Clear();
+        currentData.savedEventCounts.Clear();
+
+        foreach (var kvp in eventProgress)
         {
-            if (!eventProgress.ContainsKey(req.eventName))
-            {
-                eventProgress[req.eventName] = 0;
-            }
+            currentData.savedEventNames.Add(kvp.Key);
+            currentData.savedEventCounts.Add(kvp.Value);
         }
     }
 
@@ -145,6 +168,9 @@ public class TutorialManager : MonoBehaviour
             eventProgress[eventName] = 1;
         }
 
+        SyncDataForSave();
+        if (saveSystem != null) saveSystem.Save(currentData);
+
         UpdateInstructionText();
 
         bool allCompleted = true;
@@ -167,12 +193,18 @@ public class TutorialManager : MonoBehaviour
     private void AdvanceStep()
     {
         currentData.currentStepIndex++;
-        ResetStepProgress();
+
+        eventProgress.Clear();
+        SyncDataForSave();
 
         if (saveSystem != null) saveSystem.Save(currentData);
 
         if (currentData.currentStepIndex < steps.Count)
         {
+            foreach (var req in steps[currentData.currentStepIndex].requirements)
+            {
+                eventProgress[req.eventName] = 0;
+            }
             ShowCurrentStep();
         }
         else
