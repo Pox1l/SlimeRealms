@@ -399891,7 +399891,7 @@ MonoBehaviour:
   enemyPrefab: {fileID: 7301117420267126295, guid: aa1cf035c91ec8f44a746d587fc1cc04, type: 3}
   prewarmCount: 5
   maxActive: 5
-  spawnInterval: 5
+  spawnInterval: 15
   spawnRadius: 10
   firstSpawnDelay: 0.5
   checkRadius: 2
@@ -400591,7 +400591,7 @@ MonoBehaviour:
   enemyPrefab: {fileID: 7301117420267126295, guid: aa1cf035c91ec8f44a746d587fc1cc04, type: 3}
   prewarmCount: 5
   maxActive: 5
-  spawnInterval: 5
+  spawnInterval: 15
   spawnRadius: 6.28
   firstSpawnDelay: 0.5
   checkRadius: 2

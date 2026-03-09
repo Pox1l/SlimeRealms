@@ -455,7 +455,7 @@ MonoBehaviour:
   StringsBanks:
   - {fileID: 950478269963886210}
   cacheVersion: 131857
-  cacheTime: 639086766475672991
+  cacheTime: 639086792954584969
   SerializableEventsDict:
   - key: event:/SlimeWalk3DS
     index: 0
@@ -907,7 +907,7 @@ MonoBehaviour:
   Path: FMOD/Desktop/Music.bank
   Name: Music
   StudioPath: bank:/Music
-  lastModified: 639084223543932801
+  lastModified: 639086792954584969
   FileSizes: []
   Exists: 1
 --- !u!114 &5678546537837848210
