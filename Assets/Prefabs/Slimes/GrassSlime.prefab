@@ -213,6 +213,7 @@ MonoBehaviour:
       Data3: 0
       Data4: 0
     Path: 
+  aggroSoundCooldown: 3
 --- !u!114 &8478594423381151928
 MonoBehaviour:
   m_ObjectHideFlags: 0

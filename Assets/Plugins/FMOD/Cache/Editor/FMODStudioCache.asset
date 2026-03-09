@@ -448,13 +448,14 @@ MonoBehaviour:
   - {fileID: 1724877496729844818}
   - {fileID: 2138686059306615158}
   - {fileID: -4420059769541424923}
+  - {fileID: 3670461723525719661}
   EditorParameters: []
   MasterBanks:
   - {fileID: 2535322858333945084}
   StringsBanks:
   - {fileID: 950478269963886210}
   cacheVersion: 131857
-  cacheTime: 639085962153447589
+  cacheTime: 639086766475672991
   SerializableEventsDict:
   - key: event:/SlimeWalk3DS
     index: 0
@@ -510,6 +511,8 @@ MonoBehaviour:
     index: 25
   - key: event:/SpiderWalk3D
     index: 26
+  - key: event:/AlertEnemySound
+    index: 27
 --- !u!114 &214214004630967415
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -606,10 +609,10 @@ MonoBehaviour:
   Path: FMOD/Desktop/Master.strings.bank
   Name: Master.strings
   StudioPath: bank:/Master.strings
-  lastModified: 639085962150420219
+  lastModified: 639086766472594247
   FileSizes:
   - Name: 
-    Value: 2382
+    Value: 2438
   Exists: 1
 --- !u!114 &1401320772930025434
 MonoBehaviour:
@@ -731,7 +734,7 @@ MonoBehaviour:
   Path: FMOD/Desktop/Master.bank
   Name: Master
   StudioPath: bank:/Master
-  lastModified: 639085962150390210
+  lastModified: 639086766472564202
   FileSizes: []
   Exists: 1
 --- !u!114 &2548515694316719639
@@ -831,9 +834,36 @@ MonoBehaviour:
   Path: FMOD/Desktop/SFX.bank
   Name: SFX
   StudioPath: bank:/SFX
-  lastModified: 639085962153447589
+  lastModified: 639086766475672991
   FileSizes: []
   Exists: 1
+--- !u!114 &3670461723525719661
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: event:/AlertEnemySound
+  m_EditorClassIdentifier: 
+  Path: event:/AlertEnemySound
+  Guid:
+    Data1: 456285761
+    Data2: 1090519284
+    Data3: -623248736
+    Data4: 1571312420
+  Banks:
+  - {fileID: 3136255313656384484}
+  IsStream: 0
+  Is3D: 1
+  IsOneShot: 1
+  Parameters: []
+  MinDistance: 1
+  MaxDistance: 20
+  Length: 2194
 --- !u!114 &3930003198878368396
 MonoBehaviour:
   m_ObjectHideFlags: 0

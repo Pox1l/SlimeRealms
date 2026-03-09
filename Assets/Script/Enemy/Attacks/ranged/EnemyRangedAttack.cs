@@ -85,26 +85,35 @@ public class EnemyRangedAttack : MonoBehaviour
         }
 
         // --- 3. ROZHODOVÁNÍ O POHYBU ---
-        bool shouldMove = true;
+        // OPRAVA: Výchozí stav je false, aby nechodil k hráči přes celou mapu
+        bool shouldMove = false;
 
         if (isAttacking)
         {
             shouldMove = false;
         }
-        else if (hasLineOfSight && distanceToPlayer <= attackRange && !isClearingCorner)
+        // OPRAVA: Řešíme pohyb k hráči jen pokud je v dosahu pro útok
+        else if (distanceToPlayer <= attackRange)
         {
-            if (distanceToPlayer > keepDistance)
+            if (hasLineOfSight && !isClearingCorner)
             {
-                shouldMove = false;
+                if (distanceToPlayer > keepDistance)
+                {
+                    shouldMove = true; // OPRAVA: Jde blíž, pokud je dál než keepDistance
+                }
+                else
+                {
+                    shouldMove = false; // OPRAVA: Stojí, pokud je blízko
+                }
+
+                if (Time.time >= lastAttackTime + attackCooldown)
+                {
+                    StartAttackSequence();
+                }
             }
             else
             {
-                shouldMove = false;
-            }
-
-            if (Time.time >= lastAttackTime + attackCooldown)
-            {
-                StartAttackSequence();
+                shouldMove = true; // Zkouší najít hráče, pokud nemá Line of Sight, ale je v range
             }
         }
 

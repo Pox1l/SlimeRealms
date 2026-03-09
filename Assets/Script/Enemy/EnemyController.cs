@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using UnityEngine.AI;
-using FMODUnity;  // 1. Nutné pro FMOD
-using FMOD.Studio; // 2. Nutné pro práci s Instancemi
+using FMODUnity;
+using FMOD.Studio;
 
 [RequireComponent(typeof(NavMeshAgent))]
 public class EnemyController : MonoBehaviour
@@ -19,15 +19,19 @@ public class EnemyController : MonoBehaviour
     [SerializeField] private float chaseRange = 15f;
 
     [Header("Audio (FMOD)")]
-    public EventReference movementSound; // Sem dej smyčku chůze/lezení
-    public EventReference aggroSound;    // Sem dej zvuk "zavřeštění", když tě uvidí
+    public EventReference movementSound;
+    public EventReference aggroSound;
+
+    // 🔥 Cooldown pro zvuk
+    [SerializeField] private float aggroSoundCooldown = 3f;
+    private float lastAggroSoundTime = -999f;
 
     private float currentDetectionRange;
     private Vector3 homePosition;
 
-    // Proměnné pro audio
     private EventInstance moveInstance;
-    private bool isChasing = false; // Aby aggro zvuk nehrál pořád dokola
+    private bool isChasing = false;
+    private bool isInCombatRegistry = false;
 
     void Awake()
     {
@@ -45,12 +49,9 @@ public class EnemyController : MonoBehaviour
 
     void Start()
     {
-        // 3. Vytvoření instance pro pohyb (aby šla stopnout)
         if (!movementSound.IsNull)
         {
             moveInstance = RuntimeManager.CreateInstance(movementSound);
-            // Připneme zvuk k nepříteli, aby byl 3D
-            // OPRAVA: Místo 'transform' posíláme 'gameObject'
             RuntimeManager.AttachInstanceToGameObject(moveInstance, gameObject, GetComponent<Rigidbody2D>());
         }
     }
@@ -64,31 +65,32 @@ public class EnemyController : MonoBehaviour
 
         if (homePosition == Vector3.zero) homePosition = transform.position;
         currentDetectionRange = aggroRange;
-        isChasing = false; // Reset stavu
+        isChasing = false;
+        isInCombatRegistry = false;
     }
 
     void OnDisable()
     {
-        // Pojistka: Když se nepřítel vypne, vypneme zvuk
         StopMoveSound();
+        RemoveFromCombatRegistry();
     }
 
     void OnDestroy()
     {
-        // Úklid paměti
         StopMoveSound();
         moveInstance.release();
+        RemoveFromCombatRegistry();
     }
 
     public void OnHitAggro()
     {
         currentDetectionRange = chaseRange;
 
-        // Pokud nás trefil a my jsme o něm nevěděli, přehrajeme aggro zvuk
         if (!isChasing)
         {
             PlayAggroSound();
             isChasing = true;
+            AddToCombatRegistry();
         }
     }
 
@@ -101,7 +103,7 @@ public class EnemyController : MonoBehaviour
     {
         if (agent == null || !agent.enabled || !agent.isOnNavMesh)
         {
-            StopMoveSound(); // Zastavit zvuk, pokud je knockback/vypnuto
+            StopMoveSound();
             return;
         }
 
@@ -125,6 +127,7 @@ public class EnemyController : MonoBehaviour
             {
                 PlayAggroSound();
                 isChasing = true;
+                AddToCombatRegistry();
             }
 
             targetPosition = player.position;
@@ -132,38 +135,58 @@ public class EnemyController : MonoBehaviour
         else
         {
             // HRÁČ UTEKL - VRACÍME SE
-            isChasing = false;
+            if (isChasing)
+            {
+                isChasing = false;
+                RemoveFromCombatRegistry();
+            }
+
+            // Zpět na základní dosah
             currentDetectionRange = aggroRange;
 
             if (distanceToHome <= stopDistance)
             {
                 agent.ResetPath();
                 SetAnimator(Vector2.zero);
-                StopMoveSound(); // Jsme doma, ticho
+                StopMoveSound();
                 return;
             }
 
             targetPosition = homePosition;
         }
 
-        // --- Aplikace pohybu ---
         if (Vector2.Distance(transform.position, targetPosition) > stopDistance)
         {
             agent.SetDestination(targetPosition);
-            UpdateMoveSound(true); // Hýbeme se -> zapnout zvuk
+            UpdateMoveSound(true);
         }
         else
         {
             agent.ResetPath();
-            UpdateMoveSound(false); // Nehýbeme se -> vypnout zvuk
+            UpdateMoveSound(false);
         }
 
-        // Animace
         Vector2 velocity2D = new Vector2(agent.velocity.x, agent.velocity.y);
         SetAnimator(velocity2D);
     }
 
-    // --- FMOD POMOCNÉ METODY ---
+    void AddToCombatRegistry()
+    {
+        if (!isInCombatRegistry && AudioManager.instance != null)
+        {
+            AudioManager.instance.AddAggro();
+            isInCombatRegistry = true;
+        }
+    }
+
+    void RemoveFromCombatRegistry()
+    {
+        if (isInCombatRegistry && AudioManager.instance != null)
+        {
+            AudioManager.instance.RemoveAggro();
+            isInCombatRegistry = false;
+        }
+    }
 
     void UpdateMoveSound(bool isMoving)
     {
@@ -192,13 +215,17 @@ public class EnemyController : MonoBehaviour
 
     void PlayAggroSound()
     {
-        if (!aggroSound.IsNull)
+        // 🔥 UPRAVENO: Už nekontrolujeme, jestli je aggroSound.IsNull tady, 
+        // to rozhodne až Manager (protože teď chceme, aby mohl hrát default).
+        if (Time.time >= lastAggroSoundTime + aggroSoundCooldown)
         {
-            RuntimeManager.PlayOneShot(aggroSound, transform.position);
+            if (AudioManager.instance != null)
+            {
+                AudioManager.instance.PlayAggroSound(aggroSound, transform.position);
+            }
+            lastAggroSoundTime = Time.time;
         }
     }
-
-    // --- KONEC FMOD ---
 
     void FindPlayer()
     {

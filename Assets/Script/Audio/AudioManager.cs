@@ -1,43 +1,40 @@
-using UnityEngine;
+Ôªøusing UnityEngine;
 using UnityEngine.SceneManagement;
 using FMODUnity;
 using FMOD.Studio;
+using System.Collections;
 
 public class AudioManager : MonoBehaviour
 {
     public static AudioManager instance { get; private set; }
 
-    [Header("NastavenÌ FMOD Event˘")]
-    [Tooltip("Sem p¯et·hni event s hudbou PRO MENU")]
+    [Header("Nastaven√≠ FMOD Event≈Ø")]
     public EventReference menuMusicEvent;
-
-    [Tooltip("Sem p¯et·hni event s hlavnÌ hudbou PRO HRU")]
     public EventReference musicEvent;
-
-    [Tooltip("Sem p¯et·hni event s ambientem")]
     public EventReference ambientEvent;
 
     [Header("Default Sounds")]
-    [Tooltip("Zvuk, kter˝ se p¯ehraje, kdyû item nem· sv˘j vlastnÌ")]
     public EventReference defaultPickupSound;
-
-    [Tooltip("Univerz·lnÌ zvuk z·sahu, kdyû enemy nem· sv˘j vlastnÌ")]
     public EventReference enemyHitSound;
 
-    [Header("Default Attack Sounds")]
-    [Tooltip("Univerz·lnÌ övihnutÌ (pro Melee enemy)")]
-    public EventReference defaultMeleeAttackSound;
+    [Tooltip("Univerz√°ln√≠ zvuk v≈°imnut√≠ (Aggro), kdy≈æ enemy nem√° sv≈Øj vlastn√≠")]
+    public EventReference defaultAggroSound; // üî• P≈òID√ÅNO
 
-    [Tooltip("Univerz·lnÌ v˝st¯el (pro Ranged enemy)")]
+    [Header("Default Attack Sounds")]
+    public EventReference defaultMeleeAttackSound;
     public EventReference defaultRangedAttackSound;
 
-    // --- PÿID¡NO PRO MANAGEMENT Z”N A BOJE ---
+    [Header("Combat Music Settings")]
+    [Tooltip("Za jak dlouho (vte≈ôiny) se hudba uklidn√≠ po skonƒçen√≠ boje")]
+    public float combatDropDelay = 4.0f;
+
     [HideInInspector] public bool isBossDead = false;
-    private float currentBaseZone = 0f; // Pamatuje si, kde hr·Ë je, kdyû zrovna nebojuje
-    private int enemiesInCombat = 0; // Kolik nep¯·tel hr·Ëe aktu·lnÏ vidÌ
+    private float currentBaseZone = 0f;
+    private int enemiesInCombat = 0;
 
     private EventInstance musicInstance;
     private EventInstance ambientInstance;
+    private Coroutine combatDropCoroutine;
 
     private void Awake()
     {
@@ -97,98 +94,96 @@ public class AudioManager : MonoBehaviour
         musicInstance.start();
     }
 
-    // --- UPRAVENO: Ukl·d·nÌ aktu·lnÌ zÛny ---
     public void SetZone(float zoneID)
     {
-        currentBaseZone = zoneID; // UloûÌme si zÛnu
+        currentBaseZone = zoneID;
 
-        // Pokud jsme zrovna v combatu, nep¯episujeme hudbu zpÏt na chill
         if (enemiesInCombat > 0 && zoneID < 2f) return;
 
         if (musicInstance.isValid()) musicInstance.setParameterByName("Zone", zoneID);
         if (ambientInstance.isValid()) ambientInstance.setParameterByName("Zone", zoneID);
     }
 
-    // --- PÿID¡NO: Dynamick˝ combat systÈm ---
-    public void SetCombatState(bool inCombat)
+    public void AddAggro()
     {
-        if (inCombat) enemiesInCombat++;
-        else enemiesInCombat--;
+        enemiesInCombat++;
 
-        enemiesInCombat = Mathf.Max(0, enemiesInCombat); // NesmÌ jÌt do mÌnusu
+        if (combatDropCoroutine != null)
+        {
+            StopCoroutine(combatDropCoroutine);
+            combatDropCoroutine = null;
+        }
 
+        UpdateCombatMusic();
+    }
+
+    public void RemoveAggro()
+    {
+        enemiesInCombat--;
+        enemiesInCombat = Mathf.Max(0, enemiesInCombat);
+
+        if (enemiesInCombat == 0)
+        {
+            if (combatDropCoroutine != null) StopCoroutine(combatDropCoroutine);
+            combatDropCoroutine = StartCoroutine(DropCombatCooldown());
+        }
+    }
+
+    private IEnumerator DropCombatCooldown()
+    {
+        yield return new WaitForSeconds(combatDropDelay);
+        UpdateCombatMusic();
+    }
+
+    private void UpdateCombatMusic()
+    {
         if (enemiesInCombat > 0)
         {
-            // P¯epne na Battle (Zone 2)
             if (musicInstance.isValid()) musicInstance.setParameterByName("Zone", 2f);
             if (ambientInstance.isValid()) ambientInstance.setParameterByName("Zone", 2f);
         }
         else
         {
-            // Vr·tÌ se do norm·lnÌ zÛny, kde hr·Ë zrovna stojÌ
             if (musicInstance.isValid()) musicInstance.setParameterByName("Zone", currentBaseZone);
             if (ambientInstance.isValid()) ambientInstance.setParameterByName("Zone", currentBaseZone);
         }
     }
 
+    // --- P≈òIDAN√Å FUNKCE PRO AGGRO ZVUK ---
+    public void PlayAggroSound(EventReference specificSound, Vector3 worldPos)
+    {
+        if (!specificSound.IsNull) RuntimeManager.PlayOneShot(specificSound, worldPos);
+        else if (!defaultAggroSound.IsNull) RuntimeManager.PlayOneShot(defaultAggroSound, worldPos);
+    }
+    // -------------------------------------
+
     public void PlayPickupSound(EventReference specificSound)
     {
-        if (!specificSound.IsNull)
-        {
-            RuntimeManager.PlayOneShot(specificSound);
-        }
-        else if (!defaultPickupSound.IsNull)
-        {
-            RuntimeManager.PlayOneShot(defaultPickupSound);
-        }
+        if (!specificSound.IsNull) RuntimeManager.PlayOneShot(specificSound);
+        else if (!defaultPickupSound.IsNull) RuntimeManager.PlayOneShot(defaultPickupSound);
     }
 
     public void PlayMeleeAttack(EventReference specificSound, Vector3 worldPos)
     {
-        if (!specificSound.IsNull)
-        {
-            RuntimeManager.PlayOneShot(specificSound, worldPos);
-        }
-        else if (!defaultMeleeAttackSound.IsNull)
-        {
-            RuntimeManager.PlayOneShot(defaultMeleeAttackSound, worldPos);
-        }
+        if (!specificSound.IsNull) RuntimeManager.PlayOneShot(specificSound, worldPos);
+        else if (!defaultMeleeAttackSound.IsNull) RuntimeManager.PlayOneShot(defaultMeleeAttackSound, worldPos);
     }
 
     public void PlayRangedAttack(EventReference specificSound, Vector3 worldPos)
     {
-        if (!specificSound.IsNull)
-        {
-            RuntimeManager.PlayOneShot(specificSound, worldPos);
-        }
-        else if (!defaultRangedAttackSound.IsNull)
-        {
-            RuntimeManager.PlayOneShot(defaultRangedAttackSound, worldPos);
-        }
+        if (!specificSound.IsNull) RuntimeManager.PlayOneShot(specificSound, worldPos);
+        else if (!defaultRangedAttackSound.IsNull) RuntimeManager.PlayOneShot(defaultRangedAttackSound, worldPos);
     }
 
     public void PlayHitSound(EventReference specificSound, Vector3 worldPos)
     {
-        if (!specificSound.IsNull)
-        {
-            RuntimeManager.PlayOneShot(specificSound, worldPos);
-        }
-        else if (!enemyHitSound.IsNull)
-        {
-            RuntimeManager.PlayOneShot(enemyHitSound, worldPos);
-        }
-        else
-        {
-            Debug.LogWarning("ChybÌ zvuk z·sahu (enemyHitSound) v AudioManageru!");
-        }
+        if (!specificSound.IsNull) RuntimeManager.PlayOneShot(specificSound, worldPos);
+        else if (!enemyHitSound.IsNull) RuntimeManager.PlayOneShot(enemyHitSound, worldPos);
     }
 
     public void PlayOneShot(EventReference sound)
     {
-        if (!sound.IsNull)
-        {
-            RuntimeManager.PlayOneShot(sound);
-        }
+        if (!sound.IsNull) RuntimeManager.PlayOneShot(sound);
     }
 
     private void OnDestroy()

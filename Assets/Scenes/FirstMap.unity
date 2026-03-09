@@ -1122,6 +1122,7 @@ MonoBehaviour:
       Data3: 0
       Data4: 0
     Path: 
+  aggroSoundCooldown: 3
 --- !u!195 &76589613
 NavMeshAgent:
   m_ObjectHideFlags: 0
@@ -17945,6 +17946,7 @@ MonoBehaviour:
       Data3: 0
       Data4: 0
     Path: 
+  aggroSoundCooldown: 3
 --- !u!195 &404550798
 NavMeshAgent:
   m_ObjectHideFlags: 0
@@ -23018,6 +23020,7 @@ MonoBehaviour:
       Data3: 0
       Data4: 0
     Path: 
+  aggroSoundCooldown: 3
 --- !u!195 &617309577
 NavMeshAgent:
   m_ObjectHideFlags: 0
@@ -55034,6 +55037,7 @@ MonoBehaviour:
       Data3: 0
       Data4: 0
     Path: 
+  aggroSoundCooldown: 3
 --- !u!195 &1378324901
 NavMeshAgent:
   m_ObjectHideFlags: 0
@@ -396885,6 +396889,7 @@ MonoBehaviour:
       Data3: 0
       Data4: 0
     Path: 
+  aggroSoundCooldown: 3
 --- !u!195 &1563684085
 NavMeshAgent:
   m_ObjectHideFlags: 0
@@ -419857,6 +419862,26 @@ PrefabInstance:
     - target: {fileID: 5540334271003903805, guid: ed107a0392734d34aaada6a4bb92709c, type: 3}
       propertyPath: m_Name
       value: AudioManager
+      objectReference: {fileID: 0}
+    - target: {fileID: 5917775460431107585, guid: ed107a0392734d34aaada6a4bb92709c, type: 3}
+      propertyPath: defaultAggroSound.Path
+      value: event:/AlertEnemySound
+      objectReference: {fileID: 0}
+    - target: {fileID: 5917775460431107585, guid: ed107a0392734d34aaada6a4bb92709c, type: 3}
+      propertyPath: defaultAggroSound.Guid.Data1
+      value: 456285761
+      objectReference: {fileID: 0}
+    - target: {fileID: 5917775460431107585, guid: ed107a0392734d34aaada6a4bb92709c, type: 3}
+      propertyPath: defaultAggroSound.Guid.Data2
+      value: 1090519284
+      objectReference: {fileID: 0}
+    - target: {fileID: 5917775460431107585, guid: ed107a0392734d34aaada6a4bb92709c, type: 3}
+      propertyPath: defaultAggroSound.Guid.Data3
+      value: -623248736
+      objectReference: {fileID: 0}
+    - target: {fileID: 5917775460431107585, guid: ed107a0392734d34aaada6a4bb92709c, type: 3}
+      propertyPath: defaultAggroSound.Guid.Data4
+      value: 1571312420
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

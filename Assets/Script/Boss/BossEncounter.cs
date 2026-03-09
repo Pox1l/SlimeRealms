@@ -24,6 +24,9 @@ public class BossEncounter : MonoBehaviour
     private Coroutine barrierCoroutine;
     private bool playerInside = false;
 
+    // 🔥 POMOCNÁ PROMĚNNÁ: Pamatuje si, jestli boss už nahodil aggro, abychom to neodečítali víckrát
+    private bool hasBossAggro = false;
+
     void Awake()
     {
         pool = new ObjectPool(bossPrefab, 1, transform);
@@ -36,7 +39,7 @@ public class BossEncounter : MonoBehaviour
             cameraZoomer = FindAnyObjectByType<PixelCameraZoomer>();
         }
 
-        // 🔥 2. NOVÉ: Automatické hledání BossEntrance podle TAGU
+        // 2. NOVÉ: Automatické hledání BossEntrance podle TAGU
         if (entranceScript == null)
         {
             // Hledáme objekt s tagem "BossEntrance"
@@ -60,7 +63,6 @@ public class BossEncounter : MonoBehaviour
     {
         bossDefeated = false;
 
-        // 🔥 PŘIDÁNO: Řekneme AudioManageru, že boss žije (pro případ opakovaného pokusu)
         if (AudioManager.instance != null)
         {
             AudioManager.instance.isBossDead = false;
@@ -129,6 +131,7 @@ public class BossEncounter : MonoBehaviour
         }
     }
 
+    // 🔥 VOLÁ SE PŘI ZABITÍ BOSSE
     public void SetBossDefeated()
     {
         bossDefeated = true;
@@ -136,8 +139,16 @@ public class BossEncounter : MonoBehaviour
         if (AudioManager.instance != null)
         {
             AudioManager.instance.isBossDead = true;
-            AudioManager.instance.SetCombatState(false); // Ukončí stav boje
-            AudioManager.instance.SetZone(4f); // 🔥 TÍMTO ZAPNEŠ VICTORY HUDBU
+
+            // 1. Odečteme aggro bosse, protože zemřel
+            if (hasBossAggro)
+            {
+                AudioManager.instance.RemoveAggro();
+                hasBossAggro = false;
+            }
+
+            // 2. Vynutíme Victory znělku (Zone 4) nezávisle na tom, kolik minionů žije
+            AudioManager.instance.SetZone(4f);
         }
 
         if (barrierCoroutine != null) StopCoroutine(barrierCoroutine);
@@ -156,6 +167,13 @@ public class BossEncounter : MonoBehaviour
         if (playerInside && !bossDefeated && barrierObject != null)
         {
             barrierObject.SetActive(true);
+
+            // 🔥 Když se zavře bariéra, bereme to jako začátek boje (Aggro)
+            if (AudioManager.instance != null && !hasBossAggro)
+            {
+                AudioManager.instance.AddAggro();
+                hasBossAggro = true;
+            }
         }
     }
 
@@ -187,6 +205,13 @@ public class BossEncounter : MonoBehaviour
         {
             if (activeBoss.TryGetComponent(out ReturnToPoolBoss ret)) ret.ForceReturn();
             else activeBoss.SetActive(false);
+
+            // 🔥 Pokud boss zmizí (hráč utekl z místnosti), zrušíme hudbu boje
+            if (AudioManager.instance != null && hasBossAggro)
+            {
+                AudioManager.instance.RemoveAggro();
+                hasBossAggro = false;
+            }
         }
     }
 }
