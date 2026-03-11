@@ -86,9 +86,23 @@ public class BossEntrance : MonoBehaviour
 
     private void Start()
     {
-        if (inventoryManager == null && InventoryManager.Instance != null)
+        ZkontrolujInventar();
+    }
+
+    // NOVÁ METODA: Slouží k dodatečnému nalezení inventáře
+    private void ZkontrolujInventar()
+    {
+        if (inventoryManager == null)
         {
-            inventoryManager = InventoryManager.Instance;
+            if (InventoryManager.Instance != null)
+            {
+                inventoryManager = InventoryManager.Instance;
+            }
+            else
+            {
+                // Fallback, pokud Instance z nějakého důvodu selže
+                inventoryManager = FindObjectOfType<InventoryManager>();
+            }
         }
     }
 
@@ -107,7 +121,11 @@ public class BossEntrance : MonoBehaviour
     private void Update()
     {
         if (!playerInRange || isActivated) return;
-        if (Input.GetKeyDown(interactKey)) TryPayAndOpen();
+        if (Input.GetKeyDown(interactKey))
+        {
+            ZkontrolujInventar(); // Pojistka před interakcí
+            TryPayAndOpen();
+        }
     }
 
     private void TryPayAndOpen()
@@ -141,7 +159,7 @@ public class BossEntrance : MonoBehaviour
 
     private bool HasAllRequirements()
     {
-        if (inventoryManager == null) inventoryManager = InventoryManager.Instance;
+        ZkontrolujInventar(); // Pojistka
         if (inventoryManager == null) return false;
 
         foreach (var req in requirements)
@@ -177,7 +195,7 @@ public class BossEntrance : MonoBehaviour
 
         requirementsPanel.SetActive(true);
 
-        if (inventoryManager == null) inventoryManager = InventoryManager.Instance;
+        ZkontrolujInventar(); // Pojistka
         if (inventoryManager == null)
         {
             Debug.LogError("BossEntrance: Nelze načíst data, chybí InventoryManager!");
@@ -230,6 +248,7 @@ public class BossEntrance : MonoBehaviour
         playerInRange = true;
         if (!isActivated)
         {
+            ZkontrolujInventar(); // Pojistka při vstupu hráče
             if (pressEHint != null) pressEHint.SetActive(true);
             UpdateRequirementsUI();
         }

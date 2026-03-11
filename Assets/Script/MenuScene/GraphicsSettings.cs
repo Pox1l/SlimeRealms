@@ -2,6 +2,7 @@
 using UnityEngine.UI; // 🔥 Nutné pro Toggle (Checkbox)
 using TMPro;
 
+// TÉMA: Oprava nefunkční změny rozlišení v buildu (nahrazení FullScreenWindow za ExclusiveFullScreen)
 public class GraphicsSettings : MonoBehaviour
 {
     [Header("UI Prvky")]
@@ -31,9 +32,10 @@ public class GraphicsSettings : MonoBehaviour
     // --- ROZLIŠENÍ ---
     public void ChangeResolution(int index)
     {
-        if (index == 0) Screen.SetResolution(3840, 2160, FullScreenMode.FullScreenWindow); // 4K UHD
-        else if (index == 1) Screen.SetResolution(2560, 1440, FullScreenMode.FullScreenWindow); // 1440p QHD
-        else if (index == 2) Screen.SetResolution(1920, 1080, FullScreenMode.FullScreenWindow); // 1080p FHD
+        // OPRAVA: FullScreenWindow ignoruje zadané rozměry. Pro změnu rozlišení se musí použít ExclusiveFullScreen.
+        if (index == 0) Screen.SetResolution(3840, 2160, FullScreenMode.ExclusiveFullScreen); // 4K UHD
+        else if (index == 1) Screen.SetResolution(2560, 1440, FullScreenMode.ExclusiveFullScreen); // 1440p QHD
+        else if (index == 2) Screen.SetResolution(1920, 1080, FullScreenMode.ExclusiveFullScreen); // 1080p FHD
         else if (index == 3) Screen.SetResolution(1600, 900, FullScreenMode.Windowed); // 900p HD+
         else if (index == 4) Screen.SetResolution(1366, 768, FullScreenMode.Windowed); // HD Laptop
         else if (index == 5) Screen.SetResolution(1280, 720, FullScreenMode.Windowed); // 720p HD
