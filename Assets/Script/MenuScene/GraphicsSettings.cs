@@ -1,82 +1,129 @@
 ﻿using UnityEngine;
-using UnityEngine.UI; // 🔥 Nutné pro Toggle (Checkbox)
+using UnityEngine.UI;
 using TMPro;
+using System.Collections.Generic;
 
-// TÉMA: Oprava nefunkční změny rozlišení v buildu (nahrazení FullScreenWindow za ExclusiveFullScreen)
+// TÉMA: Zachování Dropdownu s využitím dynamického listu (ResItem) a logiky z videa
 public class GraphicsSettings : MonoBehaviour
 {
     [Header("UI Prvky")]
     public TMP_Dropdown resolutionDropdown;
     public TMP_Dropdown fpsDropdown;
-    public Toggle vsyncToggle; // 🔥 Sem přetáhni nový Checkbox
+    public Toggle vsyncToggle;
+    public Toggle fullscreenToggle;
+
+    [Header("Nastavení Rozlišení")]
+    public List<ResItem> resolutions = new List<ResItem>();
 
     void Start()
     {
-        // 1. NAČTENÍ DAT
-        int savedResIndex = PlayerPrefs.GetInt("ResolutionIndex", 0);
+        // 1. Z VIDEA: Vezme aktuální stav fullscreenu
+        fullscreenToggle.isOn = Screen.fullScreen;
+
+        // 2. Z VIDEA: Zkontroluje, jestli je aktuální rozlišení obrazovky v našem listu
+        bool foundRes = false;
+        int currentResIndex = 0;
+
+        for (int i = 0; i < resolutions.Count; i++)
+        {
+            if (Screen.width == resolutions[i].horizontal && Screen.height == resolutions[i].vertical)
+            {
+                foundRes = true;
+                currentResIndex = i;
+            }
+        }
+
+        // Pokud není, přidá ho na konec listu
+        if (!foundRes)
+        {
+            ResItem newRes = new ResItem();
+            newRes.horizontal = Screen.width;
+            newRes.vertical = Screen.height;
+            resolutions.Add(newRes);
+            currentResIndex = resolutions.Count - 1;
+        }
+
+        // 3. AUTOMATICKÉ NAPLNĚNÍ DROPDOWNU PODLE LISTU
+        resolutionDropdown.ClearOptions();
+        List<string> options = new List<string>();
+        for (int i = 0; i < resolutions.Count; i++)
+        {
+            options.Add(resolutions[i].horizontal + " x " + resolutions[i].vertical);
+        }
+        resolutionDropdown.AddOptions(options);
+
+        // 4. NAČTENÍ DAT A AKTUALIZACE UI
+        int savedResIndex = PlayerPrefs.GetInt("ResolutionIndex", currentResIndex);
         int savedFpsIndex = PlayerPrefs.GetInt("FpsIndex", 1);
-        int savedVsync = PlayerPrefs.GetInt("VSyncEnabled", 0); // 0 = Vypnuto, 1 = Zapnuto
+        int savedVsync = PlayerPrefs.GetInt("VSyncEnabled", 0);
 
-        // 2. AKTUALIZACE UI
         resolutionDropdown.value = savedResIndex;
-        fpsDropdown.value = savedFpsIndex;
+        resolutionDropdown.RefreshShownValue(); // Aktualizuje text v UI
 
-        // Nastavíme checkbox podle uložené hodnoty (1 == true, 0 == false)
+        fpsDropdown.value = savedFpsIndex;
         vsyncToggle.isOn = (savedVsync == 1);
 
-        // 3. APLIKACE NASTAVENÍ (vše najednou)
-        ChangeResolution(savedResIndex);
-        RefreshFrameRateLogic(); // Speciální funkce, která řeší konflikt FPS vs VSync
+        // 5. APLIKACE NASTAVENÍ
+        ApplyResolution(savedResIndex, fullscreenToggle.isOn);
+        RefreshFrameRateLogic();
     }
 
     // --- ROZLIŠENÍ ---
     public void ChangeResolution(int index)
     {
-        // OPRAVA: FullScreenWindow ignoruje zadané rozměry. Pro změnu rozlišení se musí použít ExclusiveFullScreen.
-        if (index == 0) Screen.SetResolution(3840, 2160, FullScreenMode.ExclusiveFullScreen); // 4K UHD
-        else if (index == 1) Screen.SetResolution(2560, 1440, FullScreenMode.ExclusiveFullScreen); // 1440p QHD
-        else if (index == 2) Screen.SetResolution(1920, 1080, FullScreenMode.ExclusiveFullScreen); // 1080p FHD
-        else if (index == 3) Screen.SetResolution(1600, 900, FullScreenMode.Windowed); // 900p HD+
-        else if (index == 4) Screen.SetResolution(1366, 768, FullScreenMode.Windowed); // HD Laptop
-        else if (index == 5) Screen.SetResolution(1280, 720, FullScreenMode.Windowed); // 720p HD
-
         PlayerPrefs.SetInt("ResolutionIndex", index);
         PlayerPrefs.Save();
+
+        ApplyResolution(index, fullscreenToggle.isOn);
     }
 
-    // --- FPS LIMIT (Volá se z Dropdownu) ---
+    // --- FULLSCREEN ---
+    public void ToggleFullscreen(bool isFullscreen)
+    {
+        PlayerPrefs.SetInt("FullscreenEnabled", isFullscreen ? 1 : 0);
+        PlayerPrefs.Save();
+
+        ApplyResolution(resolutionDropdown.value, isFullscreen);
+    }
+
+    // Samotná okamžitá změna obrazovky pomocí listu z videa
+    private void ApplyResolution(int index, bool isFullscreen)
+    {
+        // Pojistka, kdyby byl uložený index mimo rozsah listu
+        if (index < 0 || index >= resolutions.Count) return;
+
+        FullScreenMode mode = isFullscreen ? FullScreenMode.ExclusiveFullScreen : FullScreenMode.Windowed;
+
+        Screen.fullScreen = isFullscreen;
+        Screen.SetResolution(resolutions[index].horizontal, resolutions[index].vertical, mode);
+    }
+
+    // --- FPS LIMIT ---
     public void ChangeFPS(int index)
     {
         PlayerPrefs.SetInt("FpsIndex", index);
         PlayerPrefs.Save();
-
-        // Po změně v dropdownu musíme přepočítat logiku (zohlednit VSync)
         RefreshFrameRateLogic();
     }
 
-    // --- VSYNC (Volá se z Toggle Checkboxu) ---
+    // --- VSYNC ---
     public void ToggleVSync(bool isEnabled)
     {
         PlayerPrefs.SetInt("VSyncEnabled", isEnabled ? 1 : 0);
         PlayerPrefs.Save();
-
-        // Po kliknutí na checkbox musíme přepočítat logiku
         RefreshFrameRateLogic();
     }
 
     // --- HLAVNÍ LOGIKA PRO FPS A VSYNC ---
-    // Tuhle funkci voláme interně, aby se VSync a FPS nehádaly
     private void RefreshFrameRateLogic()
     {
-        // Pokud je Checkbox zaškrtnutý -> Zapneme VSync
         if (vsyncToggle.isOn)
         {
-            QualitySettings.vSyncCount = 1; // Zapnuto (synchronizace s monitorem)
-            Application.targetFrameRate = -1; // FPS limit necháme na monitoru
+            QualitySettings.vSyncCount = 1;
+            Application.targetFrameRate = -1;
         }
         else
         {
-            // Pokud je Checkbox vypnutý -> Vypneme VSync a řídíme se Dropdownem
             QualitySettings.vSyncCount = 0;
 
             int index = fpsDropdown.value;
@@ -85,4 +132,11 @@ public class GraphicsSettings : MonoBehaviour
             else if (index == 2) Application.targetFrameRate = -1;
         }
     }
+}
+
+// Třída z videa pro list rozlišení
+[System.Serializable]
+public class ResItem
+{
+    public int horizontal, vertical;
 }
