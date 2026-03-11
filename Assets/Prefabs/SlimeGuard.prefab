@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 8850595520132078073}
   - component: {fileID: 1520262314734711539}
   - component: {fileID: 2600086975742653758}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: SlimeGuard
   m_TagString: Untagged
   m_Icon: {fileID: 0}

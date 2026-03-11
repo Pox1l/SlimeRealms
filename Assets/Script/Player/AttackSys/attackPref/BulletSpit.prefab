@@ -204,5 +204,5 @@ MonoBehaviour:
     m_Bits: 64
   obstacleLayers:
     serializedVersion: 2
-    m_Bits: 0
+    m_Bits: 512
   destroyOnHit: 1

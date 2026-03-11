@@ -2571,6 +2571,34 @@ PrefabInstance:
       propertyPath: m_AnchoredPosition.y
       value: -470
       objectReference: {fileID: 0}
+    - target: {fileID: 466139146629711229, guid: ef84787c95915b746a03c2ef7c60075f, type: 3}
+      propertyPath: m_Options.m_Options.Array.size
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 466139146629711229, guid: ef84787c95915b746a03c2ef7c60075f, type: 3}
+      propertyPath: m_Options.m_Options.Array.data[0].m_Text
+      value: 3840 x 2160 / 4K UHD
+      objectReference: {fileID: 0}
+    - target: {fileID: 466139146629711229, guid: ef84787c95915b746a03c2ef7c60075f, type: 3}
+      propertyPath: m_Options.m_Options.Array.data[1].m_Text
+      value: 2560 x 1440 / 1440p QHD
+      objectReference: {fileID: 0}
+    - target: {fileID: 466139146629711229, guid: ef84787c95915b746a03c2ef7c60075f, type: 3}
+      propertyPath: m_Options.m_Options.Array.data[2].m_Text
+      value: 1920 x 1080  /1080p FHD
+      objectReference: {fileID: 0}
+    - target: {fileID: 466139146629711229, guid: ef84787c95915b746a03c2ef7c60075f, type: 3}
+      propertyPath: m_Options.m_Options.Array.data[3].m_Text
+      value: 1600 x 900 /900p HD+
+      objectReference: {fileID: 0}
+    - target: {fileID: 466139146629711229, guid: ef84787c95915b746a03c2ef7c60075f, type: 3}
+      propertyPath: m_Options.m_Options.Array.data[4].m_Text
+      value: 1366 x 768 /HP Laptop
+      objectReference: {fileID: 0}
+    - target: {fileID: 466139146629711229, guid: ef84787c95915b746a03c2ef7c60075f, type: 3}
+      propertyPath: m_Options.m_Options.Array.data[5].m_Text
+      value: 1280 x 720 /720p HDe
+      objectReference: {fileID: 0}
     - target: {fileID: 772372675708190701, guid: ef84787c95915b746a03c2ef7c60075f, type: 3}
       propertyPath: m_AnchoredPosition.x
       value: -50
@@ -2597,13 +2625,25 @@ PrefabInstance:
       propertyPath: m_Enabled
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 3246393881803440312, guid: ef84787c95915b746a03c2ef7c60075f, type: 3}
+      propertyPath: m_text
+      value: 3840 x 2160 / 4K UHD
+      objectReference: {fileID: 0}
     - target: {fileID: 3668574528865558308, guid: ef84787c95915b746a03c2ef7c60075f, type: 3}
       propertyPath: m_IsActive
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 4092577130705516635, guid: ef84787c95915b746a03c2ef7c60075f, type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0.3165194
+      objectReference: {fileID: 0}
     - target: {fileID: 4231305249915055569, guid: ef84787c95915b746a03c2ef7c60075f, type: 3}
       propertyPath: m_IsActive
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4427284552463938368, guid: ef84787c95915b746a03c2ef7c60075f, type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0.33266792
       objectReference: {fileID: 0}
     - target: {fileID: 5045023010551030217, guid: ef84787c95915b746a03c2ef7c60075f, type: 3}
       propertyPath: m_text
@@ -2625,6 +2665,10 @@ PrefabInstance:
       propertyPath: m_AnchoredPosition.y
       value: -570
       objectReference: {fileID: 0}
+    - target: {fileID: 5241352810348456979, guid: ef84787c95915b746a03c2ef7c60075f, type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: 0.000015258789
+      objectReference: {fileID: 0}
     - target: {fileID: 5469104891327160883, guid: ef84787c95915b746a03c2ef7c60075f, type: 3}
       propertyPath: m_Name
       value: SettingsMenu
@@ -2636,6 +2680,14 @@ PrefabInstance:
     - target: {fileID: 5469104891327160883, guid: ef84787c95915b746a03c2ef7c60075f, type: 3}
       propertyPath: m_TagString
       value: SettingsMenuRoot
+      objectReference: {fileID: 0}
+    - target: {fileID: 5790176410688433456, guid: ef84787c95915b746a03c2ef7c60075f, type: 3}
+      propertyPath: m_Size
+      value: 0.3165194
+      objectReference: {fileID: 0}
+    - target: {fileID: 6117906206470341853, guid: ef84787c95915b746a03c2ef7c60075f, type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: 0.000015258789
       objectReference: {fileID: 0}
     - target: {fileID: 7179954633011664494, guid: ef84787c95915b746a03c2ef7c60075f, type: 3}
       propertyPath: m_IsActive
@@ -2748,6 +2800,10 @@ PrefabInstance:
     - target: {fileID: 9079541286722830545, guid: ef84787c95915b746a03c2ef7c60075f, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 9084276617870874352, guid: ef84787c95915b746a03c2ef7c60075f, type: 3}
+      propertyPath: m_Size
+      value: 0.33266792
       objectReference: {fileID: 0}
     - target: {fileID: 9205972821808785526, guid: ef84787c95915b746a03c2ef7c60075f, type: 3}
       propertyPath: m_AnchoredPosition.x
