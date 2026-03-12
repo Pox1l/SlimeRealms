@@ -16,9 +16,10 @@ public class AudioManager : MonoBehaviour
     [Header("Default Sounds")]
     public EventReference defaultPickupSound;
     public EventReference enemyHitSound;
+    public EventReference defaultPlayerHitSound; // 🔥 PŘIDÁNO
 
     [Tooltip("Univerzální zvuk všimnutí (Aggro), když enemy nemá svůj vlastní")]
-    public EventReference defaultAggroSound; // 🔥 PŘIDÁNO
+    public EventReference defaultAggroSound;
 
     [Header("Default Attack Sounds")]
     public EventReference defaultMeleeAttackSound;
@@ -149,13 +150,11 @@ public class AudioManager : MonoBehaviour
         }
     }
 
-    // --- PŘIDANÁ FUNKCE PRO AGGRO ZVUK ---
     public void PlayAggroSound(EventReference specificSound, Vector3 worldPos)
     {
         if (!specificSound.IsNull) RuntimeManager.PlayOneShot(specificSound, worldPos);
         else if (!defaultAggroSound.IsNull) RuntimeManager.PlayOneShot(defaultAggroSound, worldPos);
     }
-    // -------------------------------------
 
     public void PlayPickupSound(EventReference specificSound)
     {
@@ -179,6 +178,13 @@ public class AudioManager : MonoBehaviour
     {
         if (!specificSound.IsNull) RuntimeManager.PlayOneShot(specificSound, worldPos);
         else if (!enemyHitSound.IsNull) RuntimeManager.PlayOneShot(enemyHitSound, worldPos);
+    }
+
+    // 🔥 PŘIDÁNO: Zvuk zranění hráče
+    public void PlayPlayerHitSound(EventReference specificSound, Vector3 worldPos)
+    {
+        if (!specificSound.IsNull) RuntimeManager.PlayOneShot(specificSound, worldPos);
+        else if (!defaultPlayerHitSound.IsNull) RuntimeManager.PlayOneShot(defaultPlayerHitSound, worldPos);
     }
 
     public void PlayOneShot(EventReference sound)

@@ -209,6 +209,13 @@ MonoBehaviour:
   baseDefense: 0
   defense: 0
   ignoreDefense: 0
+  hurtSFX:
+    Guid:
+      Data1: 1321799908
+      Data2: 1211726437
+      Data3: -386290767
+      Data4: -1736823656
+    Path: event:/playerHurtSFX
   playerKnockback: {fileID: 0}
   damageFlash: {fileID: 0}
 --- !u!114 &2334183526678316633

@@ -420138,6 +420138,10 @@ PrefabInstance:
       value: event:/AlertEnemySound
       objectReference: {fileID: 0}
     - target: {fileID: 5917775460431107585, guid: ed107a0392734d34aaada6a4bb92709c, type: 3}
+      propertyPath: defaultPlayerHitSound.Path
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 5917775460431107585, guid: ed107a0392734d34aaada6a4bb92709c, type: 3}
       propertyPath: defaultAggroSound.Guid.Data1
       value: 456285761
       objectReference: {fileID: 0}
@@ -420152,6 +420156,22 @@ PrefabInstance:
     - target: {fileID: 5917775460431107585, guid: ed107a0392734d34aaada6a4bb92709c, type: 3}
       propertyPath: defaultAggroSound.Guid.Data4
       value: 1571312420
+      objectReference: {fileID: 0}
+    - target: {fileID: 5917775460431107585, guid: ed107a0392734d34aaada6a4bb92709c, type: 3}
+      propertyPath: defaultPlayerHitSound.Guid.Data1
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5917775460431107585, guid: ed107a0392734d34aaada6a4bb92709c, type: 3}
+      propertyPath: defaultPlayerHitSound.Guid.Data2
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5917775460431107585, guid: ed107a0392734d34aaada6a4bb92709c, type: 3}
+      propertyPath: defaultPlayerHitSound.Guid.Data3
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5917775460431107585, guid: ed107a0392734d34aaada6a4bb92709c, type: 3}
+      propertyPath: defaultPlayerHitSound.Guid.Data4
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

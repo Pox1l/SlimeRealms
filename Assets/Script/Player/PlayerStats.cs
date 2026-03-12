@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using System;
 using System.Collections;
+using FMODUnity;
 
 public class PlayerStats : MonoBehaviour
 {
@@ -26,6 +27,10 @@ public class PlayerStats : MonoBehaviour
     public float defense;
     public bool ignoreDefense = false;
 
+    [Header("Audio")]
+    [Tooltip("Pokud necháš prázdné, zahraje se Default Player Hit z Manageru")]
+    public EventReference hurtSFX;
+    
     // Eventy
     public event Action<int, int> OnHealthChanged;
     public event Action<float, float> OnStaminaChanged;
@@ -138,14 +143,12 @@ public class PlayerStats : MonoBehaviour
         var data = PlayerDataManager.Instance.currentData;
         RecalculateStats(false, false);
 
-        // 🔥 STANDARDNÍ NAČÍTÁNÍ BEZ EFEKTU
         if (data.currentHealth > 0)
         {
             currentHealth = data.currentHealth;
         }
         else
         {
-            // Pokud je zdraví 0 nebo méně, dáme plné zdraví a uložíme
             currentHealth = maxHealth;
             SaveToManager();
         }
@@ -192,6 +195,12 @@ public class PlayerStats : MonoBehaviour
         finalDamage = Mathf.Max(1, finalDamage);
 
         currentHealth = Mathf.Max(0, currentHealth - finalDamage);
+
+        // 🔥 PŘIDÁNO: Volání AudioManageru pro zvuk zranění
+        if (AudioManager.instance != null)
+        {
+            AudioManager.instance.PlayPlayerHitSound(hurtSFX, transform.position);
+        }
 
         OnPlayerHit?.Invoke(finalDamage);
         OnHealthChanged?.Invoke(currentHealth, maxHealth);
