@@ -4248,13 +4248,13 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1358272460287809152, guid: ef84787c95915b746a03c2ef7c60075f, type: 3}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1786959603257734117, guid: ef84787c95915b746a03c2ef7c60075f, type: 3}
       propertyPath: m_text
-      value: "CREDITS\r\n\nGAME DEVELOPMENT\r\n  Lead Developer: ME\n  Programmer:
-        ME\n\r\nART\r\n  Character Art: ME\n  UI Artist: ME\n\r\nSOUND\r\n  Music:
-        ME\n  Sound Effects: ME\n\r\n"
+      value: "CREDITS\r\n\nGAME DEVELOPMENT\r\n  Lead Developer: Polo\n  Programmer:
+        Polo\n\r\nART\r\n  Character Art: Polo\n  UI Artist: Polo\n\r\nSOUND\r\n 
+        Music: Polo\n  Sound Effects: Polo\n\r\n"
       objectReference: {fileID: 0}
     - target: {fileID: 1786959603257734117, guid: ef84787c95915b746a03c2ef7c60075f, type: 3}
       propertyPath: m_VerticalAlignment
@@ -4354,7 +4354,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4231305249915055569, guid: ef84787c95915b746a03c2ef7c60075f, type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 4427284552463938368, guid: ef84787c95915b746a03c2ef7c60075f, type: 3}
       propertyPath: m_AnchorMax.x
