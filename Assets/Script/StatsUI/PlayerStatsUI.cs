@@ -89,8 +89,8 @@ public class PlayerStatsUI : MonoBehaviour
         if (meleeDamageText != null) meleeDamageText.text = $"DMG {displayMeleeDamage}";
         if (rangedDamageText != null) rangedDamageText.text = $"DMG {displayRangedDamage}";
 
-        healthText.text = $"Health: {data.maxHealth}";
-        defenseText.text = $"Defense: {Mathf.RoundToInt(data.defense)}";
-        staminaText.text = $"Stamina: {Mathf.RoundToInt(data.maxStamina)}";
+        healthText.text = $"Max Health: {data.maxHealth}";
+        defenseText.text = $"Max Defense: {Mathf.RoundToInt(data.defense)}";
+        staminaText.text = $"Max Stamina: {Mathf.RoundToInt(data.maxStamina)}";
     }
 }

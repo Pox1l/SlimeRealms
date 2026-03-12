@@ -659,6 +659,7 @@ GameObject:
   - component: {fileID: 45618890}
   - component: {fileID: 45618892}
   - component: {fileID: 45618891}
+  - component: {fileID: 45618893}
   m_Layer: 0
   m_Name: gateZone
   m_TagString: Untagged
@@ -737,6 +738,33 @@ CircleCollider2D:
   m_Offset: {x: 0, y: 0}
   serializedVersion: 2
   m_Radius: 1.22
+--- !u!50 &45618893
+Rigidbody2D:
+  serializedVersion: 4
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 45618889}
+  m_BodyType: 2
+  m_Simulated: 1
+  m_UseFullKinematicContacts: 0
+  m_UseAutoMass: 0
+  m_Mass: 1
+  m_LinearDrag: 0
+  m_AngularDrag: 0.05
+  m_GravityScale: 1
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_Interpolate: 0
+  m_SleepingMode: 1
+  m_CollisionDetection: 0
+  m_Constraints: 0
 --- !u!224 &46878057 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 6887161942820759630, guid: fdf2ba860b9e63d47a28f706d34d5880, type: 3}
@@ -48018,7 +48046,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &1042120369
 Transform:
   m_ObjectHideFlags: 0
@@ -48303,6 +48331,7 @@ GameObject:
   - component: {fileID: 1055939200}
   - component: {fileID: 1055939202}
   - component: {fileID: 1055939201}
+  - component: {fileID: 1055939203}
   m_Layer: 0
   m_Name: crystalZoneClick
   m_TagString: Untagged
@@ -48381,6 +48410,33 @@ CircleCollider2D:
   m_Offset: {x: 0, y: 0}
   serializedVersion: 2
   m_Radius: 1.25
+--- !u!50 &1055939203
+Rigidbody2D:
+  serializedVersion: 4
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1055939199}
+  m_BodyType: 2
+  m_Simulated: 1
+  m_UseFullKinematicContacts: 0
+  m_UseAutoMass: 0
+  m_Mass: 1
+  m_LinearDrag: 0
+  m_AngularDrag: 0.05
+  m_GravityScale: 1
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_Interpolate: 0
+  m_SleepingMode: 1
+  m_CollisionDetection: 0
+  m_Constraints: 0
 --- !u!1 &1060794530
 GameObject:
   m_ObjectHideFlags: 0
@@ -397829,6 +397885,7 @@ GameObject:
   - component: {fileID: 1605214967}
   - component: {fileID: 1605214969}
   - component: {fileID: 1605214968}
+  - component: {fileID: 1605214970}
   m_Layer: 0
   m_Name: gateZoneClick
   m_TagString: Untagged
@@ -397907,6 +397964,33 @@ CircleCollider2D:
   m_Offset: {x: 0, y: 0}
   serializedVersion: 2
   m_Radius: 1
+--- !u!50 &1605214970
+Rigidbody2D:
+  serializedVersion: 4
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1605214966}
+  m_BodyType: 2
+  m_Simulated: 1
+  m_UseFullKinematicContacts: 0
+  m_UseAutoMass: 0
+  m_Mass: 1
+  m_LinearDrag: 0
+  m_AngularDrag: 0.05
+  m_GravityScale: 1
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_Interpolate: 0
+  m_SleepingMode: 1
+  m_CollisionDetection: 0
+  m_Constraints: 0
 --- !u!114 &1607259731 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 2770258399930233856, guid: fbbdcb4d6471b924797348ea3b8ddb2a, type: 3}
@@ -401026,6 +401110,7 @@ GameObject:
   - component: {fileID: 1782918647}
   - component: {fileID: 1782918649}
   - component: {fileID: 1782918648}
+  - component: {fileID: 1782918650}
   m_Layer: 0
   m_Name: crystalZone
   m_TagString: Untagged
@@ -401104,6 +401189,33 @@ CircleCollider2D:
   m_Offset: {x: 0, y: 0}
   serializedVersion: 2
   m_Radius: 1.73
+--- !u!50 &1782918650
+Rigidbody2D:
+  serializedVersion: 4
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1782918646}
+  m_BodyType: 2
+  m_Simulated: 1
+  m_UseFullKinematicContacts: 0
+  m_UseAutoMass: 0
+  m_Mass: 1
+  m_LinearDrag: 0
+  m_AngularDrag: 0.05
+  m_GravityScale: 1
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_Interpolate: 0
+  m_SleepingMode: 1
+  m_CollisionDetection: 0
+  m_Constraints: 0
 --- !u!1 &1785565808
 GameObject:
   m_ObjectHideFlags: 0
@@ -555849,9 +555961,25 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 192838133}
     m_Modifications:
+    - target: {fileID: 36794298064663265, guid: fbbdcb4d6471b924797348ea3b8ddb2a, type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: 120
+      objectReference: {fileID: 0}
     - target: {fileID: 632781511885760876, guid: fbbdcb4d6471b924797348ea3b8ddb2a, type: 3}
       propertyPath: m_Name
       value: CentralMenuCanvas
+      objectReference: {fileID: 0}
+    - target: {fileID: 685080393370448704, guid: fbbdcb4d6471b924797348ea3b8ddb2a, type: 3}
+      propertyPath: m_SizeDelta.x
+      value: 180
+      objectReference: {fileID: 0}
+    - target: {fileID: 685080393370448704, guid: fbbdcb4d6471b924797348ea3b8ddb2a, type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: -100
+      objectReference: {fileID: 0}
+    - target: {fileID: 812409372794269405, guid: fbbdcb4d6471b924797348ea3b8ddb2a, type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 885577903250257950, guid: fbbdcb4d6471b924797348ea3b8ddb2a, type: 3}
       propertyPath: m_Pivot.x
@@ -555933,9 +556061,25 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 3854571114966217181, guid: fbbdcb4d6471b924797348ea3b8ddb2a, type: 3}
+      propertyPath: m_text
+      value: 'Max Health: 450'
+      objectReference: {fileID: 0}
+    - target: {fileID: 4864171253873971984, guid: fbbdcb4d6471b924797348ea3b8ddb2a, type: 3}
+      propertyPath: m_text
+      value: 'Max Stamina: 150'
+      objectReference: {fileID: 0}
+    - target: {fileID: 6581287684800772329, guid: fbbdcb4d6471b924797348ea3b8ddb2a, type: 3}
+      propertyPath: m_SizeDelta.x
+      value: 180
+      objectReference: {fileID: 0}
     - target: {fileID: 7289751854428742444, guid: fbbdcb4d6471b924797348ea3b8ddb2a, type: 3}
       propertyPath: m_IsActive
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7338903723953577711, guid: fbbdcb4d6471b924797348ea3b8ddb2a, type: 3}
+      propertyPath: m_text
+      value: 'Max Defensee: 40'
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

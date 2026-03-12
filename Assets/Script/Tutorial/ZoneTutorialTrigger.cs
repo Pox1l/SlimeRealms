@@ -1,29 +1,25 @@
 using UnityEngine;
-using UnityEngine.Events; // Pøidáno pro UI eventy
+using UnityEngine.Events;
 
 [RequireComponent(typeof(Collider2D))]
 public class ZoneTutorialTrigger : MonoBehaviour
 {
     [Header("Tutorial")]
-    [Tooltip("Název eventu pro tutoriál (napø. 'crystalZone').")]
     public string tutorialEventName;
 
-    [Header("Interakce (Zmaèknutí tlaèítka)")]
-    [Tooltip("Pokud je zaškrtnuto, hráè musí v zónì zmáèknout klávesu.")]
+    [Header("Interakce")]
     public bool requireKeyPress = false;
     public KeyCode interactKey = KeyCode.E;
 
-    [Header("UI Nápovìda (Zobrazit/Skrýt panel)")]
-    public UnityEvent onZoneEnter; // Spustí se, když hráè vejde (napø. zapnutí UI "Zmáèkni E")
-    public UnityEvent onZoneExit;  // Spustí se, když hráè odejde nebo splní úkol (vypnutí UI)
+    [Header("UI Nápovìda")]
+    public UnityEvent onZoneEnter;
+    public UnityEvent onZoneExit;
 
     private bool playerInZone = false;
-    private bool hasTriggered = false;
 
     private void Update()
     {
-        // Kontroluje zmáèknutí klávesy pouze pokud je hráè v zónì a úkol ještì nebyl splnìn
-        if (playerInZone && !hasTriggered && requireKeyPress)
+        if (playerInZone && requireKeyPress)
         {
             if (Input.GetKeyDown(interactKey))
             {
@@ -34,16 +30,14 @@ public class ZoneTutorialTrigger : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D other)
     {
-        if (!hasTriggered && other.CompareTag("Player"))
+        if (other.CompareTag("Player"))
         {
-            if (requireKeyPress)
+            playerInZone = true;
+            onZoneEnter.Invoke();
+
+            if (!requireKeyPress)
             {
-                playerInZone = true;
-                onZoneEnter.Invoke(); // Zobrazí nápovìdu "Zmáèkni E"
-            }
-            else
-            {
-                TriggerTutorialEvent(); // Pokud není potøeba tlaèítko, rovnou splní
+                TriggerTutorialEvent();
             }
         }
     }
@@ -53,7 +47,7 @@ public class ZoneTutorialTrigger : MonoBehaviour
         if (other.CompareTag("Player"))
         {
             playerInZone = false;
-            onZoneExit.Invoke(); // Skryje nápovìdu, když hráè odejde
+            onZoneExit.Invoke();
         }
     }
 
@@ -61,9 +55,11 @@ public class ZoneTutorialTrigger : MonoBehaviour
     {
         if (!string.IsNullOrEmpty(tutorialEventName) && TutorialManager.Instance != null)
         {
+            // Manager sám ví, jestli je tento event teï aktuální
             TutorialManager.Instance.TriggerEvent(tutorialEventName);
-            hasTriggered = true;
-            onZoneExit.Invoke(); // Skryje nápovìdu "Zmáèkni E" po úspìšném splnìní
+
+            // Pokud chcete, aby po splnìní nápovìda zmizela:
+            // onZoneExit.Invoke(); 
         }
     }
 }
