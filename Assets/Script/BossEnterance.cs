@@ -212,6 +212,13 @@ public class BossEntrance : MonoBehaviour
         // Pokud je náhodou celý hlavní Canvas vypnutý, zapneme ho
         if (WorldCanvas != null && !WorldCanvas.activeSelf) WorldCanvas.SetActive(true);
 
+        // 🔥 PŘIDÁNO: Záplata na zapnutí vypnuté komponenty Canvas
+        if (WorldCanvas != null)
+        {
+            Canvas canvasComp = WorldCanvas.GetComponent<Canvas>();
+            if (canvasComp != null && !canvasComp.enabled) canvasComp.enabled = true;
+        }
+
         requirementsPanel.SetActive(true);
 
         ZkontrolujInventar(); // Pojistka

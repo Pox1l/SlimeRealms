@@ -130,6 +130,9 @@ public class ItemSlot : MonoBehaviour,
         {
             // Voláme TryShowSelectedDescription, aby se zohlednil i Selected Slot
             InventoryManager.Instance.TryShowSelectedDescription(itemData);
+
+            // 🔥 Zobrazí ikonku RightClick u kurzoru
+            InventoryManager.Instance.ShowRightClickHint(true);
         }
     }
 
@@ -140,6 +143,9 @@ public class ItemSlot : MonoBehaviour,
         if (InventoryManager.Instance != null)
         {
             InventoryManager.Instance.TryShowSelectedDescription(null);
+
+            // 🔥 Skryje ikonku RightClick při odjetí ze slotu
+            InventoryManager.Instance.ShowRightClickHint(false);
         }
     }
 
@@ -176,6 +182,9 @@ public class ItemSlot : MonoBehaviour,
             if (InventoryManager.Instance.contextMenu != null)
             {
                 InventoryManager.Instance.contextMenu.OpenMenu(this, eventData.position);
+
+                // 🔥 Skryje ikonku RightClick, když už se otevřelo menu
+                InventoryManager.Instance.ShowRightClickHint(false);
             }
             else
             {
@@ -205,6 +214,10 @@ public class ItemSlot : MonoBehaviour,
         if (itemData == null || eventData.button != PointerEventData.InputButton.Left) return;
 
         isDragging = true;
+
+        // 🔥 Při začátku tahání raději taky skryjeme RightClick hint
+        if (InventoryManager.Instance != null)
+            InventoryManager.Instance.ShowRightClickHint(false);
 
         // Vytvoření ikonky pro tažení
         dragIcon = new GameObject("DragIcon");

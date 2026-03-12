@@ -25,6 +25,11 @@ public class InventoryManager : MonoBehaviour
     public TMP_Text descriptionName;
     public TMP_Text descriptionText;
 
+    // 🔥 PŘIDÁNO: Right Click Ikonka
+    [Header("Right Click Hint")]
+    public GameObject rightClickIcon;
+    public Vector3 rightClickOffset = new Vector3(50, -50, 0);
+
     private bool menuActivated = false;
     public InventorySaveSystem saveSystem;
 
@@ -45,6 +50,27 @@ public class InventoryManager : MonoBehaviour
 
         saveSystem = GetComponent<InventorySaveSystem>();
         FindUIReferences();
+
+        // 🔥 PŘIDÁNO: Skrytí ikonky na začátku
+        ShowRightClickHint(false);
+    }
+
+    // 🔥 PŘIDÁNO: Update pro pohyb ikonky za myší
+    private void Update()
+    {
+        if (rightClickIcon != null && rightClickIcon.activeSelf)
+        {
+            rightClickIcon.transform.position = Input.mousePosition + rightClickOffset;
+        }
+    }
+
+    // 🔥 PŘIDÁNO: Metoda pro zobrazení/skrytí ikonky
+    public void ShowRightClickHint(bool show)
+    {
+        if (rightClickIcon != null)
+        {
+            rightClickIcon.SetActive(show);
+        }
     }
 
     private void OnDestroy()
@@ -125,6 +151,30 @@ public class InventoryManager : MonoBehaviour
         // 5. Kontextové menu
         if (contextMenu == null) contextMenu = InventoryContextMenu.Instance;
         if (contextMenu == null) contextMenu = FindObjectOfType<InventoryContextMenu>(true);
+
+        // 6. 🔥 PŘIDÁNO: Hledání Right Click Ikonky (Opraveno pro DontDestroyOnLoad)
+        if (rightClickIcon == null || !rightClickIcon) // Detekuje i "zničené" Unity objekty
+        {
+            rightClickIcon = null; // Vyčistíme starou mrtvou referenci
+
+            // Bezpečnější hledání i mezi vypnutými objekty
+            Canvas[] allCanvases = FindObjectsOfType<Canvas>(true);
+            foreach (Canvas c in allCanvases)
+            {
+                if (c.name == "CentralMenuCanvas")
+                {
+                    Transform[] children = c.GetComponentsInChildren<Transform>(true);
+                    foreach (Transform t in children)
+                    {
+                        if (t.name == "rightClickSprite" || t.CompareTag("rightClickIC"))
+                        {
+                            rightClickIcon = t.gameObject;
+                            break; // Našli jsme, ukončíme cyklus
+                        }
+                    }
+                }
+            }
+        }
     }
 
     public void ToggleInventory()
@@ -158,7 +208,7 @@ public class InventoryManager : MonoBehaviour
             if (saveObj != null) saveSystem = saveObj.GetComponent<InventorySaveSystem>();
         }
 
-        bool itemAdded = false; // Pomocná proměnná pro detekci změny
+        bool itemAdded = false;
 
         for (int i = 0; i < itemSlots.Length; i++)
         {
@@ -168,20 +218,18 @@ public class InventoryManager : MonoBehaviour
 
                 if (leftOver < quantity)
                 {
-                    // Něco se přidalo
                     quantity = leftOver;
                     itemAdded = true;
                 }
 
-                if (quantity <= 0) break; // Vyskočíme z cyklu, už máme hotovo
+                if (quantity <= 0) break;
             }
         }
 
-        // 🔥 POKUD DOŠLO KE ZMĚNĚ, ULOŽÍME A OZNÁMÍME TO
         if (itemAdded)
         {
             if (saveSystem != null) saveSystem.SaveInventory();
-            OnInventoryChanged?.Invoke(); // 📢 Oznámíme Quick Slotu, že se změnil počet!
+            OnInventoryChanged?.Invoke();
             return 0;
         }
 
@@ -211,11 +259,10 @@ public class InventoryManager : MonoBehaviour
             }
         }
 
-        // 🔥 POKUD DOŠLO KE ZMĚNĚ, ULOŽÍME A OZNÁMÍME TO
         if (itemRemoved)
         {
             if (saveSystem != null) saveSystem.SaveInventory();
-            OnInventoryChanged?.Invoke(); // 📢 Oznámíme Quick Slotu, že se změnil počet!
+            OnInventoryChanged?.Invoke();
         }
     }
 

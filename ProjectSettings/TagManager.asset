@@ -58,6 +58,7 @@ TagManager:
   - PhaseBG
   - TutorialPanel
   - debugText
+  - rightClickIC
   layers:
   - Default
   - TransparentFX

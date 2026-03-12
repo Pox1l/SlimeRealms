@@ -253602,6 +253602,7 @@ MonoBehaviour:
   requirementsPanel: {fileID: 0}
   requirementsParent: {fileID: 0}
   requirementPrefab: {fileID: 4175007286325436197, guid: 1e679e3d2e6a3444eb1632ad547776ad, type: 3}
+  debugErrorText: {fileID: 0}
 --- !u!114 &1198607746
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -399891,7 +399892,7 @@ MonoBehaviour:
   enemyPrefab: {fileID: 7301117420267126295, guid: aa1cf035c91ec8f44a746d587fc1cc04, type: 3}
   prewarmCount: 5
   maxActive: 5
-  spawnInterval: 15
+  spawnInterval: 10
   spawnRadius: 10
   firstSpawnDelay: 0.5
   checkRadius: 2
@@ -400591,7 +400592,7 @@ MonoBehaviour:
   enemyPrefab: {fileID: 7301117420267126295, guid: aa1cf035c91ec8f44a746d587fc1cc04, type: 3}
   prewarmCount: 5
   maxActive: 5
-  spawnInterval: 15
+  spawnInterval: 10
   spawnRadius: 6.28
   firstSpawnDelay: 0.5
   checkRadius: 2

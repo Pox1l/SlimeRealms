@@ -183,7 +183,7 @@ MonoBehaviour:
     chance: 60
   - prefab: {fileID: 2711640279769296278, guid: 5e6338ec9aabafc4598c637d0c5d2c03, type: 3}
     amount: 1
-    chance: 30
+    chance: 50
   - prefab: {fileID: 6123884729271192527, guid: 5a01e77db30f34443bae4cbf4ca92b87, type: 3}
     amount: 1
     chance: 15

@@ -86,7 +86,7 @@ public class UIManager : MonoBehaviour
             radiusID = Shader.PropertyToID("_Radius");
             */
         }
-        else
+        else if (Instance != this)
         {
             Destroy(this.gameObject);
         }
