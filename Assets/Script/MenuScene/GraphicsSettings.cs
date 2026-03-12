@@ -3,102 +3,86 @@ using UnityEngine.UI;
 using TMPro;
 using System.Collections.Generic;
 
-// TÉMA: Zachování Dropdownu s využitím dynamického listu (ResItem) a logiky z videa
 public class GraphicsSettings : MonoBehaviour
 {
-    [Header("UI Prvky")]
-    public TMP_Dropdown resolutionDropdown;
+    [Header("UI Prvky - Rozlišení (Podle videa)")]
+    public TMP_Text resolutionLabel;
+    public List<ResItem> resolutions = new List<ResItem>();
+    private int selectedResolution;
+
+    [Header("UI Prvky - Ostatní")]
     public TMP_Dropdown fpsDropdown;
     public Toggle vsyncToggle;
     public Toggle fullscreenToggle;
 
-    [Header("Nastavení Rozlišení")]
-    public List<ResItem> resolutions = new List<ResItem>();
-
     void Start()
     {
-        // 1. Z VIDEA: Vezme aktuální stav fullscreenu
         fullscreenToggle.isOn = Screen.fullScreen;
 
-        // 2. Z VIDEA: Zkontroluje, jestli je aktuální rozlišení obrazovky v našem listu
-        bool foundRes = false;
-        int currentResIndex = 0;
+        int savedFpsIndex = PlayerPrefs.GetInt("FpsIndex", 1);
+        int savedVsync = PlayerPrefs.GetInt("VSyncEnabled", 0);
+        fpsDropdown.value = savedFpsIndex;
+        vsyncToggle.isOn = (savedVsync == 1);
 
+        bool foundRes = false;
         for (int i = 0; i < resolutions.Count; i++)
         {
             if (Screen.width == resolutions[i].horizontal && Screen.height == resolutions[i].vertical)
             {
                 foundRes = true;
-                currentResIndex = i;
+                selectedResolution = i;
+                UpdateResLabel();
             }
         }
 
-        // Pokud není, přidá ho na konec listu
         if (!foundRes)
         {
             ResItem newRes = new ResItem();
             newRes.horizontal = Screen.width;
             newRes.vertical = Screen.height;
             resolutions.Add(newRes);
-            currentResIndex = resolutions.Count - 1;
+            selectedResolution = resolutions.Count - 1;
+            UpdateResLabel();
         }
 
-        // 3. AUTOMATICKÉ NAPLNĚNÍ DROPDOWNU PODLE LISTU
-        resolutionDropdown.ClearOptions();
-        List<string> options = new List<string>();
-        for (int i = 0; i < resolutions.Count; i++)
-        {
-            options.Add(resolutions[i].horizontal + " x " + resolutions[i].vertical);
-        }
-        resolutionDropdown.AddOptions(options);
-
-        // 4. NAČTENÍ DAT A AKTUALIZACE UI
-        int savedResIndex = PlayerPrefs.GetInt("ResolutionIndex", currentResIndex);
-        int savedFpsIndex = PlayerPrefs.GetInt("FpsIndex", 1);
-        int savedVsync = PlayerPrefs.GetInt("VSyncEnabled", 0);
-
-        resolutionDropdown.value = savedResIndex;
-        resolutionDropdown.RefreshShownValue(); // Aktualizuje text v UI
-
-        fpsDropdown.value = savedFpsIndex;
-        vsyncToggle.isOn = (savedVsync == 1);
-
-        // 5. APLIKACE NASTAVENÍ
-        ApplyResolution(savedResIndex, fullscreenToggle.isOn);
         RefreshFrameRateLogic();
     }
 
-    // --- ROZLIŠENÍ ---
-    public void ChangeResolution(int index)
+    public void ResLeft()
     {
-        PlayerPrefs.SetInt("ResolutionIndex", index);
-        PlayerPrefs.Save();
-
-        ApplyResolution(index, fullscreenToggle.isOn);
+        selectedResolution--;
+        if (selectedResolution < 0) selectedResolution = 0;
+        UpdateResLabel();
     }
 
-    // --- FULLSCREEN ---
+    public void ResRight()
+    {
+        selectedResolution++;
+        if (selectedResolution > resolutions.Count - 1) selectedResolution = resolutions.Count - 1;
+        UpdateResLabel();
+    }
+
+    public void UpdateResLabel()
+    {
+        resolutionLabel.text = resolutions[selectedResolution].horizontal.ToString() + " x " + resolutions[selectedResolution].vertical.ToString();
+    }
+
+    // --- TLAČÍTKO APPLY (Pro rozlišení) ---
+    public void ApplyGraphics()
+    {
+        Screen.SetResolution(resolutions[selectedResolution].horizontal, resolutions[selectedResolution].vertical, fullscreenToggle.isOn);
+        PlayerPrefs.SetInt("FullscreenEnabled", fullscreenToggle.isOn ? 1 : 0);
+        PlayerPrefs.Save();
+    }
+
+    // --- FULLSCREEN CHECKBOX (Okamžitá reakce) ---
     public void ToggleFullscreen(bool isFullscreen)
     {
+        Screen.SetResolution(resolutions[selectedResolution].horizontal, resolutions[selectedResolution].vertical, isFullscreen);
         PlayerPrefs.SetInt("FullscreenEnabled", isFullscreen ? 1 : 0);
         PlayerPrefs.Save();
-
-        ApplyResolution(resolutionDropdown.value, isFullscreen);
     }
 
-    // Samotná okamžitá změna obrazovky pomocí listu z videa
-    private void ApplyResolution(int index, bool isFullscreen)
-    {
-        // Pojistka, kdyby byl uložený index mimo rozsah listu
-        if (index < 0 || index >= resolutions.Count) return;
-
-        FullScreenMode mode = isFullscreen ? FullScreenMode.ExclusiveFullScreen : FullScreenMode.Windowed;
-
-        Screen.fullScreen = isFullscreen;
-        Screen.SetResolution(resolutions[index].horizontal, resolutions[index].vertical, mode);
-    }
-
-    // --- FPS LIMIT ---
     public void ChangeFPS(int index)
     {
         PlayerPrefs.SetInt("FpsIndex", index);
@@ -106,7 +90,6 @@ public class GraphicsSettings : MonoBehaviour
         RefreshFrameRateLogic();
     }
 
-    // --- VSYNC ---
     public void ToggleVSync(bool isEnabled)
     {
         PlayerPrefs.SetInt("VSyncEnabled", isEnabled ? 1 : 0);
@@ -114,7 +97,6 @@ public class GraphicsSettings : MonoBehaviour
         RefreshFrameRateLogic();
     }
 
-    // --- HLAVNÍ LOGIKA PRO FPS A VSYNC ---
     private void RefreshFrameRateLogic()
     {
         if (vsyncToggle.isOn)
@@ -125,7 +107,6 @@ public class GraphicsSettings : MonoBehaviour
         else
         {
             QualitySettings.vSyncCount = 0;
-
             int index = fpsDropdown.value;
             if (index == 0) Application.targetFrameRate = 30;
             else if (index == 1) Application.targetFrameRate = 60;
@@ -134,7 +115,6 @@ public class GraphicsSettings : MonoBehaviour
     }
 }
 
-// Třída z videa pro list rozlišení
 [System.Serializable]
 public class ResItem
 {
