@@ -57,6 +57,7 @@ TagManager:
   - BossEntrance
   - PhaseBG
   - TutorialPanel
+  - debugText
   layers:
   - Default
   - TransparentFX

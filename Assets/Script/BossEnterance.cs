@@ -31,12 +31,27 @@ public class BossEntrance : MonoBehaviour
     public Transform requirementsParent;
     public GameObject requirementPrefab;
 
+    [Header("Debug")] // PŘIDÁNO: Proměnná pro error text
+    public GameObject debugErrorText;
+
     private List<GameObject> uiPool = new List<GameObject>();
     private bool playerInRange = false;
     private bool isActivated = false;
 
     private void Awake()
     {
+        // PŘIDÁNO: Nalezení debug textu podle tagu
+        if (debugErrorText == null)
+        {
+            debugErrorText = GameObject.FindGameObjectWithTag("debugText");
+        }
+
+        // Ujistíme se, že je na startu vypnutý, pokud se ho povedlo najít
+        if (debugErrorText != null)
+        {
+            debugErrorText.SetActive(false);
+        }
+
         // 1. Zajištění WorldCanvasu
         if (WorldCanvas == null)
         {
@@ -61,6 +76,8 @@ public class BossEntrance : MonoBehaviour
         else
         {
             Debug.LogError("BossEntrance: WorldCanvas chybí (není přiřazen ani nalezen tagem 'WorldUI')");
+            // PŘIDÁNO: Zobrazení chyby, pokud chybí celý Canvas
+            if (debugErrorText != null) debugErrorText.SetActive(true);
         }
 
         // 3. Hint
@@ -187,6 +204,8 @@ public class BossEntrance : MonoBehaviour
         if (requirementsPanel == null)
         {
             Debug.LogError("BossEntrance: Nemohu zobrazit panel, requirementsPanel je NULL!");
+            // PŘIDÁNO: Zobrazení chyby, když selže panel
+            if (debugErrorText != null) debugErrorText.SetActive(true);
             return;
         }
 
