@@ -10,8 +10,13 @@ public class GraphicsSettings : MonoBehaviour
     public List<ResItem> resolutions = new List<ResItem>();
     private int selectedResolution;
 
+    [Header("UI Prvky - FPS")]
+    public TMP_Text fpsLabel; // Nahrazeno: Text místo Dropdownu
+    private int selectedFpsIndex;
+    private int[] fpsOptions = { 30, 60, -1 }; // -1 = Unlimited
+    private string[] fpsDisplayNames = { "30", "60", "Unlimited" };
+
     [Header("UI Prvky - Ostatní")]
-    public TMP_Dropdown fpsDropdown;
     public Toggle vsyncToggle;
     public Toggle fullscreenToggle;
 
@@ -21,7 +26,11 @@ public class GraphicsSettings : MonoBehaviour
 
         int savedFpsIndex = PlayerPrefs.GetInt("FpsIndex", 1);
         int savedVsync = PlayerPrefs.GetInt("VSyncEnabled", 0);
-        fpsDropdown.value = savedFpsIndex;
+
+        // Nastavení FPS při startu
+        selectedFpsIndex = savedFpsIndex;
+        UpdateFpsLabel();
+
         vsyncToggle.isOn = (savedVsync == 1);
 
         bool foundRes = false;
@@ -48,6 +57,7 @@ public class GraphicsSettings : MonoBehaviour
         RefreshFrameRateLogic();
     }
 
+    // --- ROZLIŠENÍ ---
     public void ResLeft()
     {
         selectedResolution--;
@@ -67,7 +77,6 @@ public class GraphicsSettings : MonoBehaviour
         resolutionLabel.text = resolutions[selectedResolution].horizontal.ToString() + " x " + resolutions[selectedResolution].vertical.ToString();
     }
 
-    // --- TLAČÍTKO APPLY (Pro rozlišení) ---
     public void ApplyGraphics()
     {
         Screen.SetResolution(resolutions[selectedResolution].horizontal, resolutions[selectedResolution].vertical, fullscreenToggle.isOn);
@@ -75,7 +84,6 @@ public class GraphicsSettings : MonoBehaviour
         PlayerPrefs.Save();
     }
 
-    // --- FULLSCREEN CHECKBOX (Okamžitá reakce) ---
     public void ToggleFullscreen(bool isFullscreen)
     {
         Screen.SetResolution(resolutions[selectedResolution].horizontal, resolutions[selectedResolution].vertical, isFullscreen);
@@ -83,9 +91,31 @@ public class GraphicsSettings : MonoBehaviour
         PlayerPrefs.Save();
     }
 
-    public void ChangeFPS(int index)
+    // --- FPS ---
+    public void FpsLeft()
     {
-        PlayerPrefs.SetInt("FpsIndex", index);
+        selectedFpsIndex--;
+        if (selectedFpsIndex < 0) selectedFpsIndex = 0;
+        UpdateFpsLabel();
+        ApplyFPS();
+    }
+
+    public void FpsRight()
+    {
+        selectedFpsIndex++;
+        if (selectedFpsIndex > fpsOptions.Length - 1) selectedFpsIndex = fpsOptions.Length - 1;
+        UpdateFpsLabel();
+        ApplyFPS();
+    }
+
+    public void UpdateFpsLabel()
+    {
+        fpsLabel.text = fpsDisplayNames[selectedFpsIndex];
+    }
+
+    public void ApplyFPS()
+    {
+        PlayerPrefs.SetInt("FpsIndex", selectedFpsIndex);
         PlayerPrefs.Save();
         RefreshFrameRateLogic();
     }
@@ -107,10 +137,7 @@ public class GraphicsSettings : MonoBehaviour
         else
         {
             QualitySettings.vSyncCount = 0;
-            int index = fpsDropdown.value;
-            if (index == 0) Application.targetFrameRate = 30;
-            else if (index == 1) Application.targetFrameRate = 60;
-            else if (index == 2) Application.targetFrameRate = -1;
+            Application.targetFrameRate = fpsOptions[selectedFpsIndex];
         }
     }
 }

@@ -53540,7 +53540,7 @@ GameObject:
   - component: {fileID: 396755855}
   - component: {fileID: 396755853}
   - component: {fileID: 396755854}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: BossBarierColl
   m_TagString: Untagged
   m_Icon: {fileID: 5132851093641282708, guid: 0000000000000000d000000000000000, type: 0}
@@ -54027,6 +54027,10 @@ PrefabInstance:
       value: E
       objectReference: {fileID: 0}
     - target: {fileID: 7069511017996135798, guid: af952c8628fa2014d9fc791a41b5096a, type: 3}
+      propertyPath: m_Layer
+      value: 9
+      objectReference: {fileID: 0}
+    - target: {fileID: 7069511017996135798, guid: af952c8628fa2014d9fc791a41b5096a, type: 3}
       propertyPath: m_IsActive
       value: 0
       objectReference: {fileID: 0}
@@ -54164,7 +54168,7 @@ GameObject:
   - component: {fileID: 729176076}
   - component: {fileID: 729176075}
   - component: {fileID: 729176074}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: PortalObject
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -59452,7 +59456,7 @@ GameObject:
   - component: {fileID: 1141805875}
   - component: {fileID: 1141805874}
   - component: {fileID: 1141805876}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: portalSprite
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -209082,7 +209086,7 @@ BoxCollider2D:
   m_IsTrigger: 1
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 1.6367965, y: 0.07095575}
+  m_Offset: {x: 1.6367965, y: -0.10980189}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0, y: 0}
@@ -209093,7 +209097,7 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 5.749017, y: 1.993381}
+  m_Size: {x: 5.749017, y: 1.6318657}
   m_EdgeRadius: 0
 --- !u!1001 &1391325743
 PrefabInstance:
